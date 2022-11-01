@@ -1,0 +1,38 @@
+universe   = vanilla
+getenv     = True
+executable = sub.sh
++JobFlavour           = "tomorrow"
+requirements = (OpSysAndVer =?= "CentOS7")
+RequestCpus = 2
+
+log        = cond/test.1.MB.log
+output     = cond/test.1.MB.out
+error      = cond/test.1.MB.err
+arguments = input_files/pp_condor/ppMC_part1.txt 1 
+queue
+
+log        = cond/test.2.MB.log
+output     = cond/test.2.MB.out
+error      = cond/test.2.MB.err
+arguments = input_files/pp_condor/ppMC_part2.txt 2
+queue
+
+log        = cond/test.3.MB.log
+output     = cond/test.3.MB.out
+error      = cond/test.3.MB.err
+arguments = input_files/pp_condor/ppMC_part3.txt 3
+queue
+
+log        = cond/test.4.MB.log
+output     = cond/test.4.MB.out
+error      = cond/test.4.MB.err
+arguments = input_files/pp_condor/ppMC_part4.txt 4
+queue
+
+log        = cond/test.5.MB.log
+output     = cond/test.5.MB.out
+error      = cond/test.5.MB.err
+arguments = input_files/pp_condor/ppMC_part5.txt 5
+queue
+
+
