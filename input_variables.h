@@ -93,7 +93,7 @@ float DVz_range = 0.5;  // Vertex Z interval allowed between event and mixed eve
 
 //--> rotation ref. samples quantities
 bool do_rotation = true; // use rotation method?
-int N_of_rot = 20; // setup number of rotations
+int N_of_rot = N_ev_mix; // setup number of rotations
 
 //=========================================================
 
