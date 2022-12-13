@@ -3,40 +3,39 @@
 
 // Input quatities used the codes
 
-TString colliding_system = "pp"; // use one of this options = "pp", "pPb", "XeXe" and "PbPb" (OO and pO in the future)
-int sNN_energy_GeV = 5020; //center of mass colliding energy (GeV)
-int year_of_datataking = 2017;
+TString colliding_system = "pPb"; // use one of this options = "pp", "pPb", "XeXe" and "PbPb" (OO and pO in the future)
+int sNN_energy_GeV = 8160; //center of mass colliding energy (GeV)
+int year_of_datataking = 2016;
 
 bool do_CM_pPb = false; // do center-of-mass correction in pPb?
 bool is_pgoing = false; // is p-going direction?
 
 bool use_centrality = false; // only true for: "XeXe" and "PbPb" (but also can be set as false to see evolution with multiplicity)
 
-float vz_cut_min = -15.0; //vz acceptance
-float vz_cut_max = 15.0; //vz acceptance
+float vz_cut_min = -10.0; //vz acceptance
+float vz_cut_max = 10.0; //vz acceptance
 
-const std::vector<double> multiplicity_centrality_bins{0.0, 400.0}; //multiplicity range
-
+const std::vector<double> multiplicity_centrality_bins{10.0, 185.0, 250.0, 500.0}; //multiplicity range
 //event filters
 std::vector<int> event_filter_bool; // event filter booleans
-std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose"}; // event filters to be applied (pp ref - 2017)
-//std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose", "phfCoincFilter", "pVertexFilterCutdz1p0"}; // event filters to be applied (pPb - 2016)
+//std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose"}; // event filters to be applied (pp ref - 2017)
+std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose", "phfCoincFilter", "pVertexFilterCutdz1p0"}; // event filters to be applied (pPb - 2016)
 //std::vector<TString> event_filter_str{"pprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose", "collisionEventSelectionAOD", "phfCoincFilter2Th4", "pclusterCompatibilityFilter"}; // event filters to be applied (PbPb - 2018)
 //std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose", "phfCoincFilter", "pVertexFilterCutdz1p0"}; // event filters to be applied (XeXe - 2017)
 
 // by default the code will calculated QA plots for jets and tracks, you can turn on or off the flags bellow based on your studies
 // be carefull about memory usage
 bool do_inclusejettrack_correlation = true; // Inclusive jets + track correlation
-bool do_leading_subleading_jettrack_correlation = true; // Leading jets + track correlation and Sub-Leading jets + track correlation
+bool do_leading_subleading_jettrack_correlation = false; // Leading jets + track correlation and Sub-Leading jets + track correlation
 
 //=========================================================
 
 //============= Jet information =========================== 
 
 TString jet_collection = "ak4PFJetAnalyzer"; // jet collection in forest
-TString jet_trigger = "HLT_HIAK4PFJet40_v1"; // jet trigger in forest
-float jet_pt_min_cut = 120.0; // jet min pT cut 
-float jet_pt_max_cut = 5020.0; // jet max pT cut 
+TString jet_trigger = "HLT_PAAK4PFJet80_Eta5p1_v3"; // jet trigger in forest
+float jet_pt_min_cut = 100.0; // jet min pT cut 
+float jet_pt_max_cut = 8160.0; // jet max pT cut 
 
 float jet_eta_min_cut = -1.6; // jet min eta cut 
 float jet_eta_max_cut = 1.6; // jet min eta cut 
@@ -48,10 +47,10 @@ TString JEC_file = "JEC_pPb_AK4PF_p-going_unembedded.txt"; //JEC file
 TString JEU_file = "JEC_pPb_AK4PF_p-going_unembedded.txt"; //JEU file (future)
 bool use_WTA = true; // use WTA or E-Scheme axis 
 float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation and jet quenching analysis; use 0 for all;
-float leading_pT_min = 120.0; //used for jet leading and subleading correlation and jet quenching analysis
-float leading_pT_max = 5020.0;//used for jet leading and subleading correlation and jet quenching analysis
+float leading_pT_min = 100.0; //used for jet leading and subleading correlation and jet quenching analysis
+float leading_pT_max = 8160.0;//used for jet leading and subleading correlation and jet quenching analysis
 float subleading_pT_min = 50.0; //used for jet leading and subleading correlation and jet quenching analysis
-float subleading_pT_max = 5020.0; //used for jet leading and subleading correlation and jet quenching analysis
+float subleading_pT_max = 8160.0; //used for jet leading and subleading correlation and jet quenching analysis
 
 //if we want to make Xj or Aj selections [0,1] are full inclusive
 bool do_Xj_or_Ajcut = false;
