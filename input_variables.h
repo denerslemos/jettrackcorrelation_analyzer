@@ -2,8 +2,6 @@
 #include "particleid.h"  // call for particle id
 
 // Input quatities used the codes
-//============= Data/MC and event information ============= 
-bool is_MC = true; // MC or data?
 
 TString colliding_system = "pp"; // use one of this options = "pp", "pPb", "XeXe" and "PbPb" (OO and pO in the future)
 int sNN_energy_GeV = 5020; //center of mass colliding energy (GeV)

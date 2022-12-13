@@ -16,7 +16,7 @@ Written by Dener Lemos (dener.lemos@cern.ch)
 input_file: text file with a list of root input files: Forest or Skims
 ouputfilenumber: just a counting number to run on Condor
 */
-void jettrackcorrelation_analyzer(TString input_file, int ouputfilenumber, float pthatmin, float pthatmax){
+void jettrackcorrelation_analyzer(TString input_file, int ouputfilenumber, int MCSim, float pthatmin, float pthatmax){
 
 	clock_t sec_start, sec_end, sec_start_mix, sec_end_mix;
 	sec_start = clock(); // start timing measurement
@@ -26,6 +26,8 @@ void jettrackcorrelation_analyzer(TString input_file, int ouputfilenumber, float
 	printwelcome(true); // welcome message
 
 	print_start(); // start timing print
+	bool is_MC;
+	if(MCSim==0){is_MC = false;}else{is_MC = true;}
 
     if(!do_inclusejettrack_correlation && do_leading_subleading_jettrack_correlation) do_Xj_or_Ajcut = true; // if only leading and subleading jet+track correlation are measured we make sure that Xj and Aj are true
 
