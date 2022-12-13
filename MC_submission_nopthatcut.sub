@@ -3,7 +3,7 @@ getenv     = True
 executable = sub.sh
 +JobFlavour           = "tomorrow"
 requirements = (OpSysAndVer =?= "CentOS7")
-RequestCpus = 2
+RequestCpus = 4
 
 log        = cond/pthat0.log
 output     = cond/pthat0.out

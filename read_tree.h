@@ -176,7 +176,6 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
 	tree->SetBranchStatus("trkNlayer", 1);
     }
     tree->SetBranchStatus("trkCharge", 1);
-    tree->SetBranchStatus("trkNlayer", 1);
     tree->SetBranchStatus("highPurity", 1);
     tree->SetBranchStatus("pfEcal", 1);
     tree->SetBranchStatus("pfHcal", 1);
@@ -195,7 +194,7 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
     	tree->SetBranchAddress("trkChi2", &trkchi2);
     	tree->SetBranchAddress("trkNdof", &trkndof);
     	tree->SetBranchAddress("trkNHit", &trknhits);
-   	 tree->SetBranchAddress("trkNlayer", &trknlayer);
+   	tree->SetBranchAddress("trkNlayer", &trknlayer);
     }
     tree->SetBranchAddress("highPurity", &highpur);
     tree->SetBranchAddress("pfEcal", &pfEcal);
