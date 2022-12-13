@@ -15,7 +15,7 @@ bool use_centrality = false; // only true for: "XeXe" and "PbPb" (but also can b
 float vz_cut_min = -10.0; //vz acceptance
 float vz_cut_max = 10.0; //vz acceptance
 
-const std::vector<double> multiplicity_centrality_bins{10.0, 185.0, 250.0, 500.0}; //multiplicity range
+const std::vector<double> multiplicity_centrality_bins{10.0, 50., 80., 120., 150., 185.0, 250.0, 500.0}; //multiplicity range
 //event filters
 std::vector<int> event_filter_bool; // event filter booleans
 //std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose"}; // event filters to be applied (pp ref - 2017)
@@ -45,7 +45,7 @@ bool do_jet_smearing = false; // smearing
 
 TString JEC_file = "JEC_pPb_AK4PF_p-going_unembedded.txt"; //JEC file
 TString JEU_file = "JEC_pPb_AK4PF_p-going_unembedded.txt"; //JEU file (future)
-bool use_WTA = true; // use WTA or E-Scheme axis 
+bool use_WTA = false; // use WTA or E-Scheme axis 
 float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation and jet quenching analysis; use 0 for all;
 float leading_pT_min = 100.0; //used for jet leading and subleading correlation and jet quenching analysis
 float leading_pT_max = 8160.0;//used for jet leading and subleading correlation and jet quenching analysis
@@ -84,12 +84,12 @@ TString trk_eff_file = "eff_table_p-going_HIJING.root"; //track efficiency table
 //--> Mixing ref. samples quantities
 bool do_mixing = true; // use mixing method?
 bool similar_events = true; // if true we consider only tracks coming for similar events (onl if jet requirement is satisfied), if false all tracks are used
-int N_ev_mix = 20; // number of events to mix
-int Mult_or_Cent_range = 100; // multiplicity or centrality interval allowed between event and mixed event
+int N_ev_mix = 40; // number of events to mix
+int Mult_or_Cent_range = 5; // multiplicity or centrality interval allowed between event and mixed event
 float DVz_range = 0.5;  // Vertex Z interval allowed between event and mixed event
 
 //--> rotation ref. samples quantities
-bool do_rotation = true; // use rotation method?
+bool do_rotation = false; // use rotation method?
 int N_of_rot = N_ev_mix; // setup number of rotations
 
 //=========================================================
