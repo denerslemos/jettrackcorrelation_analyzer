@@ -70,16 +70,16 @@ THnSparseD *hist_SLJ_trk_from_gen_reco_mix = new THnSparseD("hist_SLJ_trk_from_g
 THnSparseD *hist_SLJ_trk_from_gen_gen_mix = new THnSparseD("hist_SLJ_trk_from_gen_gen_mix", "hist_SLJ_trk_from_gen_gen_mix", 4, bins4D_trk, xmin4D_trk, xmax4D_trk);
 
 // Jet histograms
-int    bins4D_jet[4]   =   { 100   ,  50  ,   64           , multbinsize-1};
+int    bins4D_jet[4]   =   { 200   ,  50  ,   64           , multbinsize-1};
 double xmin4D_jet[4]   =   { 0.0   , -2.5 ,   -TMath::Pi() , 0};
-double xmax4D_jet[4]   =   { 500.0  ,  2.5 ,   TMath::Pi() , (double) multbinsize-1};
+double xmax4D_jet[4]   =   { 1000.0  ,  2.5 ,   TMath::Pi() , (double) multbinsize-1};
 
 // --> Reco
 TH1D *hist_reco_jet_weighted_nocut = new TH1D("hist_reco_jet_weighted_nocut", "hist_reco_jet_weighted_nocut", 100, 0.0, 500.0);
 THnSparseD *hist_reco_jet = new THnSparseD("hist_reco_jet", "hist_reco_jet", 4, bins4D_jet, xmin4D_jet, xmax4D_jet);
 THnSparseD *hist_reco_jet_corr = new THnSparseD("hist_reco_jet_corr", "hist_reco_jet_corr", 4, bins4D_jet, xmin4D_jet, xmax4D_jet);
 THnSparseD *hist_reco_jet_weighted = new THnSparseD("hist_reco_jet_weighted", "hist_reco_jet_weighted", 4, bins4D_jet, xmin4D_jet, xmax4D_jet);
-
+THnSparseD *hist_reco_jet_corr_weighted = new THnSparseD("hist_reco_jet_corr_weighted", "hist_reco_jet_corr_weighted", 4, bins4D_jet, xmin4D_jet, xmax4D_jet);
 // --> Gen
 TH1D *hist_gen_jet_weighted_nocut = new TH1D("hist_gen_jet_weighted_nocut", "hist_gen_jet_weighted_nocut", 100, 0.0, 500.0);
 THnSparseD *hist_gen_jet = new THnSparseD("hist_gen_jet", "hist_gen_jet", 4, bins4D_jet, xmin4D_jet, xmax4D_jet);
@@ -145,6 +145,7 @@ double xmin4D_quenc[4]   =   { 0.0  , 0.0   , 0.0         , 0                   
 double xmax4D_quenc[4]   =   { 1.0  , 1.0   , TMath::Pi() , (double) multbinsize-1 };
 THnSparseD *hist_reco_lead_reco_subl_quench = new THnSparseD("hist_reco_lead_reco_subl_quench", "hist_reco_lead_reco_subl_quench", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
 THnSparseD *hist_gen_lead_gen_subl_quench = new THnSparseD("hist_gen_lead_gen_subl_quench", "hist_gen_lead_gen_subl_quench", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_ref_lead_ref_subl_quench = new THnSparseD("hist_ref_lead_ref_subl_quench", "hist_ref_lead_ref_subl_quench", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
 
 // Axis : 0 -> Aj, 1 -> Xj, 2 -> delta phi 2PC, 3 -> multiplicity
 int    bins4D_quenc_2pc[4]   =   { 20   , 20    , 40                  , multbinsize-1          };
@@ -152,6 +153,7 @@ double xmin4D_quenc_2pc[4]   =   { 0.0  , 0.0   , -TMath::Pi()/2.0    , 0       
 double xmax4D_quenc_2pc[4]   =   { 1.0  , 1.0   , 3.0*TMath::Pi()/2.0 , (double) multbinsize-1 };
 THnSparseD *hist_reco_lead_reco_subl_quench2pc = new THnSparseD("hist_reco_lead_reco_subl_quench2pc", "hist_reco_lead_reco_subl_quench2pc", 4, bins4D_quenc_2pc, xmin4D_quenc_2pc, xmax4D_quenc_2pc);
 THnSparseD *hist_gen_lead_gen_subl_quench2pc = new THnSparseD("hist_gen_lead_gen_subl_quench2pc", "hist_gen_lead_gen_subl_quench2pc", 4, bins4D_quenc_2pc, xmin4D_quenc_2pc, xmax4D_quenc_2pc);
+THnSparseD *hist_ref_lead_ref_subl_quench2pc = new THnSparseD("hist_ref_lead_ref_subl_quench2pc", "hist_ref_lead_ref_subl_quench2pc", 4, bins4D_quenc_2pc, xmin4D_quenc_2pc, xmax4D_quenc_2pc);
 
 // Correlation studies
 // Axis : 0 -> delta phi, 1 -> delta eta, 2 -> track pT, 3 -> multiplicity
@@ -203,6 +205,39 @@ THnSparseD *hist_correlation_signal_subl_jet_gen_track_gen = new THnSparseD("his
 THnSparseD *hist_correlation_rotation_subl_jet_gen_track_gen = new THnSparseD("hist_correlation_rotation_subl_jet_gen_track_gen","hist_correlation_rotation_subl_jet_gen_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
 THnSparseD *hist_correlation_mixing_subl_jet_gen_track_gen = new THnSparseD("hist_correlation_mixing_subl_jet_gen_track_gen","hist_correlation_mixing_subl_jet_gen_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
 
+// Correlation: Ref Jet + Ref Track
+THnSparseD *hist_correlation_signal_jet_ref_track_ref = new THnSparseD("hist_correlation_signal_jet_ref_track_ref","hist_correlation_signal_jet_ref_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_rotation_jet_ref_track_ref = new THnSparseD("hist_correlation_rotation_jet_ref_track_ref","hist_correlation_rotation_jet_ref_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_mixing_jet_ref_track_ref = new THnSparseD("hist_correlation_mixing_jet_ref_track_ref","hist_correlation_mixing_jet_ref_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_signal_lead_jet_ref_track_ref = new THnSparseD("hist_correlation_signal_lead_jet_ref_track_ref","hist_correlation_signal_lead_jet_ref_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_rotation_lead_jet_ref_track_ref = new THnSparseD("hist_correlation_rotation_lead_jet_ref_track_ref","hist_correlation_rotation_lead_jet_ref_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_mixing_lead_jet_ref_track_ref = new THnSparseD("hist_correlation_mixing_lead_jet_ref_track_ref","hist_correlation_mixing_lead_jet_ref_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_signal_subl_jet_ref_track_ref = new THnSparseD("hist_correlation_signal_subl_jet_ref_track_ref","hist_correlation_signal_subl_jet_ref_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_rotation_subl_jet_ref_track_ref = new THnSparseD("hist_correlation_rotation_subl_jet_ref_track_ref","hist_correlation_rotation_subl_jet_ref_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_mixing_subl_jet_ref_track_ref = new THnSparseD("hist_correlation_mixing_subl_jet_ref_track_ref","hist_correlation_mixing_subl_jet_ref_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+
+// Correlation: Ref Jet + Gen Track
+THnSparseD *hist_correlation_signal_jet_ref_track_gen = new THnSparseD("hist_correlation_signal_jet_ref_track_gen","hist_correlation_signal_jet_ref_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_rotation_jet_ref_track_gen = new THnSparseD("hist_correlation_rotation_jet_ref_track_gen","hist_correlation_rotation_jet_ref_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_mixing_jet_ref_track_gen = new THnSparseD("hist_correlation_mixing_jet_ref_track_gen","hist_correlation_mixing_jet_ref_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_signal_lead_jet_ref_track_gen = new THnSparseD("hist_correlation_signal_lead_jet_ref_track_gen","hist_correlation_signal_lead_jet_ref_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_rotation_lead_jet_ref_track_gen = new THnSparseD("hist_correlation_rotation_lead_jet_ref_track_gen","hist_correlation_rotation_lead_jet_ref_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_mixing_lead_jet_ref_track_gen = new THnSparseD("hist_correlation_mixing_lead_jet_ref_track_gen","hist_correlation_mixing_lead_jet_ref_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_signal_subl_jet_ref_track_gen = new THnSparseD("hist_correlation_signal_subl_jet_ref_track_gen","hist_correlation_signal_subl_jet_ref_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_rotation_subl_jet_ref_track_gen = new THnSparseD("hist_correlation_rotation_subl_jet_ref_track_gen","hist_correlation_rotation_subl_jet_ref_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_mixing_subl_jet_ref_track_gen = new THnSparseD("hist_correlation_mixing_subl_jet_ref_track_gen","hist_correlation_mixing_subl_jet_ref_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+
+// Correlation: Gen Jet + Ref Track
+THnSparseD *hist_correlation_signal_jet_gen_track_ref = new THnSparseD("hist_correlation_signal_jet_gen_track_ref","hist_correlation_signal_jet_gen_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_rotation_jet_gen_track_ref = new THnSparseD("hist_correlation_rotation_jet_gen_track_ref","hist_correlation_rotation_jet_gen_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_mixing_jet_gen_track_ref = new THnSparseD("hist_correlation_mixing_jet_gen_track_ref","hist_correlation_mixing_jet_gen_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_signal_lead_jet_gen_track_ref = new THnSparseD("hist_correlation_signal_lead_jet_gen_track_ref","hist_correlation_signal_lead_jet_gen_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_rotation_lead_jet_gen_track_ref = new THnSparseD("hist_correlation_rotation_lead_jet_gen_track_ref","hist_correlation_rotation_lead_jet_gen_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_mixing_lead_jet_gen_track_ref = new THnSparseD("hist_correlation_mixing_lead_jet_gen_track_ref","hist_correlation_mixing_lead_jet_gen_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_signal_subl_jet_gen_track_ref = new THnSparseD("hist_correlation_signal_subl_jet_gen_track_ref","hist_correlation_signal_subl_jet_gen_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_rotation_subl_jet_gen_track_ref = new THnSparseD("hist_correlation_rotation_subl_jet_gen_track_ref","hist_correlation_rotation_subl_jet_gen_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_correlation_mixing_subl_jet_gen_track_ref = new THnSparseD("hist_correlation_mixing_subl_jet_gen_track_ref","hist_correlation_mixing_subl_jet_gen_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+
 // Correlation: Include sube > 0
 THnSparseD *hist_correlation_signal_subg0_jet_reco_track_reco = new THnSparseD("hist_correlation_signal_subg0_jet_reco_track_reco","hist_correlation_signal_subg0_jet_reco_track_reco",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
 THnSparseD *hist_correlation_signal_subg0_jet_reco_track_gen = new THnSparseD("hist_correlation_signal_subg0_jet_reco_track_gen","hist_correlation_signal_subg0_jet_reco_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
@@ -219,36 +254,44 @@ THnSparseD *hist_correlation_signal_subg0_subl_jet_reco_track_gen = new THnSpars
 THnSparseD *hist_correlation_signal_subg0_subl_jet_gen_track_reco = new THnSparseD("hist_correlation_signal_subg0_subl_jet_gen_track_reco","hist_correlation_signal_subg0_subl_jet_gen_track_reco",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
 THnSparseD *hist_correlation_signal_subg0_subl_jet_gen_track_gen = new THnSparseD("hist_correlation_signal_subg0_subl_jet_gen_track_gen","hist_correlation_signal_subg0_subl_jet_gen_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
 
-
 // histograms for matched jets and parton flavor studies
 TH1D *hist_matched_jet_weighted_nocut = new TH1D("hist_matched_jet_weighted_nocut", "hist_matched_jet_weighted_nocut", 100, 0.0, 500.0);
 THnSparseD *hist_matched_jet = new THnSparseD("hist_matched_jet", "hist_matched_jet", 4, bins4D_jet, xmin4D_jet, xmax4D_jet);
 THnSparseD *hist_matched_jet_weighted = new THnSparseD("hist_matched_jet_weighted", "hist_matched_jet_weighted", 4, bins4D_jet, xmin4D_jet, xmax4D_jet);
 
-TH1D *hist_matched_jet_pt_parton_from_u = new TH1D("hist_matched_jet_pt_parton_from_u", "hist_matched_jet_pt_parton_from_u", 100, 0.0, 500.0);
-TH1D *hist_matched_jet_pt_parton_from_d = new TH1D("hist_matched_jet_pt_parton_from_d", "hist_matched_jet_pt_parton_from_d", 100, 0.0, 500.0);
-TH1D *hist_matched_jet_pt_parton_from_s = new TH1D("hist_matched_jet_pt_parton_from_s", "hist_matched_jet_pt_parton_from_s", 100, 0.0, 500.0);
-TH1D *hist_matched_jet_pt_parton_from_c = new TH1D("hist_matched_jet_pt_parton_from_c", "hist_matched_jet_pt_parton_from_c", 100, 0.0, 500.0);
-TH1D *hist_matched_jet_pt_parton_from_b = new TH1D("hist_matched_jet_pt_parton_from_b", "hist_matched_jet_pt_parton_from_b", 100, 0.0, 500.0);
-TH1D *hist_matched_jet_pt_parton_from_t = new TH1D("hist_matched_jet_pt_parton_from_t", "hist_matched_jet_pt_parton_from_t", 100, 0.0, 500.0);
-TH1D *hist_matched_jet_pt_parton_from_g = new TH1D("hist_matched_jet_pt_parton_from_g", "hist_matched_jet_pt_parton_from_g", 100, 0.0, 500.0);
-
-TH1D *hist_matched_jet_pt_parton_B_from_u = new TH1D("hist_matched_jet_pt_parton_B_from_u", "hist_matched_jet_pt_parton_B_from_u", 100, 0.0, 500.0);
-TH1D *hist_matched_jet_pt_parton_B_from_d = new TH1D("hist_matched_jet_pt_parton_B_from_d", "hist_matched_jet_pt_parton_B_from_d", 100, 0.0, 500.0);
-TH1D *hist_matched_jet_pt_parton_B_from_s = new TH1D("hist_matched_jet_pt_parton_B_from_s", "hist_matched_jet_pt_parton_B_from_s", 100, 0.0, 500.0);
-TH1D *hist_matched_jet_pt_parton_B_from_c = new TH1D("hist_matched_jet_pt_parton_B_from_c", "hist_matched_jet_pt_parton_B_from_c", 100, 0.0, 500.0);
-TH1D *hist_matched_jet_pt_parton_B_from_b = new TH1D("hist_matched_jet_pt_parton_B_from_b", "hist_matched_jet_pt_parton_B_from_b", 100, 0.0, 500.0);
-TH1D *hist_matched_jet_pt_parton_B_from_t = new TH1D("hist_matched_jet_pt_parton_B_from_t", "hist_matched_jet_pt_parton_B_from_t", 100, 0.0, 500.0);
-TH1D *hist_matched_jet_pt_parton_B_from_g = new TH1D("hist_matched_jet_pt_parton_B_from_g", "hist_matched_jet_pt_parton_B_from_g", 100, 0.0, 500.0);
+int    bins4D_jetflavor[4]   =   { 200  ,  50  , 8, multbinsize-1};
+double xmin4D_jetflavor[4]   =   { 0    , -2.5 , 0, 0};
+double xmax4D_jetflavor[4]   =   { 1000 ,  2.5 , 8, (double) multbinsize-1};
+THnSparseD *hist_matched_jet_parton = new THnSparseD("hist_matched_jet_parton", "hist_matched_jet_parton", 4, bins4D_jetflavor, xmin4D_jetflavor, xmax4D_jetflavor);
+THnSparseD *hist_matched_jet_parton_fromB = new THnSparseD("hist_matched_jet_parton_fromB", "hist_matched_jet_parton_fromB", 4, bins4D_jetflavor, xmin4D_jetflavor, xmax4D_jetflavor);
 
 //histograms for Jet Energy Scale (JES)
-double jetptbin[18] = {30.0,40.0,50.0,60.0,70.0,80.0,90.0,100.0,110.0,120.0,140.0,160.0,180.0,210.0,250.0,300.0,380.0,500.0};
-TH2D *hist_recopt_vs_genpt = new TH2D("hist_recopt_vs_genpt", "hist_recopt_vs_genpt", 17, jetptbin, 17, jetptbin);
-TH2D *hist_matchpt_vs_genpt = new TH2D("hist_matchpt_vs_genpt", "hist_matchpt_vs_genpt", 17, jetptbin, 17, jetptbin);
-TH2D *hist_jes = new TH2D("hist_jes", "hist_jes", 500, 0.0, 5.0, 17, jetptbin);
-TH2D *hist_recopt_vs_genpt_weighted = new TH2D("hist_recopt_vs_genpt_weighted", "hist_recopt_vs_genpt_weighted", 17, jetptbin, 17, jetptbin);
-TH2D *hist_matchpt_vs_genpt_weighted = new TH2D("hist_matchpt_vs_genpt_weighted", "hist_matchpt_vs_genpt_weighted", 17, jetptbin, 17, jetptbin);
-TH2D *hist_jes_weighted = new TH2D("hist_jes_weighted", "hist_jes_weighted", 500, 0.0, 5.0, 17, jetptbin);
+//double jetptbin[18] = {30.0,40.0,50.0,60.0,70.0,80.0,90.0,100.0,110.0,120.0,140.0,160.0,180.0,210.0,250.0,300.0,380.0,500.0}; //just to remember
+int    bins4D_jes[4]   =   { 500  ,  50  , 8, multbinsize-1};
+double xmin4D_jes[4]   =   { 0.0  ,  0   , 0, 0};
+double xmax4D_jes[4]   =   { 5.0  ,  1000, 8, (double) multbinsize-1};
+THnSparseD *hist_jes_raw = new THnSparseD("hist_jes_raw", "hist_jes_raw", 4, bins4D_jes, xmin4D_jes, xmax4D_jes);
+THnSparseD *hist_jes_raw_weighted = new THnSparseD("hist_jes_raw_weighted", "hist_jes_raw_weighted", 4, bins4D_jes, xmin4D_jes, xmax4D_jes);
+THnSparseD *hist_jes_reco = new THnSparseD("hist_jes_reco", "hist_jes_reco", 4, bins4D_jes, xmin4D_jes, xmax4D_jes);
+THnSparseD *hist_jes_reco_weighted = new THnSparseD("hist_jes_reco_weighted", "hist_jes_reco_weighted", 4, bins4D_jes, xmin4D_jes, xmax4D_jes);
+THnSparseD *hist_jes_raw_fromB = new THnSparseD("hist_jes_raw_fromB", "hist_jes_raw_fromB", 4, bins4D_jes, xmin4D_jes, xmax4D_jes);
+THnSparseD *hist_jes_raw_fromB_weighted = new THnSparseD("hist_jes_raw_fromB_weighted", "hist_jes_raw_fromB_weighted", 4, bins4D_jes, xmin4D_jes, xmax4D_jes);
+THnSparseD *hist_jes_reco_fromB = new THnSparseD("hist_jes_reco_fromB", "hist_jes_reco_fromB", 4, bins4D_jes, xmin4D_jes, xmax4D_jes);
+THnSparseD *hist_jes_reco_fromB_weighted = new THnSparseD("hist_jes_reco_fromB_weighted", "hist_jes_reco_fromB_weighted", 4, bins4D_jes, xmin4D_jes, xmax4D_jes);
+
+//histograms for Jet Energy Resolution (JER)
+//double jetptbin[18] = {30.0,40.0,50.0,60.0,70.0,80.0,90.0,100.0,110.0,120.0,140.0,160.0,180.0,210.0,250.0,300.0,380.0,500.0}; //just to remember
+int    bins4D_jer[4]   =   { 400  ,  50  , 8, multbinsize-1};
+double xmin4D_jer[4]   =   { -2.0 ,  0   , 0, 0};
+double xmax4D_jer[4]   =   { 2.0  ,  1000, 8, (double) multbinsize-1};
+THnSparseD *hist_jer_raw = new THnSparseD("hist_jer_raw", "hist_jer_raw", 4, bins4D_jer, xmin4D_jer, xmax4D_jer);
+THnSparseD *hist_jer_raw_weighted = new THnSparseD("hist_jer_raw_weighted", "hist_jer_raw_weighted", 4, bins4D_jer, xmin4D_jer, xmax4D_jer);
+THnSparseD *hist_jer_reco = new THnSparseD("hist_jer_reco", "hist_jer_reco", 4, bins4D_jer, xmin4D_jer, xmax4D_jer);
+THnSparseD *hist_jer_reco_weighted = new THnSparseD("hist_jer_reco_weighted", "hist_jer_reco_weighted", 4, bins4D_jer, xmin4D_jer, xmax4D_jer);
+THnSparseD *hist_jer_raw_fromB = new THnSparseD("hist_jer_raw_fromB", "hist_jer_raw_fromB", 4, bins4D_jer, xmin4D_jer, xmax4D_jer);
+THnSparseD *hist_jer_raw_fromB_weighted = new THnSparseD("hist_jer_raw_fromB_weighted", "hist_jer_raw_fromB_weighted", 4, bins4D_jer, xmin4D_jer, xmax4D_jer);
+THnSparseD *hist_jer_reco_fromB = new THnSparseD("hist_jer_reco_fromB", "hist_jer_reco_fromB", 4, bins4D_jer, xmin4D_jer, xmax4D_jer);
+THnSparseD *hist_jer_reco_fromB_weighted = new THnSparseD("hist_jer_reco_fromB_weighted", "hist_jer_reco_fromB_weighted", 4, bins4D_jer, xmin4D_jer, xmax4D_jer);
 
 // Evaluate uncertainties correctly at ROOT
 void sw2(){
@@ -280,6 +323,7 @@ void sw2(){
     hist_reco_jet->Sumw2();
     hist_reco_jet_corr->Sumw2();
     hist_reco_jet_weighted->Sumw2();
+    hist_reco_jet_corr_weighted->Sumw2();
     hist_reco_leadjet_pt_nocut->Sumw2();
     hist_reco_leadjet_pt_nocut_weighted->Sumw2();
     hist_reco_subljet_pt_nocut->Sumw2();
@@ -399,29 +443,30 @@ void sw2(){
     hist_reco_lead_reco_subl_quench2pc->Sumw2();
    	hist_gen_lead_gen_subl_quench->Sumw2(); 
    	hist_gen_lead_gen_subl_quench2pc->Sumw2();
+	hist_ref_lead_ref_subl_quench->Sumw2();
+	hist_ref_lead_ref_subl_quench2pc->Sumw2();
 	hist_matched_jet_weighted_nocut->Sumw2();
 	hist_matched_jet->Sumw2();
 	hist_matched_jet_weighted->Sumw2();
-    hist_matched_jet_pt_parton_from_u->Sumw2();
-    hist_matched_jet_pt_parton_from_d->Sumw2();
-    hist_matched_jet_pt_parton_from_s->Sumw2();
-    hist_matched_jet_pt_parton_from_c->Sumw2();
-    hist_matched_jet_pt_parton_from_b->Sumw2();
-    hist_matched_jet_pt_parton_from_t->Sumw2();
-    hist_matched_jet_pt_parton_from_g->Sumw2();
-    hist_matched_jet_pt_parton_B_from_u->Sumw2();
-    hist_matched_jet_pt_parton_B_from_d->Sumw2();
-    hist_matched_jet_pt_parton_B_from_s->Sumw2();
-    hist_matched_jet_pt_parton_B_from_c->Sumw2();
-    hist_matched_jet_pt_parton_B_from_b->Sumw2();
-    hist_matched_jet_pt_parton_B_from_t->Sumw2();
-    hist_matched_jet_pt_parton_B_from_g->Sumw2();
-    hist_recopt_vs_genpt->Sumw2();
-    hist_matchpt_vs_genpt->Sumw2();
-    hist_jes->Sumw2();
-    hist_recopt_vs_genpt_weighted->Sumw2();
-    hist_matchpt_vs_genpt_weighted->Sumw2();
-    hist_jes_weighted->Sumw2();
+	hist_matched_jet_parton->Sumw2();
+	hist_matched_jet_parton_fromB->Sumw2();
+	hist_jes_raw->Sumw2();
+	hist_jes_raw_weighted->Sumw2();
+	hist_jes_reco->Sumw2();
+	hist_jes_reco_weighted->Sumw2();
+	hist_jer_raw->Sumw2();
+	hist_jer_raw_weighted->Sumw2();
+	hist_jer_reco->Sumw2();
+	hist_jer_reco_weighted->Sumw2();
+	hist_jes_raw_fromB->Sumw2();
+	hist_jes_raw_fromB_weighted->Sumw2();
+	hist_jes_reco_fromB->Sumw2();
+	hist_jes_reco_fromB_weighted->Sumw2();
+	hist_jer_raw_fromB->Sumw2();
+	hist_jer_raw_fromB_weighted->Sumw2();
+	hist_jer_reco_fromB->Sumw2();
+	hist_jer_reco_fromB_weighted->Sumw2();
+
 }
 
 // write QA histograms
@@ -475,6 +520,7 @@ void w_QA_hist(bool isMC, bool doleadsubl){
     hist_reco_jet->Write();
     hist_reco_jet_corr->Write();
     hist_reco_jet_weighted->Write();
+    hist_reco_jet_corr_weighted->Write();
 
     if(doleadsubl){
     	hist_reco_leadjet_pt_nocut->Write();
@@ -487,6 +533,14 @@ void w_QA_hist(bool isMC, bool doleadsubl){
     	hist_reco_subljet_weighted->Write();
 	}
 	if(isMC){
+		hist_matched_jet_weighted_nocut->Write();
+		hist_matched_jet->Write();
+		hist_matched_jet_weighted->Write();
+		hist_matched_jet_parton->Write();
+		hist_matched_jet_parton_fromB->Write();
+		if(doleadsubl){
+
+		}
 		hist_gen_jet_weighted_nocut->Write();
 		hist_gen_jet->Write();
 		hist_gen_jet_weighted->Write();
@@ -703,36 +757,33 @@ void w_jetquenching_hist(bool isMC){
     if(isMC){
     	hist_gen_lead_gen_subl_quench->Write(); 
     	hist_gen_lead_gen_subl_quench2pc->Write();
+    	hist_ref_lead_ref_subl_quench->Write();
+		hist_ref_lead_ref_subl_quench2pc->Write();
     }
 }
 
-// Matched and parton jet spectra histograms
-void w_QA_parton_hist(){
-	hist_matched_jet_weighted_nocut->Write();
-	hist_matched_jet->Write();
-	hist_matched_jet_weighted->Write();
-    hist_matched_jet_pt_parton_from_u->Write();
-    hist_matched_jet_pt_parton_from_d->Write();
-    hist_matched_jet_pt_parton_from_s->Write();
-    hist_matched_jet_pt_parton_from_c->Write();
-    hist_matched_jet_pt_parton_from_b->Write();
-    hist_matched_jet_pt_parton_from_t->Write();
-    hist_matched_jet_pt_parton_from_g->Write();
-    hist_matched_jet_pt_parton_B_from_u->Write();
-    hist_matched_jet_pt_parton_B_from_d->Write();
-    hist_matched_jet_pt_parton_B_from_s->Write();
-    hist_matched_jet_pt_parton_B_from_c->Write();
-    hist_matched_jet_pt_parton_B_from_b->Write();
-    hist_matched_jet_pt_parton_B_from_t->Write();
-    hist_matched_jet_pt_parton_B_from_g->Write();
+// JES and JER histograms
+void w_jes_jer_hist(){ 
+	hist_jes_raw->Write();
+	hist_jes_raw_weighted->Write();
+	hist_jes_reco->Write();
+	hist_jes_reco_weighted->Write();
+	hist_jer_raw->Write();
+	hist_jer_raw_weighted->Write();
+	hist_jer_reco->Write();
+	hist_jer_reco_weighted->Write();
+	hist_jes_raw_fromB->Write();
+	hist_jes_raw_fromB_weighted->Write();
+	hist_jes_reco_fromB->Write();
+	hist_jes_reco_fromB_weighted->Write();
+	hist_jer_raw_fromB->Write();
+	hist_jer_raw_fromB_weighted->Write();
+	hist_jer_reco_fromB->Write();
+	hist_jer_reco_fromB_weighted->Write();
 }
 
-// JES histograms
-void w_jes_hist(){ 
-    hist_recopt_vs_genpt->Write();
-    hist_matchpt_vs_genpt->Write();
-    hist_jes->Write();
-    hist_recopt_vs_genpt_weighted->Write();
-    hist_matchpt_vs_genpt_weighted->Write();
-    hist_jes_weighted->Write();
+
+// Unfolding histograms
+void w_unfold_hist(){ 
+
 }

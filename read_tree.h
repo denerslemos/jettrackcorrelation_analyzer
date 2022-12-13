@@ -11,31 +11,30 @@ int jet_trigger_bit; // jet HLT path trigger used for analysis (jet_trigger vari
 
 // reco jets
 int nref;         // number of jets
-float jtpt[99999];  // jet pT after JEC (not always true, sometimes we need to correct rawpt a posterior, as done in pPb)
-float jteta[99999]; // jet eta
-float jtphi[99999]; // jet phi
-float rawpt[99999]; // jet pT without JEC
-
+float jteta[9999]; // jet eta
+float jtphi[9999]; // jet phi
+float rawpt[9999]; // jet pT without JEC
+float trackMax[9999]; // track maximum pT in a jet
 // reco tracks
 int ntrk;                 // number of track
-float trkpt[99999];       // track pT
-float trketa[99999];      // track eta
-float trkphi[99999];      // track phi
-float trkpterr[99999];    // track pT error (uncertainty)
-float trkdcaxy[99999];    // track dxy impact parameter (transverse distance between primary vertex and collision - distance of closest approuch - DCA)
-float trkdcaz[99999];     // track dz impact parameter (longitudinal distance between primary vertex and collision - distance of closest approuch - DCA)
-float trkdcaxyerr[99999]; // track dxy error (uncertainty)
-float trkdcazerr[99999];  // track dxy error (uncertainty)
-float trkchi2[99999];     // track reconstruction chi2 of the fitting
-float pfEcal[99999];      // particle flow energy deposit in ECAL
-float pfHcal[99999];      // particle flow energy deposit in HCAL
-float trkmva[99999];      // track mva for each step
-int trkalgo[99999];       // track algorithm/step
-int trkndof[99999];       // track number of degrees of freedom in the fitting 
-int trkcharge[99999];     // track charge
-int trknhits[99999];      // number of hits in the tracker
-int trknlayer[99999];     // number of layers with measurement in the tracker
-bool highpur[99999];      // tracker steps MVA selection
+float trkpt[9999];       // track pT
+float trketa[9999];      // track eta
+float trkphi[9999];      // track phi
+float trkpterr[9999];    // track pT error (uncertainty)
+float trkdcaxy[9999];    // track dxy impact parameter (transverse distance between primary vertex and collision - distance of closest approuch - DCA)
+float trkdcaz[9999];     // track dz impact parameter (longitudinal distance between primary vertex and collision - distance of closest approuch - DCA)
+float trkdcaxyerr[9999]; // track dxy error (uncertainty)
+float trkdcazerr[9999];  // track dxy error (uncertainty)
+float trkchi2[9999];     // track reconstruction chi2 of the fitting
+float pfEcal[9999];      // particle flow energy deposit in ECAL
+float pfHcal[9999];      // particle flow energy deposit in HCAL
+float trkmva[9999];      // track mva for each step
+int trkalgo[9999];       // track algorithm/step
+int trkndof[9999];       // track number of degrees of freedom in the fitting 
+int trkcharge[9999];     // track charge
+int trknhits[9999];      // number of hits in the tracker
+int trknlayer[9999];     // number of layers with measurement in the tracker
+bool highpur[9999];      // tracker steps MVA selection
 
 // events quantities from gen
 float weight; // event weight --> pthat weight
@@ -43,16 +42,16 @@ float pthat;  // pthat (initial parton pT)
 
 // gen jets
 int ngen;             // number of gen jets
-float gen_jtpt[99999];  // gen jet pT
-float gen_jteta[99999]; // gen jet eta
-float gen_jtphi[99999]; // gen jet phi
+float gen_jtpt[9999];  // gen jet pT
+float gen_jteta[9999]; // gen jet eta
+float gen_jtphi[9999]; // gen jet phi
 
 // matched jets
-float refpt[99999]; // jet pT matched with Gen pT
-float refeta[99999]; // jet eta matched with Gen eta
-float refphi[99999]; // jet phi matched with Gen phi
-int refparton_flavor[99999]; // jet phi matched with Gen phi
-int refparton_flavorForB[99999]; // jet phi matched with Gen phi
+float refpt[9999]; // jet pT matched with Gen pT
+float refeta[9999]; // jet eta matched with Gen eta
+float refphi[9999]; // jet phi matched with Gen phi
+int refparton_flavor[9999]; // jet phi matched with Gen phi
+int refparton_flavorForB[9999]; // jet phi matched with Gen phi
 
 // gen tracks
 std::vector<float> *gen_trkpt = 0;  // gen particle pT
@@ -103,8 +102,8 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
 
     // jet quantities
     tree->SetBranchStatus("nref", 1);
-    tree->SetBranchStatus("jtpt", 1);
     tree->SetBranchStatus("rawpt", 1);
+    tree->SetBranchStatus("trackMax", 1);
     if(use_WTA){
         tree->SetBranchStatus("WTAeta", 1);
         tree->SetBranchStatus("WTAphi", 1);
@@ -114,8 +113,8 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
     }
 
     tree->SetBranchAddress("nref", &nref);
-    tree->SetBranchAddress("jtpt", &jtpt);
     tree->SetBranchAddress("rawpt", &rawpt);
+    tree->SetBranchAddress("trackMax", &trackMax);
     if(use_WTA){
         tree->SetBranchAddress("WTAeta", &jteta);
         tree->SetBranchAddress("WTAphi", &jtphi);

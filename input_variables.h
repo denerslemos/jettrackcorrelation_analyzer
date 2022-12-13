@@ -99,8 +99,6 @@ int N_of_rot = N_ev_mix; // setup number of rotations
 
 //For MC only
 bool do_pthatcut = true; // apply pT hat cut?
-float pthatmin = 50.; // pT hat cut min
-float pthatmax = 1000.; // pT hat cut max
 bool double_weight_mix = false; // double weighting in the mixing
 
 bool do_pid = false; // apply PID? // choose the value between [] based on particleid.h
@@ -114,7 +112,7 @@ data_or_mc: MC for Monte Carlo and Data from data
 fileeff: efficiency file
 coll_system: colliding system
 */
-void print_input(TString data_or_mc, TFile *fileeff, TString coll_system){
+void print_input(TString data_or_mc, TFile *fileeff, TString coll_system, float pthatmin, float pthatmax){
 	cout << "From input:" << endl;
 	cout << endl;
 	cout << "Running over " << data_or_mc.Data() << endl;

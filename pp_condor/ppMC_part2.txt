@@ -1,2 +1,0 @@
-/eos/user/a/ahingraj/pPb_pythia/pp_pythia/HiForestAOD_ppMC2017_merge102.root
-/eos/user/a/ahingraj/pPb_pythia/pp_pythia/HiForestAOD_ppMC2017_merge103.root

@@ -276,37 +276,3 @@ void fillvectors(bool similar_events, TH1* nev, std::vector<TVector3> jets, std:
 			}
 }
 
-/*
-Get reco vs gen 2D plot and JES plot
---> Arguments
-recojets: vector with reco jets
-matchedjets: vector with matched jets
-genjets: vector with gen jets
-recovsgen: 2D histogram with jet reco vs jet gen pT
-matchvsgen: 2D histogram with jet matched vs jet gen pT
-jes_histo: JES 2D histogram --> (matched/gen) vs gen
-weight: event weight
-recovsgen_weighted: 2D histogram with jet reco vs jet gen pT weighted 
-matchvsgen_weighted: 2D histogram with jet matched vs jet gen pT weighted 
-jes_histo_weighted: JES 2D histogram --> (matched/gen) vs gen weighted 
-isMC: is MC or data?
-system: colliding system
-year: year of data-taking
-energy: colliding energy
-*/
-void JES_histos(std::vector<TVector3> recojets, std::vector<TVector3> matchedjets, std::vector<TVector3> genjets, TH2D* recovsgen, TH2D* matchvsgen, TH2D* jes_histo, float weight, TH2D* recovsgen_weighted, TH2D* matchvsgen_weighted, TH2D* jes_histo_weighted, bool isMC, string system, int year, int energy){
-	for (int a = 0; a < matchedjets.size(); a++){ // start loop over matched jets
-		for (int b = 0; b < genjets.size(); b++){ // start loop over gen jets
-			double gjetw = get_jetpT_weight(isMC, system, year, energy, genjets[b].Pt());
-			double mjetw = get_jetpT_weight(isMC, system, year, energy, matchedjets[a].Pt());
-			double rjetw = get_jetpT_weight(isMC, system, year, energy, recojets[a].Pt());
-			double ratiosss = matchedjets[a].Pt()/genjets[b].Pt();
-			recovsgen->Fill(recojets[a].Pt(),genjets[b].Pt());
-			matchvsgen->Fill(matchedjets[a].Pt(),genjets[b].Pt());
-			jes_histo->Fill(ratiosss,genjets[b].Pt());
-			recovsgen_weighted->Fill(recojets[a].Pt(),genjets[b].Pt(),weight*rjetw*gjetw);
-			matchvsgen_weighted->Fill(matchedjets[a].Pt(),genjets[b].Pt(),weight*mjetw*gjetw);
-			jes_histo_weighted->Fill(ratiosss,genjets[b].Pt(),weight*mjetw*gjetw);
-		}
-	}
-}
