@@ -169,10 +169,13 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
     tree->SetBranchStatus("trkDxyError1", 1);
     tree->SetBranchStatus("trkDz1", 1);
     tree->SetBranchStatus("trkDzError1", 1);
-    tree->SetBranchStatus("trkChi2", 1);
-    tree->SetBranchStatus("trkNdof", 1);
+    if(colliding_system=="PbPb" || colliding_system=="XeXe"){
+    	tree->SetBranchStatus("trkChi2", 1);
+    	tree->SetBranchStatus("trkNdof", 1);
+    	tree->SetBranchStatus("trkNHit", 1);
+	tree->SetBranchStatus("trkNlayer", 1);
+    }
     tree->SetBranchStatus("trkCharge", 1);
-    tree->SetBranchStatus("trkNHit", 1);
     tree->SetBranchStatus("trkNlayer", 1);
     tree->SetBranchStatus("highPurity", 1);
     tree->SetBranchStatus("pfEcal", 1);
@@ -187,11 +190,13 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
     tree->SetBranchAddress("trkDxyError1", &trkdcaxyerr);
     tree->SetBranchAddress("trkDz1", &trkdcaz);
     tree->SetBranchAddress("trkDzError1", &trkdcazerr);
-    tree->SetBranchAddress("trkChi2", &trkchi2);
-    tree->SetBranchAddress("trkNdof", &trkndof);
     tree->SetBranchAddress("trkCharge", &trkcharge);
-    tree->SetBranchAddress("trkNHit", &trknhits);
-    tree->SetBranchAddress("trkNlayer", &trknlayer);
+    if(colliding_system=="PbPb" || colliding_system=="XeXe"){
+    	tree->SetBranchAddress("trkChi2", &trkchi2);
+    	tree->SetBranchAddress("trkNdof", &trkndof);
+    	tree->SetBranchAddress("trkNHit", &trknhits);
+   	 tree->SetBranchAddress("trkNlayer", &trknlayer);
+    }
     tree->SetBranchAddress("highPurity", &highpur);
     tree->SetBranchAddress("pfEcal", &pfEcal);
     tree->SetBranchAddress("pfHcal", &pfHcal);

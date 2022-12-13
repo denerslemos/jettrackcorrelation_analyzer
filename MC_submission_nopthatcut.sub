@@ -1,0 +1,72 @@
+universe   = vanilla
+getenv     = True
+executable = sub.sh
++JobFlavour           = "tomorrow"
+requirements = (OpSysAndVer =?= "CentOS7")
+RequestCpus = 2
+
+log        = cond/pthat0.log
+output     = cond/pthat0.out
+error      = cond/pthat0.err
+arguments = /eos/user/a/ahingraj/pPb_pythia/filelist/MC_skim/pthat15unembedded.txt 0 1 15 8160
+queue
+
+log        = cond/pthat1.log
+output     = cond/pthat1.out
+error      = cond/pthat1.err
+arguments = /eos/user/a/ahingraj/pPb_pythia/filelist/MC_skim/pthat30unembedded.txt 1 1 30 8160
+queue
+
+log        = cond/pthat2.log
+output     = cond/pthat2.out
+error      = cond/pthat2.err
+arguments = /eos/user/a/ahingraj/pPb_pythia/filelist/MC_skim/pthat50unembedded.txt 2 1 50 8160
+queue
+
+log        = cond/pthat3.log
+output     = cond/pthat3.out
+error      = cond/pthat3.err
+arguments = /eos/user/a/ahingraj/pPb_pythia/filelist/MC_skim/pthat80unembedded.txt 3 1 80 8160
+queue
+
+log        = cond/pthat4.log
+output     = cond/pthat4.out
+error      = cond/pthat4.err
+arguments = /eos/user/a/ahingraj/pPb_pythia/filelist/MC_skim/pthat120unembedded.txt 4 1 120 8160
+queue
+
+log        = cond/pthat5.log
+output     = cond/pthat5.out
+error      = cond/pthat5.err
+arguments = /eos/user/a/ahingraj/pPb_pythia/filelist/MC_skim/pthat170unembedded.txt 5 1 170 8160
+queue
+
+log        = cond/pthat6.log
+output     = cond/pthat6.out
+error      = cond/pthat6.err
+arguments = /eos/user/a/ahingraj/pPb_pythia/filelist/MC_skim/pthat220unembedded.txt 6 1 220 8160
+queue
+
+log        = cond/pthat7.log
+output     = cond/pthat7.out
+error      = cond/pthat7.err
+arguments = /eos/user/a/ahingraj/pPb_pythia/filelist/MC_skim/pthat280unembedded.txt 7 1 280 8160
+queue
+
+log        = cond/pthat8.log
+output     = cond/pthat8.out
+error      = cond/pthat8.err
+arguments = /eos/user/a/ahingraj/pPb_pythia/filelist/MC_skim/pthat370unembedded.txt 8 1 370 8160
+queue
+
+log        = cond/pthat9.log
+output     = cond/pthat9.out
+error      = cond/pthat9.err
+arguments = /eos/user/a/ahingraj/pPb_pythia/filelist/MC_skim/pthat460unembedded.txt 9 1 460 8160
+queue
+
+log        = cond/pthat10.log
+output     = cond/pthat10.out
+error      = cond/pthat10.err
+arguments = /eos/user/a/ahingraj/pPb_pythia/filelist/MC_skim/pthat540unembedded.txt 10 1 540 8160
+queue

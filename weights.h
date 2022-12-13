@@ -26,7 +26,7 @@ float get_event_weight(bool isMC, bool use_centrality, string system, int year, 
 	// MultCentWeightFunction is derived from MC vs data event multiplicity or centrality --> MC only --> multweight
 	// MultTriggerWeightFunction is derived from the turn on plots as function of multiplicity --> RECO only
 	// JetTriggerWeightFunction is derived from the turn on plots as function of leading jet pT --> RECO only
-	// weighttree is the pthat weight --> MC only
+	// weighttree is the pt hat weight --> MC only
 	
 	if(isMC && !use_centrality && system == "pp" && energy == 5020 && year == 2017){
 
@@ -53,6 +53,22 @@ float get_event_weight(bool isMC, bool use_centrality, string system, int year, 
 		evtweight = weighttree;
 
 	}
+
+        if(isMC && !use_centrality && system == "pPb" && energy == 8160 && year == 2016){
+
+		if(leadjetpt > 15.0 && leadjetpt <= 30.){evtweight = 1.0404701e-06;}
+		else if(leadjetpt > 30. && leadjetpt <= 50.){evtweight = 7.7966624e-08;}
+		else if(leadjetpt > 50. && leadjetpt <= 80.){evtweight = 1.0016052e-08;}
+		else if(leadjetpt > 80. && leadjetpt <= 120.){evtweight = 1.3018269e-09;}
+		else if(leadjetpt > 120. && leadjetpt <= 170.){evtweight = 2.2648493e-10;}
+		else if(leadjetpt > 170. && leadjetpt <= 220.){evtweight = 4.0879112e-11;}
+		else if(leadjetpt > 220. && leadjetpt <= 280.){evtweight = 1.1898939e-11;}
+		else if(leadjetpt > 280. && leadjetpt <= 370.){evtweight = 3.3364433e-12;}
+		else if(leadjetpt > 370. && leadjetpt <= 460.){evtweight = 7.6612402e-13;}
+		else if(leadjetpt > 460. && leadjetpt <= 540.){evtweight = 2.1341026e-13;}
+		else if(leadjetpt > 540.){evtweight = 7.9191586e-14;}
+
+        }
 
 	totalweight = evtweight*multweight*vzweight*multefficiency*jetefficiency;
 	return totalweight;
