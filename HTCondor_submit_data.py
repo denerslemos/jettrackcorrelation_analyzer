@@ -76,4 +76,4 @@ queue
 
 fsubfile.write(command_lines)
 fsubfile.close()
-#subprocess.call(["condor_submit", subFiles+".sub"])
+subprocess.call(["condor_submit", subFiles+".sub"])
