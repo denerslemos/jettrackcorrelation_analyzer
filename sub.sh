@@ -7,4 +7,4 @@ cd /afs/cern.ch/work/d/ddesouza/UIC/pPbJets/jettrackcorrelation_analyzer
 echo "Submit skim jobs at "
 echo PWD: $PWD
 
-root -l -b -q "jettrackcorrelation_analyzer.C(\"$1\",$2,$3,$4,$5)"
+root -l -b -q "jettrackcorrelation_analyzer.C(\"$1\",\"$2\",$3,$4,$5)"

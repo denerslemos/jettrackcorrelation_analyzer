@@ -14,12 +14,12 @@ Written by Dener Lemos (dener.lemos@cern.ch)
 
 --> Arguments
 input_file: text file with a list of root input files: Forest or Skims
-ouputfilenumber: just a counting number to run on Condor
+ouputfilename: just a text to run on Condor
 MCSim: 0 for data and > 0 for MC
 pthatmin: pthat min cut for MC only
 pthatmax: pthat max cut for MC only
 */
-void jettrackcorrelation_analyzer(TString input_file, int ouputfilenumber, int MCSim, float pthatmin, float pthatmax){
+void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int MCSim, float pthatmin, float pthatmax){
 
 	clock_t sec_start, sec_end, sec_start_mix, sec_end_mix;
 	sec_start = clock(); // start timing measurement
@@ -694,7 +694,7 @@ void jettrackcorrelation_analyzer(TString input_file, int ouputfilenumber, int M
 	cout << endl;
 
 	// Make an output file
-	string file_output = Form("%s_%s_%iGeV_%s_%s_%s_Jptmin_%.1f_Jptmax_%.1f_Jetamin_%.1f_Jetamax_%.1f_%s%s%s_%s_%s_%i_f%i",colliding_system.Data(),data_or_mc.Data(),sNN_energy_GeV,jet_type.Data(),jet_collection.Data(),jet_trigger.Data(),jet_pt_min_cut,jet_pt_max_cut,jet_eta_min_cut,jet_eta_max_cut,jet_axis.Data(),smear.Data(),XjAj.Data(),ref_sample.Data(),particles.Data(),date->GetDate(),ouputfilenumber); // output file
+	string file_output = Form("%s_%s_%iGeV_%s_%s_%s_Jptmin_%.1f_Jptmax_%.1f_Jetamin_%.1f_Jetamax_%.1f_%s%s%s_%s_%s_%i_%s",colliding_system.Data(),data_or_mc.Data(),sNN_energy_GeV,jet_type.Data(),jet_collection.Data(),jet_trigger.Data(),jet_pt_min_cut,jet_pt_max_cut,jet_eta_min_cut,jet_eta_max_cut,jet_axis.Data(),smear.Data(),XjAj.Data(),ref_sample.Data(),particles.Data(),date->GetDate(),ouputfilename.Data()); // output file
 	std::replace(file_output.begin(), file_output.end(), '.', 'p'); // replace . to p
 	std::replace(file_output.begin(), file_output.end(), '-', 'N'); // replace - to N for negative
 

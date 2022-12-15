@@ -84,8 +84,8 @@ TString trk_eff_file = "eff_table_p-going_HIJING.root"; //track efficiency table
 //--> Mixing ref. samples quantities
 bool do_mixing = true; // use mixing method?
 bool similar_events = true; // if true we consider only tracks coming for similar events (onl if jet requirement is satisfied), if false all tracks are used
-int N_ev_mix = 40; // number of events to mix
-int Mult_or_Cent_range = 5; // multiplicity or centrality interval allowed between event and mixed event
+int N_ev_mix = 20; // number of events to mix
+int Mult_or_Cent_range = 100; // multiplicity or centrality interval allowed between event and mixed event
 float DVz_range = 0.5;  // Vertex Z interval allowed between event and mixed event
 
 //--> rotation ref. samples quantities
@@ -95,7 +95,7 @@ int N_of_rot = N_ev_mix; // setup number of rotations
 //=========================================================
 
 //For MC only
-bool do_pthatcut = true; // apply pT hat cut?
+bool do_pthatcut = false; // apply pT hat cut?
 bool double_weight_mix = false; // double weighting in the mixing
 
 bool do_pid = false; // apply PID? // choose the value between [] based on particleid.h

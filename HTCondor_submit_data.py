@@ -10,12 +10,14 @@ import sys
 usage = 'usage: %prog [options]'
 parser = optparse.OptionParser(usage)
 parser.add_option('-i', '--infiles', dest='infiles', help='input list of files (.txt)', default='', type='string')
+parser.add_option('-o', '--outfiles', dest='outputfiles', help='output name', default='', type='string')
 parser.add_option('-f', '--jobflav', dest='jobflavour', help='job flavour (espresso=20min, microcentury=1h, longlunch=2h, workday=8h, tomorrow=1d, testmatch=3d, nextweek=1w)', default='espresso', type='string')
 parser.add_option('-c', '--ncpu', dest='numberofcpu', help='number of cpu requested (2GB per cpu)', default='1', type='int')
 parser.add_option('-n', '--njobs', dest='numberofjobs', help='number of jobs to be submitted (integer)', default='1', type='int')
 parser.add_option('-s', '--subfiles', dest='subfiles', help='HTCondor submission file', default='HTcondor_sub_data_', type='string')
 (opt, args) = parser.parse_args()
 inFiles = opt.infiles
+outFiles = opt.outputfiles
 jobFlavour = opt.jobflavour
 nCpu = opt.numberofcpu
 nJobs = opt.numberofjobs
@@ -37,7 +39,7 @@ print ("file/jobs: "+str(ratio)+"   --> closest integer: " +str(int(ratioint)))
 fsubfile = open(subFiles+".sub", "w")
 command_lines = '''universe   = vanilla
 getenv     = True
-executable = sub_skim.sh
+executable = sub.sh
 +JobFlavour           = "'''+str(jobFlavour)+'''"
 requirements = (OpSysAndVer =?= "CentOS7")
 RequestCpus = '''+str(nCpu)+'''
@@ -67,11 +69,11 @@ else:
 log        = cond/'''+subFiles+'''_part_'''+str(i)+'''.log
 output     = cond/'''+subFiles+'''_part_'''+str(i)+'''.out
 error      = cond/'''+subFiles+'''_part_'''+str(i)+'''.err
-arguments = '''+inFiles+'''_part'''+str(i)+'''.txt '''+str(i)+''' 0 0 0
+arguments = '''+inFiles+'''_part'''+str(i)+'''.txt '''+str(outFiles)+'''_job_'''+str(i)+''' 0 0 0
 queue
 '''
 		command_lines += temp
 
 fsubfile.write(command_lines)
 fsubfile.close()
-subprocess.call(["condor_submit", subFiles+".sub"])
+#subprocess.call(["condor_submit", subFiles+".sub"])
