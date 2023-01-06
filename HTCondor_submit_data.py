@@ -59,7 +59,7 @@ arguments = '''+inFiles+'''.txt '''+str(outFiles)+''' 0 0 0
 queue
 '''
 	command_lines += temp
-else:	
+elif(ratio != len(Lines)):	
 	''' Loop over files '''
 	for i in range(nJobs):
 		outtempfiles = open(inFiles+"_part"+str(i)+".txt", "w")
@@ -78,6 +78,22 @@ arguments = '''+inFiles+'''_part'''+str(i)+'''.txt '''+str(outFiles)+'''_job_'''
 queue
 '''
 		command_lines += temp
+else:
+	i=0
+	for line in Lines:
+		outtempfiles = open(inFiles+"_part"+str(i)+".txt", "w")
+		outtempfiles.write(line)
+		outtempfiles.close()
+		temp = '''
+log        = cond/'''+subFiles+'''_part_'''+str(i)+'''.log
+output     = cond/'''+subFiles+'''_part_'''+str(i)+'''.out
+error      = cond/'''+subFiles+'''_part_'''+str(i)+'''.err
+arguments = '''+inFiles+'''_part'''+str(i)+'''.txt '''+str(outFiles)+'''_job_'''+str(i)+''' 0 0 0
+queue
+'''
+		command_lines += temp
+		i=i+1
+
 
 fsubfile.write(command_lines)
 fsubfile.close()
