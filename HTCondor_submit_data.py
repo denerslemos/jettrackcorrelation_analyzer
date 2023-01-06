@@ -28,7 +28,12 @@ listOfFiles = open(inFiles+'.txt', 'r')
 Lines = listOfFiles.readlines()
 print ("Number of files: "+str(len(Lines)))
 print ("Number of jobs: "+str(nJobs))
-ratio = len(Lines)/nJobs
+ratio = 0
+if(nJobs == 0):
+	ratio = len(Lines)
+else:
+	ratio = len(Lines)/nJobs
+
 if(ratio < 1):
         sys.exit("Number of jobs greated than number of files, please reduce the number of jobs")
 ratioint = int(ratio)
@@ -50,7 +55,7 @@ if(ratioint == 1):
 log        = cond/'''+subFiles+'''.log
 output     = cond/'''+subFiles+'''.out
 error      = cond/'''+subFiles+'''.err
-arguments = '''+inFiles+'''.txt 0 0 0 0
+arguments = '''+inFiles+'''.txt '''+str(outFiles)+''' 0 0 0
 queue
 '''
 	command_lines += temp
