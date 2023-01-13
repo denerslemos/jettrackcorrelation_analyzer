@@ -21,7 +21,7 @@ void jettrackcorrelation_analyzer(TString input_file, int ouputfilenumber, int M
 	clock_t sec_start, sec_end, sec_start_mix, sec_end_mix;
 	sec_start = clock(); // start timing measurement
 
-    TDatime* date = new TDatime();
+    	TDatime* date = new TDatime();
 
 	printwelcome(true); // welcome message
 
@@ -29,12 +29,12 @@ void jettrackcorrelation_analyzer(TString input_file, int ouputfilenumber, int M
 	bool is_MC;
 	if(MCSim==0){is_MC = false;}else{is_MC = true;}
 
-    if(!do_inclusejettrack_correlation && do_leading_subleading_jettrack_correlation) do_Xj_or_Ajcut = true; // if only leading and subleading jet+track correlation are measured we make sure that Xj and Aj are true
+    	if(!do_inclusejettrack_correlation && do_leading_subleading_jettrack_correlation) do_Xj_or_Ajcut = true; // if only leading and subleading jet+track correlation are measured we make sure that Xj and Aj are true
 
-    if(!is_MC) do_pthatcut = false; // MC only
-    if(!is_MC) do_pid = false; // MC only
+    	if(!is_MC) do_pthatcut = false; // MC only
+    	if(!is_MC) do_pid = false; // MC only
 
-    if(colliding_system!="pPb") do_CM_pPb = false; // Only do center-of-mass for pPb
+    	if(colliding_system!="pPb") do_CM_pPb = false; // Only do center-of-mass for pPb
 
 	//print important informations in the output file
 	TString data_or_mc;
@@ -269,8 +269,8 @@ void jettrackcorrelation_analyzer(TString input_file, int ouputfilenumber, int M
 		int jetsize = (int)nref; // number of jets in an event
 		for (int j = 0; j < jetsize; j++){
 
-	        if(trackMax[j]/rawpt[j] < 0.01)continue; // Cut for jets with only very low pT particles
-    	    if(trackMax[j]/rawpt[j] > 0.98)continue; // Cut for jets where all the pT is taken by one track
+	        	if(trackMax[j]/rawpt[j] < 0.05)continue; // Cut for jets with only very low pT particles
+    	    		if(trackMax[j]/rawpt[j] > 0.95)continue; // Cut for jets where all the pT is taken by one track
 
 			// Define jet kinematics
 		 	float jet_rawpt = rawpt[j];
