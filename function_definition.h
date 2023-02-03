@@ -26,8 +26,8 @@ nhits: track number of hits with measurements
 algo: track MVA algorith step
 mva: track MVA algorith value [-1,1]
 */
-int get_Ntrkoff(TString col_sys, int col_energy, int yearofdatataking, int size, float *eta, float *pt, int *charge, bool *hp, float *pterr, float *dcaxy, float *dcaxyerr,  float *dcaz, float *dcazerr, float* chi2, int* ndof, int* nlayer, int* nhits, int* algo, float* mva){
-	float Ntrk_off = 0;
+int get_Ntrkoff(TString col_sys, int col_energy, int yearofdatataking, int size, float *eta, float *pt, int *charge, bool *hp, float *pterr, float *dcaxy, float *dcaxyerr,  float *dcaz, float *dcazerr, float* chi2, unsigned char* ndof, unsigned char* nlayer, unsigned char* nhits, int* algo, float* mva){
+	int Ntrk_off = 0;
 	for(int ii=0; ii<size; ii++){ 
 		if(fabs(eta[ii]) > 2.4) continue; 
 		if(fabs(charge[ii]) == 0)continue;
@@ -36,9 +36,9 @@ int get_Ntrkoff(TString col_sys, int col_energy, int yearofdatataking, int size,
 		if(fabs(dcaxy[ii]/dcaxyerr[ii]) >= 3.0) continue;
 		if(fabs(dcaz[ii]/dcazerr[ii]) >= 3.0) continue;
 		double calomatching = ((pfEcal[ii]+pfHcal[ii])/cosh(eta[ii]))/pt[ii];
-		if(col_sys=="pPb" && col_energy==8160 && yearofdatataking==2016){ if(pt[ii] <= 0.4) continue;}
-		if(col_sys=="pp" && col_energy==5020 && yearofdatataking==2017) if(pt[ii] <= 0.5) continue; 
-		if(col_sys=="pp" && col_energy==13000 && yearofdatataking==2017) if(pt[ii] <= 0.5) continue; 
+		if(col_sys=="pPb" && col_energy==8160 && yearofdatataking==2016){if(pt[ii] <= 0.4) continue;}
+		if(col_sys=="pp" && col_energy==5020 && yearofdatataking==2017){if(pt[ii] <= 0.5) continue;}
+		if(col_sys=="pp" && col_energy==13000 && yearofdatataking==2017){if(pt[ii] <= 0.5) continue;}
 		if(col_sys=="XeXe" && col_energy==5440 && yearofdatataking==2017){
 			if(pt[ii] <= 0.5) continue; 
 			if((chi2[ii]/ndof[ii])/nlayer[ii] >= 0.15) continue;
@@ -51,6 +51,56 @@ int get_Ntrkoff(TString col_sys, int col_energy, int yearofdatataking, int size,
 		 	if(nhits[ii] < 11) continue;
 		 	if(pt[ii] > 20.0){if(calomatching<=0.5)continue;} //is this applicable in pp or pPb?
 			if(algo[ii]==6 && mva[ii]<0.98) continue;
+		}
+		Ntrk_off=Ntrk_off+1;
+	}
+	return Ntrk_off;
+}
+/*
+Find number of tracks for reco -> updated for all systems (and easy to update for future systems)
+--> Arguments
+col_sys: colliding system
+col_energy:  colliding energy
+yearofdatataking: year of data-taking
+size: track collection size per event
+eta: track eta
+pt: track pT
+charge: track charge
+*/
+int get_simple_mult_reco(TString col_sys, int col_energy, int yearofdatataking, int size, float *eta, float *pt, int *charge){
+	float Ntrk_off = 0;
+	for(int ii=0; ii<size; ii++){
+		if(fabs(eta[ii]) > 2.4) continue; 
+		if(fabs(charge[ii]) == 0)continue;
+		if(col_sys=="pPb" && col_energy==8160 && yearofdatataking==2016){
+			if(pt[ii] <= 0.4) continue;
+		}else{
+			if(pt[ii] <= 0.5) continue;
+		}
+		Ntrk_off=Ntrk_off+1;
+	}
+	return Ntrk_off;
+}
+/*
+Find number of tracks for gen -> updated for all systems (and easy to update for future systems)
+--> Arguments
+col_sys: colliding system
+col_energy:  colliding energy
+yearofdatataking: year of data-taking
+size: track collection size per event
+eta: track eta
+pt: track pT
+charge: track charge
+*/
+int get_simple_mult_gen(TString col_sys, int col_energy, int yearofdatataking, int size, std::vector<float> *eta, std::vector<float> *pt, std::vector<int> *charge){
+	float Ntrk_off = 0;
+	for(int ii=0; ii<size; ii++){
+		if(fabs(eta->at(ii)) > 2.4) continue; 
+		if(fabs(charge->at(ii)) == 0)continue;
+		if(col_sys=="pPb" && col_energy==8160 && yearofdatataking==2016){
+			if(pt->at(ii) <= 0.4) continue;
+		}else{
+			if(pt->at(ii) <= 0.5) continue;
 		}
 		Ntrk_off=Ntrk_off+1;
 	}
@@ -110,7 +160,7 @@ phi2: eta of second object
 float deltaphi2PC(float phi1, float phi2){     
 	float deltaPhi = (phi1 - phi2);
 	if( deltaPhi > TMath::Pi() ) deltaPhi = deltaPhi - 2.*TMath::Pi();
-	if( deltaPhi <= -TMath::Pi()/2.) deltaPhi = deltaPhi + 2.*TMath::Pi();
+	if( deltaPhi < -TMath::Pi()/2.) deltaPhi = deltaPhi + 2.*TMath::Pi();
 	return deltaPhi;
 }
 
@@ -171,7 +221,7 @@ Measure the correlation between objects
 jets: vector with jet informations
 jet_w: vector with jet weight informations
 tracks: vector with track informations
-trk_w: vector with track weight informations
+tracks_w: vector with track weight informations
 histo_corr: multidimentional histogram for correlations {Delta Phi, Delta Eta, track pT bin, multiplicity or centrality}
 histjet: multidimentional histogram for jets in correlations {pT, Eta, Phi}
 histtrk: multidimentional histogram for tracks in correlations {pT, Eta, Phi}
@@ -182,8 +232,9 @@ N_rot: number of rotation (only use if do_rotation is true)
 histo_rot: histogram using rotation method (only use if do_rotation is true)
 sube_trk: vector with sube track (MC embedded samples) sube == 0 means PYTHIA embedded tracks while sube > 0 means the other MC (HYDJET, EPOS, ...)
 histo_corr_subeg0: if sube > 0 save in this histogram
+flow: true for flow measurement false for jet shapes
 */
-void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::vector<TVector3> tracks, std::vector<double> tracks_w, THnSparse* histo_corr, THnSparse* histjet, THnSparse* histtrk, float event_weight, int mult, bool do_rotation, int N_rot, THnSparse* histo_rot, std::vector<int> sube_trk, THnSparse* histo_corr_subeg0){
+void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::vector<TVector3> tracks, std::vector<double> tracks_w, THnSparse* histo_corr, THnSparse* histjet, THnSparse* histtrk, float event_weight, int mult, bool do_rotation, int N_rot, THnSparse* histo_rot, std::vector<int> sube_trk, THnSparse* histo_corr_subeg0, bool flow){
 	// get correlation histograms
 	for (int a = 0; a < jets.size(); a++){ // start loop over jets
         double jet_weight = jets_w[a];
@@ -203,7 +254,11 @@ void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::ve
 			double del_phi = deltaphi2PC(jets[a].Phi(), tracks[b].Phi());
 			double del_eta = deltaeta(jets[a].Eta(), tracks[b].Eta());
 			double x4D[4]={del_phi,del_eta,(double)trkbin,(double)multcentbin}; 
-			if(subetrk==0){histo_corr->Fill(x4D,jet_weight*trk_weight*event_weight*trkpt);}else{histo_corr_subeg0->Fill(x4D,jet_weight*trk_weight*event_weight*trkpt);}
+			if(flow){
+				if(subetrk==0){histo_corr->Fill(x4D,jet_weight*trk_weight*event_weight);}else{histo_corr_subeg0->Fill(x4D,jet_weight*trk_weight*event_weight);}
+			}else{
+				if(subetrk==0){histo_corr->Fill(x4D,jet_weight*trk_weight*event_weight*trkpt);}else{histo_corr_subeg0->Fill(x4D,jet_weight*trk_weight*event_weight*trkpt);}			
+			}
 		}
 		// get rotation histograms 
 		if(do_rotation){
@@ -225,7 +280,8 @@ void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::ve
 					// Fill correlation histograms     
 					double del_phi_rot = deltaphi2PC(newphi, tracks[d].Phi());
 					double del_eta_rot = deltaeta(neweta, tracks[d].Eta());
-					double x4D_rot[4]={del_phi_rot,del_eta_rot,(double)trkbin,(double)multcentbin}; histo_rot->Fill(x4D_rot,jet_weight*trk_weight*event_weight*trkpt);
+					double x4D_rot[4]={del_phi_rot,del_eta_rot,(double)trkbin,(double)multcentbin}; 
+					if(flow){histo_rot->Fill(x4D_rot,jet_weight*trk_weight*event_weight);}else{histo_rot->Fill(x4D_rot,jet_weight*trk_weight*event_weight*trkpt);}
 				}
 			}
 		}//end rotation
@@ -274,5 +330,56 @@ void fillvectors(bool similar_events, TH1* nev, std::vector<TVector3> jets, std:
 				vzvec.push_back(vertexz);
 				weightvec.push_back(weight);
 			}
+}
+
+
+/*
+Measure the 2 particle correlation
+--> Arguments
+tracks: vector with track informations
+tracks_w: vector with track weight informations
+histo_corr: multidimentional histogram for correlations {Delta Phi, Delta Eta, track pT bin, multiplicity or centrality}
+event_weight: event weight vector for each event
+mult: multiplicity or centrality vector for each event
+sube_trk: vector with sube track (MC embedded samples) sube == 0 means PYTHIA embedded tracks while sube > 0 means the other MC (HYDJET, EPOS, ...)
+histo_corr_subeg0: if sube > 0 save in this histogram
+*/
+void twoparticlecorrelation(std::vector<TVector3> tracks, std::vector<double> tracks_w, THnSparse* histo_2pcorr, float event_weight, int mult, std::vector<int> sube_trk, THnSparse* histo_2pcorr_subeg0, THnSparse* histo_2pcorr_subeg0_cross){
+	// get correlation histograms
+	for (int a = 0; a < tracks.size(); a++){ // start loop over tracks
+		double trkpt1 = tracks[a].Pt();
+        double trk_weight1 = tracks_w[a];
+		int subetrk1 = sube_trk[a];
+		int trkbin1 = (int) find_my_bin(trk_pt_bins,trkpt1);
+
+		for (int b = 0; b < tracks.size(); b++){ // start loop over tracks+1
+			double trkpt2 = tracks[b].Pt();
+            double trk_weight2 = tracks_w[b];
+			int subetrk2 = sube_trk[b];
+			int trkbin2 = (int) find_my_bin(trk_pt_bins,trkpt2);
+			
+			if(trkbin1 != trkbin2) continue; // only same bin to get vn as sqrt of Vn
+			
+			int trkbin = trkbin1;
+            
+            // track efficiency correction for reco
+            double trk_weight = trk_weight1*trk_weight2;
+
+            // Find track and multiplicity bins
+			int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float) mult);
+
+			// Fill correlation histograms
+			double del_phi = deltaphi2PC(tracks[a].Phi(), tracks[b].Phi());
+			double del_eta = deltaeta(tracks[a].Eta(), tracks[b].Eta());
+			
+			if(del_phi == 0 && del_eta == 0 && trkpt1 == trkpt2) continue; // do not fill histograms if particles are identicles
+
+			double x4D[4]={del_phi,del_eta,(double)trkbin,(double)multcentbin}; 
+			if(subetrk1==0 && subetrk2==0){histo_2pcorr->Fill(x4D,trk_weight*event_weight);
+			}else if(subetrk1>0 && subetrk2>0){histo_2pcorr_subeg0->Fill(x4D,trk_weight*event_weight);
+			}else{histo_2pcorr_subeg0_cross->Fill(x4D,trk_weight*event_weight);}
+			
+		} // b loop
+	} // a loop
 }
 

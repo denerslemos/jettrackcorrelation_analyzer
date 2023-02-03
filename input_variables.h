@@ -25,23 +25,29 @@ std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFi
 
 // by default the code will calculated QA plots for jets and tracks, you can turn on or off the flags bellow based on your studies
 // be carefull about memory usage
-bool do_inclusejettrack_correlation = true; // Inclusive jets + track correlation
-bool do_leading_subleading_jettrack_correlation = false; // Leading jets + track correlation and Sub-Leading jets + track correlation
+bool do_inclusejettrack_correlation = false; // Inclusive jets + track correlation
+bool do_leading_subleading_jettrack_correlation = true; // Leading jets + track correlation and Sub-Leading jets + track correlation
+bool do_fowardbackward = false; // for forward/backward studies
+bool do_flow = true; // if true if makes correlation for Jet-Vn flow if false it multiply by trk pT to get jet shapes
+bool do_jet_fragmentation = false; // calculate jet fragmentation for inclusive jets
 
 //=========================================================
 
 //============= Jet information =========================== 
 
 TString jet_collection = "ak4PFJetAnalyzer"; // jet collection in forest
+bool dojettrigger = false; // apply jet trigger
 TString jet_trigger = "HLT_PAAK4PFJet80_Eta5p1_v3"; // jet trigger in forest
 float jet_pt_min_cut = 100.0; // jet min pT cut 
 float jet_pt_max_cut = 8160.0; // jet max pT cut 
 
-float jet_eta_min_cut = -1.6; // jet min eta cut 
-float jet_eta_max_cut = 1.6; // jet min eta cut 
+float jet_eta_min_cut = -1.3; // jet min eta cut 
+float jet_eta_max_cut = 1.3; // jet min eta cut 
 
 bool do_jet_smearing = false; // smearing
 
+float jet_eta_fwdback_min_cut = 0.7; // jet min eta cut for forward/backward studies
+float jet_eta_fwdback_max_cut = 1.4; // jet min eta cut for forward/backward studies
 
 TString JEC_file = "JEC_pPb_AK4PF_p-going_unembedded.txt"; //JEC file
 TString JEU_file = "JEC_pPb_AK4PF_p-going_unembedded.txt"; //JEU file (future)
@@ -82,8 +88,8 @@ TString trk_eff_file = "eff_table_p-going_HIJING.root"; //track efficiency table
 // use just one ref sample due memory issues
 
 //--> Mixing ref. samples quantities
-bool do_mixing = true; // use mixing method?
-bool similar_events = true; // if true we consider only tracks coming for similar events (onl if jet requirement is satisfied), if false all tracks are used
+bool do_mixing = false; // use mixing method?
+bool similar_events = false; // if true we consider only tracks coming for similar events (onl if jet requirement is satisfied), if false all tracks are used
 int N_ev_mix = 20; // number of events to mix
 int Mult_or_Cent_range = 100; // multiplicity or centrality interval allowed between event and mixed event
 float DVz_range = 0.5;  // Vertex Z interval allowed between event and mixed event
@@ -125,7 +131,7 @@ void print_input(TString data_or_mc, TFile *fileeff, TString coll_system, float 
 	cout << "=========== Jets ===========" << endl;
 	cout << endl;
 	cout << "Jet collection: " << jet_collection.Data() << endl;
-	cout << "Jet trigger: " << jet_trigger.Data() << endl;
+	if(dojettrigger){cout << "Jet trigger: " << jet_trigger.Data() << endl;}else{cout << "No jet trigger applied!" << endl;}
 	if(use_WTA){cout << "Using WTA jet axis" << endl;}else{cout << "Using E-Scheme jet axis" << endl;}
 	cout << "Jet eta range: [" << jet_eta_min_cut << "," << jet_eta_max_cut << "]" << endl;
 	cout << "Jet pT min: " << jet_pt_min_cut << " GeV"<< endl;
@@ -197,6 +203,9 @@ void print_input(TString data_or_mc, TFile *fileeff, TString coll_system, float 
 	if(do_inclusejettrack_correlation) cout << "+ --> Inclusive Jets + tracks (or particle) correlations       +" << endl;
 	if(do_leading_subleading_jettrack_correlation) cout << "+ --> Leading Jets + tracks (or particle) correlations         +" << endl;
 	if(do_leading_subleading_jettrack_correlation) cout << "+ --> Sub-Leading Jets + tracks (or particle) correlations     +" << endl;
+	if(do_flow) cout << "+                          For Flow                            +" << endl;
+	if(!do_flow) cout << "+                       For Jet Shapes                        +" << endl;
+	if(do_jet_fragmentation)  cout << "+                 Calculating Jet Fragmentation                +" << endl;
 	cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
 }
 

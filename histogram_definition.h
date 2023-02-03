@@ -6,6 +6,7 @@ int multbinsize = (int) multiplicity_centrality_bins.size();// multiplicity or c
 
 // -------------------------------- QA plots --------------------------------
 // Event quantities
+//number of events
 TH1I *Nevents = new TH1I("Nevents", "Nevents", 10, 0, 10);
 TH1I *Nev_recoreco = new TH1I("Nev_recoreco", "Nev_recoreco", 1, 0, 1);
 TH1I *Nev_recoreco_lead = new TH1I("Nev_recoreco_lead", "Nev_recoreco_lead", 1, 0, 1);
@@ -19,12 +20,205 @@ TH1I *Nev_genreco_subl = new TH1I("Nev_genreco_subl", "Nev_genreco_subl", 1, 0, 
 TH1I *Nev_gengen = new TH1I("Nev_gengen", "Nev_gengen", 1, 0, 1);
 TH1I *Nev_gengen_lead = new TH1I("Nev_gengen_lead", "Nev_gengen_lead", 1, 0, 1);
 TH1I *Nev_gengen_subl = new TH1I("Nev_gengen_subl", "Nev_gengen_subl", 1, 0, 1);
+
+
+// multiplicity
 TH1D *multiplicity = new TH1D("multiplicity", "multiplicity", 500, 0.0, 500.0);
 TH1D *multiplicity_weighted = new TH1D("multiplicity_weighted", "multiplicity_weighted", 500, 0.0, 500.0);
-TH1D *vzhist = new TH1D("vzhist", "vzhist", 80, -20, 20);
-TH1D *vzhist_weighted = new TH1D("vzhist_weighted", "vzhist_weighted", 80, -20, 20);
-TH1D *pthathist = new TH1D("pthathist", "pthathist", 230, 0, 460);
-TH1D *pthathist_weighted = new TH1D("pthathist_weighted", "pthathist_weighted", 230, 0, 460);
+
+TH1D *reco_mult = new TH1D("reco_mult", "reco_mult", 500, 0.0, 1000.0);
+TH1D *reco_mult_weighted = new TH1D("reco_mult_weighted", "reco_mult_weighted", 500, 0.0, 1000.0);
+TH1D *gen_mult = new TH1D("gen_mult", "gen_mult", 500, 0.0, 1000.0);
+TH1D *gen_mult_weighted = new TH1D("gen_mult_weighted", "gen_mult_weighted", 500, 0.0, 1000.0);
+
+// Z vertex
+TH2D *vzhist = new TH2D("vzhist", "vzhist", 80, -20, 20, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *vzhist_weighted = new TH2D("vzhist_weighted", "vzhist_weighted", 80, -20, 20, multbinsize-1, 0, (double) multbinsize-1);
+// pthat
+TH2D *pthathist = new TH2D("pthathist", "pthathist", 240, 0, 1200, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *pthathist_weighted = new TH2D("pthathist_weighted", "pthathist_weighted", 240, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
+// HF energy
+TH2D *hfplushist = new TH2D("hfplushist", "hfplushist", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *hfplushist_weighted = new TH2D("hfplushist_weighted", "hfplushist_weighted", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *hfminushist = new TH2D("hfminushist", "hfminushist", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *hfminushist_weighted = new TH2D("hfminushist_weighted", "hfminushist_weighted", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
+// ZDC
+TH2D *zdcplushist = new TH2D("zdcplushist", "zdcplushist", 2000, -250000,250000, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *zdcplushist_weighted = new TH2D("zdcplushist_weighted", "zdcplushist_weighted", 2000, -250000,250000, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *zdcminushist = new TH2D("zdcminushist", "zdcminushist", 2000, -250000,250000, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *zdcminushist_weighted = new TH2D("zdcminushist_weighted", "zdcminushist_weighted", 2000, -250000,250000, multbinsize-1, 0, (double) multbinsize-1);
+//quantities with at least 1 jet
+TH1D *multiplicity_withonejet50 = new TH1D("multiplicity_withonejet50", "multiplicity_withonejet50", 500, 0.0, 500.0);
+TH1D *multiplicity_withonejet80 = new TH1D("multiplicity_withonejet80", "multiplicity_withonejet80", 500, 0.0, 500.0);
+//quantities with at least 1 jet pT > jet min pT in GeV
+TH1D *multiplicity_withonejet = new TH1D("multiplicity_withonejet", "multiplicity_withonejet", 500, 0.0, 500.0);
+TH1D *multiplicity_withonejet_weighted = new TH1D("multiplicity_withonejet_weighted", "multiplicity_withonejet_weighted", 500, 0.0, 500.0);
+TH1D *reco_mult_withonejet = new TH1D("reco_mult_withonejet", "reco_mult_withonejet", 500, 0.0, 1000.0);
+TH1D *reco_mult_withonejet_weighted = new TH1D("reco_mult_withonejet_weighted", "reco_mult_withonejet_weighted", 500, 0.0, 1000.0);
+TH1D *gen_mult_withonejet = new TH1D("gen_mult_withonejet", "gen_mult_withonejet", 500, 0.0, 1000.0);
+TH1D *gen_mult_withonejet_weighted = new TH1D("gen_mult_withonejet_weighted", "gen_mult_withonejet_weighted", 500, 0.0, 1000.0);
+
+// --> multiplicity
+TH2D *hfplushist_withonejet = new TH2D("hfplushist_withonejet", "hfplushist_withonejet", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *hfplushist_withonejet_weighted = new TH2D("hfplushist_withonejet_weighted", "hfplushist_withonejet_weighted", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *hfminushist_withonejet = new TH2D("hfminushist_withonejet", "hfminushist_withonejet", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *hfminushist_withonejet_weighted = new TH2D("hfminushist_withonejet_weighted", "hfminushist_withonejet_weighted", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
+//quantities with dijets
+// --> multiplicity
+TH1D *multiplicity_withdijets = new TH1D("multiplicity_withdijets", "multiplicity_withdijets", 500, 0.0, 500.0);
+TH1D *multiplicity_withdijets_weighted = new TH1D("multiplicity_withdijets_weighted", "multiplicity_withdijets_weighted", 500, 0.0, 500.0);
+TH1D *reco_mult_withdijets = new TH1D("reco_mult_withdijets", "reco_mult_withdijets", 500, 0.0, 1000.0);
+TH1D *reco_mult_withdijets_weighted = new TH1D("reco_mult_withdijets_weighted", "reco_mult_withdijets_weighted", 500, 0.0, 1000.0);
+TH1D *gen_mult_withdijets = new TH1D("gen_mult_withdijets", "gen_mult_withdijets", 500, 0.0, 1000.0);
+TH1D *gen_mult_withdijets_weighted = new TH1D("gen_mult_withdijets_weighted", "gen_mult_withdijets_weighted", 500, 0.0, 1000.0);
+// --> HF energy
+TH2D *hfplushist_withdijets = new TH2D("hfplushist_withdijets", "hfplushist_withdijets", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *hfplushist_withdijets_weighted = new TH2D("hfplushist_withdijets_weighted", "hfplushist_withdijets_weighted", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *hfminushist_withdijets = new TH2D("hfminushist_withdijets", "hfminushist_withdijets", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *hfminushist_withdijets_weighted = new TH2D("hfminushist_withdijets_weighted", "hfminushist_withdijets_weighted", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
+
+// event plane histograms
+
+// Axis : 0 -> EP multiplicity, 1 -> qvector, 2 -> PsiEP, 3 -> event multiplicity
+int    bins4D_EP[4]   =   { 50   ,  200 ,   64           , 100};
+double xmin4D_EP[4]   =   { 0     ,    0 ,   -TMath::Pi() , 0};
+double xmax4D_EP[4]   =   { 500   ,  100 ,   TMath::Pi()  , 500};
+
+//before flattening
+THnSparseD *EP2_plus = new THnSparseD("EP2_plus", "EP2_plus", 4, bins4D_EP, xmin4D_EP, xmax4D_EP);
+THnSparseD *EP2_minus = new THnSparseD("EP2_minus", "EP2_minus", 4, bins4D_EP, xmin4D_EP, xmax4D_EP);
+THnSparseD *EP3_plus = new THnSparseD("EP3_plus", "EP3_plus", 4, bins4D_EP, xmin4D_EP, xmax4D_EP);
+THnSparseD *EP3_minus = new THnSparseD("EP3_minus", "EP3_minus", 4, bins4D_EP, xmin4D_EP, xmax4D_EP);
+THnSparseD *EP4_plus = new THnSparseD("EP4_plus", "EP4_plus", 4, bins4D_EP, xmin4D_EP, xmax4D_EP);
+THnSparseD *EP4_minus = new THnSparseD("EP4_minus", "EP4_minus", 4, bins4D_EP, xmin4D_EP, xmax4D_EP);
+
+//after flattening
+THnSparseD *EP2_plus_flat = new THnSparseD("EP2_plus_flat", "EP2_plus_flat", 4, bins4D_EP, xmin4D_EP, xmax4D_EP);
+THnSparseD *EP2_minus_flat = new THnSparseD("EP2_minus_flat", "EP2_minus_flat", 4, bins4D_EP, xmin4D_EP, xmax4D_EP);
+THnSparseD *EP3_plus_flat = new THnSparseD("EP3_plus_flat", "EP3_plus_flat", 4, bins4D_EP, xmin4D_EP, xmax4D_EP);
+THnSparseD *EP3_minus_flat = new THnSparseD("EP3_minus_flat", "EP3_minus_flat", 4, bins4D_EP, xmin4D_EP, xmax4D_EP);
+THnSparseD *EP4_plus_flat = new THnSparseD("EP4_plus_flat", "EP4_plus_flat", 4, bins4D_EP, xmin4D_EP, xmax4D_EP);
+THnSparseD *EP4_minus_flat = new THnSparseD("EP4_minus_flat", "EP4_minus_flat", 4, bins4D_EP, xmin4D_EP, xmax4D_EP);
+
+// Axis : 0 -> Dphi track-EP, 1 -> trkbin, 2 -> multbin
+int    bins3D_TRKEP[3]   =   { 200   				,  trkbinsize-1 		,  multbinsize-1};
+double xmin3D_TRKEP[3]   =   { -TMath::Pi()/2.0     ,  0 					, 0};
+double xmax3D_TRKEP[3]   =   { 3.0*TMath::Pi()/2.0  ,  (double)trkbinsize-1 , (double) multbinsize-1};
+
+THnSparseD *Dphi_EP2_trk_minus = new THnSparseD("Dphi_EP2_trk_minus", "Dphi_EP2_trk_minus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_EP2_trk_plus = new THnSparseD("Dphi_EP2_trk_plus", "Dphi_EP2_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_EP3_trk_minus = new THnSparseD("Dphi_EP3_trk_minus", "Dphi_EP3_trk_minus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_EP3_trk_plus = new THnSparseD("Dphi_EP3_trk_plus", "Dphi_EP3_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_EP4_trk_minus = new THnSparseD("Dphi_EP4_trk_plus", "Dphi_EP4_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_EP4_trk_plus = new THnSparseD("Dphi_EP4_trk_plus", "Dphi_EP4_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+
+THnSparseD *Dphi_EP2_flat_trk_minus = new THnSparseD("Dphi_EP2_flat_trk_minus", "Dphi_EP2_flat_trk_minus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_EP2_flat_trk_plus = new THnSparseD("Dphi_EP2_flat_trk_plus", "Dphi_EP2_flat_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_EP3_flat_trk_minus = new THnSparseD("Dphi_EP3_flat_trk_minus", "Dphi_EP3_flat_trk_minus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_EP3_flat_trk_plus = new THnSparseD("Dphi_EP3_flat_trk_plus", "Dphi_EP3_flat_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_EP4_flat_trk_minus = new THnSparseD("Dphi_EP4_flat_trk_plus", "Dphi_EP4_flat_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_EP4_flat_trk_plus = new THnSparseD("Dphi_EP4_flat_trk_plus", "Dphi_EP4_flat_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+
+THnSparseD *Dphi_GEN_EP2_trk_minus = new THnSparseD("Dphi_GEN_EP2_trk_minus", "Dphi_GEN_EP2_trk_minus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_GEN_EP2_trk_plus = new THnSparseD("Dphi_GEN_EP2_trk_plus", "Dphi_GEN_EP2_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_GEN_EP3_trk_minus = new THnSparseD("Dphi_GEN_EP3_trk_minus", "Dphi_GEN_EP3_trk_minus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_GEN_EP3_trk_plus = new THnSparseD("Dphi_GEN_EP3_trk_plus", "Dphi_GEN_EP3_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_GEN_EP4_trk_minus = new THnSparseD("Dphi_GEN_EP4_trk_plus", "Dphi_GEN_EP4_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_GEN_EP4_trk_plus = new THnSparseD("Dphi_GEN_EP4_trk_plus", "Dphi_GEN_EP4_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+
+THnSparseD *Dphi_GEN_EP2_flat_trk_minus = new THnSparseD("Dphi_GEN_EP2_flat_trk_minus", "Dphi_GEN_EP2_flat_trk_minus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_GEN_EP2_flat_trk_plus = new THnSparseD("Dphi_GEN_EP2_flat_trk_plus", "Dphi_GEN_EP2_flat_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_GEN_EP3_flat_trk_minus = new THnSparseD("Dphi_GEN_EP3_flat_trk_minus", "Dphi_GEN_EP3_flat_trk_minus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_GEN_EP3_flat_trk_plus = new THnSparseD("Dphi_GEN_EP3_flat_trk_plus", "Dphi_GEN_EP3_flat_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_GEN_EP4_flat_trk_minus = new THnSparseD("Dphi_GEN_EP4_flat_trk_plus", "Dphi_GEN_EP4_flat_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_GEN_EP4_flat_trk_plus = new THnSparseD("Dphi_GEN_EP4_flat_trk_plus", "Dphi_GEN_EP4_flat_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+
+//correlations to EP
+// Axis : X -> delta phi, Y -> multiplicity bins
+TH2D *Dphi_EP2_inclusive_minus = new TH2D("Dphi_EP2_inclusive_minus", "Dphi_EP2_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_EP2_leading_minus = new TH2D("Dphi_EP2_leading_minus", "Dphi_EP2_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_EP2_subleading_minus = new TH2D("Dphi_EP2_subleading_minus", "Dphi_EP2_subleading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_EP2_inclusive_plus = new TH2D("Dphi_EP2_inclusive_plus", "Dphi_EP2_inclusive_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_EP2_leading_plus = new TH2D("Dphi_EP2_leading_plus", "Dphi_EP2_leading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_EP2_subleading_plus = new TH2D("Dphi_EP2_subleading_plus", "Dphi_EP2_subleading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+
+TH2D *Dphi_EP3_inclusive_minus = new TH2D("Dphi_EP3_inclusive_minus", "Dphi_EP3_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_EP3_leading_minus = new TH2D("Dphi_EP3_leading_minus", "Dphi_EP3_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_EP3_subleading_minus = new TH2D("Dphi_EP3_subleading_minus", "Dphi_EP3_subleading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_EP3_inclusive_plus = new TH2D("Dphi_EP3_inclusive_plus", "Dphi_EP3_inclusive_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_EP3_leading_plus = new TH2D("Dphi_EP3_leading_plus", "Dphi_EP3_leading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_EP3_subleading_plus = new TH2D("Dphi_EP3_subleading_plus", "Dphi_EP3_subleading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+
+TH2D *Dphi_EP4_inclusive_minus = new TH2D("Dphi_EP4_inclusive_minus", "Dphi_EP4_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_EP4_leading_minus = new TH2D("Dphi_EP4_leading_minus", "Dphi_EP4_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_EP4_subleading_minus = new TH2D("Dphi_EP4_subleading_minus", "Dphi_EP4_subleading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_EP4_inclusive_plus = new TH2D("Dphi_EP4_inclusive_plus", "Dphi_EP4_inclusive_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_EP4_leading_plus = new TH2D("Dphi_EP4_leading_plus", "Dphi_EP4_leading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_EP4_subleading_plus = new TH2D("Dphi_EP4_subleading_plus", "Dphi_EP4_subleading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+
+TH2D *Dphi_flat_EP2_inclusive_minus = new TH2D("Dphi_flat_EP2_inclusive_minus", "Dphi_flat_EP2_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_flat_EP2_leading_minus = new TH2D("Dphi_flat_EP2_leading_minus", "Dphi_flat_EP2_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_flat_EP2_subleading_minus = new TH2D("Dphi_flat_EP2_subleading_minus", "Dphi_flat_EP2_subleading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_flat_EP2_inclusive_plus = new TH2D("Dphi_flat_EP2_inclusive_plus", "Dphi_flat_EP2_inclusive_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_flat_EP2_leading_plus = new TH2D("Dphi_flat_EP2_leading_plus", "Dphi_flat_EP2_leading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_flat_EP2_subleading_plus = new TH2D("Dphi_flat_EP2_subleading_plus", "Dphi_flat_EP2_subleading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+
+TH2D *Dphi_flat_EP3_inclusive_minus = new TH2D("Dphi_flat_EP3_inclusive_minus", "Dphi_flat_EP3_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_flat_EP3_leading_minus = new TH2D("Dphi_flat_EP3_leading_minus", "Dphi_flat_EP3_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_flat_EP3_subleading_minus = new TH2D("Dphi_flat_EP3_subleading_minus", "Dphi_flat_EP3_subleading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_flat_EP3_inclusive_plus = new TH2D("Dphi_flat_EP3_inclusive_plus", "Dphi_flat_EP3_inclusive_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_flat_EP3_leading_plus = new TH2D("Dphi_flat_EP3_leading_plus", "Dphi_flat_EP3_leading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_flat_EP3_subleading_plus = new TH2D("Dphi_flat_EP3_subleading_plus", "Dphi_flat_EP3_subleading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+
+TH2D *Dphi_flat_EP4_inclusive_minus = new TH2D("Dphi_flat_EP4_inclusive_minus", "Dphi_flat_EP4_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_flat_EP4_leading_minus = new TH2D("Dphi_flat_EP4_leading_minus", "Dphi_flat_EP4_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_flat_EP4_subleading_minus = new TH2D("Dphi_flat_EP4_subleading_minus", "Dphi_flat_EP4_subleading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_flat_EP4_inclusive_plus = new TH2D("Dphi_flat_EP4_inclusive_plus", "Dphi_flat_EP4_inclusive_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_flat_EP4_leading_plus = new TH2D("Dphi_flat_EP4_leading_plus", "Dphi_flat_EP4_leading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_flat_EP4_subleading_plus = new TH2D("Dphi_flat_EP4_subleading_plus", "Dphi_flat_EP4_subleading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+
+TH2D *Dphi_GEN_EP2_inclusive_minus = new TH2D("Dphi_GEN_EP2_inclusive_minus", "Dphi_GEN_EP2_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_EP2_leading_minus = new TH2D("Dphi_GEN_EP2_leading_minus", "Dphi_GEN_EP2_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_EP2_subleading_minus = new TH2D("Dphi_GEN_EP2_subleading_minus", "Dphi_GEN_EP2_subleading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_EP2_inclusive_plus = new TH2D("Dphi_GEN_EP2_inclusive_plus", "Dphi_GEN_EP2_inclusive_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_EP2_leading_plus = new TH2D("Dphi_GEN_EP2_leading_plus", "Dphi_GEN_EP2_leading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_EP2_subleading_plus = new TH2D("Dphi_GEN_EP2_subleading_plus", "Dphi_GEN_EP2_subleading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+
+TH2D *Dphi_GEN_EP3_inclusive_minus = new TH2D("Dphi_GEN_EP3_inclusive_minus", "Dphi_GEN_EP3_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_EP3_leading_minus = new TH2D("Dphi_GEN_EP3_leading_minus", "Dphi_GEN_EP3_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_EP3_subleading_minus = new TH2D("Dphi_GEN_EP3_subleading_minus", "Dphi_GEN_EP3_subleading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_EP3_inclusive_plus = new TH2D("Dphi_GEN_EP3_inclusive_plus", "Dphi_GEN_EP3_inclusive_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_EP3_leading_plus = new TH2D("Dphi_GEN_EP3_leading_plus", "Dphi_GEN_EP3_leading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_EP3_subleading_plus = new TH2D("Dphi_GEN_EP3_subleading_plus", "Dphi_GEN_EP3_subleading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+
+TH2D *Dphi_GEN_EP4_inclusive_minus = new TH2D("Dphi_GEN_EP4_inclusive_minus", "Dphi_GEN_EP4_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_EP4_leading_minus = new TH2D("Dphi_GEN_EP4_leading_minus", "Dphi_GEN_EP4_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_EP4_subleading_minus = new TH2D("Dphi_GEN_EP4_subleading_minus", "Dphi_GEN_EP4_subleading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_EP4_inclusive_plus = new TH2D("Dphi_GEN_EP4_inclusive_plus", "Dphi_GEN_EP4_inclusive_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_EP4_leading_plus = new TH2D("Dphi_GEN_EP4_leading_plus", "Dphi_GEN_EP4_leading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_EP4_subleading_plus = new TH2D("Dphi_GEN_EP4_subleading_plus", "Dphi_GEN_EP4_subleading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+
+TH2D *Dphi_GEN_flat_EP2_inclusive_minus = new TH2D("Dphi_GEN_flat_EP2_inclusive_minus", "Dphi_GEN_flat_EP2_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_flat_EP2_leading_minus = new TH2D("Dphi_GEN_flat_EP2_leading_minus", "Dphi_GEN_flat_EP2_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_flat_EP2_subleading_minus = new TH2D("Dphi_GEN_flat_EP2_subleading_minus", "Dphi_GEN_flat_EP2_subleading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_flat_EP2_inclusive_plus = new TH2D("Dphi_GEN_flat_EP2_inclusive_plus", "Dphi_GEN_flat_EP2_inclusive_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_flat_EP2_leading_plus = new TH2D("Dphi_GEN_flat_EP2_leading_plus", "Dphi_GEN_flat_EP2_leading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_flat_EP2_subleading_plus = new TH2D("Dphi_GEN_flat_EP2_subleading_plus", "Dphi_GEN_flat_EP2_subleading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+
+TH2D *Dphi_GEN_flat_EP3_inclusive_minus = new TH2D("Dphi_GEN_flat_EP3_inclusive_minus", "Dphi_GEN_flat_EP3_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_flat_EP3_leading_minus = new TH2D("Dphi_GEN_flat_EP3_leading_minus", "Dphi_GEN_flat_EP3_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_flat_EP3_subleading_minus = new TH2D("Dphi_GEN_flat_EP3_subleading_minus", "Dphi_GEN_flat_EP3_subleading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_flat_EP3_inclusive_plus = new TH2D("Dphi_GEN_flat_EP3_inclusive_plus", "Dphi_GEN_flat_EP3_inclusive_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_flat_EP3_leading_plus = new TH2D("Dphi_GEN_flat_EP3_leading_plus", "Dphi_GEN_flat_EP3_leading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_flat_EP3_subleading_plus = new TH2D("Dphi_GEN_flat_EP3_subleading_plus", "Dphi_GEN_flat_EP3_subleading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+
+TH2D *Dphi_GEN_flat_EP4_inclusive_minus = new TH2D("Dphi_GEN_flat_EP4_inclusive_minus", "Dphi_GEN_flat_EP4_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_flat_EP4_leading_minus = new TH2D("Dphi_GEN_flat_EP4_leading_minus", "Dphi_GEN_flat_EP4_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_flat_EP4_subleading_minus = new TH2D("Dphi_GEN_flat_EP4_subleading_minus", "Dphi_GEN_flat_EP4_subleading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_flat_EP4_inclusive_plus = new TH2D("Dphi_GEN_flat_EP4_inclusive_plus", "Dphi_GEN_flat_EP4_inclusive_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_flat_EP4_leading_plus = new TH2D("Dphi_GEN_flat_EP4_leading_plus", "Dphi_GEN_flat_EP4_leading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *Dphi_GEN_flat_EP4_subleading_plus = new TH2D("Dphi_GEN_flat_EP4_subleading_plus", "Dphi_GEN_flat_EP4_subleading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
+
 
 // Track/Particle histograms
 int    bins4D_trk[4]   =   { 500   ,  50  ,   64           , multbinsize-1};
@@ -205,39 +399,6 @@ THnSparseD *hist_correlation_signal_subl_jet_gen_track_gen = new THnSparseD("his
 THnSparseD *hist_correlation_rotation_subl_jet_gen_track_gen = new THnSparseD("hist_correlation_rotation_subl_jet_gen_track_gen","hist_correlation_rotation_subl_jet_gen_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
 THnSparseD *hist_correlation_mixing_subl_jet_gen_track_gen = new THnSparseD("hist_correlation_mixing_subl_jet_gen_track_gen","hist_correlation_mixing_subl_jet_gen_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
 
-// Correlation: Ref Jet + Ref Track
-THnSparseD *hist_correlation_signal_jet_ref_track_ref = new THnSparseD("hist_correlation_signal_jet_ref_track_ref","hist_correlation_signal_jet_ref_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_rotation_jet_ref_track_ref = new THnSparseD("hist_correlation_rotation_jet_ref_track_ref","hist_correlation_rotation_jet_ref_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_mixing_jet_ref_track_ref = new THnSparseD("hist_correlation_mixing_jet_ref_track_ref","hist_correlation_mixing_jet_ref_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_signal_lead_jet_ref_track_ref = new THnSparseD("hist_correlation_signal_lead_jet_ref_track_ref","hist_correlation_signal_lead_jet_ref_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_rotation_lead_jet_ref_track_ref = new THnSparseD("hist_correlation_rotation_lead_jet_ref_track_ref","hist_correlation_rotation_lead_jet_ref_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_mixing_lead_jet_ref_track_ref = new THnSparseD("hist_correlation_mixing_lead_jet_ref_track_ref","hist_correlation_mixing_lead_jet_ref_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_signal_subl_jet_ref_track_ref = new THnSparseD("hist_correlation_signal_subl_jet_ref_track_ref","hist_correlation_signal_subl_jet_ref_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_rotation_subl_jet_ref_track_ref = new THnSparseD("hist_correlation_rotation_subl_jet_ref_track_ref","hist_correlation_rotation_subl_jet_ref_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_mixing_subl_jet_ref_track_ref = new THnSparseD("hist_correlation_mixing_subl_jet_ref_track_ref","hist_correlation_mixing_subl_jet_ref_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-
-// Correlation: Ref Jet + Gen Track
-THnSparseD *hist_correlation_signal_jet_ref_track_gen = new THnSparseD("hist_correlation_signal_jet_ref_track_gen","hist_correlation_signal_jet_ref_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_rotation_jet_ref_track_gen = new THnSparseD("hist_correlation_rotation_jet_ref_track_gen","hist_correlation_rotation_jet_ref_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_mixing_jet_ref_track_gen = new THnSparseD("hist_correlation_mixing_jet_ref_track_gen","hist_correlation_mixing_jet_ref_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_signal_lead_jet_ref_track_gen = new THnSparseD("hist_correlation_signal_lead_jet_ref_track_gen","hist_correlation_signal_lead_jet_ref_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_rotation_lead_jet_ref_track_gen = new THnSparseD("hist_correlation_rotation_lead_jet_ref_track_gen","hist_correlation_rotation_lead_jet_ref_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_mixing_lead_jet_ref_track_gen = new THnSparseD("hist_correlation_mixing_lead_jet_ref_track_gen","hist_correlation_mixing_lead_jet_ref_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_signal_subl_jet_ref_track_gen = new THnSparseD("hist_correlation_signal_subl_jet_ref_track_gen","hist_correlation_signal_subl_jet_ref_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_rotation_subl_jet_ref_track_gen = new THnSparseD("hist_correlation_rotation_subl_jet_ref_track_gen","hist_correlation_rotation_subl_jet_ref_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_mixing_subl_jet_ref_track_gen = new THnSparseD("hist_correlation_mixing_subl_jet_ref_track_gen","hist_correlation_mixing_subl_jet_ref_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-
-// Correlation: Gen Jet + Ref Track
-THnSparseD *hist_correlation_signal_jet_gen_track_ref = new THnSparseD("hist_correlation_signal_jet_gen_track_ref","hist_correlation_signal_jet_gen_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_rotation_jet_gen_track_ref = new THnSparseD("hist_correlation_rotation_jet_gen_track_ref","hist_correlation_rotation_jet_gen_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_mixing_jet_gen_track_ref = new THnSparseD("hist_correlation_mixing_jet_gen_track_ref","hist_correlation_mixing_jet_gen_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_signal_lead_jet_gen_track_ref = new THnSparseD("hist_correlation_signal_lead_jet_gen_track_ref","hist_correlation_signal_lead_jet_gen_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_rotation_lead_jet_gen_track_ref = new THnSparseD("hist_correlation_rotation_lead_jet_gen_track_ref","hist_correlation_rotation_lead_jet_gen_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_mixing_lead_jet_gen_track_ref = new THnSparseD("hist_correlation_mixing_lead_jet_gen_track_ref","hist_correlation_mixing_lead_jet_gen_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_signal_subl_jet_gen_track_ref = new THnSparseD("hist_correlation_signal_subl_jet_gen_track_ref","hist_correlation_signal_subl_jet_gen_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_rotation_subl_jet_gen_track_ref = new THnSparseD("hist_correlation_rotation_subl_jet_gen_track_ref","hist_correlation_rotation_subl_jet_gen_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_correlation_mixing_subl_jet_gen_track_ref = new THnSparseD("hist_correlation_mixing_subl_jet_gen_track_ref","hist_correlation_mixing_subl_jet_gen_track_ref",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-
 // Correlation: Include sube > 0
 THnSparseD *hist_correlation_signal_subg0_jet_reco_track_reco = new THnSparseD("hist_correlation_signal_subg0_jet_reco_track_reco","hist_correlation_signal_subg0_jet_reco_track_reco",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
 THnSparseD *hist_correlation_signal_subg0_jet_reco_track_gen = new THnSparseD("hist_correlation_signal_subg0_jet_reco_track_gen","hist_correlation_signal_subg0_jet_reco_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
@@ -253,6 +414,18 @@ THnSparseD *hist_correlation_signal_subg0_subl_jet_reco_track_reco = new THnSpar
 THnSparseD *hist_correlation_signal_subg0_subl_jet_reco_track_gen = new THnSparseD("hist_correlation_signal_subg0_subl_jet_reco_track_gen","hist_correlation_signal_subg0_subl_jet_reco_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
 THnSparseD *hist_correlation_signal_subg0_subl_jet_gen_track_reco = new THnSparseD("hist_correlation_signal_subg0_subl_jet_gen_track_reco","hist_correlation_signal_subg0_subl_jet_gen_track_reco",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
 THnSparseD *hist_correlation_signal_subg0_subl_jet_gen_track_gen = new THnSparseD("hist_correlation_signal_subg0_subl_jet_gen_track_gen","hist_correlation_signal_subg0_subl_jet_gen_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+
+// 2 particle correlations for flow analysis
+THnSparseD *hist_reco_reco_2pcorrelation_signal = new THnSparseD("hist_reco_reco_2pcorrelation_signal","hist_reco_reco_2pcorrelation_signal",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_reco_reco_2pcorrelation_signal_subg0 = new THnSparseD("hist_reco_reco_2pcorrelation_signal_subg0","hist_reco_reco_2pcorrelation_signal_subg0",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_reco_reco_2pcorrelation_signal_subcross = new THnSparseD("hist_reco_reco_2pcorrelation_signal_subcross","hist_reco_reco_2pcorrelation_signal_subcross",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_reco_reco_2pcorrelation_mixing = new THnSparseD("hist_reco_reco_2pcorrelation_mixing","hist_reco_reco_2pcorrelation_mixing",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+
+THnSparseD *hist_gen_gen_2pcorrelation_signal = new THnSparseD("hist_gen_gen_2pcorrelation_signal","hist_gen_gen_2pcorrelation_signal",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_gen_gen_2pcorrelation_signal_subg0 = new THnSparseD("hist_gen_gen_2pcorrelation_signal_subg0","hist_gen_gen_2pcorrelation_signal_subg0",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_gen_gen_2pcorrelation_signal_subcross = new THnSparseD("hist_gen_gen_2pcorrelation_signal_subcross","hist_gen_gen_2pcorrelation_signal_subcross",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+THnSparseD *hist_gen_gen_2pcorrelation_mixing = new THnSparseD("hist_gen_gen_2pcorrelation_mixing","hist_gen_gen_2pcorrelation_mixing",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+
 
 // histograms for matched jets and parton flavor studies
 TH1D *hist_matched_jet_weighted_nocut = new TH1D("hist_matched_jet_weighted_nocut", "hist_matched_jet_weighted_nocut", 100, 0.0, 500.0);
@@ -308,12 +481,46 @@ void sw2(){
 	Nev_gengen->Sumw2();
 	Nev_gengen_lead->Sumw2();
 	Nev_gengen_subl->Sumw2();
+	gen_mult->Sumw2();
+	gen_mult_weighted->Sumw2();
+	reco_mult->Sumw2();
+	reco_mult_weighted->Sumw2();
     multiplicity->Sumw2();
    	multiplicity_weighted->Sumw2();
     vzhist->Sumw2();
    	vzhist_weighted->Sumw2();
     pthathist->Sumw2();
     pthathist_weighted->Sumw2();
+	hfplushist->Sumw2();
+	hfplushist_weighted->Sumw2();
+	hfminushist->Sumw2();
+	hfminushist_weighted->Sumw2();
+	zdcplushist->Sumw2();
+	zdcplushist_weighted->Sumw2();
+	zdcminushist->Sumw2();
+	zdcminushist_weighted->Sumw2();
+	multiplicity_withonejet50->Sumw2();
+	multiplicity_withonejet80->Sumw2();
+	multiplicity_withonejet->Sumw2();
+	multiplicity_withonejet_weighted->Sumw2();
+	reco_mult_withonejet->Sumw2();
+	reco_mult_withonejet_weighted->Sumw2();
+	gen_mult_withonejet->Sumw2();
+	gen_mult_withonejet_weighted->Sumw2();
+	hfplushist_withonejet->Sumw2();
+	hfplushist_withonejet_weighted->Sumw2();
+	hfminushist_withonejet->Sumw2();
+	hfminushist_withonejet_weighted->Sumw2();
+	multiplicity_withdijets->Sumw2();
+	multiplicity_withdijets_weighted->Sumw2();
+	reco_mult_withdijets->Sumw2();
+	reco_mult_withdijets_weighted->Sumw2();
+	gen_mult_withdijets->Sumw2();
+	gen_mult_withdijets_weighted->Sumw2();
+	hfplushist_withdijets->Sumw2();
+	hfplushist_withdijets_weighted->Sumw2();
+	hfminushist_withdijets->Sumw2();
+	hfminushist_withdijets_weighted->Sumw2();
 	hist_reco_trk->Sumw2();
 	hist_reco_trk_corr->Sumw2();
 	hist_reco_trk_weighted->Sumw2();
@@ -466,6 +673,122 @@ void sw2(){
 	hist_jer_raw_fromB_weighted->Sumw2();
 	hist_jer_reco_fromB->Sumw2();
 	hist_jer_reco_fromB_weighted->Sumw2();
+	hist_reco_reco_2pcorrelation_signal->Sumw2();
+	hist_reco_reco_2pcorrelation_signal_subg0->Sumw2();
+	hist_reco_reco_2pcorrelation_signal_subcross->Sumw2();
+	hist_reco_reco_2pcorrelation_mixing->Sumw2();
+	hist_gen_gen_2pcorrelation_signal->Sumw2();
+	hist_gen_gen_2pcorrelation_signal_subg0->Sumw2();
+	hist_gen_gen_2pcorrelation_signal_subcross->Sumw2();
+	hist_gen_gen_2pcorrelation_mixing->Sumw2();
+	EP2_plus->Sumw2();
+	EP2_minus->Sumw2();
+	EP3_plus->Sumw2();
+	EP3_minus->Sumw2();
+	EP4_plus->Sumw2();
+	EP4_minus->Sumw2();
+	EP2_plus_flat->Sumw2();
+	EP2_minus_flat->Sumw2();
+	EP3_plus_flat->Sumw2();
+	EP3_minus_flat->Sumw2();
+	EP4_plus_flat->Sumw2();
+	EP4_minus_flat->Sumw2();
+	Dphi_EP2_inclusive_minus->Sumw2();
+	Dphi_EP2_leading_minus->Sumw2();
+	Dphi_EP2_subleading_minus->Sumw2();
+	Dphi_EP2_inclusive_plus->Sumw2();
+	Dphi_EP2_leading_plus->Sumw2();
+	Dphi_EP2_subleading_plus->Sumw2();
+	Dphi_EP3_inclusive_minus->Sumw2();
+	Dphi_EP3_leading_minus->Sumw2();
+	Dphi_EP3_subleading_minus->Sumw2();
+	Dphi_EP3_inclusive_plus->Sumw2();
+	Dphi_EP3_leading_plus->Sumw2();
+	Dphi_EP3_subleading_plus->Sumw2();
+	Dphi_EP4_inclusive_minus->Sumw2();
+	Dphi_EP4_leading_minus->Sumw2();
+	Dphi_EP4_subleading_minus->Sumw2();
+	Dphi_EP4_inclusive_plus->Sumw2();
+	Dphi_EP4_leading_plus->Sumw2();
+	Dphi_EP4_subleading_plus->Sumw2();
+	Dphi_flat_EP2_inclusive_minus->Sumw2();
+	Dphi_flat_EP2_leading_minus->Sumw2();
+	Dphi_flat_EP2_subleading_minus->Sumw2();
+	Dphi_flat_EP2_inclusive_plus->Sumw2();
+	Dphi_flat_EP2_leading_plus->Sumw2();
+	Dphi_flat_EP2_subleading_plus->Sumw2();
+	Dphi_flat_EP3_inclusive_minus->Sumw2();
+	Dphi_flat_EP3_leading_minus->Sumw2();
+	Dphi_flat_EP3_subleading_minus->Sumw2();
+	Dphi_flat_EP3_inclusive_plus->Sumw2();
+	Dphi_flat_EP3_leading_plus->Sumw2();
+	Dphi_flat_EP3_subleading_plus->Sumw2();
+	Dphi_flat_EP4_inclusive_minus->Sumw2();
+	Dphi_flat_EP4_leading_minus->Sumw2();
+	Dphi_flat_EP4_subleading_minus->Sumw2();
+	Dphi_flat_EP4_inclusive_plus->Sumw2();
+	Dphi_flat_EP4_leading_plus->Sumw2();
+	Dphi_flat_EP4_subleading_plus->Sumw2();
+	Dphi_GEN_EP2_inclusive_minus->Sumw2();
+	Dphi_GEN_EP2_leading_minus->Sumw2();
+	Dphi_GEN_EP2_subleading_minus->Sumw2();
+	Dphi_GEN_EP2_inclusive_plus->Sumw2();
+	Dphi_GEN_EP2_leading_plus->Sumw2();
+	Dphi_GEN_EP2_subleading_plus->Sumw2();
+	Dphi_GEN_EP3_inclusive_minus->Sumw2();
+	Dphi_GEN_EP3_leading_minus->Sumw2();
+	Dphi_GEN_EP3_subleading_minus->Sumw2();
+	Dphi_GEN_EP3_inclusive_plus->Sumw2();
+	Dphi_GEN_EP3_leading_plus->Sumw2();
+	Dphi_GEN_EP3_subleading_plus->Sumw2();
+	Dphi_GEN_EP4_inclusive_minus->Sumw2();
+	Dphi_GEN_EP4_leading_minus->Sumw2();
+	Dphi_GEN_EP4_subleading_minus->Sumw2();
+	Dphi_GEN_EP4_inclusive_plus->Sumw2();
+	Dphi_GEN_EP4_leading_plus->Sumw2();
+	Dphi_GEN_EP4_subleading_plus->Sumw2();
+	Dphi_GEN_flat_EP2_inclusive_minus->Sumw2();
+	Dphi_GEN_flat_EP2_leading_minus->Sumw2();
+	Dphi_GEN_flat_EP2_subleading_minus->Sumw2();
+	Dphi_GEN_flat_EP2_inclusive_plus->Sumw2();
+	Dphi_GEN_flat_EP2_leading_plus->Sumw2();
+	Dphi_GEN_flat_EP2_subleading_plus->Sumw2();
+	Dphi_GEN_flat_EP3_inclusive_minus->Sumw2();
+	Dphi_GEN_flat_EP3_leading_minus->Sumw2();
+	Dphi_GEN_flat_EP3_subleading_minus->Sumw2();
+	Dphi_GEN_flat_EP3_inclusive_plus->Sumw2();
+	Dphi_GEN_flat_EP3_leading_plus->Sumw2();
+	Dphi_GEN_flat_EP3_subleading_plus->Sumw2();
+	Dphi_GEN_flat_EP4_inclusive_minus->Sumw2();
+	Dphi_GEN_flat_EP4_leading_minus->Sumw2();
+	Dphi_GEN_flat_EP4_subleading_minus->Sumw2();
+	Dphi_GEN_flat_EP4_inclusive_plus->Sumw2();
+	Dphi_GEN_flat_EP4_leading_plus->Sumw2();
+	Dphi_GEN_flat_EP4_subleading_plus->Sumw2();
+	Dphi_EP2_trk_minus->Sumw2();
+	Dphi_EP2_trk_plus->Sumw2();
+	Dphi_EP3_trk_minus->Sumw2();
+	Dphi_EP3_trk_plus->Sumw2();
+	Dphi_EP4_trk_minus->Sumw2();
+	Dphi_EP4_trk_plus->Sumw2();
+	Dphi_GEN_EP2_trk_minus->Sumw2();
+	Dphi_GEN_EP2_trk_plus->Sumw2();
+	Dphi_GEN_EP3_trk_minus->Sumw2();
+	Dphi_GEN_EP3_trk_plus->Sumw2();
+	Dphi_GEN_EP4_trk_minus->Sumw2();
+	Dphi_GEN_EP4_trk_plus->Sumw2();
+	Dphi_EP2_flat_trk_minus->Sumw2();
+	Dphi_EP2_flat_trk_plus->Sumw2();
+	Dphi_EP3_flat_trk_minus->Sumw2();
+	Dphi_EP3_flat_trk_plus->Sumw2();
+	Dphi_EP4_flat_trk_minus->Sumw2();
+	Dphi_EP4_flat_trk_plus->Sumw2();
+	Dphi_GEN_EP2_flat_trk_minus->Sumw2();
+	Dphi_GEN_EP2_flat_trk_plus->Sumw2();
+	Dphi_GEN_EP3_flat_trk_minus->Sumw2();
+	Dphi_GEN_EP3_flat_trk_plus->Sumw2();
+	Dphi_GEN_EP4_flat_trk_minus->Sumw2();
+	Dphi_GEN_EP4_flat_trk_plus->Sumw2();
 
 }
 
@@ -494,7 +817,11 @@ void w_QA_hist(bool isMC, bool doleadsubl){
 			Nev_genreco_subl->Write();
 			Nev_gengen_subl->Write();
 		}
+	gen_mult->Write();
+	gen_mult_weighted->Write();
 	}
+	reco_mult->Write();
+	reco_mult_weighted->Write();
     multiplicity->Write();
    	multiplicity_weighted->Write();
     vzhist->Write();
@@ -503,6 +830,40 @@ void w_QA_hist(bool isMC, bool doleadsubl){
         pthathist->Write();
         pthathist_weighted->Write();
     }
+	hfplushist->Write();
+	hfplushist_weighted->Write();
+	hfminushist->Write();
+	hfminushist_weighted->Write();
+	zdcplushist->Write();
+	zdcplushist_weighted->Write();
+	zdcminushist->Write();
+	zdcminushist_weighted->Write();
+	multiplicity_withonejet50->Write();
+	multiplicity_withonejet80->Write();
+	multiplicity_withonejet->Write();
+	multiplicity_withonejet_weighted->Write();
+	reco_mult_withonejet->Write();
+	reco_mult_withonejet_weighted->Write();
+	if(isMC){
+		gen_mult_withonejet->Write();
+		gen_mult_withonejet_weighted->Write();
+	}
+	hfplushist_withonejet->Write();
+	hfplushist_withonejet_weighted->Write();
+	hfminushist_withonejet->Write();
+	hfminushist_withonejet_weighted->Write();
+	multiplicity_withdijets->Write();
+	multiplicity_withdijets_weighted->Write();
+	reco_mult_withdijets->Write();
+	reco_mult_withdijets_weighted->Write();
+	if(isMC){
+		gen_mult_withdijets->Write();
+		gen_mult_withdijets_weighted->Write();
+	}
+	hfplushist_withdijets->Write();
+	hfplushist_withdijets_weighted->Write();
+	hfminushist_withdijets->Write();
+	hfminushist_withdijets_weighted->Write();
     //tracks 
     //reco
 	hist_reco_trk->Write();
@@ -782,7 +1143,164 @@ void w_jes_jer_hist(){
 	hist_jer_reco_fromB_weighted->Write();
 }
 
+// Reco-Reco correlation histograms
+/*
+--> Arguments
+mixing: true when doing mixing reference sample otherwise is false
+rotation: true when doing rotation reference sample otherwise is false
+doinclusive: in the case of measuring inclusive jet correlation
+doleadsubl: in the case of measuring leading and subleading jet correlation
+*/
+void w_2pc_hist(bool isMC, bool mixing){
+	hist_reco_reco_2pcorrelation_signal->Write();
+	hist_reco_reco_2pcorrelation_signal_subg0->Write();
+	hist_reco_reco_2pcorrelation_signal_subcross->Write();
+	if(mixing) hist_reco_reco_2pcorrelation_mixing->Write();
+	if(isMC){
+		hist_gen_gen_2pcorrelation_signal->Write();
+		hist_gen_gen_2pcorrelation_signal_subg0->Write();
+		hist_gen_gen_2pcorrelation_signal_subcross->Write();
+		if(mixing) hist_gen_gen_2pcorrelation_mixing->Write();
+	}
+}
 
+
+// event plane histograms
+void w_ep_hist(bool isMC){ 
+
+	EP2_plus->Write();
+	EP2_minus->Write();
+	EP3_plus->Write();
+	EP3_minus->Write();
+	EP4_plus->Write();
+	EP4_minus->Write();
+
+	EP2_plus_flat->Write();
+	EP2_minus_flat->Write();
+	EP3_plus_flat->Write();
+	EP3_minus_flat->Write();
+	EP4_plus_flat->Write();
+	EP4_minus_flat->Write();
+
+	Dphi_EP2_inclusive_minus->Write();
+	Dphi_EP2_leading_minus->Write();
+	Dphi_EP2_subleading_minus->Write();
+	Dphi_EP2_inclusive_plus->Write();
+	Dphi_EP2_leading_plus->Write();
+	Dphi_EP2_subleading_plus->Write();
+
+	Dphi_EP3_inclusive_minus->Write();
+	Dphi_EP3_leading_minus->Write();
+	Dphi_EP3_subleading_minus->Write();
+	Dphi_EP3_inclusive_plus->Write();
+	Dphi_EP3_leading_plus->Write();
+	Dphi_EP3_subleading_plus->Write();
+
+	Dphi_EP4_inclusive_minus->Write();
+	Dphi_EP4_leading_minus->Write();
+	Dphi_EP4_subleading_minus->Write();
+	Dphi_EP4_inclusive_plus->Write();
+	Dphi_EP4_leading_plus->Write();
+	Dphi_EP4_subleading_plus->Write();
+
+	Dphi_flat_EP2_inclusive_minus->Write();
+	Dphi_flat_EP2_leading_minus->Write();
+	Dphi_flat_EP2_subleading_minus->Write();
+	Dphi_flat_EP2_inclusive_plus->Write();
+	Dphi_flat_EP2_leading_plus->Write();
+	Dphi_flat_EP2_subleading_plus->Write();
+
+	Dphi_flat_EP3_inclusive_minus->Write();
+	Dphi_flat_EP3_leading_minus->Write();
+	Dphi_flat_EP3_subleading_minus->Write();
+	Dphi_flat_EP3_inclusive_plus->Write();
+	Dphi_flat_EP3_leading_plus->Write();
+	Dphi_flat_EP3_subleading_plus->Write();
+
+	Dphi_flat_EP4_inclusive_minus->Write();
+	Dphi_flat_EP4_leading_minus->Write();
+	Dphi_flat_EP4_subleading_minus->Write();
+	Dphi_flat_EP4_inclusive_plus->Write();
+	Dphi_flat_EP4_leading_plus->Write();
+	Dphi_flat_EP4_subleading_plus->Write();
+	
+	if(isMC){
+	
+		Dphi_GEN_EP2_inclusive_minus->Write();
+		Dphi_GEN_EP2_leading_minus->Write();
+		Dphi_GEN_EP2_subleading_minus->Write();
+		Dphi_GEN_EP2_inclusive_plus->Write();
+		Dphi_GEN_EP2_leading_plus->Write();
+		Dphi_GEN_EP2_subleading_plus->Write();
+
+		Dphi_GEN_EP3_inclusive_minus->Write();
+		Dphi_GEN_EP3_leading_minus->Write();
+		Dphi_GEN_EP3_subleading_minus->Write();
+		Dphi_GEN_EP3_inclusive_plus->Write();
+		Dphi_GEN_EP3_leading_plus->Write();
+		Dphi_GEN_EP3_subleading_plus->Write();
+
+		Dphi_GEN_EP4_inclusive_minus->Write();
+		Dphi_GEN_EP4_leading_minus->Write();
+		Dphi_GEN_EP4_subleading_minus->Write();
+		Dphi_GEN_EP4_inclusive_plus->Write();
+		Dphi_GEN_EP4_leading_plus->Write();
+		Dphi_GEN_EP4_subleading_plus->Write();
+
+		Dphi_GEN_flat_EP2_inclusive_minus->Write();
+		Dphi_GEN_flat_EP2_leading_minus->Write();
+		Dphi_GEN_flat_EP2_subleading_minus->Write();
+		Dphi_GEN_flat_EP2_inclusive_plus->Write();
+		Dphi_GEN_flat_EP2_leading_plus->Write();
+		Dphi_GEN_flat_EP2_subleading_plus->Write();
+
+		Dphi_GEN_flat_EP3_inclusive_minus->Write();
+		Dphi_GEN_flat_EP3_leading_minus->Write();
+		Dphi_GEN_flat_EP3_subleading_minus->Write();
+		Dphi_GEN_flat_EP3_inclusive_plus->Write();
+		Dphi_GEN_flat_EP3_leading_plus->Write();
+		Dphi_GEN_flat_EP3_subleading_plus->Write();
+
+		Dphi_GEN_flat_EP4_inclusive_minus->Write();
+		Dphi_GEN_flat_EP4_leading_minus->Write();
+		Dphi_GEN_flat_EP4_subleading_minus->Write();
+		Dphi_GEN_flat_EP4_inclusive_plus->Write();
+		Dphi_GEN_flat_EP4_leading_plus->Write();
+		Dphi_GEN_flat_EP4_subleading_plus->Write();
+		
+	}
+	
+	Dphi_EP2_trk_minus->Write();
+	Dphi_EP2_trk_plus->Write();
+	Dphi_EP3_trk_minus->Write();
+	Dphi_EP3_trk_plus->Write();
+	Dphi_EP4_trk_minus->Write();
+	Dphi_EP4_trk_plus->Write();
+	
+	Dphi_EP2_flat_trk_minus->Write();
+	Dphi_EP2_flat_trk_plus->Write();
+	Dphi_EP3_flat_trk_minus->Write();
+	Dphi_EP3_flat_trk_plus->Write();
+	Dphi_EP4_flat_trk_minus->Write();
+	Dphi_EP4_flat_trk_plus->Write();
+	
+	if(isMC){
+		Dphi_GEN_EP2_trk_minus->Write();
+		Dphi_GEN_EP2_trk_plus->Write();
+		Dphi_GEN_EP3_trk_minus->Write();
+		Dphi_GEN_EP3_trk_plus->Write();
+		Dphi_GEN_EP4_trk_minus->Write();
+		Dphi_GEN_EP4_trk_plus->Write();
+		
+		Dphi_GEN_EP2_flat_trk_minus->Write();
+		Dphi_GEN_EP2_flat_trk_plus->Write();
+		Dphi_GEN_EP3_flat_trk_minus->Write();
+		Dphi_GEN_EP3_flat_trk_plus->Write();
+		Dphi_GEN_EP4_flat_trk_minus->Write();
+		Dphi_GEN_EP4_flat_trk_plus->Write();
+	}
+	
+}
 // Unfolding histograms
 void w_unfold_hist(){ 
 

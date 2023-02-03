@@ -4,7 +4,39 @@
 
 // event quantities
 float vertexz; // event z vertex
+float hfplus; // event hf + deposit of energy
+float hfminus; // event hf - deposit of energy
+float zdcplus; // event zdc + deposit of energy
+float zdcminus; // event zdc - deposit of energy
 int hiBin; // event centrality (used if use_centrality = true in input_variables.h)
+
+//pPb event plane information
+float EP_Psi2_plus_flat; // Psi of EP 2 after flattening for HF +
+float EP_Psi2_minus_flat; // Psi of EP 2 after flattening for HF -
+float EP_Qx2_plus; // Qx of EP 2 no flattening for HF +
+float EP_Qx2_minus; // Qx of EP 2 no flattening for HF -
+float EP_Qy2_plus; // Qy of EP 2 no flattening for HF +
+float EP_Qy2_minus; // Qy of EP 2 no flattening for HF -
+float EP_Mult2_plus; // Multiplicity of EP 2 no flattening for HF +
+float EP_Mult2_minus; // Multiplicity of EP 2 no flattening for HF -
+
+float EP_Psi3_plus_flat; // Psi of EP 3 after flattening for HF +
+float EP_Psi3_minus_flat; // Psi of EP 3 after flattening for HF -
+float EP_Qx3_plus; // Qx of EP 3 no flattening for HF +
+float EP_Qx3_minus; // Qx of EP 3 no flattening for HF -
+float EP_Qy3_plus; // Qy of EP 3 no flattening for HF +
+float EP_Qy3_minus; // Qy of EP 3 no flattening for HF -
+float EP_Mult3_plus; // Multiplicity of EP 3 no flattening for HF +
+float EP_Mult3_minus; // Multiplicity of EP 3 no flattening for HF -
+
+float EP_Psi4_plus_flat; // Psi of EP 4 after flattening for HF +
+float EP_Psi4_minus_flat; // Psi of EP 4 after flattening for HF -
+float EP_Qx4_plus; // Qx of EP 4 no flattening for HF +
+float EP_Qx4_minus; // Qx of EP 4 no flattening for HF -
+float EP_Qy4_plus; // Qy of EP 4 no flattening for HF +
+float EP_Qy4_minus; // Qy of EP 4 no flattening for HF -
+float EP_Mult4_plus; // Multiplicity of EP 4 no flattening for HF +
+float EP_Mult4_minus; // Multiplicity of EP 4 no flattening for HF -
 
 // trigger quantities
 int jet_trigger_bit; // jet HLT path trigger used for analysis (jet_trigger variable in input_variables.h)
@@ -30,10 +62,11 @@ float pfEcal[9999];      // particle flow energy deposit in ECAL
 float pfHcal[9999];      // particle flow energy deposit in HCAL
 float trkmva[9999];      // track mva for each step
 int trkalgo[9999];       // track algorithm/step
-int trkndof[9999];       // track number of degrees of freedom in the fitting 
+unsigned char trkndof[9999];       // track number of degrees of freedom in the fitting 
 int trkcharge[9999];     // track charge
-int trknhits[9999];      // number of hits in the tracker
-int trknlayer[9999];     // number of layers with measurement in the tracker
+unsigned char trknhits[9999];      // number of hits in the tracker
+unsigned char trknlayer[9999];     // number of layers with measurement in the tracker
+unsigned char trkpixhits[9999];// number of hits in the pixel detector
 bool highpur[9999];      // tracker steps MVA selection
 
 // events quantities from gen
@@ -85,6 +118,91 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
     // event quantities
     tree->SetBranchStatus(Form("%s",jet_trigger.Data()), 1);
     tree->SetBranchStatus("vz", 1);
+    
+    if(colliding_system=="pPb" && colliding_energy == 8160){
+
+        tree->SetBranchStatus("hiHFplus", 1);
+        tree->SetBranchAddress("hiHFplus", &hfplus);
+        tree->SetBranchStatus("hiHFminus", 1);
+        tree->SetBranchAddress("hiHFminus", &hfminus);
+        tree->SetBranchStatus("hiZDCplus", 1);
+        tree->SetBranchAddress("hiZDCplus", &zdcplus);
+        tree->SetBranchStatus("hiZDCminus", 1);
+        tree->SetBranchAddress("hiZDCminus", &zdcminus);
+
+        //EP information
+
+        //angle after the flattening
+        tree->SetBranchStatus("epang_HFm2", 1);
+        tree->SetBranchAddress("epang_HFm2", &EP_Psi2_minus_flat);
+        tree->SetBranchStatus("epang_HFp2", 1);
+        tree->SetBranchAddress("epang_HFp2", &EP_Psi2_plus_flat);
+        tree->SetBranchStatus("epang_HFm3", 1);
+        tree->SetBranchAddress("epang_HFm3", &EP_Psi3_minus_flat);
+        tree->SetBranchStatus("epang_HFp3", 1);
+        tree->SetBranchAddress("epang_HFp3", &EP_Psi3_plus_flat);
+        tree->SetBranchStatus("epang_HFm4", 1);
+        tree->SetBranchAddress("epang_HFm4", &EP_Psi4_minus_flat);
+        tree->SetBranchStatus("epang_HFp4", 1);
+        tree->SetBranchAddress("epang_HFp4", &EP_Psi4_plus_flat);
+
+        //multiplicity
+        tree->SetBranchStatus("mult_HFm2", 1);
+        tree->SetBranchAddress("mult_HFm2", &EP_Mult2_minus);
+        tree->SetBranchStatus("mult_HFp2", 1);
+        tree->SetBranchAddress("mult_HFp2", &EP_Mult2_plus);
+        tree->SetBranchStatus("mult_HFm3", 1);
+        tree->SetBranchAddress("mult_HFm3", &EP_Mult3_minus);
+        tree->SetBranchStatus("mult_HFp3", 1);
+        tree->SetBranchAddress("mult_HFp3", &EP_Mult3_plus);
+        tree->SetBranchStatus("mult_HFm4", 1);
+        tree->SetBranchAddress("mult_HFm4", &EP_Mult4_minus);
+        tree->SetBranchStatus("mult_HFp4", 1);
+        tree->SetBranchAddress("mult_HFp4", &EP_Mult4_plus);
+
+        //Qx
+        tree->SetBranchStatus("qx_HFm2", 1);
+        tree->SetBranchAddress("qx_HFm2", &EP_Qx2_minus);
+        tree->SetBranchStatus("qx_HFp2", 1);
+        tree->SetBranchAddress("qx_HFp2", &EP_Qx2_plus);
+        tree->SetBranchStatus("qx_HFm3", 1);
+        tree->SetBranchAddress("qx_HFm3", &EP_Qx3_minus);
+        tree->SetBranchStatus("qx_HFp3", 1);
+        tree->SetBranchAddress("qx_HFp3", &EP_Qx3_plus);
+        tree->SetBranchStatus("qx_HFm4", 1);
+        tree->SetBranchAddress("qx_HFm4", &EP_Qx4_minus);
+        tree->SetBranchStatus("qx_HFp4", 1);
+        tree->SetBranchAddress("qx_HFp4", &EP_Qx4_plus);
+
+        //Qy
+        tree->SetBranchStatus("qx_HFm2", 1);
+        tree->SetBranchAddress("qx_HFm2", &EP_Qx2_minus);
+        tree->SetBranchStatus("qx_HFp2", 1);
+        tree->SetBranchAddress("qx_HFp2", &EP_Qx2_plus);
+        tree->SetBranchStatus("qx_HFm3", 1);
+        tree->SetBranchAddress("qx_HFm3", &EP_Qx3_minus);
+        tree->SetBranchStatus("qx_HFp3", 1);
+        tree->SetBranchAddress("qx_HFp3", &EP_Qx3_plus);
+        tree->SetBranchStatus("qx_HFm4", 1);
+        tree->SetBranchAddress("qx_HFm4", &EP_Qx4_minus);
+        tree->SetBranchStatus("qx_HFp4", 1);
+        tree->SetBranchAddress("qx_HFp4", &EP_Qx4_plus);
+
+        tree->SetBranchStatus("qy_HFm2", 1);
+        tree->SetBranchAddress("qy_HFm2", &EP_Qy2_minus);
+        tree->SetBranchStatus("qy_HFp2", 1);
+        tree->SetBranchAddress("qy_HFp2", &EP_Qy2_plus);
+        tree->SetBranchStatus("qy_HFm3", 1);
+        tree->SetBranchAddress("qy_HFm3", &EP_Qy3_minus);
+        tree->SetBranchStatus("qy_HFp3", 1);
+        tree->SetBranchAddress("qy_HFp3", &EP_Qy3_plus);
+        tree->SetBranchStatus("qy_HFm4", 1);
+        tree->SetBranchAddress("qy_HFm4", &EP_Qy4_minus);
+        tree->SetBranchStatus("qy_HFp4", 1);
+        tree->SetBranchAddress("qy_HFp4", &EP_Qy4_plus);
+        
+    }
+
     if(colliding_system=="PbPb" || colliding_system=="XeXe") tree->SetBranchStatus("hiBin", 1); //centrality only for PbPb and XeXe
     for(int i = 0; i < event_filterstr.size(); i++) tree->SetBranchStatus(Form("%s",event_filterstr[i].Data()), 1); //event filters
 
@@ -173,7 +291,10 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
     	tree->SetBranchStatus("trkChi2", 1);
     	tree->SetBranchStatus("trkNdof", 1);
     	tree->SetBranchStatus("trkNHit", 1);
-	tree->SetBranchStatus("trkNlayer", 1);
+		tree->SetBranchStatus("trkNlayer", 1);
+    }
+    if(colliding_system=="pPb" || colliding_system=="XeXe"){
+        tree->SetBranchStatus("trkNPixelHit", 1);
     }
     tree->SetBranchStatus("trkCharge", 1);
     tree->SetBranchStatus("highPurity", 1);
@@ -195,6 +316,9 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
     	tree->SetBranchAddress("trkNdof", &trkndof);
     	tree->SetBranchAddress("trkNHit", &trknhits);
    	tree->SetBranchAddress("trkNlayer", &trknlayer);
+    }
+    if(colliding_system=="pPb" || colliding_system=="XeXe"){
+        tree->SetBranchAddress("trkNPixelHit", &trkpixhits);
     }
     tree->SetBranchAddress("highPurity", &highpur);
     tree->SetBranchAddress("pfEcal", &pfEcal);
