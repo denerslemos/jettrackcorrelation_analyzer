@@ -256,8 +256,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double q2vec_minus = (double)sqrt(EP_Qx2_minus*EP_Qx2_minus + EP_Qy2_minus*EP_Qy2_minus);
 				double Psi2_EP_flat_plus = (double) EP_Psi2_plus_flat;	
 				double Psi2_EP_flat_minus = (double)EP_Psi2_minus_flat;
-				double Psi2_EP_nonflat_plus = (double)0.5*atan(EP_Qy2_plus/EP_Qx2_plus);	
-				double Psi2_EP_nonflat_minus = (double)0.5*atan(EP_Qy2_minus/EP_Qx2_minus);
+				double Psi2_EP_nonflat_plus = (double)(1./2.)*atan(EP_Qy2_plus/EP_Qx2_plus);	
+				double Psi2_EP_nonflat_minus = (double)(1./2.)*atan(EP_Qy2_minus/EP_Qx2_minus);
 
 				double x4D_reco_plus_ep2[4]={mult2_plus,q2vec_plus,Psi2_EP_nonflat_plus,(double) mult}; 
 				EP2_plus->Fill(x4D_reco_plus_ep2,event_weight);
@@ -276,8 +276,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double q3vec_minus = (double)sqrt(EP_Qx3_minus*EP_Qx3_minus + EP_Qy3_minus*EP_Qy3_minus);
 				double Psi3_EP_flat_plus = (double) EP_Psi3_plus_flat;	
 				double Psi3_EP_flat_minus = (double)EP_Psi3_minus_flat;
-				double Psi3_EP_nonflat_plus = (double)0.5*atan(EP_Qy3_plus/EP_Qx3_plus);	
-				double Psi3_EP_nonflat_minus = (double)0.5*atan(EP_Qy3_minus/EP_Qx3_minus);
+				double Psi3_EP_nonflat_plus = (double)(1./3.)*atan(EP_Qy3_plus/EP_Qx3_plus);	
+				double Psi3_EP_nonflat_minus = (double)(1./3.)*atan(EP_Qy3_minus/EP_Qx3_minus);
 
 				double x4D_reco_plus_ep3[4]={mult3_plus,q3vec_plus,Psi3_EP_nonflat_plus,(double) mult}; 
 				EP3_plus->Fill(x4D_reco_plus_ep3,event_weight);
@@ -296,8 +296,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double q4vec_minus = (double)sqrt(EP_Qx4_minus*EP_Qx4_minus + EP_Qy4_minus*EP_Qy4_minus);
 				double Psi4_EP_flat_plus = (double) EP_Psi4_plus_flat;	
 				double Psi4_EP_flat_minus = (double)EP_Psi4_minus_flat;
-				double Psi4_EP_nonflat_plus = (double)0.5*atan(EP_Qy4_plus/EP_Qx4_plus);	
-				double Psi4_EP_nonflat_minus = (double)0.5*atan(EP_Qy4_minus/EP_Qx4_minus);
+				double Psi4_EP_nonflat_plus = (double)(1./4.)*atan(EP_Qy4_plus/EP_Qx4_plus);	
+				double Psi4_EP_nonflat_minus = (double)(1./4.)*atan(EP_Qy4_minus/EP_Qx4_minus);
 
 				double x4D_reco_plus_ep4[4]={mult4_plus,q4vec_plus,Psi4_EP_nonflat_plus,(double) mult}; 
 				EP4_plus->Fill(x4D_reco_plus_ep4,event_weight);
@@ -365,24 +365,24 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double q2vec_minus = (double)sqrt(EP_Qx2_minus*EP_Qx2_minus + EP_Qy2_minus*EP_Qy2_minus);
 				double Psi2_EP_flat_plus = (double) EP_Psi2_plus_flat;	
 				double Psi2_EP_flat_minus = (double)EP_Psi2_minus_flat;
-				double Psi2_EP_nonflat_plus = (double)0.5*atan(EP_Qy2_plus/EP_Qx2_plus);	
-				double Psi2_EP_nonflat_minus = (double)0.5*atan(EP_Qy2_minus/EP_Qx2_minus);
+				double Psi2_EP_nonflat_plus = (double)(1./2.)*atan(EP_Qy2_plus/EP_Qx2_plus);	
+				double Psi2_EP_nonflat_minus = (double)(1./2.)*atan(EP_Qy2_minus/EP_Qx2_minus);
 			
 				// Psi 3
 				double q3vec_plus = (double) sqrt(EP_Qx3_plus*EP_Qx3_plus + EP_Qy3_plus*EP_Qy3_plus);
 				double q3vec_minus = (double)sqrt(EP_Qx3_minus*EP_Qx3_minus + EP_Qy3_minus*EP_Qy3_minus);
 				double Psi3_EP_flat_plus = (double) EP_Psi3_plus_flat;	
 				double Psi3_EP_flat_minus = (double)EP_Psi3_minus_flat;
-				double Psi3_EP_nonflat_plus = (double)0.5*atan(EP_Qy3_plus/EP_Qx3_plus);	
-				double Psi3_EP_nonflat_minus = (double)0.5*atan(EP_Qy3_minus/EP_Qx3_minus);
+				double Psi3_EP_nonflat_plus = (double)(1./3.)*atan(EP_Qy3_plus/EP_Qx3_plus);	
+				double Psi3_EP_nonflat_minus = (double)(1./3.)*atan(EP_Qy3_minus/EP_Qx3_minus);
 			
 				// Psi 4
 				double q4vec_plus = (double) sqrt(EP_Qx4_plus*EP_Qx4_plus + EP_Qy4_plus*EP_Qy4_plus);
 				double q4vec_minus = (double)sqrt(EP_Qx4_minus*EP_Qx4_minus + EP_Qy4_minus*EP_Qy4_minus);
 				double Psi4_EP_flat_plus = (double) EP_Psi4_plus_flat;	
 				double Psi4_EP_flat_minus = (double)EP_Psi4_minus_flat;
-				double Psi4_EP_nonflat_plus = (double)0.5*atan(EP_Qy4_plus/EP_Qx4_plus);	
-				double Psi4_EP_nonflat_minus = (double)0.5*atan(EP_Qy4_minus/EP_Qx4_minus);
+				double Psi4_EP_nonflat_plus = (double)(1./4.)*atan(EP_Qy4_plus/EP_Qx4_plus);	
+				double Psi4_EP_nonflat_minus = (double)(1./4.)*atan(EP_Qy4_minus/EP_Qx4_minus);
 
 				double x3D_reco_plus_dphi2[3]={deltaphi2PC(trk_phi, Psi2_EP_nonflat_plus), (double) trackbin, (double) multcentbin}; 
 				Dphi_EP2_trk_plus->Fill(x3D_reco_plus_dphi2,trk_weight*event_weight);
@@ -484,8 +484,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double q2vec_minus = (double)sqrt(EP_Qx2_minus*EP_Qx2_minus + EP_Qy2_minus*EP_Qy2_minus);
 						double Psi2_EP_flat_plus = (double) EP_Psi2_plus_flat;	
 						double Psi2_EP_flat_minus = (double)EP_Psi2_minus_flat;
-						double Psi2_EP_nonflat_plus = (double)0.5*atan(EP_Qy2_plus/EP_Qx2_plus);	
-						double Psi2_EP_nonflat_minus = (double)0.5*atan(EP_Qy2_minus/EP_Qx2_minus);
+						double Psi2_EP_nonflat_plus = (double)(1./2.)*atan(EP_Qy2_plus/EP_Qx2_plus);	
+						double Psi2_EP_nonflat_minus = (double)(1./2.)*atan(EP_Qy2_minus/EP_Qx2_minus);
 
 		 				Dphi_EP2_inclusive_plus->Fill(deltaphi2PC(jet_phi, Psi2_EP_nonflat_plus),(double)multcentbin,event_weight*jet_weight);
 		 				Dphi_EP2_inclusive_minus->Fill(deltaphi2PC(jet_phi, Psi2_EP_nonflat_minus),(double)multcentbin,event_weight*jet_weight);
@@ -497,8 +497,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double q3vec_minus = (double)sqrt(EP_Qx3_minus*EP_Qx3_minus + EP_Qy3_minus*EP_Qy3_minus);
 						double Psi3_EP_flat_plus = (double) EP_Psi3_plus_flat;	
 						double Psi3_EP_flat_minus = (double)EP_Psi3_minus_flat;
-						double Psi3_EP_nonflat_plus = (double)0.5*atan(EP_Qy3_plus/EP_Qx3_plus);	
-						double Psi3_EP_nonflat_minus = (double)0.5*atan(EP_Qy3_minus/EP_Qx3_minus);
+						double Psi3_EP_nonflat_plus = (double)(1./3.)*atan(EP_Qy3_plus/EP_Qx3_plus);	
+						double Psi3_EP_nonflat_minus = (double)(1./3.)*atan(EP_Qy3_minus/EP_Qx3_minus);
 
 		 				Dphi_EP3_inclusive_plus->Fill(deltaphi2PC(jet_phi, Psi3_EP_nonflat_plus),(double)multcentbin,event_weight*jet_weight);
 		 				Dphi_EP3_inclusive_minus->Fill(deltaphi2PC(jet_phi, Psi3_EP_nonflat_minus),(double)multcentbin,event_weight*jet_weight);
@@ -510,8 +510,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double q4vec_minus = (double)sqrt(EP_Qx4_minus*EP_Qx4_minus + EP_Qy4_minus*EP_Qy4_minus);
 						double Psi4_EP_flat_plus = (double) EP_Psi4_plus_flat;	
 						double Psi4_EP_flat_minus = (double)EP_Psi4_minus_flat;
-						double Psi4_EP_nonflat_plus = (double)0.5*atan(EP_Qy4_plus/EP_Qx4_plus);	
-						double Psi4_EP_nonflat_minus = (double)0.5*atan(EP_Qy4_minus/EP_Qx4_minus);
+						double Psi4_EP_nonflat_plus = (double)(1./4.)*atan(EP_Qy4_plus/EP_Qx4_plus);	
+						double Psi4_EP_nonflat_minus = (double)(1./4.)*atan(EP_Qy4_minus/EP_Qx4_minus);
 
 		 				Dphi_EP4_inclusive_plus->Fill(deltaphi2PC(jet_phi, Psi4_EP_nonflat_plus),(double)multcentbin,event_weight*jet_weight);
 		 				Dphi_EP4_inclusive_minus->Fill(deltaphi2PC(jet_phi, Psi4_EP_nonflat_minus),(double)multcentbin,event_weight*jet_weight);
@@ -708,8 +708,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double q2vec_minus = (double)sqrt(EP_Qx2_minus*EP_Qx2_minus + EP_Qy2_minus*EP_Qy2_minus);
 							double Psi2_EP_flat_plus = (double) EP_Psi2_plus_flat;	
 							double Psi2_EP_flat_minus = (double)EP_Psi2_minus_flat;
-							double Psi2_EP_nonflat_plus = (double)0.5*atan(EP_Qy2_plus/EP_Qx2_plus);	
-							double Psi2_EP_nonflat_minus = (double)0.5*atan(EP_Qy2_minus/EP_Qx2_minus);
+							double Psi2_EP_nonflat_plus = (double)(1./2.)*atan(EP_Qy2_plus/EP_Qx2_plus);	
+							double Psi2_EP_nonflat_minus = (double)(1./2.)*atan(EP_Qy2_minus/EP_Qx2_minus);
 
 		 					Dphi_EP2_leading_plus->Fill(deltaphi2PC(leadrecojet_phi, Psi2_EP_nonflat_plus),(double)multcentbin,event_weight*ljet_weight);
 		 					Dphi_EP2_leading_minus->Fill(deltaphi2PC(leadrecojet_phi, Psi2_EP_nonflat_minus),(double)multcentbin,event_weight*ljet_weight);
@@ -728,8 +728,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double q3vec_minus = (double)sqrt(EP_Qx3_minus*EP_Qx3_minus + EP_Qy3_minus*EP_Qy3_minus);
 							double Psi3_EP_flat_plus = (double) EP_Psi3_plus_flat;	
 							double Psi3_EP_flat_minus = (double)EP_Psi3_minus_flat;
-							double Psi3_EP_nonflat_plus = (double)0.5*atan(EP_Qy3_plus/EP_Qx3_plus);	
-							double Psi3_EP_nonflat_minus = (double)0.5*atan(EP_Qy3_minus/EP_Qx3_minus);
+							double Psi3_EP_nonflat_plus = (double)(1./3.)*atan(EP_Qy3_plus/EP_Qx3_plus);	
+							double Psi3_EP_nonflat_minus = (double)(1./3.)*atan(EP_Qy3_minus/EP_Qx3_minus);
 
 		 					Dphi_EP3_leading_plus->Fill(deltaphi2PC(leadrecojet_phi, Psi3_EP_nonflat_plus),(double)multcentbin,event_weight*ljet_weight);
 		 					Dphi_EP3_leading_minus->Fill(deltaphi2PC(leadrecojet_phi, Psi3_EP_nonflat_minus),(double)multcentbin,event_weight*ljet_weight);
@@ -748,8 +748,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double q4vec_minus = (double)sqrt(EP_Qx4_minus*EP_Qx4_minus + EP_Qy4_minus*EP_Qy4_minus);
 							double Psi4_EP_flat_plus = (double) EP_Psi4_plus_flat;	
 							double Psi4_EP_flat_minus = (double)EP_Psi4_minus_flat;
-							double Psi4_EP_nonflat_plus = (double)0.5*atan(EP_Qy4_plus/EP_Qx4_plus);	
-							double Psi4_EP_nonflat_minus = (double)0.5*atan(EP_Qy4_minus/EP_Qx4_minus);
+							double Psi4_EP_nonflat_plus = (double)(1./4.)*atan(EP_Qy4_plus/EP_Qx4_plus);	
+							double Psi4_EP_nonflat_minus = (double)(1./4.)*atan(EP_Qy4_minus/EP_Qx4_minus);
 
 		 					Dphi_EP4_leading_plus->Fill(deltaphi2PC(leadrecojet_phi, Psi4_EP_nonflat_plus),(double)multcentbin,event_weight*ljet_weight);
 		 					Dphi_EP4_leading_minus->Fill(deltaphi2PC(leadrecojet_phi, Psi4_EP_nonflat_minus),(double)multcentbin,event_weight*ljet_weight);
@@ -869,24 +869,24 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					double q2vec_minus = (double)sqrt(EP_Qx2_minus*EP_Qx2_minus + EP_Qy2_minus*EP_Qy2_minus);
 					double Psi2_EP_flat_plus = (double) EP_Psi2_plus_flat;	
 					double Psi2_EP_flat_minus = (double)EP_Psi2_minus_flat;
-					double Psi2_EP_nonflat_plus = (double)0.5*atan(EP_Qy2_plus/EP_Qx2_plus);	
-					double Psi2_EP_nonflat_minus = (double)0.5*atan(EP_Qy2_minus/EP_Qx2_minus);
+					double Psi2_EP_nonflat_plus = (double)(1./2.)*atan(EP_Qy2_plus/EP_Qx2_plus);	
+					double Psi2_EP_nonflat_minus = (double)(1./2.)*atan(EP_Qy2_minus/EP_Qx2_minus);
 			
 					// Psi 3
 					double q3vec_plus = (double) sqrt(EP_Qx3_plus*EP_Qx3_plus + EP_Qy3_plus*EP_Qy3_plus);
 					double q3vec_minus = (double)sqrt(EP_Qx3_minus*EP_Qx3_minus + EP_Qy3_minus*EP_Qy3_minus);
 					double Psi3_EP_flat_plus = (double) EP_Psi3_plus_flat;	
 					double Psi3_EP_flat_minus = (double)EP_Psi3_minus_flat;
-					double Psi3_EP_nonflat_plus = (double)0.5*atan(EP_Qy3_plus/EP_Qx3_plus);	
-					double Psi3_EP_nonflat_minus = (double)0.5*atan(EP_Qy3_minus/EP_Qx3_minus);
+					double Psi3_EP_nonflat_plus = (double)(1./3.)*atan(EP_Qy3_plus/EP_Qx3_plus);	
+					double Psi3_EP_nonflat_minus = (double)(1./3.)*atan(EP_Qy3_minus/EP_Qx3_minus);
 			
 					// Psi 4
 					double q4vec_plus = (double) sqrt(EP_Qx4_plus*EP_Qx4_plus + EP_Qy4_plus*EP_Qy4_plus);
 					double q4vec_minus = (double)sqrt(EP_Qx4_minus*EP_Qx4_minus + EP_Qy4_minus*EP_Qy4_minus);
 					double Psi4_EP_flat_plus = (double) EP_Psi4_plus_flat;	
 					double Psi4_EP_flat_minus = (double)EP_Psi4_minus_flat;
-					double Psi4_EP_nonflat_plus = (double)0.5*atan(EP_Qy4_plus/EP_Qx4_plus);	
-					double Psi4_EP_nonflat_minus = (double)0.5*atan(EP_Qy4_minus/EP_Qx4_minus);
+					double Psi4_EP_nonflat_plus = (double)(1./4.)*atan(EP_Qy4_plus/EP_Qx4_plus);	
+					double Psi4_EP_nonflat_minus = (double)(1./4.)*atan(EP_Qy4_minus/EP_Qx4_minus);
 
 					double x3D_gen_plus_dphi2[3]={deltaphi2PC(gtrk_phi, Psi2_EP_nonflat_plus), (double) trackbin, (double) multcentbin}; 
 					Dphi_GEN_EP2_trk_plus->Fill(x3D_gen_plus_dphi2,event_weight);
@@ -970,8 +970,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double q2vec_minus = (double)sqrt(EP_Qx2_minus*EP_Qx2_minus + EP_Qy2_minus*EP_Qy2_minus);
 						double Psi2_EP_flat_plus = (double) EP_Psi2_plus_flat;	
 						double Psi2_EP_flat_minus = (double)EP_Psi2_minus_flat;
-						double Psi2_EP_nonflat_plus = (double)0.5*atan(EP_Qy2_plus/EP_Qx2_plus);	
-						double Psi2_EP_nonflat_minus = (double)0.5*atan(EP_Qy2_minus/EP_Qx2_minus);
+						double Psi2_EP_nonflat_plus = (double)(1./2.)*atan(EP_Qy2_plus/EP_Qx2_plus);	
+						double Psi2_EP_nonflat_minus = (double)(1./2.)*atan(EP_Qy2_minus/EP_Qx2_minus);
 
 		 				Dphi_GEN_EP2_inclusive_plus->Fill(deltaphi2PC(gjet_phi, Psi2_EP_nonflat_plus),(double)multcentbin,event_weight*jet_weight);
 		 				Dphi_GEN_EP2_inclusive_minus->Fill(deltaphi2PC(gjet_phi, Psi2_EP_nonflat_minus),(double)multcentbin,event_weight*jet_weight);
@@ -985,8 +985,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double q3vec_minus = (double)sqrt(EP_Qx3_minus*EP_Qx3_minus + EP_Qy3_minus*EP_Qy3_minus);
 						double Psi3_EP_flat_plus = (double) EP_Psi3_plus_flat;	
 						double Psi3_EP_flat_minus = (double)EP_Psi3_minus_flat;
-						double Psi3_EP_nonflat_plus = (double)0.5*atan(EP_Qy3_plus/EP_Qx3_plus);	
-						double Psi3_EP_nonflat_minus = (double)0.5*atan(EP_Qy3_minus/EP_Qx3_minus);
+						double Psi3_EP_nonflat_plus = (double)(1./3.)*atan(EP_Qy3_plus/EP_Qx3_plus);	
+						double Psi3_EP_nonflat_minus = (double)(1./3.)*atan(EP_Qy3_minus/EP_Qx3_minus);
 
 		 				Dphi_GEN_EP3_inclusive_plus->Fill(deltaphi2PC(gjet_phi, Psi3_EP_nonflat_plus),(double)multcentbin,event_weight*jet_weight);
 		 				Dphi_GEN_EP3_inclusive_minus->Fill(deltaphi2PC(gjet_phi, Psi3_EP_nonflat_minus),(double)multcentbin,event_weight*jet_weight);
@@ -1000,8 +1000,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double q4vec_minus = (double)sqrt(EP_Qx4_minus*EP_Qx4_minus + EP_Qy4_minus*EP_Qy4_minus);
 						double Psi4_EP_flat_plus = (double) EP_Psi4_plus_flat;	
 						double Psi4_EP_flat_minus = (double)EP_Psi4_minus_flat;
-						double Psi4_EP_nonflat_plus = (double)0.5*atan(EP_Qy4_plus/EP_Qx4_plus);	
-						double Psi4_EP_nonflat_minus = (double)0.5*atan(EP_Qy4_minus/EP_Qx4_minus);
+						double Psi4_EP_nonflat_plus = (double)(1./4.)*atan(EP_Qy4_plus/EP_Qx4_plus);	
+						double Psi4_EP_nonflat_minus = (double)(1./4.)**atan(EP_Qy4_minus/EP_Qx4_minus);
 
 		 				Dphi_GEN_EP4_inclusive_plus->Fill(deltaphi2PC(gjet_phi, Psi4_EP_nonflat_plus),(double)multcentbin,event_weight*jet_weight);
 		 				Dphi_GEN_EP4_inclusive_minus->Fill(deltaphi2PC(gjet_phi, Psi4_EP_nonflat_minus),(double)multcentbin,event_weight*jet_weight);
@@ -1088,8 +1088,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 								double q2vec_minus = (double)sqrt(EP_Qx2_minus*EP_Qx2_minus + EP_Qy2_minus*EP_Qy2_minus);
 								double Psi2_EP_flat_plus = (double) EP_Psi2_plus_flat;	
 								double Psi2_EP_flat_minus = (double)EP_Psi2_minus_flat;
-								double Psi2_EP_nonflat_plus = (double)0.5*atan(EP_Qy2_plus/EP_Qx2_plus);	
-								double Psi2_EP_nonflat_minus = (double)0.5*atan(EP_Qy2_minus/EP_Qx2_minus);
+								double Psi2_EP_nonflat_plus = (double)(1./2.)*atan(EP_Qy2_plus/EP_Qx2_plus);	
+								double Psi2_EP_nonflat_minus = (double)(1./2.)*atan(EP_Qy2_minus/EP_Qx2_minus);
 
 		 						Dphi_GEN_EP2_leading_plus->Fill(deltaphi2PC(leadrecojet_phi, Psi2_EP_nonflat_plus),(double)multcentbin,event_weight*ljet_weight);
 		 						Dphi_GEN_EP2_leading_minus->Fill(deltaphi2PC(leadrecojet_phi, Psi2_EP_nonflat_minus),(double)multcentbin,event_weight*ljet_weight);
@@ -1108,8 +1108,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 								double q3vec_minus = (double)sqrt(EP_Qx3_minus*EP_Qx3_minus + EP_Qy3_minus*EP_Qy3_minus);
 								double Psi3_EP_flat_plus = (double) EP_Psi3_plus_flat;	
 								double Psi3_EP_flat_minus = (double)EP_Psi3_minus_flat;
-								double Psi3_EP_nonflat_plus = (double)0.5*atan(EP_Qy3_plus/EP_Qx3_plus);	
-								double Psi3_EP_nonflat_minus = (double)0.5*atan(EP_Qy3_minus/EP_Qx3_minus);
+								double Psi3_EP_nonflat_plus = (double)(1./3.)*atan(EP_Qy3_plus/EP_Qx3_plus);	
+								double Psi3_EP_nonflat_minus = (double)(1./3.)*atan(EP_Qy3_minus/EP_Qx3_minus);
 
 		 						Dphi_GEN_EP3_leading_plus->Fill(deltaphi2PC(leadrecojet_phi, Psi3_EP_nonflat_plus),(double)multcentbin,event_weight*ljet_weight);
 		 						Dphi_GEN_EP3_leading_minus->Fill(deltaphi2PC(leadrecojet_phi, Psi3_EP_nonflat_minus),(double)multcentbin,event_weight*ljet_weight);
@@ -1128,8 +1128,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 								double q4vec_minus = (double)sqrt(EP_Qx4_minus*EP_Qx4_minus + EP_Qy4_minus*EP_Qy4_minus);
 								double Psi4_EP_flat_plus = (double) EP_Psi4_plus_flat;	
 								double Psi4_EP_flat_minus = (double)EP_Psi4_minus_flat;
-								double Psi4_EP_nonflat_plus = (double)0.5*atan(EP_Qy4_plus/EP_Qx4_plus);	
-								double Psi4_EP_nonflat_minus = (double)0.5*atan(EP_Qy4_minus/EP_Qx4_minus);
+								double Psi4_EP_nonflat_plus = (double)(1./4.)*atan(EP_Qy4_plus/EP_Qx4_plus);	
+								double Psi4_EP_nonflat_minus = (double)(1./4.)*atan(EP_Qy4_minus/EP_Qx4_minus);
 
 		 						Dphi_GEN_EP4_leading_plus->Fill(deltaphi2PC(leadrecojet_phi, Psi4_EP_nonflat_plus),(double)multcentbin,event_weight*ljet_weight);
 		 						Dphi_GEN_EP4_leading_minus->Fill(deltaphi2PC(leadrecojet_phi, Psi4_EP_nonflat_minus),(double)multcentbin,event_weight*ljet_weight);
