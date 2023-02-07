@@ -22,21 +22,26 @@ TH1I *Nev_gengen_lead = new TH1I("Nev_gengen_lead", "Nev_gengen_lead", 1, 0, 1);
 TH1I *Nev_gengen_subl = new TH1I("Nev_gengen_subl", "Nev_gengen_subl", 1, 0, 1);
 
 
-// multiplicity
-TH1D *multiplicity = new TH1D("multiplicity", "multiplicity", 500, 0.0, 500.0);
-TH1D *multiplicity_weighted = new TH1D("multiplicity_weighted", "multiplicity_weighted", 500, 0.0, 500.0);
+TH1I *NJets = new TH1I("NJets", "NJets", 20, 0, 20);
+TH1I *NJetsSub = new TH1I("NJetsSub", "NJetsSub", 20, 0, 20);
+TH1I *NJetsLead = new TH1I("NJetsLead", "NJetsLead", 20, 0, 20);
+TH1I *NJetsLJSLJ = new TH1I("NJetsLJSLJ", "NJetsLJSLJ", 20, 0, 20);
 
-TH1D *reco_mult = new TH1D("reco_mult", "reco_mult", 500, 0.0, 1000.0);
-TH1D *reco_mult_weighted = new TH1D("reco_mult_weighted", "reco_mult_weighted", 500, 0.0, 1000.0);
-TH1D *gen_mult = new TH1D("gen_mult", "gen_mult", 500, 0.0, 1000.0);
-TH1D *gen_mult_weighted = new TH1D("gen_mult_weighted", "gen_mult_weighted", 500, 0.0, 1000.0);
+// multiplicity
+TH1D *multiplicity = new TH1D("multiplicity", "multiplicity", 100, 0.0, 500.0);
+TH1D *multiplicity_weighted = new TH1D("multiplicity_weighted", "multiplicity_weighted", 100, 0.0, 500.0);
+
+TH1D *reco_mult = new TH1D("reco_mult", "reco_mult", 100, 0.0, 500.0);
+TH1D *reco_mult_weighted = new TH1D("reco_mult_weighted", "reco_mult_weighted", 100, 0.0, 500.0);
+TH1D *gen_mult = new TH1D("gen_mult", "gen_mult", 100, 0.0, 500.0);
+TH1D *gen_mult_weighted = new TH1D("gen_mult_weighted", "gen_mult_weighted", 100, 0.0, 500.0);
 
 // Z vertex
 TH2D *vzhist = new TH2D("vzhist", "vzhist", 80, -20, 20, multbinsize-1, 0, (double) multbinsize-1);
 TH2D *vzhist_weighted = new TH2D("vzhist_weighted", "vzhist_weighted", 80, -20, 20, multbinsize-1, 0, (double) multbinsize-1);
 // pthat
-TH2D *pthathist = new TH2D("pthathist", "pthathist", 240, 0, 1200, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *pthathist_weighted = new TH2D("pthathist_weighted", "pthathist_weighted", 240, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *pthathist = new TH2D("pthathist", "pthathist", 100, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *pthathist_weighted = new TH2D("pthathist_weighted", "pthathist_weighted", 100, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
 // HF energy
 TH2D *hfplushist = new TH2D("hfplushist", "hfplushist", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
 TH2D *hfplushist_weighted = new TH2D("hfplushist_weighted", "hfplushist_weighted", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
@@ -48,15 +53,15 @@ TH2D *zdcplushist_weighted = new TH2D("zdcplushist_weighted", "zdcplushist_weigh
 TH2D *zdcminushist = new TH2D("zdcminushist", "zdcminushist", 2000, -250000,250000, multbinsize-1, 0, (double) multbinsize-1);
 TH2D *zdcminushist_weighted = new TH2D("zdcminushist_weighted", "zdcminushist_weighted", 2000, -250000,250000, multbinsize-1, 0, (double) multbinsize-1);
 //quantities with at least 1 jet
-TH1D *multiplicity_withonejet50 = new TH1D("multiplicity_withonejet50", "multiplicity_withonejet50", 500, 0.0, 500.0);
-TH1D *multiplicity_withonejet80 = new TH1D("multiplicity_withonejet80", "multiplicity_withonejet80", 500, 0.0, 500.0);
+TH1D *multiplicity_withonejet50 = new TH1D("multiplicity_withonejet50", "multiplicity_withonejet50", 100, 0.0, 500.0);
+TH1D *multiplicity_withonejet80 = new TH1D("multiplicity_withonejet80", "multiplicity_withonejet80", 100, 0.0, 500.0);
 //quantities with at least 1 jet pT > jet min pT in GeV
-TH1D *multiplicity_withonejet = new TH1D("multiplicity_withonejet", "multiplicity_withonejet", 500, 0.0, 500.0);
-TH1D *multiplicity_withonejet_weighted = new TH1D("multiplicity_withonejet_weighted", "multiplicity_withonejet_weighted", 500, 0.0, 500.0);
-TH1D *reco_mult_withonejet = new TH1D("reco_mult_withonejet", "reco_mult_withonejet", 500, 0.0, 1000.0);
-TH1D *reco_mult_withonejet_weighted = new TH1D("reco_mult_withonejet_weighted", "reco_mult_withonejet_weighted", 500, 0.0, 1000.0);
-TH1D *gen_mult_withonejet = new TH1D("gen_mult_withonejet", "gen_mult_withonejet", 500, 0.0, 1000.0);
-TH1D *gen_mult_withonejet_weighted = new TH1D("gen_mult_withonejet_weighted", "gen_mult_withonejet_weighted", 500, 0.0, 1000.0);
+TH1D *multiplicity_withonejet = new TH1D("multiplicity_withonejet", "multiplicity_withonejet", 100, 0.0, 500.0);
+TH1D *multiplicity_withonejet_weighted = new TH1D("multiplicity_withonejet_weighted", "multiplicity_withonejet_weighted", 100, 0.0, 500.0);
+TH1D *reco_mult_withonejet = new TH1D("reco_mult_withonejet", "reco_mult_withonejet", 100, 0.0, 500.0);
+TH1D *reco_mult_withonejet_weighted = new TH1D("reco_mult_withonejet_weighted", "reco_mult_withonejet_weighted", 500, 0.0, 500.0);
+TH1D *gen_mult_withonejet = new TH1D("gen_mult_withonejet", "gen_mult_withonejet", 100, 0.0, 500.0);
+TH1D *gen_mult_withonejet_weighted = new TH1D("gen_mult_withonejet_weighted", "gen_mult_withonejet_weighted", 100, 0.0, 500.0);
 
 // --> multiplicity
 TH2D *hfplushist_withonejet = new TH2D("hfplushist_withonejet", "hfplushist_withonejet", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
@@ -65,12 +70,12 @@ TH2D *hfminushist_withonejet = new TH2D("hfminushist_withonejet", "hfminushist_w
 TH2D *hfminushist_withonejet_weighted = new TH2D("hfminushist_withonejet_weighted", "hfminushist_withonejet_weighted", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
 //quantities with dijets
 // --> multiplicity
-TH1D *multiplicity_withdijets = new TH1D("multiplicity_withdijets", "multiplicity_withdijets", 500, 0.0, 500.0);
-TH1D *multiplicity_withdijets_weighted = new TH1D("multiplicity_withdijets_weighted", "multiplicity_withdijets_weighted", 500, 0.0, 500.0);
-TH1D *reco_mult_withdijets = new TH1D("reco_mult_withdijets", "reco_mult_withdijets", 500, 0.0, 1000.0);
-TH1D *reco_mult_withdijets_weighted = new TH1D("reco_mult_withdijets_weighted", "reco_mult_withdijets_weighted", 500, 0.0, 1000.0);
-TH1D *gen_mult_withdijets = new TH1D("gen_mult_withdijets", "gen_mult_withdijets", 500, 0.0, 1000.0);
-TH1D *gen_mult_withdijets_weighted = new TH1D("gen_mult_withdijets_weighted", "gen_mult_withdijets_weighted", 500, 0.0, 1000.0);
+TH1D *multiplicity_withdijets = new TH1D("multiplicity_withdijets", "multiplicity_withdijets", 100, 0.0, 500.0);
+TH1D *multiplicity_withdijets_weighted = new TH1D("multiplicity_withdijets_weighted", "multiplicity_withdijets_weighted", 100, 0.0, 500.0);
+TH1D *reco_mult_withdijets = new TH1D("reco_mult_withdijets", "reco_mult_withdijets", 100, 0.0, 500.0);
+TH1D *reco_mult_withdijets_weighted = new TH1D("reco_mult_withdijets_weighted", "reco_mult_withdijets_weighted", 100, 0.0, 500.0);
+TH1D *gen_mult_withdijets = new TH1D("gen_mult_withdijets", "gen_mult_withdijets", 100, 0.0, 500.0);
+TH1D *gen_mult_withdijets_weighted = new TH1D("gen_mult_withdijets_weighted", "gen_mult_withdijets_weighted", 100, 0.0, 500.0);
 // --> HF energy
 TH2D *hfplushist_withdijets = new TH2D("hfplushist_withdijets", "hfplushist_withdijets", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
 TH2D *hfplushist_withdijets_weighted = new TH2D("hfplushist_withdijets_weighted", "hfplushist_withdijets_weighted", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
@@ -221,9 +226,9 @@ TH2D *Dphi_GEN_flat_EP4_subleading_plus = new TH2D("Dphi_GEN_flat_EP4_subleading
 
 
 // Track/Particle histograms
-int    bins4D_trk[4]   =   { 500   ,  50  ,   64           , multbinsize-1};
+int    bins4D_trk[4]   =   { 200   ,  50  ,   64           , multbinsize-1};
 double xmin4D_trk[4]   =   { 0.0   , -2.5 ,   -TMath::Pi() , 0};
-double xmax4D_trk[4]   =   { 20.0  ,  2.5 ,   TMath::Pi()  , (double) multbinsize-1};
+double xmax4D_trk[4]   =   { 100.0  ,  2.5 ,   TMath::Pi()  , (double) multbinsize-1};
 
 // --> Reco
 THnSparseD *hist_reco_trk = new THnSparseD("hist_reco_trk", "hist_reco_trk", 4, bins4D_trk, xmin4D_trk, xmax4D_trk);
@@ -415,16 +420,22 @@ THnSparseD *hist_correlation_signal_subg0_subl_jet_reco_track_gen = new THnSpars
 THnSparseD *hist_correlation_signal_subg0_subl_jet_gen_track_reco = new THnSparseD("hist_correlation_signal_subg0_subl_jet_gen_track_reco","hist_correlation_signal_subg0_subl_jet_gen_track_reco",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
 THnSparseD *hist_correlation_signal_subg0_subl_jet_gen_track_gen = new THnSparseD("hist_correlation_signal_subg0_subl_jet_gen_track_gen","hist_correlation_signal_subg0_subl_jet_gen_track_gen",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
 
-// 2 particle correlations for flow analysis
-THnSparseD *hist_reco_reco_2pcorrelation_signal = new THnSparseD("hist_reco_reco_2pcorrelation_signal","hist_reco_reco_2pcorrelation_signal",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_reco_reco_2pcorrelation_signal_subg0 = new THnSparseD("hist_reco_reco_2pcorrelation_signal_subg0","hist_reco_reco_2pcorrelation_signal_subg0",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_reco_reco_2pcorrelation_signal_subcross = new THnSparseD("hist_reco_reco_2pcorrelation_signal_subcross","hist_reco_reco_2pcorrelation_signal_subcross",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_reco_reco_2pcorrelation_mixing = new THnSparseD("hist_reco_reco_2pcorrelation_mixing","hist_reco_reco_2pcorrelation_mixing",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+// Correlation studies
+// Axis : 0 -> delta phi, 1 -> delta eta, 2 -> track pT, 3 -> multiplicity
+int    bins4D_2pc[4]   =   { 40                 , 100  ,   trkbinsize-1          , multbinsize-1};
+double xmin4D_2pc[4]   =   { -TMath::Pi()/2.0    , -5.0 ,   0                     , 0};
+double xmax4D_2pc[4]   =   { 3.0*TMath::Pi()/2.0 , 5.0  ,   (double) trkbinsize-1 , (double) multbinsize-1};
 
-THnSparseD *hist_gen_gen_2pcorrelation_signal = new THnSparseD("hist_gen_gen_2pcorrelation_signal","hist_gen_gen_2pcorrelation_signal",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_gen_gen_2pcorrelation_signal_subg0 = new THnSparseD("hist_gen_gen_2pcorrelation_signal_subg0","hist_gen_gen_2pcorrelation_signal_subg0",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_gen_gen_2pcorrelation_signal_subcross = new THnSparseD("hist_gen_gen_2pcorrelation_signal_subcross","hist_gen_gen_2pcorrelation_signal_subcross",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
-THnSparseD *hist_gen_gen_2pcorrelation_mixing = new THnSparseD("hist_gen_gen_2pcorrelation_mixing","hist_gen_gen_2pcorrelation_mixing",4,bins4D_jettrk,xmin4D_jettrk,xmax4D_jettrk);
+// 2 particle correlations for flow analysis
+THnSparseD *hist_reco_reco_2pcorrelation_signal = new THnSparseD("hist_reco_reco_2pcorrelation_signal","hist_reco_reco_2pcorrelation_signal",4,bins4D_2pc,xmin4D_2pc,xmax4D_2pc);
+THnSparseD *hist_reco_reco_2pcorrelation_signal_subg0 = new THnSparseD("hist_reco_reco_2pcorrelation_signal_subg0","hist_reco_reco_2pcorrelation_signal_subg0",4,bins4D_2pc,xmin4D_2pc,xmax4D_2pc);
+THnSparseD *hist_reco_reco_2pcorrelation_signal_subcross = new THnSparseD("hist_reco_reco_2pcorrelation_signal_subcross","hist_reco_reco_2pcorrelation_signal_subcross",4,bins4D_2pc,xmin4D_2pc,xmax4D_2pc);
+THnSparseD *hist_reco_reco_2pcorrelation_mixing = new THnSparseD("hist_reco_reco_2pcorrelation_mixing","hist_reco_reco_2pcorrelation_mixing",4,bins4D_2pc,xmin4D_2pc,xmax4D_2pc);
+
+THnSparseD *hist_gen_gen_2pcorrelation_signal = new THnSparseD("hist_gen_gen_2pcorrelation_signal","hist_gen_gen_2pcorrelation_signal",4,bins4D_2pc,xmin4D_2pc,xmax4D_2pc);
+THnSparseD *hist_gen_gen_2pcorrelation_signal_subg0 = new THnSparseD("hist_gen_gen_2pcorrelation_signal_subg0","hist_gen_gen_2pcorrelation_signal_subg0",4,bins4D_2pc,xmin4D_2pc,xmax4D_2pc);
+THnSparseD *hist_gen_gen_2pcorrelation_signal_subcross = new THnSparseD("hist_gen_gen_2pcorrelation_signal_subcross","hist_gen_gen_2pcorrelation_signal_subcross",4,bins4D_2pc,xmin4D_2pc,xmax4D_2pc);
+THnSparseD *hist_gen_gen_2pcorrelation_mixing = new THnSparseD("hist_gen_gen_2pcorrelation_mixing","hist_gen_gen_2pcorrelation_mixing",4,bins4D_2pc,xmin4D_2pc,xmax4D_2pc);
 
 
 // histograms for matched jets and parton flavor studies
@@ -481,6 +492,10 @@ void sw2(){
 	Nev_gengen->Sumw2();
 	Nev_gengen_lead->Sumw2();
 	Nev_gengen_subl->Sumw2();
+	NJets->Sumw2();
+	NJets50->Sumw2();
+	NJets100->Sumw2();
+	NJetsLJ100and50min->Sumw2();
 	gen_mult->Sumw2();
 	gen_mult_weighted->Sumw2();
 	reco_mult->Sumw2();
@@ -805,6 +820,10 @@ void w_QA_hist(bool isMC, bool doleadsubl){
 		Nev_recoreco_lead->Write();
 		Nev_recoreco_subl->Write();
 	}
+	NJets->Write();
+	NJets50->Write();
+	NJets100->Write();
+	NJetsLJ100and50min->Write();
 	if(isMC){
 		Nev_recogen->Write();
 		Nev_genreco->Write();
@@ -1143,7 +1162,7 @@ void w_jes_jer_hist(){
 	hist_jer_reco_fromB_weighted->Write();
 }
 
-// Reco-Reco correlation histograms
+// 2PCorrelation histograms
 /*
 --> Arguments
 mixing: true when doing mixing reference sample otherwise is false
@@ -1162,6 +1181,10 @@ void w_2pc_hist(bool isMC, bool mixing){
 		hist_gen_gen_2pcorrelation_signal_subcross->Write();
 		if(mixing) hist_gen_gen_2pcorrelation_mixing->Write();
 	}
+}
+
+void w_fragmentation_hist(bool isMC){ 
+
 }
 
 
@@ -1301,6 +1324,9 @@ void w_ep_hist(bool isMC){
 	}
 	
 }
+
+
+
 // Unfolding histograms
 void w_unfold_hist(){ 
 

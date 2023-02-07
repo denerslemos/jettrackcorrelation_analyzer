@@ -147,7 +147,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		
 		if(i != 0 && (i % 10000) == 0){double alpha = (double)i; cout << " Running -> percentage: " << std::setprecision(3) << ((alpha / nev) * 100) << "%" << endl;}
 
-		//if(i != 0 && i % 10000 == 0 ) break; // just for tests (need to remove)
+		if(i != 0 && i % 10000 == 0 ) break; // just for tests (need to remove)
 
 		Nevents->Fill(0); // filled after each event cut
 
@@ -425,6 +425,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		bool outsideetarange = false;
 		bool outsideetarangeforref = false;
 		
+		int njets=0;
+		int njetssub=0;
+		int njetslead=0;
+		
 		int jetsize = (int)nref; // number of jets in an event
 		for (int j = 0; j < jetsize; j++){
 
@@ -451,18 +455,22 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		 	find_leading_subleading(jet_pt_corr,jet_eta,jet_phi,leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,sublrecojet_pt,sublrecojet_eta,sublrecojet_phi); // Find leading and subleading jets
 
 		 	if(jet_eta > jet_eta_min_cut && jet_eta < jet_eta_max_cut){ // Jet eta cut
-
+				
+				njets=njets+1;
 				// In pPb case, for the center-of-mass correction if needed
 		 		if(colliding_system=="pPb" && do_CM_pPb){if(is_pgoing){jet_eta = jet_eta - 0.465;}else{jet_eta = -jet_eta - 0.465;}}
 		 		if(do_fowardbackward){if(jet_eta < jet_eta_fwdback_min_cut || jet_eta > jet_eta_fwdback_max_cut) continue;}
 		 	
-		 		if(jet_pt_corr > 50 && jet_pt_corr < jet_pt_max_cut) isjet50included = true;
-		 		if(jet_pt_corr > 80 && jet_pt_corr < jet_pt_max_cut) isjet80included = true;
+		 		if(jet_pt_corr > 50 && jet_pt_corr < jet_pt_max_cut){isjet50included = true;}
+		 		if(jet_pt_corr > 80 && jet_pt_corr < jet_pt_max_cut){isjet80included = true;}
+		 		
+		 		if(jet_pt_corr > subleading_pT_min) njetssub=njetssub+1;
 
 		 		hist_reco_jet_weighted_nocut->Fill(jet_pt_corr,event_weight*jet_weight); // Fill histogram without any pt cut
 		 		
 		 		if(jet_pt_corr > jet_pt_min_cut && jet_pt_corr < jet_pt_max_cut){ // Jet pT cut
-		 		
+
+					njetslead=njetslead+1;
 		 			isjetincluded = true;
 
 		 		 	// Fill reco jet QA histograms
@@ -628,7 +636,12 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if(sublrecojet_eta < jet_eta_min_cut || sublrecojet_eta > jet_eta_max_cut) outsideetarange = true;	
 		if(leadrefjet_eta < jet_eta_min_cut || leadrefjet_eta > jet_eta_max_cut) outsideetarangeforref = true;
 		if(sublrefjet_eta < jet_eta_min_cut || sublrefjet_eta > jet_eta_max_cut) outsideetarangeforref = true;	
-
+		
+		NJets->Fill(njets);
+		NJetsSub->Fill(njetssub);
+		NJetsLead->Fill(njetslead);
+		if(leadrecojet_pt > leading_pT_min) NJetsLJSLJ->Fill(njetssub);
+		
 		bool isdijet = false;
 
 		//leading/subleading jets
@@ -1001,7 +1014,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double Psi4_EP_flat_plus = (double) EP_Psi4_plus_flat;	
 						double Psi4_EP_flat_minus = (double)EP_Psi4_minus_flat;
 						double Psi4_EP_nonflat_plus = (double)(1./4.)*atan(EP_Qy4_plus/EP_Qx4_plus);	
-						double Psi4_EP_nonflat_minus = (double)(1./4.)**atan(EP_Qy4_minus/EP_Qx4_minus);
+						double Psi4_EP_nonflat_minus = (double)(1./4.)*atan(EP_Qy4_minus/EP_Qx4_minus);
 
 		 				Dphi_GEN_EP4_inclusive_plus->Fill(deltaphi2PC(gjet_phi, Psi4_EP_nonflat_plus),(double)multcentbin,event_weight*jet_weight);
 		 				Dphi_GEN_EP4_inclusive_minus->Fill(deltaphi2PC(gjet_phi, Psi4_EP_nonflat_minus),(double)multcentbin,event_weight*jet_weight);

@@ -53,7 +53,7 @@ TString JEC_file = "JEC_pPb_AK4PF_p-going_unembedded.txt"; //JEC file
 TString JEU_file = "JEC_pPb_AK4PF_p-going_unembedded.txt"; //JEU file (future)
 bool use_WTA = false; // use WTA or E-Scheme axis 
 float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation and jet quenching analysis; use 0 for all;
-float leading_pT_min = 100.0; //used for jet leading and subleading correlation and jet quenching analysis
+float leading_pT_min = jet_pt_min_cut; //used for jet leading and subleading correlation and jet quenching analysis
 float leading_pT_max = 8160.0;//used for jet leading and subleading correlation and jet quenching analysis
 float subleading_pT_min = 50.0; //used for jet leading and subleading correlation and jet quenching analysis
 float subleading_pT_max = 8160.0; //used for jet leading and subleading correlation and jet quenching analysis
@@ -64,6 +64,9 @@ float xjmin = 0.0;//xj minimum
 float xjmax = 1.0;//xj maximum
 float Ajmin = 0.0;//Aj minimum
 float Ajmax = 1.0;//Aj maximum
+
+//for jet fragmentation
+double JetR = 0.4;
 
 //=========================================================
 
@@ -156,6 +159,7 @@ void print_input(TString data_or_mc, TFile *fileeff, TString coll_system, float 
 		cout << "pThat min: " << pthatmin  << " GeV"<< endl;
 		cout << "pThat max: " << pthatmax  << " GeV"<< endl;
 	}
+	if(do_jet_fragmentation) cout << "Jet R: " << JetR << endl;
 	cout << endl;
 	cout << "=========== Tracks/Particles ===========" << endl;
 	cout << endl;

@@ -148,6 +148,8 @@ phi2: eta of second object
 */
 float deltaphi(float phi1, float phi2){
 	float deltaPhi = ( phi1 - phi2 );
+    while( deltaPhi >  TMath::Pi() ){deltaPhi += -2*TMath::Pi();}
+    while( deltaPhi < -TMath::Pi() ){deltaPhi  += 2*TMath::Pi();}
 	return deltaPhi;
 }
 
@@ -372,8 +374,8 @@ void twoparticlecorrelation(std::vector<TVector3> tracks, std::vector<double> tr
 			double del_phi = deltaphi2PC(tracks[a].Phi(), tracks[b].Phi());
 			double del_eta = deltaeta(tracks[a].Eta(), tracks[b].Eta());
 			
-			if(del_phi == 0 && del_eta == 0 && trkpt1 == trkpt2) continue; // do not fill histograms if particles are identicles
-
+			if(del_phi == 0 && del_eta == 0 && trkpt1 == trkpt2) continue; // do not fill histograms if particles are identical
+			
 			double x4D[4]={del_phi,del_eta,(double)trkbin,(double)multcentbin}; 
 			if(subetrk1==0 && subetrk2==0){histo_2pcorr->Fill(x4D,trk_weight*event_weight);
 			}else if(subetrk1>0 && subetrk2>0){histo_2pcorr_subeg0->Fill(x4D,trk_weight*event_weight);
