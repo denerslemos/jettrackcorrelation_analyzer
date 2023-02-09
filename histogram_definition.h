@@ -37,21 +37,21 @@ TH1D *gen_mult = new TH1D("gen_mult", "gen_mult", 100, 0.0, 500.0);
 TH1D *gen_mult_weighted = new TH1D("gen_mult_weighted", "gen_mult_weighted", 100, 0.0, 500.0);
 
 // Z vertex
-TH2D *vzhist = new TH2D("vzhist", "vzhist", 80, -20, 20, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *vzhist_weighted = new TH2D("vzhist_weighted", "vzhist_weighted", 80, -20, 20, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *vzhist = new TH2D("vzhist", "vzhist", 80, -20, 20, 100, 0, 500);
+TH2D *vzhist_weighted = new TH2D("vzhist_weighted", "vzhist_weighted", 80, -20, 20, 100, 0, 500);
 // pthat
-TH2D *pthathist = new TH2D("pthathist", "pthathist", 100, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *pthathist_weighted = new TH2D("pthathist_weighted", "pthathist_weighted", 100, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *pthathist = new TH2D("pthathist", "pthathist", 100, 0, 1000, 100, 0, 500);
+TH2D *pthathist_weighted = new TH2D("pthathist_weighted", "pthathist_weighted", 100, 0, 1000, 100, 0, 500);
 // HF energy
-TH2D *hfplushist = new TH2D("hfplushist", "hfplushist", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *hfplushist_weighted = new TH2D("hfplushist_weighted", "hfplushist_weighted", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *hfminushist = new TH2D("hfminushist", "hfminushist", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *hfminushist_weighted = new TH2D("hfminushist_weighted", "hfminushist_weighted", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *hfplushist = new TH2D("hfplushist", "hfplushist", 200, 0, 1000, 100, 0, 500);
+TH2D *hfplushist_weighted = new TH2D("hfplushist_weighted", "hfplushist_weighted", 200, 0, 1000, 100, 0, 500);
+TH2D *hfminushist = new TH2D("hfminushist", "hfminushist", 200, 0, 1000, 100, 0, 500);
+TH2D *hfminushist_weighted = new TH2D("hfminushist_weighted", "hfminushist_weighted", 200, 0, 1000, 100, 0, 500);
 // ZDC
-TH2D *zdcplushist = new TH2D("zdcplushist", "zdcplushist", 2000, -250000,250000, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *zdcplushist_weighted = new TH2D("zdcplushist_weighted", "zdcplushist_weighted", 2000, -250000,250000, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *zdcminushist = new TH2D("zdcminushist", "zdcminushist", 2000, -250000,250000, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *zdcminushist_weighted = new TH2D("zdcminushist_weighted", "zdcminushist_weighted", 2000, -250000,250000, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *zdcplushist = new TH2D("zdcplushist", "zdcplushist", 400, -1000, 1000, 100, 0, 500);
+TH2D *zdcplushist_weighted = new TH2D("zdcplushist_weighted", "zdcplushist_weighted", 400, -1000, 1000, 100, 0, 500);
+TH2D *zdcminushist = new TH2D("zdcminushist", "zdcminushist", 400, -1000, 1000, 100, 0, 500);
+TH2D *zdcminushist_weighted = new TH2D("zdcminushist_weighted", "zdcminushist_weighted", 400, -1000, 1000, 100, 0, 500);
 //quantities with at least 1 jet
 TH1D *multiplicity_withonejet50 = new TH1D("multiplicity_withonejet50", "multiplicity_withonejet50", 100, 0.0, 500.0);
 TH1D *multiplicity_withonejet80 = new TH1D("multiplicity_withonejet80", "multiplicity_withonejet80", 100, 0.0, 500.0);
@@ -64,10 +64,10 @@ TH1D *gen_mult_withonejet = new TH1D("gen_mult_withonejet", "gen_mult_withonejet
 TH1D *gen_mult_withonejet_weighted = new TH1D("gen_mult_withonejet_weighted", "gen_mult_withonejet_weighted", 100, 0.0, 500.0);
 
 // --> multiplicity
-TH2D *hfplushist_withonejet = new TH2D("hfplushist_withonejet", "hfplushist_withonejet", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *hfplushist_withonejet_weighted = new TH2D("hfplushist_withonejet_weighted", "hfplushist_withonejet_weighted", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *hfminushist_withonejet = new TH2D("hfminushist_withonejet", "hfminushist_withonejet", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *hfminushist_withonejet_weighted = new TH2D("hfminushist_withonejet_weighted", "hfminushist_withonejet_weighted", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *hfplushist_withonejet = new TH2D("hfplushist_withonejet", "hfplushist_withonejet", 200, 0, 1000, 100, 0, 500);
+TH2D *hfplushist_withonejet_weighted = new TH2D("hfplushist_withonejet_weighted", "hfplushist_withonejet_weighted", 200, 0, 1000, 100, 0, 500);
+TH2D *hfminushist_withonejet = new TH2D("hfminushist_withonejet", "hfminushist_withonejet", 200, 0, 1000, 100, 0, 500);
+TH2D *hfminushist_withonejet_weighted = new TH2D("hfminushist_withonejet_weighted", "hfminushist_withonejet_weighted", 200, 0, 1000, 100, 0, 500);
 //quantities with dijets
 // --> multiplicity
 TH1D *multiplicity_withdijets = new TH1D("multiplicity_withdijets", "multiplicity_withdijets", 100, 0.0, 500.0);
@@ -77,10 +77,10 @@ TH1D *reco_mult_withdijets_weighted = new TH1D("reco_mult_withdijets_weighted", 
 TH1D *gen_mult_withdijets = new TH1D("gen_mult_withdijets", "gen_mult_withdijets", 100, 0.0, 500.0);
 TH1D *gen_mult_withdijets_weighted = new TH1D("gen_mult_withdijets_weighted", "gen_mult_withdijets_weighted", 100, 0.0, 500.0);
 // --> HF energy
-TH2D *hfplushist_withdijets = new TH2D("hfplushist_withdijets", "hfplushist_withdijets", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *hfplushist_withdijets_weighted = new TH2D("hfplushist_withdijets_weighted", "hfplushist_withdijets_weighted", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *hfminushist_withdijets = new TH2D("hfminushist_withdijets", "hfminushist_withdijets", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *hfminushist_withdijets_weighted = new TH2D("hfminushist_withdijets_weighted", "hfminushist_withdijets_weighted", 200, 0, 1000, multbinsize-1, 0, (double) multbinsize-1);
+TH2D *hfplushist_withdijets = new TH2D("hfplushist_withdijets", "hfplushist_withdijets", 200, 0, 1000, 100, 0, 500);
+TH2D *hfplushist_withdijets_weighted = new TH2D("hfplushist_withdijets_weighted", "hfplushist_withdijets_weighted", 200, 0, 1000, 100, 0, 500);
+TH2D *hfminushist_withdijets = new TH2D("hfminushist_withdijets", "hfminushist_withdijets", 200, 0, 1000, 100, 0, 500);
+TH2D *hfminushist_withdijets_weighted = new TH2D("hfminushist_withdijets_weighted", "hfminushist_withdijets_weighted", 200, 0, 1000, 100, 0, 500);
 
 // event plane histograms
 
@@ -88,14 +88,6 @@ TH2D *hfminushist_withdijets_weighted = new TH2D("hfminushist_withdijets_weighte
 int    bins4D_EP[4]   =   { 50   ,  200 ,   64           , 100};
 double xmin4D_EP[4]   =   { 0     ,    0 ,   -TMath::Pi() , 0};
 double xmax4D_EP[4]   =   { 500   ,  100 ,   TMath::Pi()  , 500};
-
-//before flattening
-THnSparseD *EP2_plus = new THnSparseD("EP2_plus", "EP2_plus", 4, bins4D_EP, xmin4D_EP, xmax4D_EP);
-THnSparseD *EP2_minus = new THnSparseD("EP2_minus", "EP2_minus", 4, bins4D_EP, xmin4D_EP, xmax4D_EP);
-THnSparseD *EP3_plus = new THnSparseD("EP3_plus", "EP3_plus", 4, bins4D_EP, xmin4D_EP, xmax4D_EP);
-THnSparseD *EP3_minus = new THnSparseD("EP3_minus", "EP3_minus", 4, bins4D_EP, xmin4D_EP, xmax4D_EP);
-THnSparseD *EP4_plus = new THnSparseD("EP4_plus", "EP4_plus", 4, bins4D_EP, xmin4D_EP, xmax4D_EP);
-THnSparseD *EP4_minus = new THnSparseD("EP4_minus", "EP4_minus", 4, bins4D_EP, xmin4D_EP, xmax4D_EP);
 
 //after flattening
 THnSparseD *EP2_plus_flat = new THnSparseD("EP2_plus_flat", "EP2_plus_flat", 4, bins4D_EP, xmin4D_EP, xmax4D_EP);
@@ -110,56 +102,22 @@ int    bins3D_TRKEP[3]   =   { 200   				,  trkbinsize-1 		,  multbinsize-1};
 double xmin3D_TRKEP[3]   =   { -TMath::Pi()/2.0     ,  0 					, 0};
 double xmax3D_TRKEP[3]   =   { 3.0*TMath::Pi()/2.0  ,  (double)trkbinsize-1 , (double) multbinsize-1};
 
-THnSparseD *Dphi_EP2_trk_minus = new THnSparseD("Dphi_EP2_trk_minus", "Dphi_EP2_trk_minus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
-THnSparseD *Dphi_EP2_trk_plus = new THnSparseD("Dphi_EP2_trk_plus", "Dphi_EP2_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
-THnSparseD *Dphi_EP3_trk_minus = new THnSparseD("Dphi_EP3_trk_minus", "Dphi_EP3_trk_minus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
-THnSparseD *Dphi_EP3_trk_plus = new THnSparseD("Dphi_EP3_trk_plus", "Dphi_EP3_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
-THnSparseD *Dphi_EP4_trk_minus = new THnSparseD("Dphi_EP4_trk_plus", "Dphi_EP4_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
-THnSparseD *Dphi_EP4_trk_plus = new THnSparseD("Dphi_EP4_trk_plus", "Dphi_EP4_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
-
 THnSparseD *Dphi_EP2_flat_trk_minus = new THnSparseD("Dphi_EP2_flat_trk_minus", "Dphi_EP2_flat_trk_minus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
 THnSparseD *Dphi_EP2_flat_trk_plus = new THnSparseD("Dphi_EP2_flat_trk_plus", "Dphi_EP2_flat_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
 THnSparseD *Dphi_EP3_flat_trk_minus = new THnSparseD("Dphi_EP3_flat_trk_minus", "Dphi_EP3_flat_trk_minus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
 THnSparseD *Dphi_EP3_flat_trk_plus = new THnSparseD("Dphi_EP3_flat_trk_plus", "Dphi_EP3_flat_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
-THnSparseD *Dphi_EP4_flat_trk_minus = new THnSparseD("Dphi_EP4_flat_trk_plus", "Dphi_EP4_flat_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_EP4_flat_trk_minus = new THnSparseD("Dphi_EP4_flat_trk_minus", "Dphi_EP4_flat_trk_minus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
 THnSparseD *Dphi_EP4_flat_trk_plus = new THnSparseD("Dphi_EP4_flat_trk_plus", "Dphi_EP4_flat_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
-
-THnSparseD *Dphi_GEN_EP2_trk_minus = new THnSparseD("Dphi_GEN_EP2_trk_minus", "Dphi_GEN_EP2_trk_minus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
-THnSparseD *Dphi_GEN_EP2_trk_plus = new THnSparseD("Dphi_GEN_EP2_trk_plus", "Dphi_GEN_EP2_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
-THnSparseD *Dphi_GEN_EP3_trk_minus = new THnSparseD("Dphi_GEN_EP3_trk_minus", "Dphi_GEN_EP3_trk_minus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
-THnSparseD *Dphi_GEN_EP3_trk_plus = new THnSparseD("Dphi_GEN_EP3_trk_plus", "Dphi_GEN_EP3_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
-THnSparseD *Dphi_GEN_EP4_trk_minus = new THnSparseD("Dphi_GEN_EP4_trk_plus", "Dphi_GEN_EP4_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
-THnSparseD *Dphi_GEN_EP4_trk_plus = new THnSparseD("Dphi_GEN_EP4_trk_plus", "Dphi_GEN_EP4_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
 
 THnSparseD *Dphi_GEN_EP2_flat_trk_minus = new THnSparseD("Dphi_GEN_EP2_flat_trk_minus", "Dphi_GEN_EP2_flat_trk_minus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
 THnSparseD *Dphi_GEN_EP2_flat_trk_plus = new THnSparseD("Dphi_GEN_EP2_flat_trk_plus", "Dphi_GEN_EP2_flat_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
 THnSparseD *Dphi_GEN_EP3_flat_trk_minus = new THnSparseD("Dphi_GEN_EP3_flat_trk_minus", "Dphi_GEN_EP3_flat_trk_minus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
 THnSparseD *Dphi_GEN_EP3_flat_trk_plus = new THnSparseD("Dphi_GEN_EP3_flat_trk_plus", "Dphi_GEN_EP3_flat_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
-THnSparseD *Dphi_GEN_EP4_flat_trk_minus = new THnSparseD("Dphi_GEN_EP4_flat_trk_plus", "Dphi_GEN_EP4_flat_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
+THnSparseD *Dphi_GEN_EP4_flat_trk_minus = new THnSparseD("Dphi_GEN_EP4_flat_trk_minus", "Dphi_GEN_EP4_flat_trk_minus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
 THnSparseD *Dphi_GEN_EP4_flat_trk_plus = new THnSparseD("Dphi_GEN_EP4_flat_trk_plus", "Dphi_GEN_EP4_flat_trk_plus", 3, bins3D_TRKEP, xmin3D_TRKEP, xmax3D_TRKEP);
 
 //correlations to EP
 // Axis : X -> delta phi, Y -> multiplicity bins
-TH2D *Dphi_EP2_inclusive_minus = new TH2D("Dphi_EP2_inclusive_minus", "Dphi_EP2_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_EP2_leading_minus = new TH2D("Dphi_EP2_leading_minus", "Dphi_EP2_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_EP2_subleading_minus = new TH2D("Dphi_EP2_subleading_minus", "Dphi_EP2_subleading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_EP2_inclusive_plus = new TH2D("Dphi_EP2_inclusive_plus", "Dphi_EP2_inclusive_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_EP2_leading_plus = new TH2D("Dphi_EP2_leading_plus", "Dphi_EP2_leading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_EP2_subleading_plus = new TH2D("Dphi_EP2_subleading_plus", "Dphi_EP2_subleading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-
-TH2D *Dphi_EP3_inclusive_minus = new TH2D("Dphi_EP3_inclusive_minus", "Dphi_EP3_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_EP3_leading_minus = new TH2D("Dphi_EP3_leading_minus", "Dphi_EP3_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_EP3_subleading_minus = new TH2D("Dphi_EP3_subleading_minus", "Dphi_EP3_subleading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_EP3_inclusive_plus = new TH2D("Dphi_EP3_inclusive_plus", "Dphi_EP3_inclusive_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_EP3_leading_plus = new TH2D("Dphi_EP3_leading_plus", "Dphi_EP3_leading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_EP3_subleading_plus = new TH2D("Dphi_EP3_subleading_plus", "Dphi_EP3_subleading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-
-TH2D *Dphi_EP4_inclusive_minus = new TH2D("Dphi_EP4_inclusive_minus", "Dphi_EP4_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_EP4_leading_minus = new TH2D("Dphi_EP4_leading_minus", "Dphi_EP4_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_EP4_subleading_minus = new TH2D("Dphi_EP4_subleading_minus", "Dphi_EP4_subleading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_EP4_inclusive_plus = new TH2D("Dphi_EP4_inclusive_plus", "Dphi_EP4_inclusive_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_EP4_leading_plus = new TH2D("Dphi_EP4_leading_plus", "Dphi_EP4_leading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_EP4_subleading_plus = new TH2D("Dphi_EP4_subleading_plus", "Dphi_EP4_subleading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
 
 TH2D *Dphi_flat_EP2_inclusive_minus = new TH2D("Dphi_flat_EP2_inclusive_minus", "Dphi_flat_EP2_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
 TH2D *Dphi_flat_EP2_leading_minus = new TH2D("Dphi_flat_EP2_leading_minus", "Dphi_flat_EP2_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
@@ -181,27 +139,6 @@ TH2D *Dphi_flat_EP4_subleading_minus = new TH2D("Dphi_flat_EP4_subleading_minus"
 TH2D *Dphi_flat_EP4_inclusive_plus = new TH2D("Dphi_flat_EP4_inclusive_plus", "Dphi_flat_EP4_inclusive_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
 TH2D *Dphi_flat_EP4_leading_plus = new TH2D("Dphi_flat_EP4_leading_plus", "Dphi_flat_EP4_leading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
 TH2D *Dphi_flat_EP4_subleading_plus = new TH2D("Dphi_flat_EP4_subleading_plus", "Dphi_flat_EP4_subleading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-
-TH2D *Dphi_GEN_EP2_inclusive_minus = new TH2D("Dphi_GEN_EP2_inclusive_minus", "Dphi_GEN_EP2_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_GEN_EP2_leading_minus = new TH2D("Dphi_GEN_EP2_leading_minus", "Dphi_GEN_EP2_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_GEN_EP2_subleading_minus = new TH2D("Dphi_GEN_EP2_subleading_minus", "Dphi_GEN_EP2_subleading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_GEN_EP2_inclusive_plus = new TH2D("Dphi_GEN_EP2_inclusive_plus", "Dphi_GEN_EP2_inclusive_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_GEN_EP2_leading_plus = new TH2D("Dphi_GEN_EP2_leading_plus", "Dphi_GEN_EP2_leading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_GEN_EP2_subleading_plus = new TH2D("Dphi_GEN_EP2_subleading_plus", "Dphi_GEN_EP2_subleading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-
-TH2D *Dphi_GEN_EP3_inclusive_minus = new TH2D("Dphi_GEN_EP3_inclusive_minus", "Dphi_GEN_EP3_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_GEN_EP3_leading_minus = new TH2D("Dphi_GEN_EP3_leading_minus", "Dphi_GEN_EP3_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_GEN_EP3_subleading_minus = new TH2D("Dphi_GEN_EP3_subleading_minus", "Dphi_GEN_EP3_subleading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_GEN_EP3_inclusive_plus = new TH2D("Dphi_GEN_EP3_inclusive_plus", "Dphi_GEN_EP3_inclusive_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_GEN_EP3_leading_plus = new TH2D("Dphi_GEN_EP3_leading_plus", "Dphi_GEN_EP3_leading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_GEN_EP3_subleading_plus = new TH2D("Dphi_GEN_EP3_subleading_plus", "Dphi_GEN_EP3_subleading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-
-TH2D *Dphi_GEN_EP4_inclusive_minus = new TH2D("Dphi_GEN_EP4_inclusive_minus", "Dphi_GEN_EP4_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_GEN_EP4_leading_minus = new TH2D("Dphi_GEN_EP4_leading_minus", "Dphi_GEN_EP4_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_GEN_EP4_subleading_minus = new TH2D("Dphi_GEN_EP4_subleading_minus", "Dphi_GEN_EP4_subleading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_GEN_EP4_inclusive_plus = new TH2D("Dphi_GEN_EP4_inclusive_plus", "Dphi_GEN_EP4_inclusive_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_GEN_EP4_leading_plus = new TH2D("Dphi_GEN_EP4_leading_plus", "Dphi_GEN_EP4_leading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
-TH2D *Dphi_GEN_EP4_subleading_plus = new TH2D("Dphi_GEN_EP4_subleading_plus", "Dphi_GEN_EP4_subleading_plus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
 
 TH2D *Dphi_GEN_flat_EP2_inclusive_minus = new TH2D("Dphi_GEN_flat_EP2_inclusive_minus", "Dphi_GEN_flat_EP2_inclusive_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
 TH2D *Dphi_GEN_flat_EP2_leading_minus = new TH2D("Dphi_GEN_flat_EP2_leading_minus", "Dphi_GEN_flat_EP2_leading_minus", 200, -TMath::Pi()/2.0, 3.0*TMath::Pi()/2.0, multbinsize-1, 0, (double) multbinsize-1);
@@ -493,9 +430,9 @@ void sw2(){
 	Nev_gengen_lead->Sumw2();
 	Nev_gengen_subl->Sumw2();
 	NJets->Sumw2();
-	NJets50->Sumw2();
-	NJets100->Sumw2();
-	NJetsLJ100and50min->Sumw2();
+	NJetsSub->Sumw2();
+	NJetsLead->Sumw2();
+	NJetsLJSLJ->Sumw2();
 	gen_mult->Sumw2();
 	gen_mult_weighted->Sumw2();
 	reco_mult->Sumw2();
@@ -696,36 +633,12 @@ void sw2(){
 	hist_gen_gen_2pcorrelation_signal_subg0->Sumw2();
 	hist_gen_gen_2pcorrelation_signal_subcross->Sumw2();
 	hist_gen_gen_2pcorrelation_mixing->Sumw2();
-	EP2_plus->Sumw2();
-	EP2_minus->Sumw2();
-	EP3_plus->Sumw2();
-	EP3_minus->Sumw2();
-	EP4_plus->Sumw2();
-	EP4_minus->Sumw2();
 	EP2_plus_flat->Sumw2();
 	EP2_minus_flat->Sumw2();
 	EP3_plus_flat->Sumw2();
 	EP3_minus_flat->Sumw2();
 	EP4_plus_flat->Sumw2();
 	EP4_minus_flat->Sumw2();
-	Dphi_EP2_inclusive_minus->Sumw2();
-	Dphi_EP2_leading_minus->Sumw2();
-	Dphi_EP2_subleading_minus->Sumw2();
-	Dphi_EP2_inclusive_plus->Sumw2();
-	Dphi_EP2_leading_plus->Sumw2();
-	Dphi_EP2_subleading_plus->Sumw2();
-	Dphi_EP3_inclusive_minus->Sumw2();
-	Dphi_EP3_leading_minus->Sumw2();
-	Dphi_EP3_subleading_minus->Sumw2();
-	Dphi_EP3_inclusive_plus->Sumw2();
-	Dphi_EP3_leading_plus->Sumw2();
-	Dphi_EP3_subleading_plus->Sumw2();
-	Dphi_EP4_inclusive_minus->Sumw2();
-	Dphi_EP4_leading_minus->Sumw2();
-	Dphi_EP4_subleading_minus->Sumw2();
-	Dphi_EP4_inclusive_plus->Sumw2();
-	Dphi_EP4_leading_plus->Sumw2();
-	Dphi_EP4_subleading_plus->Sumw2();
 	Dphi_flat_EP2_inclusive_minus->Sumw2();
 	Dphi_flat_EP2_leading_minus->Sumw2();
 	Dphi_flat_EP2_subleading_minus->Sumw2();
@@ -744,24 +657,6 @@ void sw2(){
 	Dphi_flat_EP4_inclusive_plus->Sumw2();
 	Dphi_flat_EP4_leading_plus->Sumw2();
 	Dphi_flat_EP4_subleading_plus->Sumw2();
-	Dphi_GEN_EP2_inclusive_minus->Sumw2();
-	Dphi_GEN_EP2_leading_minus->Sumw2();
-	Dphi_GEN_EP2_subleading_minus->Sumw2();
-	Dphi_GEN_EP2_inclusive_plus->Sumw2();
-	Dphi_GEN_EP2_leading_plus->Sumw2();
-	Dphi_GEN_EP2_subleading_plus->Sumw2();
-	Dphi_GEN_EP3_inclusive_minus->Sumw2();
-	Dphi_GEN_EP3_leading_minus->Sumw2();
-	Dphi_GEN_EP3_subleading_minus->Sumw2();
-	Dphi_GEN_EP3_inclusive_plus->Sumw2();
-	Dphi_GEN_EP3_leading_plus->Sumw2();
-	Dphi_GEN_EP3_subleading_plus->Sumw2();
-	Dphi_GEN_EP4_inclusive_minus->Sumw2();
-	Dphi_GEN_EP4_leading_minus->Sumw2();
-	Dphi_GEN_EP4_subleading_minus->Sumw2();
-	Dphi_GEN_EP4_inclusive_plus->Sumw2();
-	Dphi_GEN_EP4_leading_plus->Sumw2();
-	Dphi_GEN_EP4_subleading_plus->Sumw2();
 	Dphi_GEN_flat_EP2_inclusive_minus->Sumw2();
 	Dphi_GEN_flat_EP2_leading_minus->Sumw2();
 	Dphi_GEN_flat_EP2_subleading_minus->Sumw2();
@@ -780,18 +675,6 @@ void sw2(){
 	Dphi_GEN_flat_EP4_inclusive_plus->Sumw2();
 	Dphi_GEN_flat_EP4_leading_plus->Sumw2();
 	Dphi_GEN_flat_EP4_subleading_plus->Sumw2();
-	Dphi_EP2_trk_minus->Sumw2();
-	Dphi_EP2_trk_plus->Sumw2();
-	Dphi_EP3_trk_minus->Sumw2();
-	Dphi_EP3_trk_plus->Sumw2();
-	Dphi_EP4_trk_minus->Sumw2();
-	Dphi_EP4_trk_plus->Sumw2();
-	Dphi_GEN_EP2_trk_minus->Sumw2();
-	Dphi_GEN_EP2_trk_plus->Sumw2();
-	Dphi_GEN_EP3_trk_minus->Sumw2();
-	Dphi_GEN_EP3_trk_plus->Sumw2();
-	Dphi_GEN_EP4_trk_minus->Sumw2();
-	Dphi_GEN_EP4_trk_plus->Sumw2();
 	Dphi_EP2_flat_trk_minus->Sumw2();
 	Dphi_EP2_flat_trk_plus->Sumw2();
 	Dphi_EP3_flat_trk_minus->Sumw2();
@@ -821,9 +704,9 @@ void w_QA_hist(bool isMC, bool doleadsubl){
 		Nev_recoreco_subl->Write();
 	}
 	NJets->Write();
-	NJets50->Write();
-	NJets100->Write();
-	NJetsLJ100and50min->Write();
+	NJetsSub->Write();
+	NJetsLead->Write();
+	NJetsLJSLJ->Write();
 	if(isMC){
 		Nev_recogen->Write();
 		Nev_genreco->Write();
@@ -1191,40 +1074,12 @@ void w_fragmentation_hist(bool isMC){
 // event plane histograms
 void w_ep_hist(bool isMC){ 
 
-	EP2_plus->Write();
-	EP2_minus->Write();
-	EP3_plus->Write();
-	EP3_minus->Write();
-	EP4_plus->Write();
-	EP4_minus->Write();
-
 	EP2_plus_flat->Write();
 	EP2_minus_flat->Write();
 	EP3_plus_flat->Write();
 	EP3_minus_flat->Write();
 	EP4_plus_flat->Write();
 	EP4_minus_flat->Write();
-
-	Dphi_EP2_inclusive_minus->Write();
-	Dphi_EP2_leading_minus->Write();
-	Dphi_EP2_subleading_minus->Write();
-	Dphi_EP2_inclusive_plus->Write();
-	Dphi_EP2_leading_plus->Write();
-	Dphi_EP2_subleading_plus->Write();
-
-	Dphi_EP3_inclusive_minus->Write();
-	Dphi_EP3_leading_minus->Write();
-	Dphi_EP3_subleading_minus->Write();
-	Dphi_EP3_inclusive_plus->Write();
-	Dphi_EP3_leading_plus->Write();
-	Dphi_EP3_subleading_plus->Write();
-
-	Dphi_EP4_inclusive_minus->Write();
-	Dphi_EP4_leading_minus->Write();
-	Dphi_EP4_subleading_minus->Write();
-	Dphi_EP4_inclusive_plus->Write();
-	Dphi_EP4_leading_plus->Write();
-	Dphi_EP4_subleading_plus->Write();
 
 	Dphi_flat_EP2_inclusive_minus->Write();
 	Dphi_flat_EP2_leading_minus->Write();
@@ -1248,27 +1103,6 @@ void w_ep_hist(bool isMC){
 	Dphi_flat_EP4_subleading_plus->Write();
 	
 	if(isMC){
-	
-		Dphi_GEN_EP2_inclusive_minus->Write();
-		Dphi_GEN_EP2_leading_minus->Write();
-		Dphi_GEN_EP2_subleading_minus->Write();
-		Dphi_GEN_EP2_inclusive_plus->Write();
-		Dphi_GEN_EP2_leading_plus->Write();
-		Dphi_GEN_EP2_subleading_plus->Write();
-
-		Dphi_GEN_EP3_inclusive_minus->Write();
-		Dphi_GEN_EP3_leading_minus->Write();
-		Dphi_GEN_EP3_subleading_minus->Write();
-		Dphi_GEN_EP3_inclusive_plus->Write();
-		Dphi_GEN_EP3_leading_plus->Write();
-		Dphi_GEN_EP3_subleading_plus->Write();
-
-		Dphi_GEN_EP4_inclusive_minus->Write();
-		Dphi_GEN_EP4_leading_minus->Write();
-		Dphi_GEN_EP4_subleading_minus->Write();
-		Dphi_GEN_EP4_inclusive_plus->Write();
-		Dphi_GEN_EP4_leading_plus->Write();
-		Dphi_GEN_EP4_subleading_plus->Write();
 
 		Dphi_GEN_flat_EP2_inclusive_minus->Write();
 		Dphi_GEN_flat_EP2_leading_minus->Write();
@@ -1293,13 +1127,6 @@ void w_ep_hist(bool isMC){
 		
 	}
 	
-	Dphi_EP2_trk_minus->Write();
-	Dphi_EP2_trk_plus->Write();
-	Dphi_EP3_trk_minus->Write();
-	Dphi_EP3_trk_plus->Write();
-	Dphi_EP4_trk_minus->Write();
-	Dphi_EP4_trk_plus->Write();
-	
 	Dphi_EP2_flat_trk_minus->Write();
 	Dphi_EP2_flat_trk_plus->Write();
 	Dphi_EP3_flat_trk_minus->Write();
@@ -1308,13 +1135,6 @@ void w_ep_hist(bool isMC){
 	Dphi_EP4_flat_trk_plus->Write();
 	
 	if(isMC){
-		Dphi_GEN_EP2_trk_minus->Write();
-		Dphi_GEN_EP2_trk_plus->Write();
-		Dphi_GEN_EP3_trk_minus->Write();
-		Dphi_GEN_EP3_trk_plus->Write();
-		Dphi_GEN_EP4_trk_minus->Write();
-		Dphi_GEN_EP4_trk_plus->Write();
-		
 		Dphi_GEN_EP2_flat_trk_minus->Write();
 		Dphi_GEN_EP2_flat_trk_plus->Write();
 		Dphi_GEN_EP3_flat_trk_minus->Write();

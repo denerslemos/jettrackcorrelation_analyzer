@@ -37,26 +37,19 @@ bool do_jet_fragmentation = false; // calculate jet fragmentation for inclusive 
 
 TString jet_collection = "ak4PFJetAnalyzer"; // jet collection in forest
 bool dojettrigger = false; // apply jet trigger
-TString jet_trigger = "HLT_PAAK4PFJet80_Eta5p1_v3"; // jet trigger in forest
+TString jet_trigger = "HLT_PAAK4PFJet80_Eta5p1_v3"; // jet trigger in forest 
+
 float jet_pt_min_cut = 100.0; // jet min pT cut 
 float jet_pt_max_cut = 8160.0; // jet max pT cut 
-
 float jet_eta_min_cut = -1.3; // jet min eta cut 
 float jet_eta_max_cut = 1.3; // jet min eta cut 
-
-bool do_jet_smearing = false; // smearing
-
-float jet_eta_fwdback_min_cut = 0.7; // jet min eta cut for forward/backward studies
-float jet_eta_fwdback_max_cut = 1.4; // jet min eta cut for forward/backward studies
 
 TString JEC_file = "JEC_pPb_AK4PF_p-going_unembedded.txt"; //JEC file
 TString JEU_file = "JEC_pPb_AK4PF_p-going_unembedded.txt"; //JEU file (future)
 bool use_WTA = false; // use WTA or E-Scheme axis 
 float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation and jet quenching analysis; use 0 for all;
 float leading_pT_min = jet_pt_min_cut; //used for jet leading and subleading correlation and jet quenching analysis
-float leading_pT_max = 8160.0;//used for jet leading and subleading correlation and jet quenching analysis
 float subleading_pT_min = 50.0; //used for jet leading and subleading correlation and jet quenching analysis
-float subleading_pT_max = 8160.0; //used for jet leading and subleading correlation and jet quenching analysis
 
 //if we want to make Xj or Aj selections [0,1] are full inclusive
 bool do_Xj_or_Ajcut = false;
@@ -65,8 +58,16 @@ float xjmax = 1.0;//xj maximum
 float Ajmin = 0.0;//Aj minimum
 float Ajmax = 1.0;//Aj maximum
 
+//for jet forward/backward
+float jet_eta_fwdback_min_cut = 0.7; // jet min eta cut for forward/backward studies
+float jet_eta_fwdback_max_cut = 1.4; // jet min eta cut for forward/backward studies
+
 //for jet fragmentation
-double JetR = 0.4;
+double JetR = 0.4; // Jet R cone
+double fragtrkptmin = 1.0; // min pT of the tracks in the fragmentation
+double fragtrkptmax = 8160; // max pT of the tracks in the fragmentation
+
+bool do_jet_smearing = false; // smearing
 
 //=========================================================
 
@@ -150,16 +151,19 @@ void print_input(TString data_or_mc, TFile *fileeff, TString coll_system, float 
 	}
 	if(do_leading_subleading_jettrack_correlation){
 		cout << "Leading jet pT min: " << leading_pT_min  << " GeV"<< endl;
-		cout << "Leading jet pT max: " << leading_pT_max  << " GeV"<< endl;
 		cout << "Sub-Leading jet pT min: " << subleading_pT_min  << " GeV"<< endl;
-		cout << "Sub-Leading jet pT max: " << subleading_pT_max  << " GeV"<< endl;
 		cout << "Delta phi (leading,subleading) jets > " << leading_subleading_deltaphi_min << endl;
 	}
 	if(do_pthatcut){
 		cout << "pThat min: " << pthatmin  << " GeV"<< endl;
 		cout << "pThat max: " << pthatmax  << " GeV"<< endl;
 	}
-	if(do_jet_fragmentation) cout << "Jet R: " << JetR << endl;
+	if(do_jet_fragmentation){
+		cout << " --> Fragmentation" << endl;
+	 	cout << "Jet R: " << JetR << endl;
+	 	cout << "Trk pT min: " << fragtrkptmin << endl;
+	 	cout << "Trk pT max: " << fragtrkptmax << endl;
+	}
 	cout << endl;
 	cout << "=========== Tracks/Particles ===========" << endl;
 	cout << endl;
