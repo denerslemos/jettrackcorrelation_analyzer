@@ -435,12 +435,12 @@ void sw2(){
 	gen_mult_weighted->Sumw2();
 	reco_mult->Sumw2();
 	reco_mult_weighted->Sumw2();
-    multiplicity->Sumw2();
+   	multiplicity->Sumw2();
    	multiplicity_weighted->Sumw2();
-    vzhist->Sumw2();
+    	vzhist->Sumw2();
    	vzhist_weighted->Sumw2();
-    pthathist->Sumw2();
-    pthathist_weighted->Sumw2();
+   	pthathist->Sumw2();
+   	pthathist_weighted->Sumw2();
 	hfplushist->Sumw2();
 	hfplushist_weighted->Sumw2();
 	hfminushist->Sumw2();
@@ -473,18 +473,18 @@ void sw2(){
 	hist_gen_trk->Sumw2();
 	hist_gen_trk_weighted->Sumw2();
 	hist_reco_jet_weighted_nocut->Sumw2();
-    hist_reco_jet->Sumw2();
-    hist_reco_jet_corr->Sumw2();
-    hist_reco_jet_weighted->Sumw2();
-    hist_reco_jet_corr_weighted->Sumw2();
-    hist_reco_leadjet_pt_nocut->Sumw2();
-    hist_reco_leadjet_pt_nocut_weighted->Sumw2();
-    hist_reco_subljet_pt_nocut->Sumw2();
-    hist_reco_subljet_pt_nocut_weighted->Sumw2();
-    hist_reco_leadjet->Sumw2();
-    hist_reco_leadjet_weighted->Sumw2();
-    hist_reco_subljet->Sumw2();
-    hist_reco_subljet_weighted->Sumw2();
+    	hist_reco_jet->Sumw2();
+    	hist_reco_jet_corr->Sumw2();
+    	hist_reco_jet_weighted->Sumw2();
+    	hist_reco_jet_corr_weighted->Sumw2();
+    	hist_reco_leadjet_pt_nocut->Sumw2();
+    	hist_reco_leadjet_pt_nocut_weighted->Sumw2();
+    	hist_reco_subljet_pt_nocut->Sumw2();
+    	hist_reco_subljet_pt_nocut_weighted->Sumw2();
+    	hist_reco_leadjet->Sumw2();
+    	hist_reco_leadjet_weighted->Sumw2();
+    	hist_reco_subljet->Sumw2();
+    	hist_reco_subljet_weighted->Sumw2();
 	hist_gen_jet_weighted_nocut->Sumw2();
 	hist_gen_jet->Sumw2();
 	hist_gen_jet_weighted->Sumw2();
@@ -496,42 +496,42 @@ void sw2(){
 	hist_gen_leadjet_weighted->Sumw2();
 	hist_gen_subljet->Sumw2();
 	hist_gen_subljet_weighted->Sumw2();
-    hist_correlation_signal_jet_reco_track_reco->Sumw2();
-    hist_correlation_rotation_jet_reco_track_reco->Sumw2();
-    hist_correlation_mixing_jet_reco_track_reco->Sumw2();
-    hist_correlation_signal_lead_jet_reco_track_reco->Sumw2();
-    hist_correlation_rotation_lead_jet_reco_track_reco->Sumw2();
-    hist_correlation_mixing_lead_jet_reco_track_reco->Sumw2();
-    hist_correlation_signal_subl_jet_reco_track_reco->Sumw2(); 
-    hist_correlation_rotation_subl_jet_reco_track_reco->Sumw2();
-    hist_correlation_mixing_subl_jet_reco_track_reco->Sumw2();
-    hist_correlation_signal_jet_reco_track_gen->Sumw2();
-    hist_correlation_rotation_jet_reco_track_gen->Sumw2();
-    hist_correlation_mixing_jet_reco_track_gen->Sumw2();
-    hist_correlation_signal_lead_jet_reco_track_gen->Sumw2();
-    hist_correlation_rotation_lead_jet_reco_track_gen->Sumw2();
-    hist_correlation_mixing_lead_jet_reco_track_gen->Sumw2();
-    hist_correlation_signal_subl_jet_reco_track_gen->Sumw2();
-    hist_correlation_rotation_subl_jet_reco_track_gen->Sumw2();
-    hist_correlation_mixing_subl_jet_reco_track_gen->Sumw2();
-    hist_correlation_signal_jet_gen_track_reco->Sumw2();
-    hist_correlation_rotation_jet_gen_track_reco->Sumw2();
-    hist_correlation_mixing_jet_gen_track_reco->Sumw2();
-    hist_correlation_signal_lead_jet_gen_track_reco->Sumw2(); 
-    hist_correlation_rotation_lead_jet_gen_track_reco->Sumw2();
-    hist_correlation_mixing_lead_jet_gen_track_reco->Sumw2();
-    hist_correlation_signal_subl_jet_gen_track_reco->Sumw2(); 
-    hist_correlation_rotation_subl_jet_gen_track_reco->Sumw2();
-    hist_correlation_mixing_subl_jet_gen_track_reco->Sumw2();
-    hist_correlation_signal_jet_gen_track_gen->Sumw2();
-    hist_correlation_rotation_jet_gen_track_gen->Sumw2();
-    hist_correlation_mixing_jet_gen_track_gen->Sumw2();
-    hist_correlation_signal_lead_jet_gen_track_gen->Sumw2();
-    hist_correlation_rotation_lead_jet_gen_track_gen->Sumw2();
-    hist_correlation_mixing_lead_jet_gen_track_gen->Sumw2();
-    hist_correlation_signal_subl_jet_gen_track_gen->Sumw2();
-    hist_correlation_rotation_subl_jet_gen_track_gen->Sumw2();
-    hist_correlation_mixing_subl_jet_gen_track_gen->Sumw2();
+    	hist_correlation_signal_jet_reco_track_reco->Sumw2();
+    	hist_correlation_rotation_jet_reco_track_reco->Sumw2();
+    	hist_correlation_mixing_jet_reco_track_reco->Sumw2();
+    	hist_correlation_signal_lead_jet_reco_track_reco->Sumw2();
+    	hist_correlation_rotation_lead_jet_reco_track_reco->Sumw2();
+    	hist_correlation_mixing_lead_jet_reco_track_reco->Sumw2();
+    	hist_correlation_signal_subl_jet_reco_track_reco->Sumw2(); 
+    	hist_correlation_rotation_subl_jet_reco_track_reco->Sumw2();
+    	hist_correlation_mixing_subl_jet_reco_track_reco->Sumw2();
+    	hist_correlation_signal_jet_reco_track_gen->Sumw2();
+    	hist_correlation_rotation_jet_reco_track_gen->Sumw2();
+    	hist_correlation_mixing_jet_reco_track_gen->Sumw2();
+    	hist_correlation_signal_lead_jet_reco_track_gen->Sumw2();
+    	hist_correlation_rotation_lead_jet_reco_track_gen->Sumw2();
+    	hist_correlation_mixing_lead_jet_reco_track_gen->Sumw2();
+    	hist_correlation_signal_subl_jet_reco_track_gen->Sumw2();
+    	hist_correlation_rotation_subl_jet_reco_track_gen->Sumw2();
+    	hist_correlation_mixing_subl_jet_reco_track_gen->Sumw2();
+    	hist_correlation_signal_jet_gen_track_reco->Sumw2();
+    	hist_correlation_rotation_jet_gen_track_reco->Sumw2();
+    	hist_correlation_mixing_jet_gen_track_reco->Sumw2();
+    	hist_correlation_signal_lead_jet_gen_track_reco->Sumw2(); 
+    	hist_correlation_rotation_lead_jet_gen_track_reco->Sumw2();
+    	hist_correlation_mixing_lead_jet_gen_track_reco->Sumw2();
+    	hist_correlation_signal_subl_jet_gen_track_reco->Sumw2(); 
+    	hist_correlation_rotation_subl_jet_gen_track_reco->Sumw2();
+    	hist_correlation_mixing_subl_jet_gen_track_reco->Sumw2();
+    	hist_correlation_signal_jet_gen_track_gen->Sumw2();
+    	hist_correlation_rotation_jet_gen_track_gen->Sumw2();
+    	hist_correlation_mixing_jet_gen_track_gen->Sumw2();
+   	hist_correlation_signal_lead_jet_gen_track_gen->Sumw2();
+    	hist_correlation_rotation_lead_jet_gen_track_gen->Sumw2();
+    	hist_correlation_mixing_lead_jet_gen_track_gen->Sumw2();
+    	hist_correlation_signal_subl_jet_gen_track_gen->Sumw2();
+    	hist_correlation_rotation_subl_jet_gen_track_gen->Sumw2();
+    	hist_correlation_mixing_subl_jet_gen_track_gen->Sumw2();
 	hist_correlation_signal_subg0_jet_reco_track_reco->Sumw2();
 	hist_correlation_signal_subg0_jet_reco_track_gen->Sumw2();
 	hist_correlation_signal_subg0_jet_gen_track_reco->Sumw2();
@@ -592,8 +592,8 @@ void sw2(){
 	hist_SLJ_trk_from_reco_gen_mix->Sumw2();
 	hist_SLJ_trk_from_gen_reco_mix->Sumw2();
 	hist_SLJ_trk_from_gen_gen_mix->Sumw2();
-    hist_reco_lead_reco_subl_quench->Sumw2(); 
-    hist_reco_lead_reco_subl_quench2pc->Sumw2();
+    	hist_reco_lead_reco_subl_quench->Sumw2(); 
+    	hist_reco_lead_reco_subl_quench2pc->Sumw2();
    	hist_gen_lead_gen_subl_quench->Sumw2(); 
    	hist_gen_lead_gen_subl_quench2pc->Sumw2();
 	hist_ref_lead_ref_subl_quench->Sumw2();
@@ -718,9 +718,9 @@ void w_QA_hist(bool isMC, bool doleadsubl){
 	}
 	reco_mult->Write();
 	reco_mult_weighted->Write();
-    multiplicity->Write();
+    	multiplicity->Write();
    	multiplicity_weighted->Write();
-    vzhist->Write();
+    	vzhist->Write();
    	vzhist_weighted->Write();
     if(isMC){
         pthathist->Write();
@@ -756,24 +756,24 @@ void w_QA_hist(bool isMC, bool doleadsubl){
 	hfplushist_withdijets_weighted->Write();
 	hfminushist_withdijets->Write();
 	hfminushist_withdijets_weighted->Write();
-    //tracks 
-    //reco
+    	//tracks 
+    	//reco
 	hist_reco_trk->Write();
 	hist_reco_trk_corr->Write();
 	hist_reco_trk_weighted->Write();
 
-    //gen
+    	//gen
 	if(isMC){
 		hist_gen_trk->Write();
 		hist_gen_trk_weighted->Write();
 	}
-    //jets 
-    //reco
+    	//jets 
+    	//reco
 	hist_reco_jet_weighted_nocut->Write();
-    hist_reco_jet->Write();
-    hist_reco_jet_corr->Write();
-    hist_reco_jet_weighted->Write();
-    hist_reco_jet_corr_weighted->Write();
+    	hist_reco_jet->Write();
+    	hist_reco_jet_corr->Write();
+    	hist_reco_jet_weighted->Write();
+    	hist_reco_jet_corr_weighted->Write();
 
     if(doleadsubl){
     	hist_reco_leadjet_pt_nocut->Write();
@@ -832,10 +832,10 @@ void w_recoreco_hist(bool mixing, bool rotation, bool doinclusive, bool doleadsu
 			hist_trk_from_reco_reco_mix->Write();
 		}
 	}
-
-    if(doleadsubl){
-    	hist_correlation_signal_lead_jet_reco_track_reco->Write();
-    	hist_correlation_signal_subg0_lead_jet_reco_track_reco->Write();
+	
+    	if(doleadsubl){
+    		hist_correlation_signal_lead_jet_reco_track_reco->Write();
+    		hist_correlation_signal_subg0_lead_jet_reco_track_reco->Write();
    		hist_lead_jet_from_reco_reco_sig->Write();
 		hist_LJ_trk_from_reco_reco_sig->Write();
 		if(rotation) hist_correlation_rotation_lead_jet_reco_track_reco->Write();
@@ -844,8 +844,8 @@ void w_recoreco_hist(bool mixing, bool rotation, bool doinclusive, bool doleadsu
 			hist_lead_jet_from_reco_reco_mix->Write();
 			hist_LJ_trk_from_reco_reco_mix->Write();
 		}
-    	hist_correlation_signal_subl_jet_reco_track_reco->Write();
-    	hist_correlation_signal_subg0_subl_jet_reco_track_reco->Write();
+    		hist_correlation_signal_subl_jet_reco_track_reco->Write();
+    		hist_correlation_signal_subg0_subl_jet_reco_track_reco->Write();
 		hist_subl_jet_from_reco_reco_sig->Write();
 		hist_SLJ_trk_from_reco_reco_sig->Write();
 		if(rotation) hist_correlation_rotation_subl_jet_reco_track_reco->Write();
@@ -854,7 +854,7 @@ void w_recoreco_hist(bool mixing, bool rotation, bool doinclusive, bool doleadsu
 			hist_subl_jet_from_reco_reco_mix->Write();
 			hist_SLJ_trk_from_reco_reco_mix->Write();
 		}
-    }	
+   	}	
 
 }
 
@@ -882,8 +882,8 @@ void w_recogen_hist(bool mixing, bool rotation, bool doinclusive, bool doleadsub
 	}
 
     if(doleadsubl){
-    	hist_correlation_signal_lead_jet_reco_track_gen->Write();
-    	hist_correlation_signal_subg0_lead_jet_reco_track_gen->Write();
+    		hist_correlation_signal_lead_jet_reco_track_gen->Write();
+    		hist_correlation_signal_subg0_lead_jet_reco_track_gen->Write();
    		hist_lead_jet_from_reco_gen_sig->Write();
 		hist_LJ_trk_from_reco_gen_sig->Write();
 		if(rotation) hist_correlation_rotation_lead_jet_reco_track_gen->Write();
@@ -892,8 +892,8 @@ void w_recogen_hist(bool mixing, bool rotation, bool doinclusive, bool doleadsub
 			hist_lead_jet_from_reco_gen_mix->Write();
 			hist_LJ_trk_from_reco_gen_mix->Write();
 		}
-    	hist_correlation_signal_subl_jet_reco_track_gen->Write();
-    	hist_correlation_signal_subg0_subl_jet_reco_track_gen->Write();
+    		hist_correlation_signal_subl_jet_reco_track_gen->Write();
+    		hist_correlation_signal_subg0_subl_jet_reco_track_gen->Write();
 		hist_subl_jet_from_reco_gen_sig->Write();
 		hist_SLJ_trk_from_reco_gen_sig->Write();
 		if(rotation) hist_correlation_rotation_subl_jet_reco_track_gen->Write();
@@ -929,8 +929,8 @@ void w_genreco_hist(bool mixing, bool rotation, bool doinclusive, bool doleadsub
 	}
 
     if(doleadsubl){
-    	hist_correlation_signal_lead_jet_gen_track_reco->Write();
-    	hist_correlation_signal_subg0_lead_jet_gen_track_reco->Write();
+    		hist_correlation_signal_lead_jet_gen_track_reco->Write();
+    		hist_correlation_signal_subg0_lead_jet_gen_track_reco->Write();
    		hist_lead_jet_from_gen_reco_sig->Write();
 		hist_LJ_trk_from_gen_reco_sig->Write();
 		if(rotation) hist_correlation_rotation_lead_jet_gen_track_reco->Write();
@@ -939,8 +939,8 @@ void w_genreco_hist(bool mixing, bool rotation, bool doinclusive, bool doleadsub
 			hist_lead_jet_from_gen_reco_mix->Write();
 			hist_LJ_trk_from_gen_reco_mix->Write();
 		}
-    	hist_correlation_signal_subl_jet_gen_track_reco->Write();
-    	hist_correlation_signal_subg0_subl_jet_gen_track_reco->Write();
+    		hist_correlation_signal_subl_jet_gen_track_reco->Write();
+    		hist_correlation_signal_subg0_subl_jet_gen_track_reco->Write();
 		hist_subl_jet_from_gen_reco_sig->Write();
 		hist_SLJ_trk_from_gen_reco_sig->Write();
 		if(rotation) hist_correlation_rotation_subl_jet_gen_track_reco->Write();
@@ -976,8 +976,8 @@ void w_gengen_hist(bool mixing, bool rotation, bool doinclusive, bool doleadsubl
 	}
 
     if(doleadsubl){
-    	hist_correlation_signal_lead_jet_gen_track_gen->Write();
-    	hist_correlation_signal_subg0_lead_jet_gen_track_gen->Write();
+    		hist_correlation_signal_lead_jet_gen_track_gen->Write();
+    		hist_correlation_signal_subg0_lead_jet_gen_track_gen->Write();
    		hist_lead_jet_from_gen_gen_sig->Write();
 		hist_LJ_trk_from_gen_gen_sig->Write();
 		if(rotation) hist_correlation_rotation_lead_jet_gen_track_gen->Write();
@@ -986,8 +986,8 @@ void w_gengen_hist(bool mixing, bool rotation, bool doinclusive, bool doleadsubl
 			hist_lead_jet_from_gen_gen_mix->Write();
 			hist_LJ_trk_from_gen_gen_mix->Write();
 		}
-    	hist_correlation_signal_subl_jet_gen_track_gen->Write();
-    	hist_correlation_signal_subg0_subl_jet_gen_track_gen->Write();
+    		hist_correlation_signal_subl_jet_gen_track_gen->Write();
+    		hist_correlation_signal_subg0_subl_jet_gen_track_gen->Write();
 		hist_subl_jet_from_gen_gen_sig->Write();
 		hist_SLJ_trk_from_gen_gen_sig->Write();
 		if(rotation) hist_correlation_rotation_subl_jet_gen_track_gen->Write();
