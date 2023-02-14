@@ -46,8 +46,8 @@ void MixEvents_random(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_ntrk
          n_associated_check = n_associated_check + 1;
          if (n_associated_check == (aux_n_evts - 1)*10){
                cout << "Number of events for mixing is not enough in range: [0," << n_associated_check << "]"<< endl; 
-               cout << "Increasing the ranges: vz in 0.2 cm and multiplicity or centrality in 1" << endl; 
-               vzcut = vzcut + 0.2;
+               cout << "Increasing the ranges: vz in 0.1 cm and multiplicity or centrality in 1" << endl; 
+               vzcut = vzcut + 0.1;
                ntrkoff_int = ntrkoff_int+1;
                n_associated_check = 0;
          }

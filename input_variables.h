@@ -7,15 +7,15 @@ TString colliding_system = "pPb"; // use one of this options = "pp", "pPb", "XeX
 int sNN_energy_GeV = 8160; //center of mass colliding energy (GeV)
 int year_of_datataking = 2016;
 
-bool do_CM_pPb = false; // do center-of-mass correction in pPb?
-bool is_pgoing = false; // is p-going direction?
+bool do_CM_pPb = true; // do center-of-mass correction in pPb?
+bool is_pgoing = true; // is p-going direction?
 
 bool use_centrality = false; // only true for: "XeXe" and "PbPb" (but also can be set as false to see evolution with multiplicity)
 
 float vz_cut_min = -10.0; //vz acceptance
 float vz_cut_max = 10.0; //vz acceptance
 
-const std::vector<double> multiplicity_centrality_bins{10.0, 50., 80., 120., 150., 185.0, 250.0, 400.0}; //multiplicity range
+const std::vector<double> multiplicity_centrality_bins{10.0, 400.0}; //multiplicity range
 //event filters
 std::vector<int> event_filter_bool; // event filter booleans
 //std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose"}; // event filters to be applied (pp ref - 2017)
@@ -24,12 +24,11 @@ std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFi
 //std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose", "phfCoincFilter", "pVertexFilterCutdz1p0"}; // event filters to be applied (XeXe - 2017)
 
 // by default the code will calculated QA plots for jets and tracks, you can turn on or off the flags bellow based on your studies
-// be carefull about memory usage
-bool do_inclusejettrack_correlation = false; // Inclusive jets + track correlation
+// be carefull about memory usage (e.g. do not run incluse + fragmentation at same time)
+bool do_inclusejettrack_correlation = true; // Inclusive jets + track correlation
 bool do_leading_subleading_jettrack_correlation = true; // Leading jets + track correlation and Sub-Leading jets + track correlation
 bool do_fowardbackward = false; // for forward/backward studies
 bool do_flow = true; // if true if makes correlation for Jet-Vn flow if false it multiply by trk pT to get jet shapes
-bool do_jet_fragmentation = false; // calculate jet fragmentation for inclusive jets
 
 //=========================================================
 
@@ -39,10 +38,10 @@ TString jet_collection = "ak4PFJetAnalyzer"; // jet collection in forest
 bool dojettrigger = false; // apply jet trigger
 TString jet_trigger = "HLT_PAAK4PFJet80_Eta5p1_v3"; // jet trigger in forest 
 
-float jet_pt_min_cut = 100.0; // jet min pT cut 
+float jet_pt_min_cut = 60.0; // jet min pT cut 
 float jet_pt_max_cut = 8160.0; // jet max pT cut 
-float jet_eta_min_cut = -1.3; // jet min eta cut 
-float jet_eta_max_cut = 1.3; // jet min eta cut 
+float jet_eta_min_cut = -1.1; // jet min eta cut 
+float jet_eta_max_cut = 1.1; // jet min eta cut 
 
 TString JEC_file = "JEC_pPb_AK4PF_p-going_unembedded.txt"; //JEC file
 TString JEU_file = "JEC_pPb_AK4PF_p-going_unembedded.txt"; //JEU file (future)
@@ -51,23 +50,19 @@ float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet lead
 float leading_pT_min = jet_pt_min_cut; //used for jet leading and subleading correlation and jet quenching analysis
 float subleading_pT_min = 50.0; //used for jet leading and subleading correlation and jet quenching analysis
 
-//if we want to make Xj or Aj selections [0,1] are full inclusive
+// if we want to make Xj or Aj selections [0,1] are full inclusive
 bool do_Xj_or_Ajcut = false;
 float xjmin = 0.0;//xj minimum
 float xjmax = 1.0;//xj maximum
 float Ajmin = 0.0;//Aj minimum
 float Ajmax = 1.0;//Aj maximum
 
-//for jet forward/backward
+// for jet forward/backward
 float jet_eta_fwdback_min_cut = 0.7; // jet min eta cut for forward/backward studies
 float jet_eta_fwdback_max_cut = 1.4; // jet min eta cut for forward/backward studies
 
-//for jet fragmentation
-double JetR = 0.4; // Jet R cone
-double fragtrkptmin = 1.0; // min pT of the tracks in the fragmentation
-double fragtrkptmax = 8160; // max pT of the tracks in the fragmentation
-
-bool do_jet_smearing = false; // smearing
+// for ejt smearing
+bool do_jet_smearing = false; 
 
 //=========================================================
 
@@ -128,8 +123,8 @@ void print_input(TString data_or_mc, TFile *fileeff, TString coll_system, float 
 	cout << "Data taking in  " << year_of_datataking << endl;
 	cout << "Event filters applied: {"; for(int a=0;a<event_filter_str.size();a++){if(a==event_filter_str.size()-1){cout << "" << event_filter_str[a] << "}";}else{cout << "" << event_filter_str[a] << ",";}} cout << endl;
 	cout << "Vz acceptance: " << vz_cut_min << " < Vz < " << vz_cut_max << " cm" << endl; 
-	if(!use_centrality)cout << "Multiplicity bins: {"; for(int a=0;a<multiplicity_centrality_bins.size();a++){if(a==multiplicity_centrality_bins.size()-1){cout << "" << multiplicity_centrality_bins[a] << "}";}else{cout << "" << multiplicity_centrality_bins[a] << ",";}} cout << endl; 
-	if(use_centrality)cout << "Centrality bins: {"; for(int a=0;a<multiplicity_centrality_bins.size();a++){if(a==multiplicity_centrality_bins.size()-1){cout << "" << multiplicity_centrality_bins[a] << "}";}else{cout << "" << multiplicity_centrality_bins[a] << ",";}} cout << endl; 
+	if(!use_centrality){cout << "Multiplicity bins: {"; for(int a=0;a<multiplicity_centrality_bins.size();a++){if(a==multiplicity_centrality_bins.size()-1){cout << "" << multiplicity_centrality_bins[a] << "}";}else{cout << "" << multiplicity_centrality_bins[a] << ",";}} cout << endl; }
+	if(use_centrality){cout << "Centrality bins: {"; for(int a=0;a<multiplicity_centrality_bins.size();a++){if(a==multiplicity_centrality_bins.size()-1){cout << "" << multiplicity_centrality_bins[a] << "}";}else{cout << "" << multiplicity_centrality_bins[a] << ",";}} cout << endl; }
 	if(do_CM_pPb) cout << "Center-of-mass correction for side: " << endl;
 	cout << endl;
 	cout << "=========== Jets ===========" << endl;
@@ -157,12 +152,6 @@ void print_input(TString data_or_mc, TFile *fileeff, TString coll_system, float 
 	if(do_pthatcut){
 		cout << "pThat min: " << pthatmin  << " GeV"<< endl;
 		cout << "pThat max: " << pthatmax  << " GeV"<< endl;
-	}
-	if(do_jet_fragmentation){
-		cout << " --> Fragmentation" << endl;
-	 	cout << "Jet R: " << JetR << endl;
-	 	cout << "Trk pT min: " << fragtrkptmin << endl;
-	 	cout << "Trk pT max: " << fragtrkptmax << endl;
 	}
 	cout << endl;
 	cout << "=========== Tracks/Particles ===========" << endl;
@@ -213,7 +202,6 @@ void print_input(TString data_or_mc, TFile *fileeff, TString coll_system, float 
 	if(do_leading_subleading_jettrack_correlation) cout << "+ --> Sub-Leading Jets + tracks (or particle) correlations     +" << endl;
 	if(do_flow) cout << "+                          For Flow                            +" << endl;
 	if(!do_flow) cout << "+                       For Jet Shapes                        +" << endl;
-	if(do_jet_fragmentation)  cout << "+                 Calculating Jet Fragmentation                +" << endl;
 	cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
 }
 

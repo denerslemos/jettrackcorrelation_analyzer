@@ -143,8 +143,8 @@ float deltaeta(float eta1, float eta2){
 /*
 Calculate Delta Phi
 --> Arguments
-phi1: eta of first object
-phi2: eta of second object
+phi1: phi of first object
+phi2: phi of second object
 */
 float deltaphi(float phi1, float phi2){
 	float deltaPhi = ( phi1 - phi2 );
@@ -156,8 +156,8 @@ float deltaphi(float phi1, float phi2){
 /*
 Calculate Delta Phi in the range [-pi/2 , 3/2 pi]
 --> Arguments
-phi1: eta of first object
-phi2: eta of second object
+phi1: phi of first object
+phi2: phi of second object
 */
 float deltaphi2PC(float phi1, float phi2){     
 	float deltaPhi = (phi1 - phi2);
@@ -170,9 +170,9 @@ float deltaphi2PC(float phi1, float phi2){
 Calculate delta R (distance)
 --> Arguments
 eta1: eta of first object
-phi1: eta of first object
+phi1: phi of first object
 eta2: eta of second object
-phi2: eta of second object
+phi2: phi of second object
 */
 float deltaR(float eta1, float phi1, float eta2, float phi2){
 	float deltaR = sqrt(pow(deltaeta(eta1,eta2),2) + pow(deltaphi(phi1,phi2),2));
@@ -255,12 +255,9 @@ void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::ve
 			// Fill correlation histograms
 			double del_phi = deltaphi2PC(jets[a].Phi(), tracks[b].Phi());
 			double del_eta = deltaeta(jets[a].Eta(), tracks[b].Eta());
-			double x4D[4]={del_phi,del_eta,(double)trkbin,(double)multcentbin}; 
-			if(flow){
-				if(subetrk==0){histo_corr->Fill(x4D,jet_weight*trk_weight*event_weight);}else{histo_corr_subeg0->Fill(x4D,jet_weight*trk_weight*event_weight);}
-			}else{
-				if(subetrk==0){histo_corr->Fill(x4D,jet_weight*trk_weight*event_weight*trkpt);}else{histo_corr_subeg0->Fill(x4D,jet_weight*trk_weight*event_weight*trkpt);}			
-			}
+			double x4D[5]={del_phi,del_eta,(double)trkbin, (double)multcentbin}; 
+			if(flow){if(subetrk==0){histo_corr->Fill(x4D,jet_weight*trk_weight*event_weight);}else{histo_corr_subeg0->Fill(x4D,jet_weight*trk_weight*event_weight);}
+			}else{if(subetrk==0){histo_corr->Fill(x4D,jet_weight*trk_weight*event_weight*trkpt);}else{histo_corr_subeg0->Fill(x4D,jet_weight*trk_weight*event_weight*trkpt);}}
 		}
 		// get rotation histograms 
 		if(do_rotation){
@@ -282,7 +279,7 @@ void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::ve
 					// Fill correlation histograms     
 					double del_phi_rot = deltaphi2PC(newphi, tracks[d].Phi());
 					double del_eta_rot = deltaeta(neweta, tracks[d].Eta());
-					double x4D_rot[4]={del_phi_rot,del_eta_rot,(double)trkbin,(double)multcentbin}; 
+					double x4D_rot[5]={del_phi_rot,del_eta_rot,(double)trkbin,(double)multcentbin}; 
 					if(flow){histo_rot->Fill(x4D_rot,jet_weight*trk_weight*event_weight);}else{histo_rot->Fill(x4D_rot,jet_weight*trk_weight*event_weight*trkpt);}
 				}
 			}

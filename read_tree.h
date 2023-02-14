@@ -125,10 +125,6 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
         tree->SetBranchAddress("hiHFplus", &hfplus);
         tree->SetBranchStatus("hiHFminus", 1);
         tree->SetBranchAddress("hiHFminus", &hfminus);
-        tree->SetBranchStatus("hiZDCplus", 1);
-        tree->SetBranchAddress("hiZDCplus", &zdcplus);
-        tree->SetBranchStatus("hiZDCminus", 1);
-        tree->SetBranchAddress("hiZDCminus", &zdcminus);
 
         //EP information
 
