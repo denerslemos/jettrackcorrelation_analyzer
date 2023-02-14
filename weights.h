@@ -169,7 +169,7 @@ float get_jetpTsmering_weight(bool isMC, string system, int year, int energy, fl
 	// JetPtSmearingWeightFunction is derived from MC vs data jet pT spectra.
 	if(!isMC && system == "pp" && energy == 5020 && year == 2017){
 		TF1 *JetPtSmearingWeightFunction = new TF1("JetPtSmearingWeightFunction", "pol3", 0.0, 500.0); //Derived from all jets above 120 GeV and JECv6
-	    JetPtSmearingWeightFunction->SetParameters(0.174881, -0.00091979, 3.50064e-06, -6.52541e-09, 4.64199e-12);
+	    	JetPtSmearingWeightFunction->SetParameters(0.174881, -0.00091979, 3.50064e-06, -6.52541e-09, 4.64199e-12);
 		jetptsmearweight = JetPtSmearingWeightFunction->Eval(jetpt);
 		jetptsmearweight = jetptsmearweight*resolutionfactor;
 	}
