@@ -148,8 +148,8 @@ phi2: phi of second object
 */
 float deltaphi(float phi1, float phi2){
 	float deltaPhi = ( phi1 - phi2 );
-    while( deltaPhi >  TMath::Pi() ){deltaPhi += -2*TMath::Pi();}
-    while( deltaPhi < -TMath::Pi() ){deltaPhi  += 2*TMath::Pi();}
+    	while( deltaPhi >  TMath::Pi() ){deltaPhi += -2*TMath::Pi();}
+   	while( deltaPhi < -TMath::Pi() ){deltaPhi  += 2*TMath::Pi();}
 	return deltaPhi;
 }
 
@@ -214,7 +214,7 @@ quant: variable
 int find_my_bin(std::vector<double> quant_vec, double quant){
 	int bin = -999;
 	for(int ii = 0; ii < quant_vec.size()-1; ii++) {if(quant >= quant_vec[ii] && quant < quant_vec[ii+1]){bin = ii;} }
-    return bin;
+    	return bin;
 }
 
 /*
@@ -239,14 +239,14 @@ flow: true for flow measurement false for jet shapes
 void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::vector<TVector3> tracks, std::vector<double> tracks_w, THnSparse* histo_corr, THnSparse* histjet, THnSparse* histtrk, float event_weight, int mult, bool do_rotation, int N_rot, THnSparse* histo_rot, std::vector<int> sube_trk, THnSparse* histo_corr_subeg0, bool flow){
 	// get correlation histograms
 	for (int a = 0; a < jets.size(); a++){ // start loop over jets
-        double jet_weight = jets_w[a];
+        	double jet_weight = jets_w[a];
 		for (int b = 0; b < tracks.size(); b++){ // start loop over tracks
 			double trkpt = tracks[b].Pt();
 			double trketa = tracks[b].Eta();
 			int subetrk = sube_trk[b];
-            // track efficiency correction for reco
-            double trk_weight = tracks_w[b];
-            // Find track and multiplicity bins
+            		// track efficiency correction for reco
+            		double trk_weight = tracks_w[b];
+           		// Find track and multiplicity bins
 			int trkbin = (int) find_my_bin(trk_pt_bins,trkpt);
 			int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float) mult);
 			// Fill jet and track quantities
@@ -271,9 +271,9 @@ void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::ve
 				for (int d = 0; d < tracks.size(); d++){ // start loop over tracks using the new jet eta and phi (similar as above)
 					double trkpt = tracks[d].Pt();
 					double trketa = tracks[d].Eta();
-           			// track efficiency correction for reco
-           			double trk_weight = tracks_w[d];
-            		// Find track and multiplicity bins
+           				// track efficiency correction for reco
+           				double trk_weight = tracks_w[d];
+            				// Find track and multiplicity bins
 					int trkbin = (int) find_my_bin(trk_pt_bins,trkpt);
 					int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float)mult);
 					// Fill correlation histograms     
@@ -347,13 +347,13 @@ void twoparticlecorrelation(std::vector<TVector3> tracks, std::vector<double> tr
 	// get correlation histograms
 	for (int a = 0; a < tracks.size(); a++){ // start loop over tracks
 		double trkpt1 = tracks[a].Pt();
-        double trk_weight1 = tracks_w[a];
+        	double trk_weight1 = tracks_w[a];
 		int subetrk1 = sube_trk[a];
 		int trkbin1 = (int) find_my_bin(trk_pt_bins,trkpt1);
 
 		for (int b = 0; b < tracks.size(); b++){ // start loop over tracks+1
 			double trkpt2 = tracks[b].Pt();
-            double trk_weight2 = tracks_w[b];
+            		double trk_weight2 = tracks_w[b];
 			int subetrk2 = sube_trk[b];
 			int trkbin2 = (int) find_my_bin(trk_pt_bins,trkpt2);
 			
@@ -361,10 +361,10 @@ void twoparticlecorrelation(std::vector<TVector3> tracks, std::vector<double> tr
 			
 			int trkbin = trkbin1;
             
-            // track efficiency correction for reco
-            double trk_weight = trk_weight1*trk_weight2;
+           		// track efficiency correction for reco
+            		double trk_weight = trk_weight1*trk_weight2;
 
-            // Find track and multiplicity bins
+            		// Find track and multiplicity bins
 			int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float) mult);
 
 			// Fill correlation histograms
