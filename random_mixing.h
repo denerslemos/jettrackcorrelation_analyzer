@@ -180,34 +180,33 @@ void MixEvents_random_2pc(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_
 
          // loop and fill correlation histograms
          for(int imix = 0; imix < nMix_nevt_trg; imix++){
-			double trkpt1 = Trk_nevt_trg_vec[imix].Pt();
+		double trkpt1 = Trk_nevt_trg_vec[imix].Pt();
        	 	double trk_weight1 = Trk_w_nevt_trg_vec[imix];
-			int trkbin1 = (int) find_my_bin(trk_pt_bins,trkpt1);
-			
-            for(int iimix = 0; iimix < nMix_nevt_ass; iimix++){
-              double trkpt2 = Track_nevt_ass_vec[iimix].Pt();
-              double trk_weight2 = Track_w_nevt_ass_vec[iimix];
-              int trkbin2 = (int) find_my_bin(trk_pt_bins,trkpt2);
+		int trkbin1 = (int) find_my_bin(trk_pt_bins,trkpt1);	
+		for(int iimix = 0; iimix < nMix_nevt_ass; iimix++){
+              		double trkpt2 = Track_nevt_ass_vec[iimix].Pt();
+              		double trk_weight2 = Track_w_nevt_ass_vec[iimix];
+              		int trkbin2 = (int) find_my_bin(trk_pt_bins,trkpt2);
               
-			  if(trkbin1 != trkbin2) continue; // only same bin to get vn as sqrt of Vn
-			  int trkbin = trkbin1;
+	      		if(trkbin1 != trkbin2) continue; // only same bin to get vn as sqrt of Vn
+	      		int trkbin = trkbin1;
             
-           	  // track efficiency correction for reco
-              double trk_weight = trk_weight1*trk_weight2;
+           	  	// track efficiency correction for reco
+              		double trk_weight = trk_weight1*trk_weight2;
 
-              // Find track and multiplicity bins
-              int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float) ev_ntrkoff[nevt_trg]);
+              		// Find track and multiplicity bins
+              		int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float) ev_ntrkoff[nevt_trg]);
               
-              // Fill correlation histograms
-              double del_phi = deltaphi2PC(Trk_nevt_trg_vec[imix].Phi(), Track_nevt_ass_vec[iimix].Phi());
-              double del_eta = deltaeta(Trk_nevt_trg_vec[imix].Eta(), Track_nevt_ass_vec[iimix].Eta());
+              		// Fill correlation histograms
+              		double del_phi = deltaphi2PC(Trk_nevt_trg_vec[imix].Phi(), Track_nevt_ass_vec[iimix].Phi());
+              		double del_eta = deltaeta(Trk_nevt_trg_vec[imix].Eta(), Track_nevt_ass_vec[iimix].Eta());
               
- 			  if(del_phi == 0 && del_eta == 0 && trkpt1 == trkpt2) continue; // do not fill histograms if particles are identicles
+ 	      		if(del_phi == 0 && del_eta == 0 && trkpt1 == trkpt2) continue; // do not fill histograms if particles are identicles
 
-              double x4D[4]={del_phi,del_eta,(double)trkbin,(double)multcentbin}; 
-              histo->Fill(x4D,trk_weight*f_weight);
+              		double x4D[4]={del_phi,del_eta,(double)trkbin,(double)multcentbin}; 
+			histo->Fill(x4D,trk_weight*f_weight);
               
-            }
+            	}
          } // end of correlation loop
       } // end of while loop (after finding the number of events required)
       eventcheck.clear();
