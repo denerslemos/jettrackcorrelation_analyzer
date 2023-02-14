@@ -38,10 +38,10 @@ TString jet_collection = "ak4PFJetAnalyzer"; // jet collection in forest
 bool dojettrigger = false; // apply jet trigger
 TString jet_trigger = "HLT_PAAK4PFJet80_Eta5p1_v3"; // jet trigger in forest 
 
-float jet_pt_min_cut = 60.0; // jet min pT cut 
+float jet_pt_min_cut = 100.0; // jet min pT cut 
 float jet_pt_max_cut = 8160.0; // jet max pT cut 
-float jet_eta_min_cut = -1.1; // jet min eta cut 
-float jet_eta_max_cut = 1.1; // jet min eta cut 
+float jet_eta_min_cut = -1.6; // jet min eta cut 
+float jet_eta_max_cut = 1.6; // jet min eta cut 
 
 TString JEC_file = "JEC_pPb_AK4PF_p-going_unembedded.txt"; //JEC file
 TString JEU_file = "JEC_pPb_AK4PF_p-going_unembedded.txt"; //JEU file (future)
