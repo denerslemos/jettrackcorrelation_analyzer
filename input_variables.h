@@ -43,8 +43,8 @@ float jet_pt_max_cut = 8160.0; // jet max pT cut
 float jet_eta_min_cut = -1.6; // jet min eta cut 
 float jet_eta_max_cut = 1.6; // jet min eta cut 
 
-TString JEC_file = "JEC_pPb_AK4PF_p-going_unembedded.txt"; //JEC file
-TString JEU_file = "JEC_pPb_AK4PF_p-going_unembedded.txt"; //JEU file (future)
+TString JEC_file = "Autumn16_HI_pPb_Pbgoing_Unembedded_MC_L2Relative_AK4PF.txt"; //JEC file
+TString JEU_file = "Autumn16_HI_pPb_Pbgoing_Unembedded_MC_L2Relative_AK4PF.txt"; //JEU file (future)
 bool use_WTA = false; // use WTA or E-Scheme axis 
 float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation and jet quenching analysis; use 0 for all;
 float leading_pT_min = jet_pt_min_cut; //used for jet leading and subleading correlation and jet quenching analysis
