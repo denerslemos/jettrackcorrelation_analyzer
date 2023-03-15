@@ -833,6 +833,26 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					GoodJets_gen.SetPtEtaPhi(gjet_pt, gjet_eta, gjet_phi);
 					jets_gen.push_back(GoodJets_gen);
 		 			jet_w_gen.push_back(jet_weight);
+					
+					for (int k = 0; k < jetsize; k++){
+						if(refpt[k] != gjet_pt[j])continue;
+						if(use_WTA){
+							if(refeta[k] != gjet_etaX[j])continue;
+							if(refphi[k] != gjet_phiX[j])continue;
+						}else{
+							if(refeta[k] != gjet_eta[j])continue;
+							if(refphi[k] != gjet_phi[j])continue;
+						}
+						double Delta_R = deltaR(gjet_eta[j], gjet_phi[j], gjet_etaX[j], gjet_phiX[j]);
+		 				int refpartonfromB;
+		 				if(fabs(refparton_flavorForB[j]) >= 1 && fabs(refparton_flavorForB[j]) <= 6){
+		 					refpartonfromB = fabs(refparton_flavorForB[j]);
+		 				}else if(fabs(refparton_flavorForB[j]) == 21){
+		 					refpartonfromB = 7;
+		 				}else{refpartonfromB = 0;}
+						double x4D_gen_jetaxischeck[4]={Delta_R,gjet_pt[j],(double)refpartonfromB,(double) multcentbin}; 
+						genjetaxischeck->Fill(x4D_gen_jetaxischeck,event_weight*jet_weight);
+					}
 		 			
 		 			if(colliding_system=="pPb" && year_of_datataking==2016 && do_flow){
 		 				// Psi 2
