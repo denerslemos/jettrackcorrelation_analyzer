@@ -45,6 +45,8 @@ int ngen;             // number of gen jets
 float gen_jtpt[9999];  // gen jet pT
 float gen_jteta[9999]; // gen jet eta
 float gen_jtphi[9999]; // gen jet phi
+float gen_jtetaX[9999]; // gen jet eta
+float gen_jtphiX[9999]; // gen jet phi
 
 // matched jets
 float refpt[9999]; // jet pT matched with Gen pT
@@ -130,9 +132,13 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
         if(use_WTA){
             tree->SetBranchStatus("WTAgeneta", 1);
             tree->SetBranchStatus("WTAgenphi", 1);
+            tree->SetBranchStatus("geneta", 1);
+            tree->SetBranchStatus("genphi", 1);
         }else{
             tree->SetBranchStatus("geneta", 1);
             tree->SetBranchStatus("genphi", 1);
+            tree->SetBranchStatus("WTAgeneta", 1);
+            tree->SetBranchStatus("WTAgenphi", 1);
         }
 
         tree->SetBranchAddress("ngen", &ngen);
@@ -140,9 +146,13 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
         if(use_WTA){
             tree->SetBranchAddress("WTAgeneta", &gen_jteta);
             tree->SetBranchAddress("WTAgenphi", &gen_jtphi);
+            tree->SetBranchAddress("geneta", &gen_jtetaX);
+            tree->SetBranchAddress("genphi", &gen_jtphiX);            
         }else{
             tree->SetBranchAddress("geneta", &gen_jteta);
             tree->SetBranchAddress("genphi", &gen_jtphi);
+            tree->SetBranchAddress("WTAgeneta", &gen_jtetaX);
+            tree->SetBranchAddress("WTAgeneta", &gen_jtphiX); 
         }
     }
     //matching quantities
