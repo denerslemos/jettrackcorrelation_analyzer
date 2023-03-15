@@ -83,7 +83,7 @@ TH2D *hfminushist_withdijets_weighted = new TH2D("hfminushist_withdijets_weighte
 int    bins4D_jetaxis[4]   =   { 500  ,  50  , 8, multbinsize-1};
 double xmin4D_jetaxis[4]   =   { 0.0 ,   0   , 0, 0};
 double xmax4D_jetaxis[4]   =   { 5.0  ,  1000, 8, (double) multbinsize-1};
-THnSparseD *jetaxischeck = new THnSparseD("jetaxischeck", "jetaxischeck", 4, bins4D_jetaxis, xmin4D_jetaxis, xmax4D_jetaxis);
+THnSparseD *genjetaxischeck = new THnSparseD("genjetaxischeck", "genjetaxischeck", 4, bins4D_jetaxis, xmin4D_jetaxis, xmax4D_jetaxis);
 
 // event plane histograms
 
@@ -473,7 +473,7 @@ void sw2(){
 	hfplushist_withdijets_weighted->Sumw2();
 	hfminushist_withdijets->Sumw2();
 	hfminushist_withdijets_weighted->Sumw2();
-	jetaxischeck->Sumw2();
+	genjetaxischeck->Sumw2();
 	hist_reco_trk->Sumw2();
 	hist_reco_trk_corr->Sumw2();
 	hist_reco_trk_weighted->Sumw2();
@@ -793,7 +793,7 @@ void w_QA_hist(bool isMC, bool doleadsubl){
     	hist_reco_subljet_weighted->Write();
 	}
 	if(isMC){
-		jetaxischeck->Write();
+		genjetaxischeck->Write();
 		hist_matched_jet_weighted_nocut->Write();
 		hist_matched_jet->Write();
 		hist_matched_jet_weighted->Write();
