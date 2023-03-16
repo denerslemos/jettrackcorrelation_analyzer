@@ -153,7 +153,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		
 		if(i != 0 && (i % 10000) == 0){double alpha = (double)i; cout << " Running -> percentage: " << std::setprecision(3) << ((alpha / nev) * 100) << "%" << endl;}
 
-		// if(i != 0 && i % 10000 == 0 ) break; // just for tests (need to remove)
+		//if(i != 0 && i % 10000 == 0 ) break; // just for tests (need to remove)
 
 		Nevents->Fill(0); // filled after each event cut
 
@@ -833,25 +833,30 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					GoodJets_gen.SetPtEtaPhi(gjet_pt, gjet_eta, gjet_phi);
 					jets_gen.push_back(GoodJets_gen);
 		 			jet_w_gen.push_back(jet_weight);
-					
+
 					for (int k = 0; k < jetsize; k++){
-						if(refpt[k] != gjet_pt[j])continue;
+
+						if(refpt[k] != gen_jtpt[j])continue;
 						if(use_WTA){
-							if(refeta[k] != gjet_etaX[j])continue;
-							if(refphi[k] != gjet_phiX[j])continue;
+							if(refeta[k] != gen_jteta_otheraxis[j])continue;
+							if(refphi[k] != gen_jtphi_otheraxis[j])continue;
 						}else{
-							if(refeta[k] != gjet_eta[j])continue;
-							if(refphi[k] != gjet_phi[j])continue;
+                                                        if(refeta[k] != gen_jteta[j])continue;
+                                                        if(refphi[k] != gen_jtphi[j])continue;
 						}
-						double Delta_R = deltaR(gjet_eta[j], gjet_phi[j], gjet_etaX[j], gjet_phiX[j]);
+
+						double Delta_R = deltaR(gen_jteta[j], gen_jtphi[j], gen_jteta_otheraxis[j], gen_jtphi_otheraxis[j]);
+
 		 				int refpartonfromB;
-		 				if(fabs(refparton_flavorForB[j]) >= 1 && fabs(refparton_flavorForB[j]) <= 6){
-		 					refpartonfromB = fabs(refparton_flavorForB[j]);
-		 				}else if(fabs(refparton_flavorForB[j]) == 21){
+		 				if(fabs(refparton_flavorForB[k]) >= 1 && fabs(refparton_flavorForB[k]) <= 6){
+		 					refpartonfromB = fabs(refparton_flavorForB[k]);
+		 				}else if(fabs(refparton_flavorForB[k]) == 21){
 		 					refpartonfromB = 7;
 		 				}else{refpartonfromB = 0;}
-						double x4D_gen_jetaxischeck[4]={Delta_R,gjet_pt[j],(double)refpartonfromB,(double) multcentbin}; 
+
+						double x4D_gen_jetaxischeck[4]={Delta_R,refpt[k],(double)refpartonfromB,(double) multcentbin}; 
 						genjetaxischeck->Fill(x4D_gen_jetaxischeck,event_weight*jet_weight);
+
 					}
 		 			
 		 			if(colliding_system=="pPb" && year_of_datataking==2016 && do_flow){

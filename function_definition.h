@@ -141,7 +141,7 @@ float deltaeta(float eta1, float eta2){
 }
 
 /*
-Calculate Delta Phi
+Calculate Delta Phi in the range [-pi,pi]
 --> Arguments
 phi1: phi of first object
 phi2: phi of second object
@@ -175,7 +175,7 @@ eta2: eta of second object
 phi2: phi of second object
 */
 float deltaR(float eta1, float phi1, float eta2, float phi2){
-	float deltaR = sqrt(pow(deltaeta(eta1,eta2),2) + pow(deltaphi(phi1,phi2),2));
+	float deltaR = sqrt(deltaeta(eta1,eta2)*deltaeta(eta1,eta2) + deltaphi(phi1,phi2)*deltaphi(phi1,phi2));
 	return deltaR;
 }
 
