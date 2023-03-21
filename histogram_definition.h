@@ -392,31 +392,31 @@ THnSparseD *hist_matched_jet_parton_fromB = new THnSparseD("hist_matched_jet_par
 
 //histograms for Jet Energy Scale (JES)
 //double jetptbin[18] = {30.0,40.0,50.0,60.0,70.0,80.0,90.0,100.0,110.0,120.0,140.0,160.0,180.0,210.0,250.0,300.0,380.0,500.0}; //just to remember
-int    bins4D_jes[4]   =   { 500  ,  50  , 8, multbinsize-1};
-double xmin4D_jes[4]   =   { 0.0  ,  0   , 0, 0};
-double xmax4D_jes[4]   =   { 5.0  ,  1000, 8, (double) multbinsize-1};
-THnSparseD *hist_jes_raw = new THnSparseD("hist_jes_raw", "hist_jes_raw", 4, bins4D_jes, xmin4D_jes, xmax4D_jes);
-THnSparseD *hist_jes_raw_weighted = new THnSparseD("hist_jes_raw_weighted", "hist_jes_raw_weighted", 4, bins4D_jes, xmin4D_jes, xmax4D_jes);
-THnSparseD *hist_jes_reco = new THnSparseD("hist_jes_reco", "hist_jes_reco", 4, bins4D_jes, xmin4D_jes, xmax4D_jes);
-THnSparseD *hist_jes_reco_weighted = new THnSparseD("hist_jes_reco_weighted", "hist_jes_reco_weighted", 4, bins4D_jes, xmin4D_jes, xmax4D_jes);
-THnSparseD *hist_jes_raw_fromB = new THnSparseD("hist_jes_raw_fromB", "hist_jes_raw_fromB", 4, bins4D_jes, xmin4D_jes, xmax4D_jes);
-THnSparseD *hist_jes_raw_fromB_weighted = new THnSparseD("hist_jes_raw_fromB_weighted", "hist_jes_raw_fromB_weighted", 4, bins4D_jes, xmin4D_jes, xmax4D_jes);
-THnSparseD *hist_jes_reco_fromB = new THnSparseD("hist_jes_reco_fromB", "hist_jes_reco_fromB", 4, bins4D_jes, xmin4D_jes, xmax4D_jes);
-THnSparseD *hist_jes_reco_fromB_weighted = new THnSparseD("hist_jes_reco_fromB_weighted", "hist_jes_reco_fromB_weighted", 4, bins4D_jes, xmin4D_jes, xmax4D_jes);
+int    bins5D_jes[5]   =   { 200  ,  50  , 80,  8, multbinsize-1};
+double xmin5D_jes[5]   =   { 0.0  ,  0   , -4.0, 0, 0};
+double xmax5D_jes[5]   =   { 4.0  ,  1000, 4.0, 8, (double) multbinsize-1};
+THnSparseD *hist_jes_raw = new THnSparseD("hist_jes_raw", "hist_jes_raw", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
+THnSparseD *hist_jes_raw_weighted = new THnSparseD("hist_jes_raw_weighted", "hist_jes_raw_weighted", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
+THnSparseD *hist_jes_reco = new THnSparseD("hist_jes_reco", "hist_jes_reco", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
+THnSparseD *hist_jes_reco_weighted = new THnSparseD("hist_jes_reco_weighted", "hist_jes_reco_weighted", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
+THnSparseD *hist_jes_raw_fromB = new THnSparseD("hist_jes_raw_fromB", "hist_jes_raw_fromB", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
+THnSparseD *hist_jes_raw_fromB_weighted = new THnSparseD("hist_jes_raw_fromB_weighted", "hist_jes_raw_fromB_weighted", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
+THnSparseD *hist_jes_reco_fromB = new THnSparseD("hist_jes_reco_fromB", "hist_jes_reco_fromB", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
+THnSparseD *hist_jes_reco_fromB_weighted = new THnSparseD("hist_jes_reco_fromB_weighted", "hist_jes_reco_fromB_weighted", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
 
 //histograms for Jet Energy Resolution (JER)
 //double jetptbin[18] = {30.0,40.0,50.0,60.0,70.0,80.0,90.0,100.0,110.0,120.0,140.0,160.0,180.0,210.0,250.0,300.0,380.0,500.0}; //just to remember
-int    bins4D_jer[4]   =   { 400  ,  50  , 8, multbinsize-1};
-double xmin4D_jer[4]   =   { -2.0 ,  0   , 0, 0};
-double xmax4D_jer[4]   =   { 2.0  ,  1000, 8, (double) multbinsize-1};
-THnSparseD *hist_jer_raw = new THnSparseD("hist_jer_raw", "hist_jer_raw", 4, bins4D_jer, xmin4D_jer, xmax4D_jer);
-THnSparseD *hist_jer_raw_weighted = new THnSparseD("hist_jer_raw_weighted", "hist_jer_raw_weighted", 4, bins4D_jer, xmin4D_jer, xmax4D_jer);
-THnSparseD *hist_jer_reco = new THnSparseD("hist_jer_reco", "hist_jer_reco", 4, bins4D_jer, xmin4D_jer, xmax4D_jer);
-THnSparseD *hist_jer_reco_weighted = new THnSparseD("hist_jer_reco_weighted", "hist_jer_reco_weighted", 4, bins4D_jer, xmin4D_jer, xmax4D_jer);
-THnSparseD *hist_jer_raw_fromB = new THnSparseD("hist_jer_raw_fromB", "hist_jer_raw_fromB", 4, bins4D_jer, xmin4D_jer, xmax4D_jer);
-THnSparseD *hist_jer_raw_fromB_weighted = new THnSparseD("hist_jer_raw_fromB_weighted", "hist_jer_raw_fromB_weighted", 4, bins4D_jer, xmin4D_jer, xmax4D_jer);
-THnSparseD *hist_jer_reco_fromB = new THnSparseD("hist_jer_reco_fromB", "hist_jer_reco_fromB", 4, bins4D_jer, xmin4D_jer, xmax4D_jer);
-THnSparseD *hist_jer_reco_fromB_weighted = new THnSparseD("hist_jer_reco_fromB_weighted", "hist_jer_reco_fromB_weighted", 4, bins4D_jer, xmin4D_jer, xmax4D_jer);
+int    bins5D_jer[5]   =   { 200  ,  50  , 80,   8, multbinsize-1};
+double xmin5D_jer[5]   =   { -2.0 ,  0   , -4.0, 0, 0};
+double xmax5D_jer[5]   =   { 2.0  ,  1000, 4.0,  8, (double) multbinsize-1};
+THnSparseD *hist_jer_raw = new THnSparseD("hist_jer_raw", "hist_jer_raw", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
+THnSparseD *hist_jer_raw_weighted = new THnSparseD("hist_jer_raw_weighted", "hist_jer_raw_weighted", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
+THnSparseD *hist_jer_reco = new THnSparseD("hist_jer_reco", "hist_jer_reco", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
+THnSparseD *hist_jer_reco_weighted = new THnSparseD("hist_jer_reco_weighted", "hist_jer_reco_weighted", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
+THnSparseD *hist_jer_raw_fromB = new THnSparseD("hist_jer_raw_fromB", "hist_jer_raw_fromB", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
+THnSparseD *hist_jer_raw_fromB_weighted = new THnSparseD("hist_jer_raw_fromB_weighted", "hist_jer_raw_fromB_weighted", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
+THnSparseD *hist_jer_reco_fromB = new THnSparseD("hist_jer_reco_fromB", "hist_jer_reco_fromB", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
+THnSparseD *hist_jer_reco_fromB_weighted = new THnSparseD("hist_jer_reco_fromB_weighted", "hist_jer_reco_fromB_weighted", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
 
 // Evaluate uncertainties correctly at ROOT
 void sw2(){
