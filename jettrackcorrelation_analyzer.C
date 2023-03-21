@@ -380,9 +380,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		int jetsize = (int)nref; // number of jets in an event
 		for (int j = 0; j < jetsize; j++){
 
-	        if(trackMax[j]/rawpt[j] < 0.05)continue; // Cut for jets with only very low pT particles
-	        if(trackMax[j]/rawpt[j] > 0.95)continue; // Cut for jets where all the pT is taken by one track
-		 	if(jteta[j] < -2.0 || jteta[j] > 2.0) continue; // no accept jets with |eta| > 2
+	        	if(trackMax[j]/rawpt[j] < 0.01)continue; // Cut for jets with only very low pT particles
+	        	if(trackMax[j]/rawpt[j] > 0.98)continue; // Cut for jets where all the pT is taken by one track
+			if(jteta[j] < -4.0 || jteta[j] > 4.0) continue; // no accept jets with |eta| > 2
 
 			// Define jet kinematics
 		 	float jet_rawpt = rawpt[j];
@@ -466,7 +466,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		 		double refjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, ref_pt); // Jet weight (specially for MC)
 
 		 		if(ref_pt <= 0) continue;
-			 	if(ref_eta < -2.0 || ref_eta > 2.0) continue; // max jet eta
+			 	if(ref_eta < -4.0 || ref_eta > 4.0) continue; // max jet eta
 		 		find_leading_subleading(ref_pt,ref_eta,ref_phi,leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,sublrefjet_pt,sublrefjet_eta,sublrefjet_phi); // Find leading and subleading ref jets
 
 		 		if(ref_eta <= jet_eta_min_cut || ref_eta >= jet_eta_max_cut)continue;
@@ -498,19 +498,19 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		 			refparton = 7;
 		 		}else{refparton = 0;}
 
-				double x4D_JES_ratio_raw_vs_ref[4]={JES_ratio_raw_vs_ref,ref_pt,(double)refparton,(double)multcentbin}; 
-				double x4D_JES_ratio_reco_vs_ref[4]={JES_ratio_reco_vs_ref,ref_pt,(double)refparton,(double)multcentbin}; 
-				double x4D_JER_ratio_raw_vs_ref[4]={JER_ratio_raw_vs_ref,ref_pt,(double)refparton,(double)multcentbin}; 
-				double x4D_JER_ratio_reco_vs_ref[4]={JER_ratio_reco_vs_ref,ref_pt,(double)refparton,(double)multcentbin}; 
+				double x5D_JES_ratio_raw_vs_ref[5]={JES_ratio_raw_vs_ref,ref_pt,ref_eta,(double)refparton,(double)multcentbin}; 
+				double x5D_JES_ratio_reco_vs_ref[5]={JES_ratio_reco_vs_ref,ref_pt,ref_eta,(double)refparton,(double)multcentbin}; 
+				double x5D_JER_ratio_raw_vs_ref[5]={JER_ratio_raw_vs_ref,ref_pt,ref_eta,(double)refparton,(double)multcentbin}; 
+				double x5D_JER_ratio_reco_vs_ref[5]={JER_ratio_reco_vs_ref,ref_pt,ref_eta,(double)refparton,(double)multcentbin}; 
 
-				hist_jes_raw->Fill(x4D_JES_ratio_raw_vs_ref);
-				hist_jes_raw_weighted->Fill(x4D_JES_ratio_raw_vs_ref,event_weight*refjet_weight*jet_weight);
-				hist_jes_reco->Fill(x4D_JES_ratio_reco_vs_ref);
-				hist_jes_reco_weighted->Fill(x4D_JES_ratio_reco_vs_ref,event_weight*refjet_weight*jet_weight);
-				hist_jer_raw->Fill(x4D_JER_ratio_raw_vs_ref);
-				hist_jer_raw_weighted->Fill(x4D_JER_ratio_raw_vs_ref,event_weight*refjet_weight*jet_weight);
-				hist_jer_reco->Fill(x4D_JER_ratio_reco_vs_ref);
-				hist_jer_reco_weighted->Fill(x4D_JER_ratio_reco_vs_ref,event_weight*refjet_weight*jet_weight);
+				hist_jes_raw->Fill(x5D_JES_ratio_raw_vs_ref);
+				hist_jes_raw_weighted->Fill(x5D_JES_ratio_raw_vs_ref,event_weight*refjet_weight*jet_weight);
+				hist_jes_reco->Fill(x5D_JES_ratio_reco_vs_ref);
+				hist_jes_reco_weighted->Fill(x5D_JES_ratio_reco_vs_ref,event_weight*refjet_weight*jet_weight);
+				hist_jer_raw->Fill(x5D_JER_ratio_raw_vs_ref);
+				hist_jer_raw_weighted->Fill(x5D_JER_ratio_raw_vs_ref,event_weight*refjet_weight*jet_weight);
+				hist_jer_reco->Fill(x5D_JER_ratio_reco_vs_ref);
+				hist_jer_reco_weighted->Fill(x5D_JER_ratio_reco_vs_ref,event_weight*refjet_weight*jet_weight);
 
 		 		int refpartonfromB;
 		 		if(fabs(refparton_flavorForB[j]) >= 1 && fabs(refparton_flavorForB[j]) <= 6){
@@ -519,19 +519,19 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		 			refpartonfromB = 7;
 		 		}else{refpartonfromB = 0;}
 
-				double x4D_JES_ratio_raw_vs_reffromB[4]={JES_ratio_raw_vs_ref,ref_pt,(double)refpartonfromB,(double)multcentbin}; 
-				double x4D_JES_ratio_reco_vs_reffromB[4]={JES_ratio_reco_vs_ref,ref_pt,(double)refpartonfromB,(double)multcentbin}; 
-				double x4D_JER_ratio_raw_vs_reffromB[4]={JER_ratio_raw_vs_ref,ref_pt,(double)refpartonfromB,(double)multcentbin}; 
-				double x4D_JER_ratio_reco_vs_reffromB[4]={JER_ratio_reco_vs_ref,ref_pt,(double)refpartonfromB,(double)multcentbin}; 
+				double x5D_JES_ratio_raw_vs_reffromB[5]={JES_ratio_raw_vs_ref,ref_pt,ref_eta,(double)refpartonfromB,(double)multcentbin}; 
+				double x5D_JES_ratio_reco_vs_reffromB[5]={JES_ratio_reco_vs_ref,ref_pt,ref_eta,(double)refpartonfromB,(double)multcentbin}; 
+				double x5D_JER_ratio_raw_vs_reffromB[5]={JER_ratio_raw_vs_ref,ref_pt,ref_eta,(double)refpartonfromB,(double)multcentbin}; 
+				double x5D_JER_ratio_reco_vs_reffromB[5]={JER_ratio_reco_vs_ref,ref_pt,ref_eta,(double)refpartonfromB,(double)multcentbin}; 
 
-				hist_jes_raw_fromB->Fill(x4D_JES_ratio_raw_vs_reffromB);
-				hist_jes_raw_fromB_weighted->Fill(x4D_JES_ratio_raw_vs_reffromB,event_weight*refjet_weight*jet_weight);
-				hist_jes_reco_fromB->Fill(x4D_JES_ratio_reco_vs_reffromB);
-				hist_jes_reco_fromB_weighted->Fill(x4D_JES_ratio_reco_vs_reffromB,event_weight*refjet_weight*jet_weight);
-				hist_jer_raw_fromB->Fill(x4D_JER_ratio_raw_vs_reffromB);
-				hist_jer_raw_fromB_weighted->Fill(x4D_JER_ratio_raw_vs_reffromB,event_weight*refjet_weight*jet_weight);
-				hist_jer_reco_fromB->Fill(x4D_JER_ratio_reco_vs_reffromB);
-				hist_jer_reco_fromB_weighted->Fill(x4D_JER_ratio_reco_vs_reffromB,event_weight*refjet_weight*jet_weight);
+				hist_jes_raw_fromB->Fill(x5D_JES_ratio_raw_vs_reffromB);
+				hist_jes_raw_fromB_weighted->Fill(x5D_JES_ratio_raw_vs_reffromB,event_weight*refjet_weight*jet_weight);
+				hist_jes_reco_fromB->Fill(x5D_JES_ratio_reco_vs_reffromB);
+				hist_jes_reco_fromB_weighted->Fill(x5D_JES_ratio_reco_vs_reffromB,event_weight*refjet_weight*jet_weight);
+				hist_jer_raw_fromB->Fill(x5D_JER_ratio_raw_vs_reffromB);
+				hist_jer_raw_fromB_weighted->Fill(x5D_JER_ratio_raw_vs_reffromB,event_weight*refjet_weight*jet_weight);
+				hist_jer_reco_fromB->Fill(x5D_JER_ratio_reco_vs_reffromB);
+				hist_jer_reco_fromB_weighted->Fill(x5D_JER_ratio_reco_vs_reffromB,event_weight*refjet_weight*jet_weight);
 
 				// Matched for JES studies and parton fraction
 				// Fill jet pT for parton fractions --> no cuts applied
