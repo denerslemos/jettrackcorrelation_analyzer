@@ -26,6 +26,8 @@ void MixEvents_random(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_ntrk
    int aux_n_evts = (int)ev_ntrkoff.size(); // total number of events
    TRandom2 *r = new TRandom2(); // random number producer
 
+   std::vector<int> indexes; // vector to make sure we do not have same combinations
+
    // first loop over all events to define the jet event
    for(int nevt_trg = 0; nevt_trg < aux_n_evts; nevt_trg++){
 
@@ -61,7 +63,14 @@ void MixEvents_random(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_ntrk
          bool isduplicated = false; 
          if(eventcheck.size() > 0){for(int i = 0; i < (int)eventcheck.size(); i++){if(nevt_assoc == eventcheck[i]){isduplicated = true; break;}}}
          if(isduplicated == true) continue;
-         
+
+         // remove repeated combinations: (nevt_trg,nevt_assoc) -> (nevt_assoc,nevt_trg)
+         int unique_index = (nevt_trg+nevt_assoc)*nevt_trg+(nevt_trg+nevt_assoc)*nevt_assoc+(nevt_trg*nevt_assoc)*(nevt_trg+nevt_assoc);
+         bool check_uniqueindex = false; 
+         if(indexes.size()>0){ for(int k = 0; k < indexes.size(); k++){ if(unique_index == indexes[k]){ check_uniqueindex = true; } } }
+         if(check_uniqueindex) continue;
+         indexes.push_back(unique_index);
+
          // get weights
          double weight_assev = event_weight[nevt_assoc];
          double f_weight = 1.0;
