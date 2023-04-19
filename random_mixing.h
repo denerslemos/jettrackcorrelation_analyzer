@@ -138,6 +138,8 @@ void MixEvents_random_2pc(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_
    int aux_n_evts = (int)ev_ntrkoff.size(); // total number of events
    TRandom2 *r = new TRandom2(); // random number producer
 
+   std::vector<int> indexes; // vector to make sure we do not have same combinations
+
    // first loop over all events to define the jet event
    for(int nevt_trg = 0; nevt_trg < aux_n_evts; nevt_trg++){
 
@@ -158,8 +160,8 @@ void MixEvents_random_2pc(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_
          n_associated_check = n_associated_check + 1;
          if (n_associated_check == (aux_n_evts - 1)*10){
                cout << "Number of events for mixing is not enough in range: [0," << n_associated_check << "]"<< endl; 
-               cout << "Increasing the ranges: vz in 0.2 cm and multiplicity or centrality in 1" << endl; 
-               vzcut = vzcut + 0.2;
+               cout << "Increasing the ranges: vz in 0.1 cm and multiplicity or centrality in 1" << endl; 
+               vzcut = vzcut + 0.1;
                ntrkoff_int = ntrkoff_int+1;
                n_associated_check = 0;
          }
@@ -173,6 +175,13 @@ void MixEvents_random_2pc(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_
          bool isduplicated = false; 
          if(eventcheck.size() > 0){for(int i = 0; i < (int)eventcheck.size(); i++){if(nevt_assoc == eventcheck[i]){isduplicated = true; break;}}}
          if(isduplicated == true) continue;
+
+         // remove repeated combinations: (nevt_trg,nevt_assoc) -> (nevt_assoc,nevt_trg)
+         int unique_index = (nevt_trg+nevt_assoc)*nevt_trg+(nevt_trg+nevt_assoc)*nevt_assoc+(nevt_trg*nevt_assoc)*(nevt_trg+nevt_assoc);
+         bool check_uniqueindex = false; 
+         if(indexes.size()>0){ for(int k = 0; k < indexes.size(); k++){ if(unique_index == indexes[k]){ check_uniqueindex = true; } } }
+         if(check_uniqueindex) continue;
+         indexes.push_back(unique_index);
          
          // get weights
          double weight_assev = event_weight[nevt_assoc];
@@ -189,33 +198,33 @@ void MixEvents_random_2pc(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_
 
          // loop and fill correlation histograms
          for(int imix = 0; imix < nMix_nevt_trg; imix++){
-		double trkpt1 = Trk_nevt_trg_vec[imix].Pt();
+            double trkpt1 = Trk_nevt_trg_vec[imix].Pt();
        	 	double trk_weight1 = Trk_w_nevt_trg_vec[imix];
-		int trkbin1 = (int) find_my_bin(trk_pt_bins,trkpt1);	
-		for(int iimix = 0; iimix < nMix_nevt_ass; iimix++){
-              		double trkpt2 = Track_nevt_ass_vec[iimix].Pt();
-              		double trk_weight2 = Track_w_nevt_ass_vec[iimix];
-              		int trkbin2 = (int) find_my_bin(trk_pt_bins,trkpt2);
+            int trkbin1 = (int) find_my_bin(trk_pt_bins,trkpt1);	
+            for(int iimix = 0; iimix < nMix_nevt_ass; iimix++){
+              	double trkpt2 = Track_nevt_ass_vec[iimix].Pt();
+              	double trk_weight2 = Track_w_nevt_ass_vec[iimix];
+              	int trkbin2 = (int) find_my_bin(trk_pt_bins,trkpt2);
               
-	      		if(trkbin1 != trkbin2) continue; // only same bin to get vn as sqrt of Vn
+	      		if( trkbin1 != trkbin2 ) continue; // only same bin to get vn as sqrt of Vn
 	      		int trkbin = trkbin1;
             
            	  	// track efficiency correction for reco
-              		double trk_weight = trk_weight1*trk_weight2;
+              	double trk_weight = trk_weight1*trk_weight2;
 
-              		// Find track and multiplicity bins
-              		int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float) ev_ntrkoff[nevt_trg]);
+              	// Find track and multiplicity bins
+              	int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float) ev_ntrkoff[nevt_trg]);
               
-              		// Fill correlation histograms
-              		double del_phi = deltaphi2PC(Trk_nevt_trg_vec[imix].Phi(), Track_nevt_ass_vec[iimix].Phi());
-              		double del_eta = deltaeta(Trk_nevt_trg_vec[imix].Eta(), Track_nevt_ass_vec[iimix].Eta());
+              	// Fill correlation histograms
+              	double del_phi = deltaphi2PC(Trk_nevt_trg_vec[imix].Phi(), Track_nevt_ass_vec[iimix].Phi());
+              	double del_eta = deltaeta(Trk_nevt_trg_vec[imix].Eta(), Track_nevt_ass_vec[iimix].Eta());
               
  	      		if(del_phi == 0 && del_eta == 0 && trkpt1 == trkpt2) continue; // do not fill histograms if particles are identicles
 
-              		double x4D[4]={del_phi,del_eta,(double)trkbin,(double)multcentbin}; 
-			histo->Fill(x4D,trk_weight*f_weight);
+              	double x4D[4]={del_phi,del_eta,(double)trkbin,(double)multcentbin}; 
+			      histo->Fill(x4D,trk_weight*f_weight);
               
-            	}
+            }
          } // end of correlation loop
       } // end of while loop (after finding the number of events required)
       eventcheck.clear();
