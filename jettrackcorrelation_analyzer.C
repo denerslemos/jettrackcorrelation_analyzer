@@ -380,8 +380,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		int jetsize = (int)nref; // number of jets in an event
 		for (int j = 0; j < jetsize; j++){
 
-	        	if(trackMax[j]/rawpt[j] < 0.01)continue; // Cut for jets with only very low pT particles
-	        	if(trackMax[j]/rawpt[j] > 0.98)continue; // Cut for jets where all the pT is taken by one track
+	        if(trackMax[j]/rawpt[j] < 0.01)continue; // Cut for jets with only very low pT particles
+	        if(trackMax[j]/rawpt[j] > 0.98)continue; // Cut for jets where all the pT is taken by one track
 			if(jteta[j] < -4.0 || jteta[j] > 4.0) continue; // no accept jets with |eta| > 2
 
 			// Define jet kinematics
@@ -615,15 +615,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
 				if(delta_phi_reco > leading_subleading_deltaphi_min){
 
-
-					// Fill leading and subleading jet QA histograms
-					double x4D_lead[4]={leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,(double) multcentbin}; 
-					hist_reco_leadjet->Fill(x4D_lead);	
-					hist_reco_leadjet_weighted->Fill(x4D_lead,event_weight*ljet_weight);
-					double x4D_sublead[4]={sublrecojet_pt,sublrecojet_eta,sublrecojet_phi,(double) multcentbin}; 
-					hist_reco_subljet->Fill(x4D_sublead);	
-					hist_reco_subljet_weighted->Fill(x4D_sublead,event_weight*sljet_weight);
-
 					// Fill leading and subleading jet vectors
 					TVector3 GoodLeadingJets_reco;
 					GoodLeadingJets_reco.SetPtEtaPhi(leadrecojet_pt, leadrecojet_eta, leadrecojet_phi);
@@ -635,10 +626,25 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					subl_jet_w_reco.push_back(sljet_weight);
 
 					if((Xj_reco >= xjmin && Xj_reco <= xjmax) && (Aj_reco >= Ajmin && Aj_reco <= Ajmax)){
+
 						Nevents->Fill(9);
 						pass_Aj_or_Xj_reco_cut = true; // if we apply Xj or Aj cuts
 						isdijet = true;
-						
+
+						// Fill leading and subleading jet QA histograms
+						double x4D_lead[4]={leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,(double) multcentbin}; 
+						hist_reco_leadjet->Fill(x4D_lead);	
+						hist_reco_leadjet_weighted->Fill(x4D_lead,event_weight*ljet_weight);
+						double x4D_sublead[4]={sublrecojet_pt,sublrecojet_eta,sublrecojet_phi,(double) multcentbin}; 
+						hist_reco_subljet->Fill(x4D_sublead);	
+						hist_reco_subljet_weighted->Fill(x4D_sublead,event_weight*sljet_weight);
+/*
+						//eta dijet studies
+						double delta_eta_dijet = deltaeta(leadrecojet_eta, sublrecojet_eta);
+						double eta_dijet = (leadrecojet_eta+sublrecojet_eta)/2.;
+						double Netadijet_greater_etaCoM = (leadrecojet_eta+sublrecojet_eta)/2.;
+						double Netadijet_less_etaCoM = (leadrecojet_eta+sublrecojet_eta)/2.;
+*/
 		 				if(colliding_system=="pPb" && year_of_datataking==2016 && do_flow){
 		 					// Psi 2
 							double Psi2_EP_flat_plus = (double) EP_Psi2_plus_flat;	
