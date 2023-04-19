@@ -88,6 +88,7 @@ TString trk_eff_file = "eff_table_p-going_HIJING.root"; //track efficiency table
 
 //--> Mixing ref. samples quantities
 bool do_mixing = false; // use mixing method?
+bool do_jettrack_plus_trackjetmixing = false; // false: only jet-track mixing; true: jet-track+track-jet mixing
 bool similar_events = false; // if true we consider only tracks coming for similar events (onl if jet requirement is satisfied), if false all tracks are used
 int N_ev_mix = 20; // number of events to mix
 int Mult_or_Cent_range = 100; // multiplicity or centrality interval allowed between event and mixed event
