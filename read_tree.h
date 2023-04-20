@@ -6,6 +6,8 @@
 float vertexz; // event z vertex
 float hfplus; // event hf + deposit of energy
 float hfminus; // event hf - deposit of energy
+float hfplusEta4; // event hf + deposit of energy for |eta| > 4
+float hfminusEta4; // event hf - deposit of energy for |eta| > 4
 float zdcplus; // event zdc + deposit of energy
 float zdcminus; // event zdc - deposit of energy
 int hiBin; // event centrality (used if use_centrality = true in input_variables.h)
@@ -126,6 +128,16 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
         tree->SetBranchAddress("hiHFplus", &hfplus);
         tree->SetBranchStatus("hiHFminus", 1);
         tree->SetBranchAddress("hiHFminus", &hfminus);
+
+        tree->SetBranchStatus("hiHFplusEta4", 1);
+        tree->SetBranchAddress("hiHFplusEta4", &hfplusEta4);
+        tree->SetBranchStatus("hiHFminusEta4", 1);
+        tree->SetBranchAddress("hiHFminusEta4", &hfminusEta4);
+
+        tree->SetBranchStatus("hiZDCplus", 1);
+        tree->SetBranchAddress("hiZDCplus", &zdcplus);
+        tree->SetBranchStatus("hiZDCminus", 1);
+        tree->SetBranchAddress("hiZDCminus", &zdcminus);
 
         //EP information
 
