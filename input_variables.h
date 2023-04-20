@@ -27,7 +27,6 @@ std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFi
 // be carefull about memory usage (e.g. do not run incluse + fragmentation at same time)
 bool do_inclusejettrack_correlation = true; // Inclusive jets + track correlation
 bool do_leading_subleading_jettrack_correlation = true; // Leading jets + track correlation and Sub-Leading jets + track correlation
-bool do_fowardbackward = false; // for forward/backward studies
 bool do_flow = true; // if true if makes correlation for Jet-Vn flow if false it multiply by trk pT to get jet shapes
 
 //=========================================================
@@ -56,10 +55,6 @@ float xjmin = 0.0;//xj minimum
 float xjmax = 1.0;//xj maximum
 float Ajmin = 0.0;//Aj minimum
 float Ajmax = 1.0;//Aj maximum
-
-// for jet forward/backward
-float jet_eta_fwdback_min_cut = 0.7; // jet min eta cut for forward/backward studies
-float jet_eta_fwdback_max_cut = 1.4; // jet min eta cut for forward/backward studies
 
 // for ejt smearing
 bool do_jet_smearing = false; 

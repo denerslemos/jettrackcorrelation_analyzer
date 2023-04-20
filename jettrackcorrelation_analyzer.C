@@ -406,8 +406,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				njets=njets+1;
 
 				jet_eta = jet_eta + boost; // In pPb case, for the center-of-mass correction if needed
-
-//		 		if(do_fowardbackward){if(jet_eta < jet_eta_fwdback_min_cut || jet_eta > jet_eta_fwdback_max_cut) continue;}
 		 	
 		 		if(jet_pt_corr > 50 && jet_pt_corr < jet_pt_max_cut){isjet50included = true;}
 		 		if(jet_pt_corr > 80 && jet_pt_corr < jet_pt_max_cut){isjet80included = true;}
@@ -482,8 +480,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		 		if(jet_eta <= jet_eta_min_cut || jet_eta >= jet_eta_max_cut)continue;
 				
 				ref_eta = ref_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-
-//		 		if(do_fowardbackward){if(ref_eta < jet_eta_fwdback_min_cut || ref_eta > jet_eta_fwdback_max_cut) continue;}
 		 		
 		 		double JES_ratio_raw_vs_ref = jet_rawpt/ref_pt;
 		 		double JES_ratio_reco_vs_ref = jet_pt_corr/ref_pt;
@@ -595,9 +591,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 				leadrecojet_eta = leadrecojet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 				sublrecojet_eta = sublrecojet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-		 		
-//		 		if(do_fowardbackward){if(leadrecojet_eta < jet_eta_fwdback_min_cut || leadrecojet_eta > jet_eta_fwdback_max_cut) continue;}
-//		 		if(do_fowardbackward){if(sublrecojet_eta < jet_eta_fwdback_min_cut || sublrecojet_eta > jet_eta_fwdback_max_cut) continue;}
 
 				Nevents->Fill(8);	
 				
@@ -679,9 +672,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			
 				leadrefjet_eta = leadrefjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 				sublrefjet_eta = sublrefjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-				
-//		 		if(do_fowardbackward){if(leadrefjet_eta < jet_eta_fwdback_min_cut || leadrefjet_eta > jet_eta_fwdback_max_cut) continue;}
-//		 		if(do_fowardbackward){if(sublrefjet_eta < jet_eta_fwdback_min_cut || sublrefjet_eta > jet_eta_fwdback_max_cut) continue;}
 
 				double lrefjet_weight = get_leadjetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadrefjet_pt);  // Jet weight (specially for MC)
 				double slrefjet_weight = get_subleadjetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublrefjet_pt);  // Jet weight (specially for MC)
@@ -812,8 +802,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 				gjet_eta = gjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 
-//		 		if(do_fowardbackward){if(gjet_eta < jet_eta_fwdback_min_cut || gjet_eta > jet_eta_fwdback_max_cut) continue;}
-		 		
 				hist_gen_jet_weighted_nocut->Fill(gjet_pt,event_weight); // Fill jet pT without cut
 
 				if(gjet_pt > jet_pt_min_cut && gjet_pt < jet_pt_max_cut){  // Jet pT cut
@@ -913,9 +901,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				
 					leadgenjet_eta = leadgenjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 					sublgenjet_eta = sublgenjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-
-//		 			if(do_fowardbackward){if(leadgenjet_eta < jet_eta_fwdback_min_cut || leadgenjet_eta > jet_eta_fwdback_max_cut) continue;}
-//		 			if(do_fowardbackward){if(sublgenjet_eta < jet_eta_fwdback_min_cut || sublgenjet_eta > jet_eta_fwdback_max_cut) continue;}
 
 					// Fill leading/subleading jet quenching quantities
 					double delta_phi_gen = fabs(deltaphi(leadgenjet_phi, sublgenjet_phi));
