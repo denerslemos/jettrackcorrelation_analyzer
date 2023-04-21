@@ -75,7 +75,7 @@ THnSparseD *zdchist_weighted = new THnSparseD("zdchist_weighted", "zdchist_weigh
 THnSparseD *zdchist_onejet = new THnSparseD("zdchist_onejet", "zdchist_onejet", 3, bins3D_ZDC, xmin3D_ZDC, xmax3D_ZDC);
 THnSparseD *zdchist_onejet_weighted = new THnSparseD("zdchist_onejet_weighted", "zdchist_onejet_weighted", 3, bins3D_ZDC, xmin3D_ZDC, xmax3D_ZDC);
 THnSparseD *zdchist_dijet = new THnSparseD("zdchist_dijet", "zdchist_dijet", 3, bins3D_ZDC, xmin3D_ZDC, xmax3D_ZDC);
-THnSparseD *zdchist_onejet_weighted = new THnSparseD("zdchist_onejet_weighted", "zdchist_onejet_weighted", 3, bins3D_ZDC, xmin3D_ZDC, xmax3D_ZDC);
+THnSparseD *zdchist_dijet_weighted = new THnSparseD("zdchist_dijet_weighted", "zdchist_dijet_weighted", 3, bins3D_ZDC, xmin3D_ZDC, xmax3D_ZDC);
 
 
 //quantities with at least 1 jet

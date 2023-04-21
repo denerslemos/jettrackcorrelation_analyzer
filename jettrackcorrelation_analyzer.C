@@ -603,20 +603,20 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double x4D_reco2pc[4]={Xj_reco,Aj_reco,delta_phi_reco_2pc,(double)multcentbin}; hist_reco_lead_reco_subl_quench2pc->Fill(x4D_reco2pc,event_weight*ljet_weight*sljet_weight);
 				double etadijet = (leadrecojet_eta + sublrecojet_eta)/2.0;
 				double etadiff = deltaeta(leadrecojet_eta,sublrecojet_eta);
-				double x5D_etaassym_ET = {etadijet,Xj_reco,delta_phi_reco,(double)(hfplus+hfminus),(double)multcentbin};
+				double x5D_etaassym_ET[5] = {etadijet,Xj_reco,delta_phi_reco,(double)(hfplus+hfminus),(double)multcentbin};
 				hist_etaDijet_ET_reco->Fill(x5D_etaassym_ET,event_weight*ljet_weight*sljet_weight);
-				double x5D_etaassym_ETEta4 = {etadijet,Xj_reco,delta_phi_reco,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+				double x5D_etaassym_ETEta4[5] = {etadijet,Xj_reco,delta_phi_reco,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
 				hist_etaDijet_ETEta4_reco->Fill(x5D_etaassym_ETEta4,event_weight*ljet_weight*sljet_weight);
-				double x5D_etadiff_ET = {etadiff,Xj_reco,delta_phi_reco,(double)(hfplus+hfminus),(double)multcentbin};
+				double x5D_etadiff_ET[5] = {etadiff,Xj_reco,delta_phi_reco,(double)(hfplus+hfminus),(double)multcentbin};
 				hist_etaDiff_ET_reco->Fill(x5D_etadiff_ET,event_weight*ljet_weight*sljet_weight);
-				double x5D_etadiff_ETEta4 = {etadiff,Xj_reco,delta_phi_reco,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+				double x5D_etadiff_ETEta4[5] = {etadiff,Xj_reco,delta_phi_reco,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
 				hist_etaDiff_ETEta4_reco->Fill(x5D_etadiff_ETEta4,event_weight*ljet_weight*sljet_weight);
 
 				// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
 				if(delta_phi_reco > leading_subleading_deltaphi_min){
 
-					double x5D_etaAssym = {1,Xj_reco,(double)(hfplus+hfminus),(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
-					if(etadijet>boost){hist_etaAssym_numerator_reco->Fill(x5D_etaAssym);}else{hist_etaAssym_denominator_reco->Fill(x5D_etaAssym);}
+					double x5D_etaAssym[5] = {1,Xj_reco,(double)(hfplus+hfminus),(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+					if(etadijet>boost){hist_etaAssym_numerator_reco->Fill(x5D_etaAssym,event_weight*ljet_weight*sljet_weight);}else{hist_etaAssym_denominator_reco->Fill(x5D_etaAssym,event_weight*ljet_weight*sljet_weight);}
 
 					// Fill leading and subleading jet vectors
 					TVector3 GoodLeadingJets_reco;
@@ -698,19 +698,19 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 				double etadijet = (leadrefjet_eta + sublrefjet_eta)/2.0;
 				double etadiff = deltaeta(leadrefjet_eta,sublrefjet_eta);
-				double x5D_etaassym_ET = {etadijet,Xj_ref,delta_phi_ref,(double)(hfplus+hfminus),(double)multcentbin};
-				hist_etaDijet_ET_ref->Fill(x5D_etaassym_ET,event_weight*ljet_weight*sljet_weight);
-				double x5D_etaassym_ETEta4 = {etadijet,Xj_ref,delta_phi_ref,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
-				hist_etaDijet_ETEta4_ref->Fill(x5D_etaassym_ETEta4,event_weight*ljet_weight*sljet_weight);
-				double x5D_etadiff_ET = {etadiff,Xj_ref,delta_phi_ref,(double)(hfplus+hfminus),(double)multcentbin};
-				hist_etaDiff_ET_ref->Fill(x5D_etadiff_ET,event_weight*ljet_weight*sljet_weight);
-				double x5D_etadiff_ETEta4 = {etadiff,Xj_ref,delta_phi_ref,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
-				hist_etaDiff_ETEta4_ref->Fill(x5D_etadiff_ETEta4,event_weight*ljet_weight*sljet_weight);
+				double x5D_etaassym_ET[5] = {etadijet,Xj_ref,delta_phi_ref,(double)(hfplus+hfminus),(double)multcentbin};
+				hist_etaDijet_ET_ref->Fill(x5D_etaassym_ET,event_weight*lrefjet_weight*slrefjet_weight);
+				double x5D_etaassym_ETEta4[5] = {etadijet,Xj_ref,delta_phi_ref,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+				hist_etaDijet_ETEta4_ref->Fill(x5D_etaassym_ETEta4,event_weight*lrefjet_weight*slrefjet_weight);
+				double x5D_etadiff_ET[5] = {etadiff,Xj_ref,delta_phi_ref,(double)(hfplus+hfminus),(double)multcentbin};
+				hist_etaDiff_ET_ref->Fill(x5D_etadiff_ET,event_weight*lrefjet_weight*slrefjet_weight);
+				double x5D_etadiff_ETEta4[5] = {etadiff,Xj_ref,delta_phi_ref,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+				hist_etaDiff_ETEta4_ref->Fill(x5D_etadiff_ETEta4,event_weight*lrefjet_weight*slrefjet_weight);
 
 				// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
 				if(delta_phi_ref > leading_subleading_deltaphi_min){
-					double x5D_etaAssym = {1,Xj_ref,(double)(hfplus+hfminus),(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
-					if(etadijet>boost){hist_etaAssym_numerator_ref->Fill(x5D_etaAssym);}else{hist_etaAssym_denominator_ref->Fill(x5D_etaAssym);}
+					double x5D_etaAssym[5] = {1,Xj_ref,(double)(hfplus+hfminus),(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+					if(etadijet>boost){hist_etaAssym_numerator_ref->Fill(x5D_etaAssym,event_weight*lrefjet_weight*slrefjet_weight);}else{hist_etaAssym_denominator_ref->Fill(x5D_etaAssym,event_weight*lrefjet_weight*slrefjet_weight);}
 				}
 			}
 		}
@@ -942,19 +942,19 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 					double etadijet = (leadgenjet_eta + sublgenjet_eta)/2.0;
 					double etadiff = deltaeta(leadgenjet_eta,sublgenjet_eta);
-					double x5D_etaassym_ET = {etadijet,Xj_gen,delta_phi_gen,(double)(hfplus+hfminus),(double)multcentbin};
+					double x5D_etaassym_ET[5] = {etadijet,Xj_gen,delta_phi_gen,(double)(hfplus+hfminus),(double)multcentbin};
 					hist_etaDijet_ET_gen->Fill(x5D_etaassym_ET,event_weight*ljet_weight*sljet_weight);
-					double x5D_etaassym_ETEta4 = {etadijet,Xj_gen,delta_phi_gen,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+					double x5D_etaassym_ETEta4[5] = {etadijet,Xj_gen,delta_phi_gen,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
 					hist_etaDijet_ETEta4_gen->Fill(x5D_etaassym_ETEta4,event_weight*ljet_weight*sljet_weight);
-					double x5D_etadiff_ET = {etadiff,Xj_gen,delta_phi_gen,(double)(hfplus+hfminus),(double)multcentbin};
+					double x5D_etadiff_ET[5] = {etadiff,Xj_gen,delta_phi_gen,(double)(hfplus+hfminus),(double)multcentbin};
 					hist_etaDiff_ET_gen->Fill(x5D_etadiff_ET,event_weight*ljet_weight*sljet_weight);
-					double x5D_etadiff_ETEta4 = {etadiff,Xj_gen,delta_phi_gen,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+					double x5D_etadiff_ETEta4[5] = {etadiff,Xj_gen,delta_phi_gen,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
 					hist_etaDiff_ETEta4_gen->Fill(x5D_etadiff_ETEta4,event_weight*ljet_weight*sljet_weight);
 
 					// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations				
 					if(delta_phi_gen > leading_subleading_deltaphi_min){
 
-						double x5D_etaAssym = {1,Xj_gen,(double)(hfplus+hfminus),(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+						double x5D_etaAssym[5] = {1,Xj_gen,(double)(hfplus+hfminus),(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
 						if(etadijet>boost){hist_etaAssym_numerator_gen->Fill(x5D_etaAssym);}else{hist_etaAssym_denominator_gen->Fill(x5D_etaAssym);}
 			
 						// Fill leading and subleading jet vectors
