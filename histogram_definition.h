@@ -316,9 +316,9 @@ THnSparseD *hist_ref_lead_ref_subl_quench2pc = new THnSparseD("hist_ref_lead_ref
 
 //Assymetry studies
 // Axis : 0 -> etaDijet, 1 -> Xj, 2 -> delta phi, 3 -> ET or ETEta4, 4 -> multiplicity
-int    bins5D_etaDijet[5]   =   {  40   , 5     , 30          , 40    , multbinsize-1          };
+int    bins5D_etaDijet[5]   =   {  40   , 10     , 30          , 80    , multbinsize-1          };
 double xmin5D_etaDijet[5]   =   { -4.0  , 0.0   , 0.0    	  , 0.0   , 0                      };
-double xmax5D_etaDijet[5]   =   {  4.0  , 1.0   , TMath::Pi() , 200.0 , (double) multbinsize-1 };
+double xmax5D_etaDijet[5]   =   {  4.0  , 1.0   , TMath::Pi() , 400.0 , (double) multbinsize-1 };
 THnSparseD *hist_etaDijet_ET_reco = new THnSparseD("hist_etaDijet_ET_reco", "hist_etaDijet_ET_reco", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
 THnSparseD *hist_etaDijet_ET_ref = new THnSparseD("hist_etaDijet_ET_ref", "hist_etaDijet_ET_ref", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
 THnSparseD *hist_etaDijet_ET_gen = new THnSparseD("hist_etaDijet_ET_gen", "hist_etaDijet_ET_gen", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
@@ -333,9 +333,9 @@ THnSparseD *hist_etaDiff_ETEta4_ref = new THnSparseD("hist_etaDiff_ETEta4_ref", 
 THnSparseD *hist_etaDiff_ETEta4_gen = new THnSparseD("hist_etaDiff_ETEta4_gen", "hist_etaDiff_ETEta4_gen", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
 
 // Axis : 0 -> etaAssym, 1 -> Xj, 2 -> HF, 3-> HFEta4, 4 -> multiplicity
-int    bins5D_etaAssym[5]   =   {  2    , 5   , 40,   40    , multbinsize-1          };
+int    bins5D_etaAssym[5]   =   {  1    , 10   , 80,   80    , multbinsize-1          };
 double xmin5D_etaAssym[5]   =   {  0.0  , 0.0 , 0.0,   0.0   , 0                      };
-double xmax5D_etaAssym[5]   =   {  2.0  , 1.0 , 200.0, 200.0   , (double) multbinsize-1 };
+double xmax5D_etaAssym[5]   =   {  1.0  , 1.0 , 400.0, 400.0   , (double) multbinsize-1 };
 THnSparseD *hist_etaAssym_numerator_reco = new THnSparseD("hist_etaAssym_numerator_reco", "hist_etaAssym_numerator_reco", 5, bins5D_etaAssym, xmin5D_etaAssym, xmax5D_etaAssym);
 THnSparseD *hist_etaAssym_denominator_reco = new THnSparseD("hist_etaAssym_denominator_reco", "hist_etaAssym_denominator_reco", 5, bins5D_etaAssym, xmin5D_etaAssym, xmax5D_etaAssym);
 THnSparseD *hist_etaAssym_numerator_ref = new THnSparseD("hist_etaAssym_numerator_ref", "hist_etaAssym_numerator_ref", 5, bins5D_etaAssym, xmin5D_etaAssym, xmax5D_etaAssym);

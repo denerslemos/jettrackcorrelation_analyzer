@@ -615,7 +615,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
 				if(delta_phi_reco > leading_subleading_deltaphi_min){
 
-					double x5D_etaAssym[5] = {1,Xj_reco,(double)(hfplus+hfminus),(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+					double x5D_etaAssym[5] = {0,Xj_reco,(double)(hfplus+hfminus),(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
 					if(etadijet>boost){hist_etaAssym_numerator_reco->Fill(x5D_etaAssym,event_weight*ljet_weight*sljet_weight);}else{hist_etaAssym_denominator_reco->Fill(x5D_etaAssym,event_weight*ljet_weight*sljet_weight);}
 
 					// Fill leading and subleading jet vectors
@@ -709,7 +709,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 				// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
 				if(delta_phi_ref > leading_subleading_deltaphi_min){
-					double x5D_etaAssym[5] = {1,Xj_ref,(double)(hfplus+hfminus),(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+					double x5D_etaAssym[5] = {0,Xj_ref,(double)(hfplus+hfminus),(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
 					if(etadijet>boost){hist_etaAssym_numerator_ref->Fill(x5D_etaAssym,event_weight*lrefjet_weight*slrefjet_weight);}else{hist_etaAssym_denominator_ref->Fill(x5D_etaAssym,event_weight*lrefjet_weight*slrefjet_weight);}
 				}
 			}
@@ -954,7 +954,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations				
 					if(delta_phi_gen > leading_subleading_deltaphi_min){
 
-						double x5D_etaAssym[5] = {1,Xj_gen,(double)(hfplus+hfminus),(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+						double x5D_etaAssym[5] = {0,Xj_gen,(double)(hfplus+hfminus),(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
 						if(etadijet>boost){hist_etaAssym_numerator_gen->Fill(x5D_etaAssym);}else{hist_etaAssym_denominator_gen->Fill(x5D_etaAssym);}
 			
 						// Fill leading and subleading jet vectors
