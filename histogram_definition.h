@@ -99,7 +99,7 @@ TH1D *reco_mult_withdijets_weighted = new TH1D("reco_mult_withdijets_weighted", 
 TH1D *gen_mult_withdijets = new TH1D("gen_mult_withdijets", "gen_mult_withdijets", 100, 0.0, 500.0);
 TH1D *gen_mult_withdijets_weighted = new TH1D("gen_mult_withdijets_weighted", "gen_mult_withdijets_weighted", 100, 0.0, 500.0);
 
-// Axis : 0 -> delta R, 1 -> gen jet pT, 2 -> PsiEP, 3 -> event multiplicity
+// Axis : 0 -> delta R, 1 -> gen jet pT, 2 -> flavour, 3 -> event multiplicity
 int    bins4D_jetaxis[4]   =   { 500  ,  50  , 8, multbinsize-1};
 double xmin4D_jetaxis[4]   =   { 0.0 ,   0   , 0, 0};
 double xmax4D_jetaxis[4]   =   { 5.0  ,  1000, 8, (double) multbinsize-1};
@@ -108,7 +108,7 @@ THnSparseD *genjetaxischeck = new THnSparseD("genjetaxischeck", "genjetaxischeck
 // event plane histograms
 
 // Axis : 0 -> EP multiplicity, 1 -> qvector, 2 -> PsiEP, 3 -> event multiplicity
-int    bins4D_EP[4]   =   { 50   ,  200 ,   64           , 100};
+int    bins4D_EP[4]   =   { 50    ,  200 ,   64           , 100};
 double xmin4D_EP[4]   =   { 0     ,    0 ,   -TMath::Pi() , 0};
 double xmax4D_EP[4]   =   { 500   ,  100 ,   TMath::Pi()  , 500};
 
@@ -313,6 +313,35 @@ double xmax4D_quenc_2pc[4]   =   { 1.0  , 1.0   , 3.0*TMath::Pi()/2.0 , (double)
 THnSparseD *hist_reco_lead_reco_subl_quench2pc = new THnSparseD("hist_reco_lead_reco_subl_quench2pc", "hist_reco_lead_reco_subl_quench2pc", 4, bins4D_quenc_2pc, xmin4D_quenc_2pc, xmax4D_quenc_2pc);
 THnSparseD *hist_gen_lead_gen_subl_quench2pc = new THnSparseD("hist_gen_lead_gen_subl_quench2pc", "hist_gen_lead_gen_subl_quench2pc", 4, bins4D_quenc_2pc, xmin4D_quenc_2pc, xmax4D_quenc_2pc);
 THnSparseD *hist_ref_lead_ref_subl_quench2pc = new THnSparseD("hist_ref_lead_ref_subl_quench2pc", "hist_ref_lead_ref_subl_quench2pc", 4, bins4D_quenc_2pc, xmin4D_quenc_2pc, xmax4D_quenc_2pc);
+
+//Assymetry studies
+// Axis : 0 -> etaDijet, 1 -> Xj, 2 -> delta phi, 3 -> ET or ETEta4, 4 -> multiplicity
+int    bins5D_etaDijet[5]   =   {  40   , 5     , 30          , 40    , multbinsize-1          };
+double xmin5D_etaDijet[5]   =   { -4.0  , 0.0   , 0.0    	  , 0.0   , 0                      };
+double xmax5D_etaDijet[5]   =   {  4.0  , 1.0   , TMath::Pi() , 200.0 , (double) multbinsize-1 };
+THnSparseD *hist_etaDijet_ET_reco = new THnSparseD("hist_etaDijet_ET_reco", "hist_etaDijet_ET_reco", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
+THnSparseD *hist_etaDijet_ET_ref = new THnSparseD("hist_etaDijet_ET_ref", "hist_etaDijet_ET_ref", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
+THnSparseD *hist_etaDijet_ET_gen = new THnSparseD("hist_etaDijet_ET_gen", "hist_etaDijet_ET_gen", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
+THnSparseD *hist_etaDijet_ETEta4_reco = new THnSparseD("hist_etaDijet_ETEta4_reco", "hist_etaDijet_ETEta4_reco", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
+THnSparseD *hist_etaDijet_ETEta4_ref = new THnSparseD("hist_etaDijet_ETEta4_ref", "hist_etaDijet_ETEta4_ref", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
+THnSparseD *hist_etaDijet_ETEta4_gen = new THnSparseD("hist_etaDijet_ETEta4_gen", "hist_etaDijet_ETEta4_gen", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
+THnSparseD *hist_etaDiff_ET_reco = new THnSparseD("hist_etaDiff_ET_reco", "hist_etaDiff_ET_reco", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
+THnSparseD *hist_etaDiff_ET_ref = new THnSparseD("hist_etaDiff_ET_ref", "hist_etaDiff_ET_ref", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
+THnSparseD *hist_etaDiff_ET_gen = new THnSparseD("hist_etaDiff_ET_gen", "hist_etaDiff_ET_gen", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
+THnSparseD *hist_etaDiff_ETEta4_reco = new THnSparseD("hist_etaDiff_ETEta4_reco", "hist_etaDiff_ETEta4_reco", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
+THnSparseD *hist_etaDiff_ETEta4_ref = new THnSparseD("hist_etaDiff_ETEta4_ref", "hist_etaDiff_ETEta4_ref", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
+THnSparseD *hist_etaDiff_ETEta4_gen = new THnSparseD("hist_etaDiff_ETEta4_gen", "hist_etaDiff_ETEta4_gen", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
+
+// Axis : 0 -> etaAssym, 1 -> Xj, 2 -> HF, 3-> HFEta4, 4 -> multiplicity
+int    bins5D_etaAssym[5]   =   {  2    , 5   , 40,   40    , multbinsize-1          };
+double xmin5D_etaAssym[5]   =   {  0.0  , 0.0 , 0.0,   0.0   , 0                      };
+double xmax5D_etaAssym[5]   =   {  2.0  , 1.0 , 200.0, 200.0   , (double) multbinsize-1 };
+THnSparseD *hist_etaAssym_numerator_reco = new THnSparseD("hist_etaAssym_numerator_reco", "hist_etaAssym_numerator_reco", 5, bins5D_etaAssym, xmin5D_etaAssym, xmax5D_etaAssym);
+THnSparseD *hist_etaAssym_denominator_reco = new THnSparseD("hist_etaAssym_denominator_reco", "hist_etaAssym_denominator_reco", 5, bins5D_etaAssym, xmin5D_etaAssym, xmax5D_etaAssym);
+THnSparseD *hist_etaAssym_numerator_ref = new THnSparseD("hist_etaAssym_numerator_ref", "hist_etaAssym_numerator_ref", 5, bins5D_etaAssym, xmin5D_etaAssym, xmax5D_etaAssym);
+THnSparseD *hist_etaAssym_denominator_ref = new THnSparseD("hist_etaAssym_denominator_ref", "hist_etaAssym_denominator_ref", 5, bins5D_etaAssym, xmin5D_etaAssym, xmax5D_etaAssym);
+THnSparseD *hist_etaAssym_numerator_gen = new THnSparseD("hist_etaAssym_numerator_gen", "hist_etaAssym_numerator_gen", 5, bins5D_etaAssym, xmin5D_etaAssym, xmax5D_etaAssym);
+THnSparseD *hist_etaAssym_denominator_gen = new THnSparseD("hist_etaAssym_denominator_gen", "hist_etaAssym_denominator_gen", 5, bins5D_etaAssym, xmin5D_etaAssym, xmax5D_etaAssym);
 
 // Correlation studies
 // Axis : 0 -> delta phi, 1 -> delta eta, 2 -> track pT, 3 -> multiplicity
@@ -714,6 +743,24 @@ void sw2(){
 	Dphi_GEN_EP3_flat_trk_plus->Sumw2();
 	Dphi_GEN_EP4_flat_trk_minus->Sumw2();
 	Dphi_GEN_EP4_flat_trk_plus->Sumw2();
+	hist_etaDijet_ET_reco->Sumw2();
+	hist_etaDijet_ET_ref->Sumw2();
+	hist_etaDijet_ET_gen->Sumw2();
+	hist_etaDijet_ETEta4_reco->Sumw2();
+	hist_etaDijet_ETEta4_ref->Sumw2();
+	hist_etaDijet_ETEta4_gen->Sumw2();
+	hist_etaDiff_ET_reco->Sumw2();
+	hist_etaDiff_ET_ref->Sumw2();
+	hist_etaDiff_ET_gen->Sumw2();
+	hist_etaDiff_ETEta4_reco->Sumw2();
+	hist_etaDiff_ETEta4_ref->Sumw2();
+	hist_etaDiff_ETEta4_gen->Sumw2();
+	hist_etaAssym_numerator_reco->Sumw2();
+	hist_etaAssym_denominator_reco->Sumw2();
+	hist_etaAssym_numerator_ref->Sumw2();
+	hist_etaAssym_denominator_ref->Sumw2();
+	hist_etaAssym_numerator_gen->Sumw2();
+	hist_etaAssym_denominator_gen->Sumw2();
 
 }
 
@@ -1175,7 +1222,29 @@ void w_ep_hist(bool isMC){
 	
 }
 
-
+// eta assymetry histograms
+void w_etassym_hist(bool isMC){ 
+	hist_etaDijet_ET_reco->Write();
+	hist_etaDijet_ETEta4_reco->Write();
+	hist_etaDiff_ET_reco->Write();
+	hist_etaDiff_ETEta4_reco->Write();
+	hist_etaAssym_numerator_reco->Write();
+	hist_etaAssym_denominator_reco->Write();
+	if(isMC){
+		hist_etaDijet_ET_ref->Write();
+		hist_etaDijet_ET_gen->Write();
+		hist_etaDijet_ETEta4_ref->Write();
+		hist_etaDijet_ETEta4_gen->Write();
+		hist_etaDiff_ET_ref->Write();
+		hist_etaDiff_ET_gen->Write();
+		hist_etaDiff_ETEta4_ref->Write();
+		hist_etaDiff_ETEta4_gen->Write();
+		hist_etaAssym_numerator_ref->Write();
+		hist_etaAssym_denominator_ref->Write();
+		hist_etaAssym_numerator_gen->Write();
+		hist_etaAssym_denominator_gen->Write();
+	}
+}
 
 // Unfolding histograms
 void w_unfold_hist(){ 
