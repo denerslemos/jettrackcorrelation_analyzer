@@ -14,7 +14,7 @@ parser.add_option('-s', '--side', dest='side', help='choose the side: pgoing or 
 inPut = opt.input
 sideFiles = opt.side
 
-if inPut == "datashapes1p6" && sideFiles == "pgoing":
+if inPut == "datashapes1p6" and sideFiles == "pgoing":
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM250/pgoing/HM250_pgoing -o /eos/user/d/ddesouza/JetResults/eta1p6shapes/pgoing/outHM250 -f tomorrow -c 10 -n 2 -s outHM250")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM185/pgoing/HM185_PD1_pgoing -o /eos/user/d/ddesouza/JetResults/eta1p6shapes/pgoing/HM185PD1 -f tomorrow -c 10 -n 5 -s outHM185PD1")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM185/pgoing/HM185_PD2_pgoing -o /eos/user/d/ddesouza/JetResults/eta1p6shapes/pgoing/HM185PD2 -f tomorrow -c 10 -n 5 -s outHM185PD2")
@@ -31,7 +31,7 @@ if inPut == "datashapes1p6" && sideFiles == "pgoing":
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/pgoing/MB_PD7_pgoing -o /eos/user/d/ddesouza/JetResults/eta1p6shapes/pgoing/MBPD7 -f tomorrow -c 10 -n 5 -s outMBPD7")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/pgoing/MB_PD8_pgoing -o /eos/user/d/ddesouza/JetResults/eta1p6shapes/pgoing/MBPD8 -f tomorrow -c 10 -n 5 -s outMBPD8")
 
-if inPut == "datashapes1p6" && sideFiles == "Pbgoing":
+if inPut == "datashapes1p6" and sideFiles == "Pbgoing":
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM250/Pbgoing/HM250_Pbgoing -o /eos/user/d/ddesouza/JetResults/eta1p6shapes/Pbgoing/outHM250 -f tomorrow -c 10 -n 2 -s outHM250")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM185/Pbgoing/HM185_PD1_Pbgoing -o /eos/user/d/ddesouza/JetResults/eta1p6shapes/Pbgoing/HM185PD1 -f tomorrow -c 10 -n 5 -s outHM185PD1")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM185/Pbgoing/HM185_PD2_Pbgoing -o /eos/user/d/ddesouza/JetResults/eta1p6shapes/Pbgoing/HM185PD2 -f tomorrow -c 10 -n 5 -s outHM185PD2")
@@ -60,7 +60,7 @@ if inPut == "datashapes1p6" && sideFiles == "Pbgoing":
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/Pbgoing/MB_PD19_Pbgoing -o /eos/user/d/ddesouza/JetResults/eta1p6shapes/Pbgoing/MBPD19 -f tomorrow -c 10 -n 5 -s outMBPD19")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/Pbgoing/MB_PD20_Pbgoing -o /eos/user/d/ddesouza/JetResults/eta1p6shapes/Pbgoing/MBPD20 -f tomorrow -c 10 -n 5 -s outMBPD20")
 
-if inPut == "datashapes3p0" && sideFiles == "pgoing":
+if inPut == "datashapes3p0" and sideFiles == "pgoing":
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM250/pgoing/HM250_pgoing -o /eos/user/d/ddesouza/JetResults/eta3p0shapes/pgoing/outHM250 -f tomorrow -c 10 -n 2 -s outHM250")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM185/pgoing/HM185_PD1_pgoing -o /eos/user/d/ddesouza/JetResults/eta3p0shapes/pgoing/HM185PD1 -f tomorrow -c 10 -n 6 -s outHM185PD1")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM185/pgoing/HM185_PD2_pgoing -o /eos/user/d/ddesouza/JetResults/eta3p0shapes/pgoing/HM185PD2 -f tomorrow -c 10 -n 6 -s outHM185PD2")
@@ -77,7 +77,7 @@ if inPut == "datashapes3p0" && sideFiles == "pgoing":
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/pgoing/MB_PD7_pgoing -o /eos/user/d/ddesouza/JetResults/eta3p0shapes/pgoing/MBPD7 -f tomorrow -c 10 -n 6 -s outMBPD7")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/pgoing/MB_PD8_pgoing -o /eos/user/d/ddesouza/JetResults/eta3p0shapes/pgoing/MBPD8 -f tomorrow -c 10 -n 6 -s outMBPD8")
 
-if inPut == "datashapes3p0" && sideFiles == "Pbgoing":
+if inPut == "datashapes3p0" and sideFiles == "Pbgoing":
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM250/Pbgoing/HM250_Pbgoing -o /eos/user/d/ddesouza/JetResults/eta3p0shapes/Pbgoing/outHM250 -f tomorrow -c 10 -n 2 -s outHM250")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM185/Pbgoing/HM185_PD1_Pbgoing -o /eos/user/d/ddesouza/JetResults/eta3p0shapes/Pbgoing/HM185PD1 -f tomorrow -c 10 -n 6 -s outHM185PD1")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM185/Pbgoing/HM185_PD2_Pbgoing -o /eos/user/d/ddesouza/JetResults/eta3p0shapes/Pbgoing/HM185PD2 -f tomorrow -c 10 -n 6 -s outHM185PD2")
@@ -106,7 +106,7 @@ if inPut == "datashapes3p0" && sideFiles == "Pbgoing":
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/Pbgoing/MB_PD19_Pbgoing -o /eos/user/d/ddesouza/JetResults/eta3p0shapes/Pbgoing/MBPD19 -f tomorrow -c 10 -n 6 -s outMBPD19")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/Pbgoing/MB_PD20_Pbgoing -o /eos/user/d/ddesouza/JetResults/eta3p0shapes/Pbgoing/MBPD20 -f tomorrow -c 10 -n 6 -s outMBPD20")
 
-if inPut == "dataflow1p3" && sideFiles == "pgoing":
+if inPut == "dataflow1p3" and sideFiles == "pgoing":
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM250/pgoing/HM250_pgoing -o /eos/user/d/ddesouza/JetResults/eta1p3flow/pgoing/outHM250 -f tomorrow -c 8 -n 2 -s outHM250")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM185/pgoing/HM185_PD1_pgoing -o /eos/user/d/ddesouza/JetResults/eta1p3flow/pgoing/HM185PD1 -f tomorrow -c 8 -n 5 -s outHM185PD1")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM185/pgoing/HM185_PD2_pgoing -o /eos/user/d/ddesouza/JetResults/eta1p3flow/pgoing/HM185PD2 -f tomorrow -c 8 -n 5 -s outHM185PD2")
@@ -123,7 +123,7 @@ if inPut == "dataflow1p3" && sideFiles == "pgoing":
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/pgoing/MB_PD7_pgoing -o /eos/user/d/ddesouza/JetResults/eta1p3flow/pgoing/MBPD7 -f tomorrow -c 8 -n 5 -s outMBPD7")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/pgoing/MB_PD8_pgoing -o /eos/user/d/ddesouza/JetResults/eta1p3flow/pgoing/MBPD8 -f tomorrow -c 8 -n 5 -s outMBPD8")
 
-if inPut == "dataflow1p3" && sideFiles == "Pbgoing":
+if inPut == "dataflow1p3" and sideFiles == "Pbgoing":
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM250/Pbgoing/HM250_Pbgoing -o /eos/user/d/ddesouza/JetResults/eta1p3flow/Pbgoing/outHM250 -f tomorrow -c 8 -n 2 -s outHM250")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM185/Pbgoing/HM185_PD1_Pbgoing -o /eos/user/d/ddesouza/JetResults/eta1p3flow/Pbgoing/HM185PD1 -f tomorrow -c 8 -n 5 -s outHM185PD1")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM185/Pbgoing/HM185_PD2_Pbgoing -o /eos/user/d/ddesouza/JetResults/eta1p3flow/Pbgoing/HM185PD2 -f tomorrow -c 8 -n 5 -s outHM185PD2")
@@ -152,7 +152,7 @@ if inPut == "dataflow1p3" && sideFiles == "Pbgoing":
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/Pbgoing/MB_PD19_Pbgoing -o /eos/user/d/ddesouza/JetResults/eta1p3flow/Pbgoing/MBPD19 -f tomorrow -c 8 -n 5 -s outMBPD19")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/Pbgoing/MB_PD20_Pbgoing -o /eos/user/d/ddesouza/JetResults/eta1p3flow/Pbgoing/MBPD20 -f tomorrow -c 8 -n 5 -s outMBPD20")
 
-if inPut == "datafwdbkw" && sideFiles == "pgoing":
+if inPut == "datafwdbkw" and sideFiles == "pgoing":
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM250/pgoing/HM250_pgoing -o /eos/user/d/ddesouza/JetResults/fwdbkw/pgoing/outHM250 -f tomorrow -c 4 -n 2 -s outHM250")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM185/pgoing/HM185_PD1_pgoing -o /eos/user/d/ddesouza/JetResults/fwdbkw/pgoing/HM185PD1 -f tomorrow -c 4 -n 2 -s outHM185PD1")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM185/pgoing/HM185_PD2_pgoing -o /eos/user/d/ddesouza/JetResults/fwdbkw/pgoing/HM185PD2 -f tomorrow -c 4 -n 2 -s outHM185PD2")
@@ -169,7 +169,7 @@ if inPut == "datafwdbkw" && sideFiles == "pgoing":
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/pgoing/MB_PD7_pgoing -o /eos/user/d/ddesouza/JetResults/fwdbkw/pgoing/MBPD7 -f tomorrow -c 4 -n 2 -s outMBPD7")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/pgoing/MB_PD8_pgoing -o /eos/user/d/ddesouza/JetResults/fwdbkw/pgoing/MBPD8 -f tomorrow -c 4 -n 2 -s outMBPD8")
 
-if inPut == "datafwdbkw" && sideFiles == "Pbgoing":
+if inPut == "datafwdbkw" and sideFiles == "Pbgoing":
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM250/Pbgoing/HM250_Pbgoing -o /eos/user/d/ddesouza/JetResults/fwdbkw/Pbgoing/outHM250 -f tomorrow -c 4 -n 2 -s outHM250")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM185/Pbgoing/HM185_PD1_Pbgoing -o /eos/user/d/ddesouza/JetResults/fwdbkw/Pbgoing/HM185PD1 -f tomorrow -c 4 -n 2 -s outHM185PD1")
 	os.system("python HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM185/Pbgoing/HM185_PD2_Pbgoing -o /eos/user/d/ddesouza/JetResults/fwdbkw/Pbgoing/HM185PD2 -f tomorrow -c 4 -n 2 -s outHM185PD2")
