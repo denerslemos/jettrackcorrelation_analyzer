@@ -15,7 +15,7 @@ bool use_centrality = false; // only true for: "XeXe" and "PbPb" (but also can b
 float vz_cut_min = -10.0; //vz acceptance
 float vz_cut_max = 10.0; //vz acceptance
 
-const std::vector<double> multiplicity_centrality_bins{10.0, 400.0}; //multiplicity range
+const std::vector<double> multiplicity_centrality_bins{10.0, 50.0, 80.0, 100.0, 120.0, 150.0, 185.0, 210.0, 250.0, 400.0}; //multiplicity range
 //event filters
 std::vector<int> event_filter_bool; // event filter booleans
 //std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose"}; // event filters to be applied (pp ref - 2017)
@@ -142,10 +142,8 @@ void print_input(TString data_or_mc, TFile *fileeff, TString coll_system, float 
 		cout << "Sub-Leading jet pT min: " << subleading_pT_min  << " GeV"<< endl;
 		cout << "Delta phi (leading,subleading) jets > " << leading_subleading_deltaphi_min << endl;
 	}
-	if(do_pthatcut){
-		cout << "pThat min: " << pthatmin  << " GeV"<< endl;
-		cout << "pThat max: " << pthatmax  << " GeV"<< endl;
-	}
+	cout << "pThat min: " << pthatmin  << " GeV"<< endl;
+	cout << "pThat max: " << pthatmax  << " GeV"<< endl;
 	cout << endl;
 	cout << "=========== Tracks/Particles ===========" << endl;
 	cout << endl;
