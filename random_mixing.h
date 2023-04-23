@@ -112,36 +112,14 @@ void MixEvents_random(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_ntrk
               if(flow){histo->Fill(x4D,jet_weight*trk_weight*f_weight);}else{histo->Fill(x4D,jet_weight*trk_weight*f_weight*trkpt);}
             }
          } // end of correlation loop
-         if(add_inverted_corr){
-            // loop and fill correlation histograms
-            for(int imix = 0; imix < nMix_nevt_trg_Trk; imix++){
-               double trkpt = Trk_nevt_trg_vec[imix].Pt();
-               // track efficiency correction for reco
-               double trk_weight = Trk_w_nevt_trg_vec[imix];
-               // find track and multiplicity bins
-               int trkbin = (int) find_my_bin(trk_pt_bin,trkpt);
-               int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float) ev_ntrkoff[nevt_trg]);
-               for(int iimix = 0; iimix < nMix_nevt_ass_Jet; iimix++){
-                  double jet_weight = Jet_w_nevt_ass_vec[iimix];
-                  // Fill correlation histograms
-                  double x4D_jet[4]={Jet_nevt_ass_vec[iimix].Pt(),Jet_nevt_ass_vec[iimix].Eta(),Jet_nevt_ass_vec[iimix].Phi(),(double)multcentbin}; histo_jet->Fill(x4D_jet,jet_weight*f_weight);
-                  double x4D_trk[4]={Trk_nevt_trg_vec[imix].Pt(),Trk_nevt_trg_vec[imix].Eta(),Trk_nevt_trg_vec[imix].Phi(),(double)multcentbin}; histo_trk->Fill(x4D_trk,trk_weight*f_weight);
-                  double del_phi = deltaphi2PC(Jet_nevt_ass_vec[iimix].Phi(), Trk_nevt_trg_vec[imix].Phi());
-                  double del_eta = deltaeta(Jet_nevt_ass_vec[iimix].Eta(), Trk_nevt_trg_vec[imix].Eta());
-                  double x4D[4]={del_phi,del_eta,(double)trkbin,(double)multcentbin}; 
-                  if(flow){histo->Fill(x4D,jet_weight*trk_weight*f_weight);}else{histo->Fill(x4D,jet_weight*trk_weight*f_weight*trkpt);}
-               }
-            } // end of correlation loop
-         }
-         
       } // end of while loop (after finding the number of events required)
       eventcheck.clear();
    } // end of all events loop
 }
 
 // Function used only to call the mixing in the main code (Arguments the similar as function above)
-void call_mix_random(int nEvt_to_mix, int nmix_int, std::vector<int> ev_ntrkoff, std::vector<double> multiplicity_centrality_bins, std::vector<double> vtx_z, double vzcut, std::vector<std::vector<TVector3>> Jet_Vector, std::vector<std::vector<double>> Jet_W_Vector, std::vector<std::vector<TVector3>> Track_Vector, std::vector<std::vector<double>> Track_W_Vector, THnSparse *histo,  std::vector<double> trk_pt_bin, std::vector<double> event_weight, THnSparse *histo_jet, THnSparse *histo_trk, bool double_weight, bool add_inverted_corr, bool flow){
-   MixEvents_random(nmix_int, nEvt_to_mix, ev_ntrkoff, multiplicity_centrality_bins, vtx_z, vzcut, Jet_Vector, Jet_W_Vector, Track_Vector, Track_W_Vector, histo, trk_pt_bin, event_weight, histo_jet, histo_trk, double_weight, add_inverted_corr, flow);  
+void call_mix_random(int nEvt_to_mix, int nmix_int, std::vector<int> ev_ntrkoff, std::vector<double> multiplicity_centrality_bins, std::vector<double> vtx_z, double vzcut, std::vector<std::vector<TVector3>> Jet_Vector, std::vector<std::vector<double>> Jet_W_Vector, std::vector<std::vector<TVector3>> Track_Vector, std::vector<std::vector<double>> Track_W_Vector, THnSparse *histo,  std::vector<double> trk_pt_bin, std::vector<double> event_weight, THnSparse *histo_jet, THnSparse *histo_trk, bool double_weight, bool flow){
+   MixEvents_random(nmix_int, nEvt_to_mix, ev_ntrkoff, multiplicity_centrality_bins, vtx_z, vzcut, Jet_Vector, Jet_W_Vector, Track_Vector, Track_W_Vector, histo, trk_pt_bin, event_weight, histo_jet, histo_trk, double_weight, flow);  
 }
 
 
