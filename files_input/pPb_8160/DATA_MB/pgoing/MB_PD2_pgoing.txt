@@ -2913,7 +2913,6 @@
 /eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD2_new/HiForest_pPb_DATA_MB_pgoing_PD2_3621.root
 /eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD2_new/HiForest_pPb_DATA_MB_pgoing_PD2_3622.root
 /eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD2_new/HiForest_pPb_DATA_MB_pgoing_PD2_3623.root
-/eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD2_new/HiForest_pPb_DATA_MB_pgoing_PD2_3624.root
 /eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD2_new/HiForest_pPb_DATA_MB_pgoing_PD2_3625.root
 /eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD2_new/HiForest_pPb_DATA_MB_pgoing_PD2_3626.root
 /eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD2_new/HiForest_pPb_DATA_MB_pgoing_PD2_3627.root

@@ -2221,7 +2221,6 @@
 /eos/cms/store/group/phys_heavyions/eprifti/Jets_pPb/DATA/HM185_skim_Pbgoing_PD3_new/HiForest_pPb_DATA_HM185_Pbgoing_PD3_300.root
 /eos/cms/store/group/phys_heavyions/eprifti/Jets_pPb/DATA/HM185_skim_Pbgoing_PD3_new/HiForest_pPb_DATA_HM185_Pbgoing_PD3_3000.root
 /eos/cms/store/group/phys_heavyions/eprifti/Jets_pPb/DATA/HM185_skim_Pbgoing_PD3_new/HiForest_pPb_DATA_HM185_Pbgoing_PD3_3001.root
-/eos/cms/store/group/phys_heavyions/eprifti/Jets_pPb/DATA/HM185_skim_Pbgoing_PD3_new/HiForest_pPb_DATA_HM185_Pbgoing_PD3_3002.root
 /eos/cms/store/group/phys_heavyions/eprifti/Jets_pPb/DATA/HM185_skim_Pbgoing_PD3_new/HiForest_pPb_DATA_HM185_Pbgoing_PD3_3003.root
 /eos/cms/store/group/phys_heavyions/eprifti/Jets_pPb/DATA/HM185_skim_Pbgoing_PD3_new/HiForest_pPb_DATA_HM185_Pbgoing_PD3_3004.root
 /eos/cms/store/group/phys_heavyions/eprifti/Jets_pPb/DATA/HM185_skim_Pbgoing_PD3_new/HiForest_pPb_DATA_HM185_Pbgoing_PD3_3005.root

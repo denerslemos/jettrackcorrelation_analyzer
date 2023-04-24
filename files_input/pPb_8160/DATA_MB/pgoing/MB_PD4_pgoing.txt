@@ -67,7 +67,6 @@
 /eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD4_new/HiForest_pPb_DATA_MB_pgoing_PD4_1057.root
 /eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD4_new/HiForest_pPb_DATA_MB_pgoing_PD4_1058.root
 /eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD4_new/HiForest_pPb_DATA_MB_pgoing_PD4_1059.root
-/eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD4_new/HiForest_pPb_DATA_MB_pgoing_PD4_106.root
 /eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD4_new/HiForest_pPb_DATA_MB_pgoing_PD4_1060.root
 /eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD4_new/HiForest_pPb_DATA_MB_pgoing_PD4_1061.root
 /eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD4_new/HiForest_pPb_DATA_MB_pgoing_PD4_1062.root
@@ -815,7 +814,6 @@
 /eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD4_new/HiForest_pPb_DATA_MB_pgoing_PD4_1730.root
 /eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD4_new/HiForest_pPb_DATA_MB_pgoing_PD4_1731.root
 /eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD4_new/HiForest_pPb_DATA_MB_pgoing_PD4_1732.root
-/eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD4_new/HiForest_pPb_DATA_MB_pgoing_PD4_1733.root
 /eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD4_new/HiForest_pPb_DATA_MB_pgoing_PD4_1734.root
 /eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD4_new/HiForest_pPb_DATA_MB_pgoing_PD4_1735.root
 /eos/cms/store/group/phys_heavyions/sdogra/Jets_pPb/DATA/MB_skim_pgoing_PD4_new/HiForest_pPb_DATA_MB_pgoing_PD4_1736.root

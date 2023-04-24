@@ -798,7 +798,6 @@
 /eos/cms/store/group/phys_heavyions/ddesouza/Jets_pPb/DATA/HM250_skim_Pbgoing/HiForest_pPb_DATA_HM250_Pbgoing_1715.root
 /eos/cms/store/group/phys_heavyions/ddesouza/Jets_pPb/DATA/HM250_skim_Pbgoing/HiForest_pPb_DATA_HM250_Pbgoing_1716.root
 /eos/cms/store/group/phys_heavyions/ddesouza/Jets_pPb/DATA/HM250_skim_Pbgoing/HiForest_pPb_DATA_HM250_Pbgoing_1717.root
-/eos/cms/store/group/phys_heavyions/ddesouza/Jets_pPb/DATA/HM250_skim_Pbgoing/HiForest_pPb_DATA_HM250_Pbgoing_1718.root
 /eos/cms/store/group/phys_heavyions/ddesouza/Jets_pPb/DATA/HM250_skim_Pbgoing/HiForest_pPb_DATA_HM250_Pbgoing_1719.root
 /eos/cms/store/group/phys_heavyions/ddesouza/Jets_pPb/DATA/HM250_skim_Pbgoing/HiForest_pPb_DATA_HM250_Pbgoing_172.root
 /eos/cms/store/group/phys_heavyions/ddesouza/Jets_pPb/DATA/HM250_skim_Pbgoing/HiForest_pPb_DATA_HM250_Pbgoing_1720.root
