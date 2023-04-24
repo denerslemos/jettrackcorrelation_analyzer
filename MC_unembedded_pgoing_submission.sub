@@ -3,7 +3,7 @@ getenv     = True
 executable = sub.sh
 +JobFlavour           = "tomorrow"
 requirements = (OpSysAndVer =?= "CentOS7")
-RequestCpus = 8
+RequestCpus = 16
 
 log        = cond/pthat15_unemb_pgoing.log
 output     = cond/pthat15_unemb_pgoing.out
