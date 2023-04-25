@@ -50,7 +50,7 @@ requirements = (OpSysAndVer =?= "CentOS7")
 RequestCpus = '''+str(nCpu)+'''
 '''
 
-if(ratioint == 1):
+if(ratio == len(Lines)):
 	temp = '''
 log        = cond/'''+subFiles+'''.log
 output     = cond/'''+subFiles+'''.out
@@ -78,7 +78,7 @@ arguments = '''+inFiles+'''_part'''+str(i)+'''.txt '''+str(outFiles)+'''_job_'''
 queue
 '''
 		command_lines += temp
-else:
+elif(ratio == 1):
 	i=0
 	for line in Lines:
 		outtempfiles = open(inFiles+"_part"+str(i)+".txt", "w")
