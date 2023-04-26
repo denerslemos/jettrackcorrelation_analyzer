@@ -23,7 +23,6 @@ double getTrkCorrWeight(TFile *trkeff_file, bool use_centrality, string system, 
     // factor = (1. - fak ) * ( 1. - sec ) / eff  / (1. + mul ); //complete correction
     // factor = (1. - fak ) / eff;
     factor = (1. / eff); //only efficiency
-    eff_factor->Reset("ICESM");
   }
 
   return factor;
