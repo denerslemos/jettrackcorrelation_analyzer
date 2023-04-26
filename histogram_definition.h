@@ -29,26 +29,26 @@ TH1I *NJetsLead = new TH1I("NJetsLead", "NJetsLead", 20, 0, 20);
 TH1I *NJetsLJSLJ = new TH1I("NJetsLJSLJ", "NJetsLJSLJ", 20, 0, 20);
 
 // multiplicity
-TH1D *multiplicity = new TH1D("multiplicity", "multiplicity", 100, 0.0, 500.0);
-TH1D *multiplicity_weighted = new TH1D("multiplicity_weighted", "multiplicity_weighted", 100, 0.0, 500.0);
+TH1D *multiplicity = new TH1D("multiplicity", "multiplicity", 80, 0.0, 400.0);
+TH1D *multiplicity_weighted = new TH1D("multiplicity_weighted", "multiplicity_weighted", 80, 0.0, 400.0);
 
-TH1D *reco_mult = new TH1D("reco_mult", "reco_mult", 100, 0.0, 500.0);
-TH1D *reco_mult_weighted = new TH1D("reco_mult_weighted", "reco_mult_weighted", 100, 0.0, 500.0);
-TH1D *gen_mult = new TH1D("gen_mult", "gen_mult", 100, 0.0, 500.0);
-TH1D *gen_mult_weighted = new TH1D("gen_mult_weighted", "gen_mult_weighted", 100, 0.0, 500.0);
+TH1D *reco_mult = new TH1D("reco_mult", "reco_mult", 80, 0.0, 400.0);
+TH1D *reco_mult_weighted = new TH1D("reco_mult_weighted", "reco_mult_weighted", 80, 0.0, 400.0);
+TH1D *gen_mult = new TH1D("gen_mult", "gen_mult", 80, 0.0, 400.0);
+TH1D *gen_mult_weighted = new TH1D("gen_mult_weighted", "gen_mult_weighted", 80, 0.0, 400.0);
 
 // Z vertex
-TH2D *vzhist = new TH2D("vzhist", "vzhist", 60, -15.5, 15.5, 100, 0, 500);
-TH2D *vzhist_weighted = new TH2D("vzhist_weighted", "vzhist_weighted", 60, -15.5, 15.5, 100, 0, 500);
+TH2D *vzhist = new TH2D("vzhist", "vzhist", 60, -15.5, 15.5, 80, 0.0, 400.0);
+TH2D *vzhist_weighted = new TH2D("vzhist_weighted", "vzhist_weighted", 60, -15.5, 15.5, 80, 0.0, 400.0);
 
 // pthat
-TH2D *pthathist = new TH2D("pthathist", "pthathist", 100, 0, 1000, 100, 0, 500);
-TH2D *pthathist_weighted = new TH2D("pthathist_weighted", "pthathist_weighted", 100, 0, 1000, 100, 0, 500);
+TH2D *pthathist = new TH2D("pthathist", "pthathist", 100, 0, 1000, 80, 0.0, 400.0);
+TH2D *pthathist_weighted = new TH2D("pthathist_weighted", "pthathist_weighted", 100, 0, 1000, 80, 0.0, 400.0);
 
 // Axis : 0 -> HF+, 1 -> HF-, 2 -> multbin
-int    bins3D_HF[3]   =   { 100  ,  100 ,  100};
+int    bins3D_HF[3]   =   { 200  ,  200 ,  80};
 double xmin3D_HF[3]   =   { 0.0  ,  0.0 ,  0.0};
-double xmax3D_HF[3]   =   { 200  ,  200 ,  500};
+double xmax3D_HF[3]   =   { 400  ,  400 ,  400};
 
 THnSparseD *hfhist = new THnSparseD("hfhist", "hfhist", 3, bins3D_HF, xmin3D_HF, xmax3D_HF);
 THnSparseD *hfhist_weighted = new THnSparseD("hfhist_weighted", "hfhist_weighted", 3, bins3D_HF, xmin3D_HF, xmax3D_HF);
@@ -66,9 +66,9 @@ THnSparseD *hfhistEta4_dijet = new THnSparseD("hfhistEta4_dijet", "hfhistEta4_di
 THnSparseD *hfhistEta4_dijet_weighted = new THnSparseD("hfhistEta4_dijet_weighted", "hfhistEta4_dijet_weighted", 3, bins3D_HF, xmin3D_HF, xmax3D_HF);
 
 // Axis : 0 -> ZDC+, 1 -> ZDC-, 2 -> multbin
-int    bins3D_ZDC[3]   =   {  100   ,   100   ,  100};
+int    bins3D_ZDC[3]   =   {  200   ,   200   ,  80};
 double xmin3D_ZDC[3]   =   { -10000 ,  -10000 ,  0.0};
-double xmax3D_ZDC[3]   =   {  10000 ,   10000 ,  500};
+double xmax3D_ZDC[3]   =   {  10000 ,   10000 ,  400};
 
 THnSparseD *zdchist = new THnSparseD("zdchist", "zdchist", 3, bins3D_ZDC, xmin3D_ZDC, xmax3D_ZDC);
 THnSparseD *zdchist_weighted = new THnSparseD("zdchist_weighted", "zdchist_weighted", 3, bins3D_ZDC, xmin3D_ZDC, xmax3D_ZDC);
@@ -80,27 +80,27 @@ THnSparseD *zdchist_dijet_weighted = new THnSparseD("zdchist_dijet_weighted", "z
 
 //quantities with at least 1 jet
 
-TH1D *multiplicity_withonejet50 = new TH1D("multiplicity_withonejet50", "multiplicity_withonejet50", 100, 0.0, 500.0);
-TH1D *multiplicity_withonejet80 = new TH1D("multiplicity_withonejet80", "multiplicity_withonejet80", 100, 0.0, 500.0);
+TH1D *multiplicity_withonejet50 = new TH1D("multiplicity_withonejet50", "multiplicity_withonejet50", 80, 0.0, 400.0);
+TH1D *multiplicity_withonejet80 = new TH1D("multiplicity_withonejet80", "multiplicity_withonejet80", 80, 0.0, 400.0);
 //quantities with at least 1 jet pT > jet min pT in GeV
-TH1D *multiplicity_withonejet = new TH1D("multiplicity_withonejet", "multiplicity_withonejet", 100, 0.0, 500.0);
-TH1D *multiplicity_withonejet_weighted = new TH1D("multiplicity_withonejet_weighted", "multiplicity_withonejet_weighted", 100, 0.0, 500.0);
-TH1D *reco_mult_withonejet = new TH1D("reco_mult_withonejet", "reco_mult_withonejet", 100, 0.0, 500.0);
-TH1D *reco_mult_withonejet_weighted = new TH1D("reco_mult_withonejet_weighted", "reco_mult_withonejet_weighted", 500, 0.0, 500.0);
-TH1D *gen_mult_withonejet = new TH1D("gen_mult_withonejet", "gen_mult_withonejet", 100, 0.0, 500.0);
-TH1D *gen_mult_withonejet_weighted = new TH1D("gen_mult_withonejet_weighted", "gen_mult_withonejet_weighted", 100, 0.0, 500.0);
+TH1D *multiplicity_withonejet = new TH1D("multiplicity_withonejet", "multiplicity_withonejet", 80, 0.0, 400.0);
+TH1D *multiplicity_withonejet_weighted = new TH1D("multiplicity_withonejet_weighted", "multiplicity_withonejet_weighted", 80, 0.0, 400.0);
+TH1D *reco_mult_withonejet = new TH1D("reco_mult_withonejet", "reco_mult_withonejet", 80, 0.0, 400.0);
+TH1D *reco_mult_withonejet_weighted = new TH1D("reco_mult_withonejet_weighted", "reco_mult_withonejet_weighted", 80, 0.0, 400.0);
+TH1D *gen_mult_withonejet = new TH1D("gen_mult_withonejet", "gen_mult_withonejet", 80, 0.0, 400.0);
+TH1D *gen_mult_withonejet_weighted = new TH1D("gen_mult_withonejet_weighted", "gen_mult_withonejet_weighted", 80, 0.0, 400.0);
 
 //quantities with dijets
 // --> multiplicity
-TH1D *multiplicity_withdijets = new TH1D("multiplicity_withdijets", "multiplicity_withdijets", 100, 0.0, 500.0);
-TH1D *multiplicity_withdijets_weighted = new TH1D("multiplicity_withdijets_weighted", "multiplicity_withdijets_weighted", 100, 0.0, 500.0);
-TH1D *reco_mult_withdijets = new TH1D("reco_mult_withdijets", "reco_mult_withdijets", 100, 0.0, 500.0);
-TH1D *reco_mult_withdijets_weighted = new TH1D("reco_mult_withdijets_weighted", "reco_mult_withdijets_weighted", 100, 0.0, 500.0);
-TH1D *gen_mult_withdijets = new TH1D("gen_mult_withdijets", "gen_mult_withdijets", 100, 0.0, 500.0);
-TH1D *gen_mult_withdijets_weighted = new TH1D("gen_mult_withdijets_weighted", "gen_mult_withdijets_weighted", 100, 0.0, 500.0);
+TH1D *multiplicity_withdijets = new TH1D("multiplicity_withdijets", "multiplicity_withdijets", 80, 0.0, 400.0);
+TH1D *multiplicity_withdijets_weighted = new TH1D("multiplicity_withdijets_weighted", "multiplicity_withdijets_weighted", 80, 0.0, 400.0);
+TH1D *reco_mult_withdijets = new TH1D("reco_mult_withdijets", "reco_mult_withdijets", 80, 0.0, 400.0);
+TH1D *reco_mult_withdijets_weighted = new TH1D("reco_mult_withdijets_weighted", "reco_mult_withdijets_weighted", 80, 0.0, 400.0);
+TH1D *gen_mult_withdijets = new TH1D("gen_mult_withdijets", "gen_mult_withdijets", 80, 0.0, 400.0);
+TH1D *gen_mult_withdijets_weighted = new TH1D("gen_mult_withdijets_weighted", "gen_mult_withdijets_weighted", 80, 0.0, 400.0);
 
 // Axis : 0 -> delta R, 1 -> gen jet pT, 2 -> flavour, 3 -> event multiplicity
-int    bins4D_jetaxis[4]   =   { 500  ,  50  , 8, multbinsize-1};
+int    bins4D_jetaxis[4]   =   { 250  ,  100  , 8, multbinsize-1};
 double xmin4D_jetaxis[4]   =   { 0.0 ,   0   , 0, 0};
 double xmax4D_jetaxis[4]   =   { 5.0  ,  1000, 8, (double) multbinsize-1};
 THnSparseD *genjetaxischeck = new THnSparseD("genjetaxischeck", "genjetaxischeck", 4, bins4D_jetaxis, xmin4D_jetaxis, xmax4D_jetaxis);
@@ -187,8 +187,8 @@ TH2D *Dphi_GEN_flat_EP4_subleading_plus = new TH2D("Dphi_GEN_flat_EP4_subleading
 
 // Track/Particle histograms
 int    bins4D_trk[4]   =   { 100   ,  60  ,   64           , multbinsize-1};
-double xmin4D_trk[4]   =   { 0.0   , -3 ,   -TMath::Pi() , 0};
-double xmax4D_trk[4]   =   { 50.0  ,  3 ,   TMath::Pi()  , (double) multbinsize-1};
+double xmin4D_trk[4]   =   { 0.0   , -3.0 ,   -TMath::Pi() , 0};
+double xmax4D_trk[4]   =   { 50.0  ,  3.0 ,   TMath::Pi()  , (double) multbinsize-1};
 
 // --> Reco
 THnSparseD *hist_reco_trk = new THnSparseD("hist_reco_trk", "hist_reco_trk", 4, bins4D_trk, xmin4D_trk, xmax4D_trk);
@@ -229,9 +229,9 @@ THnSparseD *hist_SLJ_trk_from_gen_reco_mix = new THnSparseD("hist_SLJ_trk_from_g
 THnSparseD *hist_SLJ_trk_from_gen_gen_mix = new THnSparseD("hist_SLJ_trk_from_gen_gen_mix", "hist_SLJ_trk_from_gen_gen_mix", 4, bins4D_trk, xmin4D_trk, xmax4D_trk);
 
 // Jet histograms
-int    bins4D_jet[4]   =   { 200   ,  50  ,   64           , multbinsize-1};
-double xmin4D_jet[4]   =   { 0.0   , -2.5 ,   -TMath::Pi() , 0};
-double xmax4D_jet[4]   =   { 1000.0  ,  2.5 ,   TMath::Pi() , (double) multbinsize-1};
+int    bins4D_jet[4]   =   { 200     ,  80  ,   64           , multbinsize-1};
+double xmin4D_jet[4]   =   { 0.0     , -4.0 ,   -TMath::Pi() , 0};
+double xmax4D_jet[4]   =   { 1000.0  ,  4.0 ,   TMath::Pi() , (double) multbinsize-1};
 
 // --> Reco
 TH1D *hist_reco_jet_weighted_nocut = new TH1D("hist_reco_jet_weighted_nocut", "hist_reco_jet_weighted_nocut", 100, 0.0, 500.0);
@@ -316,9 +316,9 @@ THnSparseD *hist_ref_lead_ref_subl_quench2pc = new THnSparseD("hist_ref_lead_ref
 
 //Assymetry studies
 // Axis : 0 -> etaDijet, 1 -> Xj, 2 -> delta phi, 3 -> ET or ETEta4, 4 -> multiplicity
-int    bins5D_etaDijet[5]   =   {  40   , 10     , 30          , 80    , multbinsize-1          };
-double xmin5D_etaDijet[5]   =   { -4.0  , 0.0   , 0.0    	  , 0.0   , 0                      };
-double xmax5D_etaDijet[5]   =   {  4.0  , 1.0   , TMath::Pi() , 400.0 , (double) multbinsize-1 };
+int    bins5D_etaDijet[5]   =   {  60   , 20    , 30          , 80    , multbinsize-1          };
+double xmin5D_etaDijet[5]   =   { -6.0  , 0.0   , 0.0    	  , 0.0   , 0                      };
+double xmax5D_etaDijet[5]   =   {  6.0  , 1.0   , TMath::Pi() , 400.0 , (double) multbinsize-1 };
 THnSparseD *hist_etaDijet_ET_reco = new THnSparseD("hist_etaDijet_ET_reco", "hist_etaDijet_ET_reco", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
 THnSparseD *hist_etaDijet_ET_ref = new THnSparseD("hist_etaDijet_ET_ref", "hist_etaDijet_ET_ref", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
 THnSparseD *hist_etaDijet_ET_gen = new THnSparseD("hist_etaDijet_ET_gen", "hist_etaDijet_ET_gen", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
@@ -333,7 +333,7 @@ THnSparseD *hist_etaDiff_ETEta4_ref = new THnSparseD("hist_etaDiff_ETEta4_ref", 
 THnSparseD *hist_etaDiff_ETEta4_gen = new THnSparseD("hist_etaDiff_ETEta4_gen", "hist_etaDiff_ETEta4_gen", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
 
 // Axis : 0 -> etaAssym, 1 -> Xj, 2 -> HF, 3-> HFEta4, 4 -> multiplicity
-int    bins5D_etaAssym[5]   =   {  1    , 10   , 80,   80    , multbinsize-1          };
+int    bins5D_etaAssym[5]   =   {  1    , 10  , 80,   80    , multbinsize-1          };
 double xmin5D_etaAssym[5]   =   {  0.0  , 0.0 , 0.0,   0.0   , 0                      };
 double xmax5D_etaAssym[5]   =   {  1.0  , 1.0 , 400.0, 400.0   , (double) multbinsize-1 };
 THnSparseD *hist_etaAssym_numerator_reco = new THnSparseD("hist_etaAssym_numerator_reco", "hist_etaAssym_numerator_reco", 5, bins5D_etaAssym, xmin5D_etaAssym, xmax5D_etaAssym);
@@ -412,9 +412,9 @@ THnSparseD *hist_correlation_signal_subg0_subl_jet_gen_track_gen = new THnSparse
 
 // Two particle correlation studies
 // Axis : 0 -> delta phi, 1 -> delta eta, 2 -> track pT, 3 -> multiplicity
-int    bins4D_2pc[4]   =   { 40                 , 100  ,   trkbinsize-1          , multbinsize-1};
-double xmin4D_2pc[4]   =   { -TMath::Pi()/2.0    , -5.0 ,   0                     , 0};
-double xmax4D_2pc[4]   =   { 3.0*TMath::Pi()/2.0 , 5.0  ,   (double) trkbinsize-1 , (double) multbinsize-1};
+int    bins4D_2pc[4]   =   { 40                  , 100  ,   trkbinsize-1          , multbinsize-1};
+double xmin4D_2pc[4]   =   { -TMath::Pi()/2.0    , -4.0 ,   0                     , 0};
+double xmax4D_2pc[4]   =   { 3.0*TMath::Pi()/2.0 , 4.0  ,   (double) trkbinsize-1 , (double) multbinsize-1};
 
 // 2 particle correlations for flow analysis
 THnSparseD *hist_reco_reco_2pcorrelation_signal = new THnSparseD("hist_reco_reco_2pcorrelation_signal","hist_reco_reco_2pcorrelation_signal",4,bins4D_2pc,xmin4D_2pc,xmax4D_2pc);
@@ -433,9 +433,9 @@ TH1D *hist_matched_jet_weighted_nocut = new TH1D("hist_matched_jet_weighted_nocu
 THnSparseD *hist_matched_jet = new THnSparseD("hist_matched_jet", "hist_matched_jet", 4, bins4D_jet, xmin4D_jet, xmax4D_jet);
 THnSparseD *hist_matched_jet_weighted = new THnSparseD("hist_matched_jet_weighted", "hist_matched_jet_weighted", 4, bins4D_jet, xmin4D_jet, xmax4D_jet);
 
-int    bins4D_jetflavor[4]   =   { 200  ,  50  , 8, multbinsize-1};
-double xmin4D_jetflavor[4]   =   { 0    , -2.5 , 0, 0};
-double xmax4D_jetflavor[4]   =   { 1000 ,  2.5 , 8, (double) multbinsize-1};
+int    bins4D_jetflavor[4]   =   { 200  ,  80  , 8, multbinsize-1};
+double xmin4D_jetflavor[4]   =   { 0    , -4.0 , 0, 0};
+double xmax4D_jetflavor[4]   =   { 1000 ,  4.0 , 8, (double) multbinsize-1};
 THnSparseD *hist_matched_jet_parton = new THnSparseD("hist_matched_jet_parton", "hist_matched_jet_parton", 4, bins4D_jetflavor, xmin4D_jetflavor, xmax4D_jetflavor);
 THnSparseD *hist_matched_jet_parton_fromB = new THnSparseD("hist_matched_jet_parton_fromB", "hist_matched_jet_parton_fromB", 4, bins4D_jetflavor, xmin4D_jetflavor, xmax4D_jetflavor);
 

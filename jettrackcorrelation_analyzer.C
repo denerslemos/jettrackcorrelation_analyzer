@@ -76,15 +76,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	// Track or particle efficiency file
 	TFile *fileeff = TFile::Open(Form("aux_files/%s_%i/trk_eff_table/%s",colliding_system.Data(),sNN_energy_GeV,trk_eff_file.Data()));
 	cout << endl;
-	TH2 *reff2D = nullptr; TH2 *rsec2D = nullptr; TH2 *rfak2D = nullptr; TH2 *rmul2D = nullptr;
-	TH3 *reff3D = nullptr; TH3 *rsec3D = nullptr; TH3 *rfak3D = nullptr; TH3 *rmul3D = nullptr;
-	fileeff->GetObject("eff", reff2D);	// Absolute Efficiency
-	fileeff->GetObject("fake", rfak2D); // Fake Reconstruction Fraction
-	fileeff->GetObject("sec", rsec2D);	// Multiple Reconstruction Fraction
-	fileeff->GetObject("mult", rmul2D); // Non-Primary Reconstruction Fraction
-	vector<TH2*> eff_histos={reff2D, rfak2D, rsec2D, rmul2D};
-	vector<TH3*> eff_histos3D={reff3D, rfak3D, rsec3D, rmul3D};
-
 	// Print the input in the screen/log 
 	print_input(data_or_mc,fileeff,colliding_system,pthatmin,pthatmax);
 	cout << endl;
@@ -315,7 +306,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 			// Track efficiency correction
 		 	double trk_weight = 1.0;
-		 	trk_weight = trk_weight*getTrkCorrWeight(eff_histos[0], eff_histos[1], eff_histos[2], eff_histos[3], trk_pt, trk_eta);
+		 	trk_weight = trk_weight*getTrkCorrWeight(fileeff, use_centrality, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, mult, trk_pt, trk_eta);
 
 			trk_eta = trk_eta + boost; // In pPb case, for the center-of-mass correction if needed
 

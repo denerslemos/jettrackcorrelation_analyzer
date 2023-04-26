@@ -148,8 +148,8 @@ phi2: phi of second object
 */
 float deltaphi(float phi1, float phi2){
 	float deltaPhi = ( phi1 - phi2 );
-    	while( deltaPhi >  TMath::Pi() ){deltaPhi += -2*TMath::Pi();}
-   	while( deltaPhi < -TMath::Pi() ){deltaPhi  += 2*TMath::Pi();}
+    while( deltaPhi >  TMath::Pi() ){deltaPhi  += -2*TMath::Pi();}
+   	while( deltaPhi < -TMath::Pi() ){deltaPhi  +=  2*TMath::Pi();}
 	return deltaPhi;
 }
 
@@ -244,9 +244,9 @@ void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::ve
 			double trkpt = tracks[b].Pt();
 			double trketa = tracks[b].Eta();
 			int subetrk = sube_trk[b];
-            		// track efficiency correction for reco
-            		double trk_weight = tracks_w[b];
-           		// Find track and multiplicity bins
+            // track efficiency correction for reco
+            double trk_weight = tracks_w[b];
+           	// Find track and multiplicity bins
 			int trkbin = (int) find_my_bin(trk_pt_bins,trkpt);
 			int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float) mult);
 			// Fill jet and track quantities
@@ -255,7 +255,7 @@ void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::ve
 			// Fill correlation histograms
 			double del_phi = deltaphi2PC(jets[a].Phi(), tracks[b].Phi());
 			double del_eta = deltaeta(jets[a].Eta(), tracks[b].Eta());
-			double x4D[5]={del_phi,del_eta,(double)trkbin, (double)multcentbin}; 
+			double x4D[4]={del_phi,del_eta,(double)trkbin, (double)multcentbin}; 
 			if(flow){if(subetrk==0){histo_corr->Fill(x4D,jet_weight*trk_weight*event_weight);}else{histo_corr_subeg0->Fill(x4D,jet_weight*trk_weight*event_weight);}
 			}else{if(subetrk==0){histo_corr->Fill(x4D,jet_weight*trk_weight*event_weight*trkpt);}else{histo_corr_subeg0->Fill(x4D,jet_weight*trk_weight*event_weight*trkpt);}}
 		}
@@ -271,15 +271,15 @@ void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::ve
 				for (int d = 0; d < tracks.size(); d++){ // start loop over tracks using the new jet eta and phi (similar as above)
 					double trkpt = tracks[d].Pt();
 					double trketa = tracks[d].Eta();
-           				// track efficiency correction for reco
-           				double trk_weight = tracks_w[d];
-            				// Find track and multiplicity bins
+           			// track efficiency correction for reco
+           			double trk_weight = tracks_w[d];
+            		// Find track and multiplicity bins
 					int trkbin = (int) find_my_bin(trk_pt_bins,trkpt);
 					int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float)mult);
 					// Fill correlation histograms     
 					double del_phi_rot = deltaphi2PC(newphi, tracks[d].Phi());
 					double del_eta_rot = deltaeta(neweta, tracks[d].Eta());
-					double x4D_rot[5]={del_phi_rot,del_eta_rot,(double)trkbin,(double)multcentbin}; 
+					double x4D_rot[4]={del_phi_rot,del_eta_rot,(double)trkbin,(double)multcentbin}; 
 					if(flow){histo_rot->Fill(x4D_rot,jet_weight*trk_weight*event_weight);}else{histo_rot->Fill(x4D_rot,jet_weight*trk_weight*event_weight*trkpt);}
 				}
 			}
@@ -347,7 +347,7 @@ void twoparticlecorrelation(std::vector<TVector3> tracks, std::vector<double> tr
 	// get correlation histograms
 	for (int a = 0; a < tracks.size(); a++){ // start loop over tracks
 		double trkpt1 = tracks[a].Pt();
-        	double trk_weight1 = tracks_w[a];
+        double trk_weight1 = tracks_w[a];
 		int subetrk1 = sube_trk[a];
 		int trkbin1 = (int) find_my_bin(trk_pt_bins,trkpt1);
 
@@ -361,10 +361,10 @@ void twoparticlecorrelation(std::vector<TVector3> tracks, std::vector<double> tr
 			
 			int trkbin = trkbin1;
             
-           		// track efficiency correction for reco
-            		double trk_weight = trk_weight1*trk_weight2;
+           	// track efficiency correction for reco
+            double trk_weight = trk_weight1*trk_weight2;
 
-            		// Find track and multiplicity bins
+            // Find track and multiplicity bins
 			int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float) mult);
 
 			// Fill correlation histograms
