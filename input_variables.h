@@ -73,7 +73,7 @@ float calo_matching = 0.5; // trk calo matching cut
 int nhits = 11; // trk Nhits cut
 
 float trk_pt_min_cut = trk_pt_bins[0]; // min track pT
-TString trk_eff_file = "eff_table_p-going_HIJING.root"; //track efficiency table
+TString trk_eff_file = "Hijing_8TeV_dataBS.root"; //track efficiency table
 
 //=========================================================
 
@@ -83,7 +83,7 @@ TString trk_eff_file = "eff_table_p-going_HIJING.root"; //track efficiency table
 
 //--> Mixing ref. samples quantities
 bool do_mixing = true; // use mixing method?
-bool similar_events = true; // if true we consider only tracks coming for similar events (onl if jet requirement is satisfied), if false all tracks are used
+bool similar_events = false; // if true we consider only tracks coming for similar events (onl if jet requirement is satisfied), if false all tracks are used
 int N_ev_mix = 20; // number of events to mix
 int Mult_or_Cent_range = 100; // multiplicity or centrality interval allowed between event and mixed event
 float DVz_range = 0.5;  // Vertex Z interval allowed between event and mixed event
