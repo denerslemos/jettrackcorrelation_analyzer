@@ -1060,30 +1060,30 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		cout << "============= It is mixing time! =============" << endl;
 		cout << endl;
 		sec_start_mix = clock(); // Start timing measurement
-		cout << "Running: 0% --> RECO-RECO" << endl;
+		cout << "Running --> RECO-RECO" << endl;
 		// RECO-RECO
 		if(do_inclusejettrack_correlation) call_mix_random(N_ev_mix, Mult_or_Cent_range, multvec_reco_reco, multiplicity_centrality_bins, vzvec_reco_reco, DVz_range, ev_jet_vector_reco_reco, jet_weights_reco_reco, ev_track_vector_reco_reco, trk_weights_reco_reco, hist_correlation_mixing_jet_reco_track_reco, trk_pt_bins, weights_reco_reco, hist_jet_from_reco_reco_mix, hist_trk_from_reco_reco_mix, double_weight_mix, do_flow);
 		if(do_leading_subleading_jettrack_correlation) call_mix_random(N_ev_mix, Mult_or_Cent_range, multvec_leadjet_reco_reco, multiplicity_centrality_bins, vzvec_leadjet_reco_reco, DVz_range, ev_jet_vector_leadjet_reco_reco, jet_weights_leadjet_reco_reco, ev_track_vector_leadjet_reco_reco, trk_weights_leadjet_reco_reco, hist_correlation_mixing_lead_jet_reco_track_reco, trk_pt_bins, weights_leadjet_reco_reco, hist_lead_jet_from_reco_reco_mix, hist_LJ_trk_from_reco_reco_mix, double_weight_mix, do_flow);
 		if(do_leading_subleading_jettrack_correlation) call_mix_random(N_ev_mix, Mult_or_Cent_range, multvec_subleadjet_reco_reco, multiplicity_centrality_bins, vzvec_subleadjet_reco_reco, DVz_range, ev_jet_vector_subleadjet_reco_reco, jet_weights_subleadjet_reco_reco, ev_track_vector_subleadjet_reco_reco, trk_weights_subleadjet_reco_reco, hist_correlation_mixing_subl_jet_reco_track_reco, trk_pt_bins, weights_subleadjet_reco_reco, hist_subl_jet_from_reco_reco_mix, hist_SLJ_trk_from_reco_reco_mix, double_weight_mix, do_flow);
 		if(do_flow) call_mix_random_2pc(N_ev_mix, Mult_or_Cent_range, multvec_reco_reco, multiplicity_centrality_bins, vzvec_reco_reco, DVz_range, ev_track_vector_reco_reco, trk_weights_reco_reco, hist_reco_reco_2pcorrelation_mixing, trk_pt_bins, weights_reco_reco, double_weight_mix);
 		if(is_MC){
-			cout << "Running: 25% --> RECO-GEN" << endl;
+			cout << "Running --> RECO-GEN" << endl;
 			// RECO-GEN
 			if(do_inclusejettrack_correlation) call_mix_random(N_ev_mix, Mult_or_Cent_range, multvec_reco_gen, multiplicity_centrality_bins, vzvec_reco_gen, DVz_range, ev_jet_vector_reco_gen, jet_weights_reco_gen, ev_track_vector_reco_gen, trk_weights_reco_gen, hist_correlation_mixing_jet_reco_track_gen, trk_pt_bins, weights_reco_gen, hist_jet_from_reco_gen_mix, hist_trk_from_reco_gen_mix, double_weight_mix, do_flow);
 			if(do_leading_subleading_jettrack_correlation) call_mix_random(N_ev_mix, Mult_or_Cent_range, multvec_leadjet_reco_gen, multiplicity_centrality_bins, vzvec_leadjet_reco_gen, DVz_range, ev_jet_vector_leadjet_reco_gen, jet_weights_leadjet_reco_gen, ev_track_vector_leadjet_reco_gen, trk_weights_leadjet_reco_gen, hist_correlation_mixing_lead_jet_reco_track_gen, trk_pt_bins, weights_leadjet_reco_gen, hist_lead_jet_from_reco_gen_mix, hist_LJ_trk_from_reco_gen_mix, double_weight_mix, do_flow);
 			if(do_leading_subleading_jettrack_correlation) call_mix_random(N_ev_mix, Mult_or_Cent_range, multvec_subleadjet_reco_gen, multiplicity_centrality_bins, vzvec_subleadjet_reco_gen, DVz_range, ev_jet_vector_subleadjet_reco_gen, jet_weights_subleadjet_reco_gen, ev_track_vector_subleadjet_reco_gen, trk_weights_subleadjet_reco_gen, hist_correlation_mixing_subl_jet_reco_track_gen, trk_pt_bins, weights_subleadjet_reco_gen, hist_subl_jet_from_reco_gen_mix, hist_SLJ_trk_from_reco_gen_mix, double_weight_mix, do_flow);
-			cout << "Running: 50% --> GEN-RECO" << endl;
+			cout << "Running --> GEN-RECO" << endl;
 			// GEN-RECO
 			if(do_inclusejettrack_correlation) call_mix_random(N_ev_mix, Mult_or_Cent_range, multvec_gen_reco, multiplicity_centrality_bins, vzvec_gen_reco, DVz_range, ev_jet_vector_gen_reco, jet_weights_gen_reco, ev_track_vector_gen_reco, trk_weights_gen_reco, hist_correlation_mixing_jet_gen_track_reco, trk_pt_bins, weights_gen_reco, hist_jet_from_gen_reco_mix, hist_trk_from_gen_reco_mix, double_weight_mix, do_flow);
 			if(do_leading_subleading_jettrack_correlation) call_mix_random(N_ev_mix, Mult_or_Cent_range, multvec_leadjet_gen_reco, multiplicity_centrality_bins, vzvec_leadjet_gen_reco, DVz_range, ev_jet_vector_leadjet_gen_reco, jet_weights_leadjet_gen_reco, ev_track_vector_leadjet_gen_reco, trk_weights_leadjet_gen_reco, hist_correlation_mixing_lead_jet_gen_track_reco, trk_pt_bins, weights_leadjet_gen_reco, hist_lead_jet_from_gen_reco_mix, hist_LJ_trk_from_gen_reco_mix, double_weight_mix, do_flow);
 			if(do_leading_subleading_jettrack_correlation) call_mix_random(N_ev_mix, Mult_or_Cent_range, multvec_subleadjet_gen_reco, multiplicity_centrality_bins, vzvec_subleadjet_gen_reco, DVz_range, ev_jet_vector_subleadjet_gen_reco, jet_weights_subleadjet_gen_reco, ev_track_vector_subleadjet_gen_reco, trk_weights_subleadjet_gen_reco, hist_correlation_mixing_subl_jet_gen_track_reco, trk_pt_bins, weights_subleadjet_gen_reco, hist_subl_jet_from_gen_reco_mix, hist_SLJ_trk_from_gen_reco_mix, double_weight_mix, do_flow);
-			cout << "Running: 75% --> GEN-GEN" << endl;
+			cout << "Running --> GEN-GEN" << endl;
 			// GEN-GEN
 			if(do_inclusejettrack_correlation) call_mix_random(N_ev_mix, Mult_or_Cent_range, multvec_gen_gen, multiplicity_centrality_bins, vzvec_gen_gen, DVz_range, ev_jet_vector_gen_gen, jet_weights_gen_gen, ev_track_vector_gen_gen, trk_weights_gen_gen, hist_correlation_mixing_jet_gen_track_gen, trk_pt_bins, weights_gen_gen, hist_jet_from_gen_gen_mix, hist_trk_from_gen_gen_mix, double_weight_mix, do_flow);
 			if(do_leading_subleading_jettrack_correlation) call_mix_random(N_ev_mix, Mult_or_Cent_range, multvec_leadjet_gen_gen, multiplicity_centrality_bins, vzvec_leadjet_gen_gen, DVz_range, ev_jet_vector_leadjet_gen_gen, jet_weights_leadjet_gen_gen, ev_track_vector_leadjet_gen_gen, trk_weights_leadjet_gen_gen, hist_correlation_mixing_lead_jet_gen_track_gen, trk_pt_bins, weights_leadjet_gen_gen, hist_lead_jet_from_gen_gen_mix, hist_LJ_trk_from_gen_gen_mix, double_weight_mix, do_flow);
 			if(do_leading_subleading_jettrack_correlation) call_mix_random(N_ev_mix, Mult_or_Cent_range, multvec_subleadjet_gen_gen, multiplicity_centrality_bins, vzvec_subleadjet_gen_gen, DVz_range, ev_jet_vector_subleadjet_gen_gen, jet_weights_subleadjet_gen_gen, ev_track_vector_subleadjet_gen_gen, trk_weights_subleadjet_gen_gen, hist_correlation_mixing_subl_jet_gen_track_gen, trk_pt_bins, weights_subleadjet_gen_gen, hist_subl_jet_from_gen_gen_mix, hist_SLJ_trk_from_gen_gen_mix, double_weight_mix, do_flow);
 			if(do_flow) call_mix_random_2pc(N_ev_mix, Mult_or_Cent_range, multvec_gen_gen, multiplicity_centrality_bins, vzvec_gen_gen, DVz_range, ev_track_vector_gen_gen, trk_weights_gen_gen, hist_gen_gen_2pcorrelation_mixing, trk_pt_bins, weights_gen_gen, double_weight_mix);
-			cout << "Running: 100% --> Mixing DONE!" << endl;
+			cout << " --> Mixing DONE! " << endl;
 		}
 		sec_end_mix = clock(); // Stop time counting
 		cout << endl;
