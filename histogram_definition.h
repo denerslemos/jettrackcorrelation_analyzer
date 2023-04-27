@@ -55,14 +55,14 @@ THnSparseD *hfhist_weighted = new THnSparseD("hfhist_weighted", "hfhist_weighted
 THnSparseD *hfhistEta4 = new THnSparseD("hfhistEta4", "hfhistEta4", 3, bins3D_HF, xmin3D_HF, xmax3D_HF);
 THnSparseD *hfhistEta4_weighted = new THnSparseD("hfhistEta4_weighted", "hfhistEta4_weighted", 3, bins3D_HF, xmin3D_HF, xmax3D_HF);
 
-THnSparseD *hfhist_onejet = new THnSparseD("hfhist_onejet", "hfhist_onejet", 3, bins3D_HF, xmin3D_HF, xmax3D_HF);
+//THnSparseD *hfhist_onejet = new THnSparseD("hfhist_onejet", "hfhist_onejet", 3, bins3D_HF, xmin3D_HF, xmax3D_HF);
 THnSparseD *hfhist_onejet_weighted = new THnSparseD("hfhist_onejet_weighted", "hfhist_onejet_weighted", 3, bins3D_HF, xmin3D_HF, xmax3D_HF);
-THnSparseD *hfhistEta4_onejet = new THnSparseD("hfhistEta4_onejet", "hfhistEta4_onejet", 3, bins3D_HF, xmin3D_HF, xmax3D_HF);
+//THnSparseD *hfhistEta4_onejet = new THnSparseD("hfhistEta4_onejet", "hfhistEta4_onejet", 3, bins3D_HF, xmin3D_HF, xmax3D_HF);
 THnSparseD *hfhistEta4_onejet_weighted = new THnSparseD("hfhistEta4_onejet_weighted", "hfhistEta4_onejet_weighted", 3, bins3D_HF, xmin3D_HF, xmax3D_HF);
 
-THnSparseD *hfhist_dijet = new THnSparseD("hfhist_dijet", "hfhist_dijet", 3, bins3D_HF, xmin3D_HF, xmax3D_HF);
+//THnSparseD *hfhist_dijet = new THnSparseD("hfhist_dijet", "hfhist_dijet", 3, bins3D_HF, xmin3D_HF, xmax3D_HF);
 THnSparseD *hfhist_dijet_weighted = new THnSparseD("hfhist_dijet_weighted", "hfhist_dijet_weighted", 3, bins3D_HF, xmin3D_HF, xmax3D_HF);
-THnSparseD *hfhistEta4_dijet = new THnSparseD("hfhistEta4_dijet", "hfhistEta4_dijet", 3, bins3D_HF, xmin3D_HF, xmax3D_HF);
+//THnSparseD *hfhistEta4_dijet = new THnSparseD("hfhistEta4_dijet", "hfhistEta4_dijet", 3, bins3D_HF, xmin3D_HF, xmax3D_HF);
 THnSparseD *hfhistEta4_dijet_weighted = new THnSparseD("hfhistEta4_dijet_weighted", "hfhistEta4_dijet_weighted", 3, bins3D_HF, xmin3D_HF, xmax3D_HF);
 
 // Axis : 0 -> ZDC+, 1 -> ZDC-, 2 -> multbin
@@ -72,16 +72,19 @@ double xmax3D_ZDC[3]   =   {  10000 ,   10000 ,  400};
 
 THnSparseD *zdchist = new THnSparseD("zdchist", "zdchist", 3, bins3D_ZDC, xmin3D_ZDC, xmax3D_ZDC);
 THnSparseD *zdchist_weighted = new THnSparseD("zdchist_weighted", "zdchist_weighted", 3, bins3D_ZDC, xmin3D_ZDC, xmax3D_ZDC);
-THnSparseD *zdchist_onejet = new THnSparseD("zdchist_onejet", "zdchist_onejet", 3, bins3D_ZDC, xmin3D_ZDC, xmax3D_ZDC);
+//THnSparseD *zdchist_onejet = new THnSparseD("zdchist_onejet", "zdchist_onejet", 3, bins3D_ZDC, xmin3D_ZDC, xmax3D_ZDC);
 THnSparseD *zdchist_onejet_weighted = new THnSparseD("zdchist_onejet_weighted", "zdchist_onejet_weighted", 3, bins3D_ZDC, xmin3D_ZDC, xmax3D_ZDC);
-THnSparseD *zdchist_dijet = new THnSparseD("zdchist_dijet", "zdchist_dijet", 3, bins3D_ZDC, xmin3D_ZDC, xmax3D_ZDC);
+//THnSparseD *zdchist_dijet = new THnSparseD("zdchist_dijet", "zdchist_dijet", 3, bins3D_ZDC, xmin3D_ZDC, xmax3D_ZDC);
 THnSparseD *zdchist_dijet_weighted = new THnSparseD("zdchist_dijet_weighted", "zdchist_dijet_weighted", 3, bins3D_ZDC, xmin3D_ZDC, xmax3D_ZDC);
 
 
 //quantities with at least 1 jet
-
+TH1D *multiplicity_withonejet40 = new TH1D("multiplicity_withonejet40", "multiplicity_withonejet40", 80, 0.0, 400.0);
 TH1D *multiplicity_withonejet50 = new TH1D("multiplicity_withonejet50", "multiplicity_withonejet50", 80, 0.0, 400.0);
+TH1D *multiplicity_withonejet60 = new TH1D("multiplicity_withonejet60", "multiplicity_withonejet60", 80, 0.0, 400.0);
 TH1D *multiplicity_withonejet80 = new TH1D("multiplicity_withonejet80", "multiplicity_withonejet80", 80, 0.0, 400.0);
+TH1D *multiplicity_withonejet100 = new TH1D("multiplicity_withonejet100", "multiplicity_withonejet100", 80, 0.0, 400.0);
+
 //quantities with at least 1 jet pT > jet min pT in GeV
 TH1D *multiplicity_withonejet = new TH1D("multiplicity_withonejet", "multiplicity_withonejet", 80, 0.0, 400.0);
 TH1D *multiplicity_withonejet_weighted = new TH1D("multiplicity_withonejet_weighted", "multiplicity_withonejet_weighted", 80, 0.0, 400.0);
@@ -100,11 +103,12 @@ TH1D *gen_mult_withdijets = new TH1D("gen_mult_withdijets", "gen_mult_withdijets
 TH1D *gen_mult_withdijets_weighted = new TH1D("gen_mult_withdijets_weighted", "gen_mult_withdijets_weighted", 80, 0.0, 400.0);
 
 // Axis : 0 -> delta R, 1 -> gen jet pT, 2 -> flavour, 3 -> event multiplicity
-int    bins4D_jetaxis[4]   =   { 250  ,  100  , 8, multbinsize-1};
+/*
+int    bins4D_jetaxis[4]   =   { 50  ,  100  , 8, multbinsize-1};
 double xmin4D_jetaxis[4]   =   { 0.0 ,   0   , 0, 0};
-double xmax4D_jetaxis[4]   =   { 5.0  ,  1000, 8, (double) multbinsize-1};
+double xmax4D_jetaxis[4]   =   { 1.0  ,  1000, 8, (double) multbinsize-1};
 THnSparseD *genjetaxischeck = new THnSparseD("genjetaxischeck", "genjetaxischeck", 4, bins4D_jetaxis, xmin4D_jetaxis, xmax4D_jetaxis);
-
+*/
 // event plane histograms
 
 // Axis : 0 -> EP multiplicity, 1 -> qvector, 2 -> PsiEP, 3 -> event multiplicity
@@ -319,15 +323,15 @@ THnSparseD *hist_ref_lead_ref_subl_quench2pc = new THnSparseD("hist_ref_lead_ref
 int    bins5D_etaDijet[5]   =   {  60   , 20    , 30          , 80    , multbinsize-1          };
 double xmin5D_etaDijet[5]   =   { -6.0  , 0.0   , 0.0    	  , 0.0   , 0                      };
 double xmax5D_etaDijet[5]   =   {  6.0  , 1.0   , TMath::Pi() , 400.0 , (double) multbinsize-1 };
-THnSparseD *hist_etaDijet_ET_reco = new THnSparseD("hist_etaDijet_ET_reco", "hist_etaDijet_ET_reco", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
-THnSparseD *hist_etaDijet_ET_ref = new THnSparseD("hist_etaDijet_ET_ref", "hist_etaDijet_ET_ref", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
-THnSparseD *hist_etaDijet_ET_gen = new THnSparseD("hist_etaDijet_ET_gen", "hist_etaDijet_ET_gen", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
+//THnSparseD *hist_etaDijet_ET_reco = new THnSparseD("hist_etaDijet_ET_reco", "hist_etaDijet_ET_reco", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
+//THnSparseD *hist_etaDijet_ET_ref = new THnSparseD("hist_etaDijet_ET_ref", "hist_etaDijet_ET_ref", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
+//THnSparseD *hist_etaDijet_ET_gen = new THnSparseD("hist_etaDijet_ET_gen", "hist_etaDijet_ET_gen", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
 THnSparseD *hist_etaDijet_ETEta4_reco = new THnSparseD("hist_etaDijet_ETEta4_reco", "hist_etaDijet_ETEta4_reco", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
 THnSparseD *hist_etaDijet_ETEta4_ref = new THnSparseD("hist_etaDijet_ETEta4_ref", "hist_etaDijet_ETEta4_ref", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
 THnSparseD *hist_etaDijet_ETEta4_gen = new THnSparseD("hist_etaDijet_ETEta4_gen", "hist_etaDijet_ETEta4_gen", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
-THnSparseD *hist_etaDiff_ET_reco = new THnSparseD("hist_etaDiff_ET_reco", "hist_etaDiff_ET_reco", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
-THnSparseD *hist_etaDiff_ET_ref = new THnSparseD("hist_etaDiff_ET_ref", "hist_etaDiff_ET_ref", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
-THnSparseD *hist_etaDiff_ET_gen = new THnSparseD("hist_etaDiff_ET_gen", "hist_etaDiff_ET_gen", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
+//THnSparseD *hist_etaDiff_ET_reco = new THnSparseD("hist_etaDiff_ET_reco", "hist_etaDiff_ET_reco", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
+//THnSparseD *hist_etaDiff_ET_ref = new THnSparseD("hist_etaDiff_ET_ref", "hist_etaDiff_ET_ref", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
+//THnSparseD *hist_etaDiff_ET_gen = new THnSparseD("hist_etaDiff_ET_gen", "hist_etaDiff_ET_gen", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
 THnSparseD *hist_etaDiff_ETEta4_reco = new THnSparseD("hist_etaDiff_ETEta4_reco", "hist_etaDiff_ETEta4_reco", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
 THnSparseD *hist_etaDiff_ETEta4_ref = new THnSparseD("hist_etaDiff_ETEta4_ref", "hist_etaDiff_ETEta4_ref", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
 THnSparseD *hist_etaDiff_ETEta4_gen = new THnSparseD("hist_etaDiff_ETEta4_gen", "hist_etaDiff_ETEta4_gen", 5, bins5D_etaDijet, xmin5D_etaDijet, xmax5D_etaDijet);
@@ -342,6 +346,24 @@ THnSparseD *hist_etaAssym_numerator_ref = new THnSparseD("hist_etaAssym_numerato
 THnSparseD *hist_etaAssym_denominator_ref = new THnSparseD("hist_etaAssym_denominator_ref", "hist_etaAssym_denominator_ref", 5, bins5D_etaAssym, xmin5D_etaAssym, xmax5D_etaAssym);
 THnSparseD *hist_etaAssym_numerator_gen = new THnSparseD("hist_etaAssym_numerator_gen", "hist_etaAssym_numerator_gen", 5, bins5D_etaAssym, xmin5D_etaAssym, xmax5D_etaAssym);
 THnSparseD *hist_etaAssym_denominator_gen = new THnSparseD("hist_etaAssym_denominator_gen", "hist_etaAssym_denominator_gen", 5, bins5D_etaAssym, xmin5D_etaAssym, xmax5D_etaAssym);
+
+// Axis : 0 -> in-jet multiplicity, 1 -> track pT, 2 -> multiplicity
+int    bins2D_injettrk[2]   =   { 100,  multbinsize-1			};
+double xmin2D_injettrk[2]   =   { 0   , 0						};
+double xmax2D_injettrk[2]   =   { 100 , (double) multbinsize-1   };
+THnSparseD *hist_injet_reco_track_reco = new THnSparseD("hist_injet_reco_track_reco","hist_injet_reco_track_reco",2,bins2D_injettrk,xmin2D_injettrk,xmax2D_injettrk);
+THnSparseD *hist_injet_reco_track_gen = new THnSparseD("hist_injet_reco_track_gen","hist_injet_reco_track_gen",2,bins2D_injettrk,xmin2D_injettrk,xmax2D_injettrk);
+THnSparseD *hist_injet_gen_track_reco = new THnSparseD("hist_injet_gen_track_reco","hist_injet_gen_track_reco",2,bins2D_injettrk,xmin2D_injettrk,xmax2D_injettrk);
+THnSparseD *hist_injet_gen_track_gen = new THnSparseD("hist_injet_gen_track_gen","hist_injet_gen_track_gen",2,bins2D_injettrk,xmin2D_injettrk,xmax2D_injettrk);
+THnSparseD *hist_inLeadjet_reco_track_reco = new THnSparseD("hist_inLeadjet_reco_track_reco","hist_inLeadjet_reco_track_reco",2,bins2D_injettrk,xmin2D_injettrk,xmax2D_injettrk);
+THnSparseD *hist_inLeadjet_reco_track_gen = new THnSparseD("hist_inLeadjet_reco_track_gen","hist_inLeadjet_reco_track_gen",2,bins2D_injettrk,xmin2D_injettrk,xmax2D_injettrk);
+THnSparseD *hist_inLeadjet_gen_track_reco = new THnSparseD("hist_inLeadjet_gen_track_reco","hist_inLeadjet_gen_track_reco",2,bins2D_injettrk,xmin2D_injettrk,xmax2D_injettrk);
+THnSparseD *hist_inLeadjet_gen_track_gen = new THnSparseD("hist_inLeadjet_gen_track_gen","hist_inLeadjet_gen_track_gen",2,bins2D_injettrk,xmin2D_injettrk,xmax2D_injettrk);
+THnSparseD *hist_inSubljet_reco_track_reco = new THnSparseD("hist_inSubljet_reco_track_reco","hist_inSubljet_reco_track_reco",2,bins2D_injettrk,xmin2D_injettrk,xmax2D_injettrk);
+THnSparseD *hist_inSubljet_reco_track_gen = new THnSparseD("hist_inSubljet_reco_track_gen","hist_inSubljet_reco_track_gen",2,bins2D_injettrk,xmin2D_injettrk,xmax2D_injettrk);
+THnSparseD *hist_inSubljet_gen_track_reco = new THnSparseD("hist_inSubljet_gen_track_reco","hist_inSubljet_gen_track_reco",2,bins2D_injettrk,xmin2D_injettrk,xmax2D_injettrk);
+THnSparseD *hist_inSubljet_gen_track_gen = new THnSparseD("hist_inSubljet_gen_track_gen","hist_inSubljet_gen_track_gen",2,bins2D_injettrk,xmin2D_injettrk,xmax2D_injettrk);
+
 
 // Correlation studies
 // Axis : 0 -> delta phi, 1 -> delta eta, 2 -> track pT, 3 -> multiplicity
@@ -441,30 +463,30 @@ THnSparseD *hist_matched_jet_parton_fromB = new THnSparseD("hist_matched_jet_par
 
 //histograms for Jet Energy Scale (JES)
 //double jetptbin[18] = {30.0,40.0,50.0,60.0,70.0,80.0,90.0,100.0,110.0,120.0,140.0,160.0,180.0,210.0,250.0,300.0,380.0,500.0}; //just to remember
-int    bins5D_jes[5]   =   { 200  ,  50  , 80,  8, multbinsize-1};
+int    bins5D_jes[5]   =   { 75  ,  100  , 80,  8, multbinsize-1};
 double xmin5D_jes[5]   =   { 0.0  ,  0   , -4.0, 0, 0};
-double xmax5D_jes[5]   =   { 4.0  ,  1000, 4.0, 8, (double) multbinsize-1};
-THnSparseD *hist_jes_raw = new THnSparseD("hist_jes_raw", "hist_jes_raw", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
-THnSparseD *hist_jes_raw_weighted = new THnSparseD("hist_jes_raw_weighted", "hist_jes_raw_weighted", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
-THnSparseD *hist_jes_reco = new THnSparseD("hist_jes_reco", "hist_jes_reco", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
+double xmax5D_jes[5]   =   { 3.0  ,  1000, 4.0, 8, (double) multbinsize-1};
+//THnSparseD *hist_jes_raw = new THnSparseD("hist_jes_raw", "hist_jes_raw", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
+//THnSparseD *hist_jes_raw_weighted = new THnSparseD("hist_jes_raw_weighted", "hist_jes_raw_weighted", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
+//THnSparseD *hist_jes_reco = new THnSparseD("hist_jes_reco", "hist_jes_reco", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
 THnSparseD *hist_jes_reco_weighted = new THnSparseD("hist_jes_reco_weighted", "hist_jes_reco_weighted", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
-THnSparseD *hist_jes_raw_fromB = new THnSparseD("hist_jes_raw_fromB", "hist_jes_raw_fromB", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
-THnSparseD *hist_jes_raw_fromB_weighted = new THnSparseD("hist_jes_raw_fromB_weighted", "hist_jes_raw_fromB_weighted", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
-THnSparseD *hist_jes_reco_fromB = new THnSparseD("hist_jes_reco_fromB", "hist_jes_reco_fromB", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
+//THnSparseD *hist_jes_raw_fromB = new THnSparseD("hist_jes_raw_fromB", "hist_jes_raw_fromB", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
+//THnSparseD *hist_jes_raw_fromB_weighted = new THnSparseD("hist_jes_raw_fromB_weighted", "hist_jes_raw_fromB_weighted", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
+//THnSparseD *hist_jes_reco_fromB = new THnSparseD("hist_jes_reco_fromB", "hist_jes_reco_fromB", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
 THnSparseD *hist_jes_reco_fromB_weighted = new THnSparseD("hist_jes_reco_fromB_weighted", "hist_jes_reco_fromB_weighted", 5, bins5D_jes, xmin5D_jes, xmax5D_jes);
 
 //histograms for Jet Energy Resolution (JER)
 //double jetptbin[18] = {30.0,40.0,50.0,60.0,70.0,80.0,90.0,100.0,110.0,120.0,140.0,160.0,180.0,210.0,250.0,300.0,380.0,500.0}; //just to remember
-int    bins5D_jer[5]   =   { 200  ,  50  , 80,   8, multbinsize-1};
-double xmin5D_jer[5]   =   { -2.0 ,  0   , -4.0, 0, 0};
-double xmax5D_jer[5]   =   { 2.0  ,  1000, 4.0,  8, (double) multbinsize-1};
-THnSparseD *hist_jer_raw = new THnSparseD("hist_jer_raw", "hist_jer_raw", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
-THnSparseD *hist_jer_raw_weighted = new THnSparseD("hist_jer_raw_weighted", "hist_jer_raw_weighted", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
-THnSparseD *hist_jer_reco = new THnSparseD("hist_jer_reco", "hist_jer_reco", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
+int    bins5D_jer[5]   =   { 50  ,  100  , 80,   8, multbinsize-1};
+double xmin5D_jer[5]   =   { -1.0 ,  0   , -4.0, 0, 0};
+double xmax5D_jer[5]   =   { 1.0  ,  1000, 4.0,  8, (double) multbinsize-1};
+//THnSparseD *hist_jer_raw = new THnSparseD("hist_jer_raw", "hist_jer_raw", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
+//THnSparseD *hist_jer_raw_weighted = new THnSparseD("hist_jer_raw_weighted", "hist_jer_raw_weighted", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
+//THnSparseD *hist_jer_reco = new THnSparseD("hist_jer_reco", "hist_jer_reco", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
 THnSparseD *hist_jer_reco_weighted = new THnSparseD("hist_jer_reco_weighted", "hist_jer_reco_weighted", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
-THnSparseD *hist_jer_raw_fromB = new THnSparseD("hist_jer_raw_fromB", "hist_jer_raw_fromB", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
-THnSparseD *hist_jer_raw_fromB_weighted = new THnSparseD("hist_jer_raw_fromB_weighted", "hist_jer_raw_fromB_weighted", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
-THnSparseD *hist_jer_reco_fromB = new THnSparseD("hist_jer_reco_fromB", "hist_jer_reco_fromB", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
+//THnSparseD *hist_jer_raw_fromB = new THnSparseD("hist_jer_raw_fromB", "hist_jer_raw_fromB", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
+//THnSparseD *hist_jer_raw_fromB_weighted = new THnSparseD("hist_jer_raw_fromB_weighted", "hist_jer_raw_fromB_weighted", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
+//THnSparseD *hist_jer_reco_fromB = new THnSparseD("hist_jer_reco_fromB", "hist_jer_reco_fromB", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
 THnSparseD *hist_jer_reco_fromB_weighted = new THnSparseD("hist_jer_reco_fromB_weighted", "hist_jer_reco_fromB_weighted", 5, bins5D_jer, xmin5D_jer, xmax5D_jer);
 
 // Evaluate uncertainties correctly at ROOT
@@ -502,19 +524,22 @@ void sw2(){
    	hfhistEta4_weighted->Sumw2();
    	zdchist->Sumw2();
    	zdchist_weighted->Sumw2();
+	multiplicity_withonejet40->Sumw2();
 	multiplicity_withonejet50->Sumw2();
+	multiplicity_withonejet60->Sumw2();
 	multiplicity_withonejet80->Sumw2();
+	multiplicity_withonejet100->Sumw2();
 	multiplicity_withonejet->Sumw2();
 	multiplicity_withonejet_weighted->Sumw2();
 	reco_mult_withonejet->Sumw2();
 	reco_mult_withonejet_weighted->Sumw2();
 	gen_mult_withonejet->Sumw2();
 	gen_mult_withonejet_weighted->Sumw2();
-   	hfhist_onejet->Sumw2();
+   	//hfhist_onejet->Sumw2();
    	hfhist_onejet_weighted->Sumw2();
-   	hfhistEta4_onejet->Sumw2();
+   	//hfhistEta4_onejet->Sumw2();
    	hfhistEta4_onejet_weighted->Sumw2();
-   	zdchist_onejet->Sumw2();
+   	//zdchist_onejet->Sumw2();
    	zdchist_onejet_weighted->Sumw2();
 	multiplicity_withdijets->Sumw2();
 	multiplicity_withdijets_weighted->Sumw2();
@@ -522,13 +547,13 @@ void sw2(){
 	reco_mult_withdijets_weighted->Sumw2();
 	gen_mult_withdijets->Sumw2();
 	gen_mult_withdijets_weighted->Sumw2();
-   	hfhist_dijet->Sumw2();
+   	//hfhist_dijet->Sumw2();
    	hfhist_dijet_weighted->Sumw2();
-   	hfhistEta4_dijet->Sumw2();
+   	//hfhistEta4_dijet->Sumw2();
    	hfhistEta4_dijet_weighted->Sumw2();
-   	zdchist_dijet->Sumw2();
+   	//zdchist_dijet->Sumw2();
    	zdchist_dijet_weighted->Sumw2();
-   	genjetaxischeck->Sumw2();
+   	//genjetaxischeck->Sumw2();
 	hist_reco_trk->Sumw2();
 	hist_reco_trk_corr->Sumw2();
 	hist_reco_trk_weighted->Sumw2();
@@ -558,6 +583,18 @@ void sw2(){
 	hist_gen_leadjet_weighted->Sumw2();
 	hist_gen_subljet->Sumw2();
 	hist_gen_subljet_weighted->Sumw2();
+	hist_injet_reco_track_reco->Sumw2();
+	hist_injet_reco_track_gen->Sumw2();
+	hist_injet_gen_track_reco->Sumw2();
+	hist_injet_gen_track_gen->Sumw2();
+	hist_inLeadjet_reco_track_reco->Sumw2();
+	hist_inLeadjet_reco_track_gen->Sumw2();
+	hist_inLeadjet_gen_track_reco->Sumw2();
+	hist_inLeadjet_gen_track_gen->Sumw2();
+	hist_inSubljet_reco_track_reco->Sumw2();
+	hist_inSubljet_reco_track_gen->Sumw2();
+	hist_inSubljet_gen_track_reco->Sumw2();
+	hist_inSubljet_gen_track_gen->Sumw2();
     hist_correlation_signal_jet_reco_track_reco->Sumw2();
     hist_correlation_rotation_jet_reco_track_reco->Sumw2();
     hist_correlation_mixing_jet_reco_track_reco->Sumw2();
@@ -665,21 +702,21 @@ void sw2(){
 	hist_matched_jet_weighted->Sumw2();
 	hist_matched_jet_parton->Sumw2();
 	hist_matched_jet_parton_fromB->Sumw2();
-	hist_jes_raw->Sumw2();
-	hist_jes_raw_weighted->Sumw2();
-	hist_jes_reco->Sumw2();
+	//hist_jes_raw->Sumw2();
+	//hist_jes_raw_weighted->Sumw2();
+	//hist_jes_reco->Sumw2();
 	hist_jes_reco_weighted->Sumw2();
-	hist_jer_raw->Sumw2();
-	hist_jer_raw_weighted->Sumw2();
-	hist_jer_reco->Sumw2();
+	//hist_jer_raw->Sumw2();
+	//hist_jer_raw_weighted->Sumw2();
+	//hist_jer_reco->Sumw2();
 	hist_jer_reco_weighted->Sumw2();
-	hist_jes_raw_fromB->Sumw2();
-	hist_jes_raw_fromB_weighted->Sumw2();
-	hist_jes_reco_fromB->Sumw2();
+	//hist_jes_raw_fromB->Sumw2();
+	//hist_jes_raw_fromB_weighted->Sumw2();
+	//hist_jes_reco_fromB->Sumw2();
 	hist_jes_reco_fromB_weighted->Sumw2();
-	hist_jer_raw_fromB->Sumw2();
-	hist_jer_raw_fromB_weighted->Sumw2();
-	hist_jer_reco_fromB->Sumw2();
+	//hist_jer_raw_fromB->Sumw2();
+	//hist_jer_raw_fromB_weighted->Sumw2();
+	//hist_jer_reco_fromB->Sumw2();
 	hist_jer_reco_fromB_weighted->Sumw2();
 	hist_reco_reco_2pcorrelation_signal->Sumw2();
 	hist_reco_reco_2pcorrelation_signal_subg0->Sumw2();
@@ -743,15 +780,15 @@ void sw2(){
 	Dphi_GEN_EP3_flat_trk_plus->Sumw2();
 	Dphi_GEN_EP4_flat_trk_minus->Sumw2();
 	Dphi_GEN_EP4_flat_trk_plus->Sumw2();
-	hist_etaDijet_ET_reco->Sumw2();
-	hist_etaDijet_ET_ref->Sumw2();
-	hist_etaDijet_ET_gen->Sumw2();
+	//hist_etaDijet_ET_reco->Sumw2();
+	//hist_etaDijet_ET_ref->Sumw2();
+	//hist_etaDijet_ET_gen->Sumw2();
 	hist_etaDijet_ETEta4_reco->Sumw2();
 	hist_etaDijet_ETEta4_ref->Sumw2();
 	hist_etaDijet_ETEta4_gen->Sumw2();
-	hist_etaDiff_ET_reco->Sumw2();
-	hist_etaDiff_ET_ref->Sumw2();
-	hist_etaDiff_ET_gen->Sumw2();
+	//hist_etaDiff_ET_reco->Sumw2();
+	//hist_etaDiff_ET_ref->Sumw2();
+	//hist_etaDiff_ET_gen->Sumw2();
 	hist_etaDiff_ETEta4_reco->Sumw2();
 	hist_etaDiff_ETEta4_ref->Sumw2();
 	hist_etaDiff_ETEta4_gen->Sumw2();
@@ -761,7 +798,6 @@ void sw2(){
 	hist_etaAssym_denominator_ref->Sumw2();
 	hist_etaAssym_numerator_gen->Sumw2();
 	hist_etaAssym_denominator_gen->Sumw2();
-
 }
 
 // write QA histograms
@@ -812,8 +848,11 @@ void w_QA_hist(bool isMC, bool doleadsubl){
    	hfhistEta4_weighted->Write();
    	zdchist->Write();
    	zdchist_weighted->Write();
+	multiplicity_withonejet40->Write();
 	multiplicity_withonejet50->Write();
+	multiplicity_withonejet60->Write();
 	multiplicity_withonejet80->Write();
+	multiplicity_withonejet100->Write();
 	multiplicity_withonejet->Write();
 	multiplicity_withonejet_weighted->Write();
 	reco_mult_withonejet->Write();
@@ -822,11 +861,11 @@ void w_QA_hist(bool isMC, bool doleadsubl){
 		gen_mult_withonejet->Write();
 		gen_mult_withonejet_weighted->Write();
 	}
-   	hfhist_onejet->Write();
+   	//hfhist_onejet->Write();
    	hfhist_onejet_weighted->Write();
-   	hfhistEta4_onejet->Write();
+   	//hfhistEta4_onejet->Write();
    	hfhistEta4_onejet_weighted->Write();
-   	zdchist_onejet->Write();
+   	//zdchist_onejet->Write();
    	zdchist_onejet_weighted->Write();
 	multiplicity_withdijets->Write();
 	multiplicity_withdijets_weighted->Write();
@@ -836,11 +875,11 @@ void w_QA_hist(bool isMC, bool doleadsubl){
 		gen_mult_withdijets->Write();
 		gen_mult_withdijets_weighted->Write();
 	}
-  	hfhist_dijet->Write();
+  	//hfhist_dijet->Write();
    	hfhist_dijet_weighted->Write();
-   	hfhistEta4_dijet->Write();
+   	//hfhistEta4_dijet->Write();
    	hfhistEta4_dijet_weighted->Write();
-   	zdchist_dijet->Write();
+   	//zdchist_dijet->Write();
    	zdchist_dijet_weighted->Write();
     //tracks 
     //reco
@@ -872,7 +911,7 @@ void w_QA_hist(bool isMC, bool doleadsubl){
     	hist_reco_subljet_weighted->Write();
 	}
 	if(isMC){
-		genjetaxischeck->Write();
+		//genjetaxischeck->Write();
 		hist_matched_jet_weighted_nocut->Write();
 		hist_matched_jet->Write();
 		hist_matched_jet_weighted->Write();
@@ -912,6 +951,7 @@ void w_recoreco_hist(bool mixing, bool rotation, bool doinclusive, bool doleadsu
 		hist_correlation_signal_subg0_jet_reco_track_reco->Write();
 		hist_jet_from_reco_reco_sig->Write();
 		hist_trk_from_reco_reco_sig->Write();
+		hist_injet_reco_track_reco->Write();
 		if(rotation) hist_correlation_rotation_jet_reco_track_reco->Write();
 		if(mixing){
 			hist_correlation_mixing_jet_reco_track_reco->Write();
@@ -919,20 +959,21 @@ void w_recoreco_hist(bool mixing, bool rotation, bool doinclusive, bool doleadsu
 			hist_trk_from_reco_reco_mix->Write();
 		}
 	}
-	
-    	if(doleadsubl){
-    		hist_correlation_signal_lead_jet_reco_track_reco->Write();
-    		hist_correlation_signal_subg0_lead_jet_reco_track_reco->Write();
+    if(doleadsubl){
+    	hist_correlation_signal_lead_jet_reco_track_reco->Write();
+    	hist_correlation_signal_subg0_lead_jet_reco_track_reco->Write();
    		hist_lead_jet_from_reco_reco_sig->Write();
 		hist_LJ_trk_from_reco_reco_sig->Write();
+		hist_inLeadjet_reco_track_reco->Write();
+		hist_inSubljet_reco_track_reco->Write();
 		if(rotation) hist_correlation_rotation_lead_jet_reco_track_reco->Write();
 		if(mixing){
 			hist_correlation_mixing_lead_jet_reco_track_reco->Write();
 			hist_lead_jet_from_reco_reco_mix->Write();
 			hist_LJ_trk_from_reco_reco_mix->Write();
 		}
-    		hist_correlation_signal_subl_jet_reco_track_reco->Write();
-    		hist_correlation_signal_subg0_subl_jet_reco_track_reco->Write();
+    	hist_correlation_signal_subl_jet_reco_track_reco->Write();
+    	hist_correlation_signal_subg0_subl_jet_reco_track_reco->Write();
 		hist_subl_jet_from_reco_reco_sig->Write();
 		hist_SLJ_trk_from_reco_reco_sig->Write();
 		if(rotation) hist_correlation_rotation_subl_jet_reco_track_reco->Write();
@@ -960,6 +1001,7 @@ void w_recogen_hist(bool mixing, bool rotation, bool doinclusive, bool doleadsub
 		hist_correlation_signal_subg0_jet_reco_track_gen->Write();
 		hist_jet_from_reco_gen_sig->Write();
 		hist_trk_from_reco_gen_sig->Write();
+		hist_injet_reco_track_gen->Write();
 		if(rotation) hist_correlation_rotation_jet_reco_track_gen->Write();
 		if(mixing){
 			hist_correlation_mixing_jet_reco_track_gen->Write();
@@ -969,18 +1011,20 @@ void w_recogen_hist(bool mixing, bool rotation, bool doinclusive, bool doleadsub
 	}
 
     if(doleadsubl){
-    		hist_correlation_signal_lead_jet_reco_track_gen->Write();
-    		hist_correlation_signal_subg0_lead_jet_reco_track_gen->Write();
+    	hist_correlation_signal_lead_jet_reco_track_gen->Write();
+    	hist_correlation_signal_subg0_lead_jet_reco_track_gen->Write();
    		hist_lead_jet_from_reco_gen_sig->Write();
 		hist_LJ_trk_from_reco_gen_sig->Write();
+		hist_inLeadjet_reco_track_gen->Write();
+		hist_inSubljet_reco_track_gen->Write();
 		if(rotation) hist_correlation_rotation_lead_jet_reco_track_gen->Write();
 		if(mixing){
 			hist_correlation_mixing_lead_jet_reco_track_gen->Write();
 			hist_lead_jet_from_reco_gen_mix->Write();
 			hist_LJ_trk_from_reco_gen_mix->Write();
 		}
-    		hist_correlation_signal_subl_jet_reco_track_gen->Write();
-    		hist_correlation_signal_subg0_subl_jet_reco_track_gen->Write();
+    	hist_correlation_signal_subl_jet_reco_track_gen->Write();
+    	hist_correlation_signal_subg0_subl_jet_reco_track_gen->Write();
 		hist_subl_jet_from_reco_gen_sig->Write();
 		hist_SLJ_trk_from_reco_gen_sig->Write();
 		if(rotation) hist_correlation_rotation_subl_jet_reco_track_gen->Write();
@@ -1007,6 +1051,7 @@ void w_genreco_hist(bool mixing, bool rotation, bool doinclusive, bool doleadsub
 		hist_correlation_signal_subg0_jet_gen_track_reco->Write();
 		hist_jet_from_gen_reco_sig->Write();
 		hist_trk_from_gen_reco_sig->Write();
+		hist_injet_gen_track_reco->Write();
 		if(rotation) hist_correlation_rotation_jet_gen_track_reco->Write();
 		if(mixing){
 			hist_correlation_mixing_jet_gen_track_reco->Write();
@@ -1016,18 +1061,20 @@ void w_genreco_hist(bool mixing, bool rotation, bool doinclusive, bool doleadsub
 	}
 
     if(doleadsubl){
-    		hist_correlation_signal_lead_jet_gen_track_reco->Write();
-    		hist_correlation_signal_subg0_lead_jet_gen_track_reco->Write();
+    	hist_correlation_signal_lead_jet_gen_track_reco->Write();
+    	hist_correlation_signal_subg0_lead_jet_gen_track_reco->Write();
    		hist_lead_jet_from_gen_reco_sig->Write();
 		hist_LJ_trk_from_gen_reco_sig->Write();
+		hist_inLeadjet_gen_track_reco->Write();
+		hist_inSubljet_gen_track_reco->Write();
 		if(rotation) hist_correlation_rotation_lead_jet_gen_track_reco->Write();
 		if(mixing){
 			hist_correlation_mixing_lead_jet_gen_track_reco->Write();
 			hist_lead_jet_from_gen_reco_mix->Write();
 			hist_LJ_trk_from_gen_reco_mix->Write();
 		}
-    		hist_correlation_signal_subl_jet_gen_track_reco->Write();
-    		hist_correlation_signal_subg0_subl_jet_gen_track_reco->Write();
+    	hist_correlation_signal_subl_jet_gen_track_reco->Write();
+    	hist_correlation_signal_subg0_subl_jet_gen_track_reco->Write();
 		hist_subl_jet_from_gen_reco_sig->Write();
 		hist_SLJ_trk_from_gen_reco_sig->Write();
 		if(rotation) hist_correlation_rotation_subl_jet_gen_track_reco->Write();
@@ -1054,6 +1101,7 @@ void w_gengen_hist(bool mixing, bool rotation, bool doinclusive, bool doleadsubl
 		hist_correlation_signal_subg0_jet_gen_track_gen->Write();
 		hist_jet_from_gen_gen_sig->Write();
 		hist_trk_from_gen_gen_sig->Write();
+		hist_injet_gen_track_gen->Write();
 		if(rotation) hist_correlation_rotation_jet_gen_track_gen->Write();
 		if(mixing){
 			hist_correlation_mixing_jet_gen_track_gen->Write();
@@ -1063,18 +1111,20 @@ void w_gengen_hist(bool mixing, bool rotation, bool doinclusive, bool doleadsubl
 	}
 
     if(doleadsubl){
-    		hist_correlation_signal_lead_jet_gen_track_gen->Write();
-    		hist_correlation_signal_subg0_lead_jet_gen_track_gen->Write();
+    	hist_correlation_signal_lead_jet_gen_track_gen->Write();
+    	hist_correlation_signal_subg0_lead_jet_gen_track_gen->Write();
    		hist_lead_jet_from_gen_gen_sig->Write();
 		hist_LJ_trk_from_gen_gen_sig->Write();
+		hist_inLeadjet_gen_track_gen->Write();
+		hist_inSubljet_gen_track_gen->Write();
 		if(rotation) hist_correlation_rotation_lead_jet_gen_track_gen->Write();
 		if(mixing){
 			hist_correlation_mixing_lead_jet_gen_track_gen->Write();
 			hist_lead_jet_from_gen_gen_mix->Write();
 			hist_LJ_trk_from_gen_gen_mix->Write();
 		}
-    		hist_correlation_signal_subl_jet_gen_track_gen->Write();
-    		hist_correlation_signal_subg0_subl_jet_gen_track_gen->Write();
+    	hist_correlation_signal_subl_jet_gen_track_gen->Write();
+    	hist_correlation_signal_subg0_subl_jet_gen_track_gen->Write();
 		hist_subl_jet_from_gen_gen_sig->Write();
 		hist_SLJ_trk_from_gen_gen_sig->Write();
 		if(rotation) hist_correlation_rotation_subl_jet_gen_track_gen->Write();
@@ -1104,21 +1154,21 @@ void w_jetquenching_hist(bool isMC){
 
 // JES and JER histograms
 void w_jes_jer_hist(){ 
-	hist_jes_raw->Write();
-	hist_jes_raw_weighted->Write();
-	hist_jes_reco->Write();
+	//hist_jes_raw->Write();
+	//hist_jes_raw_weighted->Write();
+	//hist_jes_reco->Write();
 	hist_jes_reco_weighted->Write();
-	hist_jer_raw->Write();
-	hist_jer_raw_weighted->Write();
-	hist_jer_reco->Write();
+	//hist_jer_raw->Write();
+	//hist_jer_raw_weighted->Write();
+	//hist_jer_reco->Write();
 	hist_jer_reco_weighted->Write();
-	hist_jes_raw_fromB->Write();
-	hist_jes_raw_fromB_weighted->Write();
-	hist_jes_reco_fromB->Write();
+	//hist_jes_raw_fromB->Write();
+	//hist_jes_raw_fromB_weighted->Write();
+	//hist_jes_reco_fromB->Write();
 	hist_jes_reco_fromB_weighted->Write();
-	hist_jer_raw_fromB->Write();
-	hist_jer_raw_fromB_weighted->Write();
-	hist_jer_reco_fromB->Write();
+	//hist_jer_raw_fromB->Write();
+	//hist_jer_raw_fromB_weighted->Write();
+	//hist_jer_reco_fromB->Write();
 	hist_jer_reco_fromB_weighted->Write();
 }
 
@@ -1224,19 +1274,19 @@ void w_ep_hist(bool isMC){
 
 // eta assymetry histograms
 void w_etassym_hist(bool isMC){ 
-	hist_etaDijet_ET_reco->Write();
+	//hist_etaDijet_ET_reco->Write();
 	hist_etaDijet_ETEta4_reco->Write();
-	hist_etaDiff_ET_reco->Write();
+	//hist_etaDiff_ET_reco->Write();
 	hist_etaDiff_ETEta4_reco->Write();
 	hist_etaAssym_numerator_reco->Write();
 	hist_etaAssym_denominator_reco->Write();
 	if(isMC){
-		hist_etaDijet_ET_ref->Write();
-		hist_etaDijet_ET_gen->Write();
+		//hist_etaDijet_ET_ref->Write();
+		//hist_etaDijet_ET_gen->Write();
 		hist_etaDijet_ETEta4_ref->Write();
 		hist_etaDijet_ETEta4_gen->Write();
-		hist_etaDiff_ET_ref->Write();
-		hist_etaDiff_ET_gen->Write();
+		//hist_etaDiff_ET_ref->Write();
+		//hist_etaDiff_ET_gen->Write();
 		hist_etaDiff_ETEta4_ref->Write();
 		hist_etaDiff_ETEta4_gen->Write();
 		hist_etaAssym_numerator_ref->Write();

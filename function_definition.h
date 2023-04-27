@@ -236,10 +236,12 @@ sube_trk: vector with sube track (MC embedded samples) sube == 0 means PYTHIA em
 histo_corr_subeg0: if sube > 0 save in this histogram
 flow: true for flow measurement false for jet shapes
 */
-void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::vector<TVector3> tracks, std::vector<double> tracks_w, THnSparse* histo_corr, THnSparse* histjet, THnSparse* histtrk, float event_weight, int mult, bool do_rotation, int N_rot, THnSparse* histo_rot, std::vector<int> sube_trk, THnSparse* histo_corr_subeg0, bool flow){
+void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::vector<TVector3> tracks, std::vector<double> tracks_w, THnSparse* histo_corr, THnSparse* histjet, THnSparse* histtrk, float event_weight, int mult, bool do_rotation, int N_rot, THnSparse* histo_rot, std::vector<int> sube_trk, THnSparse* histo_corr_subeg0, float JetR, THnSparse* histo_injet, bool flow){
 	// get correlation histograms
+	int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float) mult);
 	for (int a = 0; a < jets.size(); a++){ // start loop over jets
         	double jet_weight = jets_w[a];
+        	int injettrk = 0;
 		for (int b = 0; b < tracks.size(); b++){ // start loop over tracks
 			double trkpt = tracks[b].Pt();
 			double trketa = tracks[b].Eta();
@@ -248,7 +250,6 @@ void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::ve
             double trk_weight = tracks_w[b];
            	// Find track and multiplicity bins
 			int trkbin = (int) find_my_bin(trk_pt_bins,trkpt);
-			int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float) mult);
 			// Fill jet and track quantities
 			double x4D_jet[4]={jets[a].Pt(),jets[a].Eta(),jets[a].Phi(), (double)multcentbin}; histjet->Fill(x4D_jet,jet_weight*event_weight);
 			double x4D_trk[4]={tracks[b].Pt(),tracks[b].Eta(),tracks[b].Phi(), (double)multcentbin}; histtrk->Fill(x4D_trk,trk_weight*event_weight);
@@ -258,7 +259,12 @@ void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::ve
 			double x4D[4]={del_phi,del_eta,(double)trkbin, (double)multcentbin}; 
 			if(flow){if(subetrk==0){histo_corr->Fill(x4D,jet_weight*trk_weight*event_weight);}else{histo_corr_subeg0->Fill(x4D,jet_weight*trk_weight*event_weight);}
 			}else{if(subetrk==0){histo_corr->Fill(x4D,jet_weight*trk_weight*event_weight*trkpt);}else{histo_corr_subeg0->Fill(x4D,jet_weight*trk_weight*event_weight*trkpt);}}
+			double delta_R = deltaR(jets[a].Eta(), jets[a].Phi(), tracks[b].Eta(), tracks[b].Phi());
+			if(delta_R < JetR) injettrk = injettrk + 1;
 		}
+		double x2D[2]={(double)injettrk, (double)multcentbin}; histo_injet->Fill(x2D,jet_weight*event_weight);
+
+
 		// get rotation histograms 
 		if(do_rotation){
 			for(int c = 0; c < N_rot; c++){
@@ -275,7 +281,6 @@ void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::ve
            			double trk_weight = tracks_w[d];
             		// Find track and multiplicity bins
 					int trkbin = (int) find_my_bin(trk_pt_bins,trkpt);
-					int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float)mult);
 					// Fill correlation histograms     
 					double del_phi_rot = deltaphi2PC(newphi, tracks[d].Phi());
 					double del_eta_rot = deltaeta(neweta, tracks[d].Eta());
