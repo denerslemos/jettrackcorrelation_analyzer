@@ -32,6 +32,8 @@ void MixEvents_random(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_ntrk
    // first loop over all events to define the jet event
    for(int nevt_trg = 0; nevt_trg < aux_n_evts; nevt_trg++){
 
+      if(nevt_trg != 0 && (nevt_trg % 1000) == 0){double alpha = (double)nevt_trg; cout << " Status: " << std::setprecision(3) << ((alpha / aux_n_evts) * 100) << "%" << endl;}
+      
       int n_associated = 0; // counter used to find the number to mix 
       int n_associated_check = 0; // counter assure we find the required number of events to mix
       std::vector<int> eventcheck; // vector to make sure we do not have same combinations
@@ -148,7 +150,8 @@ void MixEvents_random_2pc(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_
 
    // first loop over all events to define the jet event
    for(int nevt_trg = 0; nevt_trg < aux_n_evts; nevt_trg++){
-
+      
+      if(nevt_trg != 0 && (nevt_trg % 1000) == 0){double alpha = (double)nevt_trg; cout << " Status: " << std::setprecision(3) << ((alpha / aux_n_evts) * 100) << "%" << endl;}
       int n_associated = 0; // counter used to find the number to mix 
       int n_associated_check = 0; // counter assure we find the required number of events to mix
       std::vector<int> eventcheck; // vector to make sure we do not have same combinations
