@@ -602,7 +602,6 @@
 /eos/cms/store/group/phys_heavyions/ahingraj/Jets_pPb/DATA/HM185_skim_pgoing_PD3/HiForest_pPb_DATA_HM185_pgoing_PD3_1563.root
 /eos/cms/store/group/phys_heavyions/ahingraj/Jets_pPb/DATA/HM185_skim_pgoing_PD3/HiForest_pPb_DATA_HM185_pgoing_PD3_1564.root
 /eos/cms/store/group/phys_heavyions/ahingraj/Jets_pPb/DATA/HM185_skim_pgoing_PD3/HiForest_pPb_DATA_HM185_pgoing_PD3_1565.root
-/eos/cms/store/group/phys_heavyions/ahingraj/Jets_pPb/DATA/HM185_skim_pgoing_PD3/HiForest_pPb_DATA_HM185_pgoing_PD3_1566.root
 /eos/cms/store/group/phys_heavyions/ahingraj/Jets_pPb/DATA/HM185_skim_pgoing_PD3/HiForest_pPb_DATA_HM185_pgoing_PD3_1567.root
 /eos/cms/store/group/phys_heavyions/ahingraj/Jets_pPb/DATA/HM185_skim_pgoing_PD3/HiForest_pPb_DATA_HM185_pgoing_PD3_1568.root
 /eos/cms/store/group/phys_heavyions/ahingraj/Jets_pPb/DATA/HM185_skim_pgoing_PD3/HiForest_pPb_DATA_HM185_pgoing_PD3_1569.root
