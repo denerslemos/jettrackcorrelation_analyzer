@@ -400,13 +400,21 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			//leading and subleading
 		 	find_leading_subleading(jet_pt_corr,jet_eta,jet_phi,leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,sublrecojet_pt,sublrecojet_eta,sublrecojet_phi); // Find leading and subleading jets
 
+			jet_eta = jet_eta + boost; // In pPb case, for the center-of-mass correction if needed
+			if(is_pgoing)jet_eta = -jet_eta;
+
+		 	// Fill reco jet QA histograms
+		 	double x4D_reco_jet[4]={jet_rawpt,jet_eta,jet_phi,(double) multcentbin}; 
+		 	hist_reco_jet->Fill(x4D_reco_jet);
+		 	hist_reco_jet_weighted->Fill(x4D_reco_jet,event_weight*jet_weight);
+		 	double x4D_reco_jet_corr[4]={jet_pt_corr,jet_eta,jet_phi,(double) multcentbin}; 
+		 	hist_reco_jet_corr->Fill(x4D_reco_jet_corr);
+		 	hist_reco_jet_corr_weighted->Fill(x4D_reco_jet_corr,event_weight*jet_weight);
+
+
 		 	if(jet_eta > jet_eta_min_cut && jet_eta < jet_eta_max_cut){ // Jet eta cut
 				
 				njets=njets+1;
-
-				jet_eta = jet_eta + boost; // In pPb case, for the center-of-mass correction if needed
-				if(is_pgoing)jet_eta = -jet_eta;
-
 		 		if(jet_pt_corr > 40 && jet_pt_corr < jet_pt_max_cut){isjet40included = true;}
 		 		if(jet_pt_corr > 50 && jet_pt_corr < jet_pt_max_cut){isjet50included = true;}
 		 		if(jet_pt_corr > 60 && jet_pt_corr < jet_pt_max_cut){isjet60included = true;}
@@ -422,13 +430,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					njetslead=njetslead+1;
 		 			isjetincluded = true;
 
-		 		 	// Fill reco jet QA histograms
-		 			double x4D_reco_jet[4]={jet_rawpt,jet_eta,jet_phi,(double) multcentbin}; 
-		 			hist_reco_jet->Fill(x4D_reco_jet);
-		 			hist_reco_jet_weighted->Fill(x4D_reco_jet,event_weight*jet_weight);
-		 			double x4D_reco_jet_corr[4]={jet_pt_corr,jet_eta,jet_phi,(double) multcentbin}; 
-		 			hist_reco_jet_corr->Fill(x4D_reco_jet_corr);
-		 			hist_reco_jet_corr_weighted->Fill(x4D_reco_jet_corr,event_weight*jet_weight);
 		 			// Fill reco jet vectors
 		 			TVector3 GoodJets;
 		 			GoodJets.SetPtEtaPhi(jet_pt_corr, jet_eta, jet_phi);
@@ -469,22 +470,20 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			 	if(ref_eta < -4.0 || ref_eta > 4.0) continue; // max jet eta
 		 		find_leading_subleading(ref_pt,ref_eta,ref_phi,leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,sublrefjet_pt,sublrefjet_eta,sublrefjet_phi); // Find leading and subleading ref jets
 
+				ref_eta = ref_eta + boost;  // In pPb case, for the center-of-mass correction if needed
+				if(is_pgoing)ref_eta = -ref_eta;
+
+		 		if(jet_rawpt <= 0) continue;
+		 		if(jet_pt_corr <= 0) continue;
+				double x4D_match_jet[4]={ref_pt,ref_eta,ref_phi,(double) multcentbin}; 
+				hist_matched_jet->Fill(x4D_match_jet);	
+				hist_matched_jet_weighted->Fill(x4D_match_jet,event_weight*refjet_weight);	
+
 		 		if(ref_eta <= jet_eta_min_cut || ref_eta >= jet_eta_max_cut)continue;
 				hist_matched_jet_weighted_nocut->Fill(ref_pt,event_weight*refjet_weight); // Fill histogram without any pT cut
 				
-		 		if(jet_rawpt <= 0) continue;
-		 		if(jet_pt_corr <= 0) continue;
-				if(ref_pt > jet_pt_min_cut && ref_pt < jet_pt_max_cut){
-					double x4D_match_jet[4]={ref_pt,ref_eta,ref_phi,(double) multcentbin}; 
-					hist_matched_jet->Fill(x4D_match_jet);	
-					hist_matched_jet_weighted->Fill(x4D_match_jet,event_weight*refjet_weight);	
-				}
-
 		 		if(jet_eta <= jet_eta_min_cut || jet_eta >= jet_eta_max_cut)continue;
-				
-				ref_eta = ref_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-				if(is_pgoing)ref_eta = -ref_eta;
-		 		
+						 		
 		 		double JES_ratio_raw_vs_ref = jet_rawpt/ref_pt;
 		 		double JES_ratio_reco_vs_ref = jet_pt_corr/ref_pt;
 		 		double JER_ratio_raw_vs_ref = (jet_rawpt - ref_pt)/ref_pt;
@@ -644,7 +643,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				if(delta_phi_reco > leading_subleading_deltaphi_min){
 
 					double x5D_etaAssym[5] = {0,Xj_reco,(double)(hfplus+hfminus),(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
-					if(do_jetquenching){ if(etadijet > boost){hist_etaAssym_numerator_reco->Fill(x5D_etaAssym,event_weight*ljet_weight*sljet_weight);}else if(etadijet < boost){hist_etaAssym_denominator_reco->Fill(x5D_etaAssym,event_weight*ljet_weight*sljet_weight);} }
+					if(do_jetquenching){ if(etadijet > pPbRapidityBoost){hist_etaAssym_numerator_reco->Fill(x5D_etaAssym,event_weight*ljet_weight*sljet_weight);}else if(etadijet < pPbRapidityBoost){hist_etaAssym_denominator_reco->Fill(x5D_etaAssym,event_weight*ljet_weight*sljet_weight);} }
 
 					if((Xj_reco >= xjmin && Xj_reco <= xjmax) && (Aj_reco >= Ajmin && Aj_reco <= Ajmax)){
 
@@ -764,7 +763,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
 				if(delta_phi_ref > leading_subleading_deltaphi_min){
 					double x5D_etaAssym[5] = {0,Xj_ref,(double)(hfplus+hfminus),(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
-					if(do_jetquenching){ if(etadijet > boost){hist_etaAssym_numerator_ref->Fill(x5D_etaAssym,event_weight*lrefjet_weight*slrefjet_weight);}else if(etadijet < boost){hist_etaAssym_denominator_ref->Fill(x5D_etaAssym,event_weight*lrefjet_weight*slrefjet_weight);} }
+					if(do_jetquenching){ if(etadijet > pPbRapidityBoost){hist_etaAssym_numerator_ref->Fill(x5D_etaAssym,event_weight*lrefjet_weight*slrefjet_weight);}else if(etadijet < pPbRapidityBoost){hist_etaAssym_denominator_ref->Fill(x5D_etaAssym,event_weight*lrefjet_weight*slrefjet_weight);} }
 				}
 			}
 		}
@@ -878,15 +877,24 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				float gjet_pt = gen_jtpt[j];
 				float gjet_eta = gen_jteta[j];
 				float gjet_phi = gen_jtphi[j];
-				
+
+				double jet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, gjet_pt); // Jet weight (specially for MC)
+				//resolutionfactor: Worsening resolution by 20%: 0.663, by 10%: 0.458 , by 30%: 0.831
+		 		jet_weight = jet_weight*get_jetpTsmering_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, gjet_pt, do_jet_smearing, 0.663); // Jet smearing (For systematics)
+		
 		 		if(gjet_eta < -4.0 || gjet_eta > 4.0) continue; // no accept jets with |eta| > 4
 
 				find_leading_subleading(gjet_pt,gjet_eta,gjet_phi,leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,sublgenjet_pt,sublgenjet_eta,sublgenjet_phi); // Find leading and subleading jets
 
-		 		if(gjet_eta < jet_eta_min_cut || gjet_eta > jet_eta_max_cut) continue; // jet eta cut
-
 				gjet_eta = gjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 				if(is_pgoing){gjet_eta = -gjet_eta;}
+
+		 		// Fill gen jet QA histograms
+				double x4D_gen_jet[4]={gjet_pt,gjet_eta,gjet_phi,(double) multcentbin}; 
+				hist_gen_jet->Fill(x4D_gen_jet);
+				hist_gen_jet_weighted->Fill(x4D_gen_jet,event_weight*jet_weight);
+
+		 		if(gjet_eta < jet_eta_min_cut || gjet_eta > jet_eta_max_cut) continue; // jet eta cut
 
 				hist_gen_jet_weighted_nocut->Fill(gjet_pt,event_weight); // Fill jet pT without cut
 
@@ -894,15 +902,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				
 					isgjetincluded=true;
 					
-					double jet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, gjet_pt); // Jet weight (specially for MC)
-					//resolutionfactor: Worsening resolution by 20%: 0.663, by 10%: 0.458 , by 30%: 0.831
-			 		jet_weight = jet_weight*get_jetpTsmering_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, gjet_pt, do_jet_smearing, 0.663); // Jet smearing (For systematics)
-
-			 		// Fill gen jet QA histograms
-					double x4D_gen_jet[4]={gjet_pt,gjet_eta,gjet_phi,(double) multcentbin}; 
-					hist_gen_jet->Fill(x4D_gen_jet);
-					hist_gen_jet_weighted->Fill(x4D_gen_jet,event_weight*jet_weight);
-
 					// Fill gen jet vectors
 					TVector3 GoodJets_gen;
 					GoodJets_gen.SetPtEtaPhi(gjet_pt, gjet_eta, gjet_phi);
@@ -1030,7 +1029,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					if(delta_phi_gen > leading_subleading_deltaphi_min){
 
 						double x5D_etaAssym[5] = {0,Xj_gen,(double)(hfplus+hfminus),(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
-						if(do_jetquenching){ if(etadijet > boost){hist_etaAssym_numerator_gen->Fill(x5D_etaAssym);}else if(etadijet < boost){hist_etaAssym_denominator_gen->Fill(x5D_etaAssym);} } 
+						if(do_jetquenching){ if(etadijet > pPbRapidityBoost){hist_etaAssym_numerator_gen->Fill(x5D_etaAssym);}else if(etadijet < pPbRapidityBoost){hist_etaAssym_denominator_gen->Fill(x5D_etaAssym);} } 
 			
 						if((Xj_gen >= xjmin && Xj_gen < xjmax) && (Aj_gen >= Ajmin && Aj_gen < Ajmax)){
 
