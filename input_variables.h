@@ -7,7 +7,7 @@ TString colliding_system = "pPb"; // use one of this options = "pp", "pPb", "XeX
 int sNN_energy_GeV = 8160; //center of mass colliding energy (GeV)
 int year_of_datataking = 2016;
 
-bool do_CM_pPb = false; // do center-of-mass correction in pPb?
+bool do_CM_pPb = false; // do center-of-mass correction in pPb? If true all jet eta cuts are on CM frame
 bool is_pgoing = false; // is p-going direction?
 
 bool use_centrality = false; // only true for: "XeXe" and "PbPb" (but also can be set as false to see evolution with multiplicity)
