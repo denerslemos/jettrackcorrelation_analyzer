@@ -306,17 +306,35 @@ THnSparseD *hist_subl_jet_from_gen_gen_mix = new THnSparseD("hist_subl_jet_from_
 int    bins4D_quenc[4]   =   { 20   , 20    , 30          , multbinsize-1          };
 double xmin4D_quenc[4]   =   { 0.0  , 0.0   , 0.0         , 0                      };
 double xmax4D_quenc[4]   =   { 1.0  , 1.0   , TMath::Pi() , (double) multbinsize-1 };
-THnSparseD *hist_reco_lead_reco_subl_quench = new THnSparseD("hist_reco_lead_reco_subl_quench", "hist_reco_lead_reco_subl_quench", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
-THnSparseD *hist_gen_lead_gen_subl_quench = new THnSparseD("hist_gen_lead_gen_subl_quench", "hist_gen_lead_gen_subl_quench", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
-THnSparseD *hist_ref_lead_ref_subl_quench = new THnSparseD("hist_ref_lead_ref_subl_quench", "hist_ref_lead_ref_subl_quench", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_reco_lead_reco_subl_quench_mid_mid = new THnSparseD("hist_reco_lead_reco_subl_quench_mid_mid", "hist_reco_lead_reco_subl_quench_mid_mid", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_reco_lead_reco_subl_quench_mid_fwd = new THnSparseD("hist_reco_lead_reco_subl_quench_mid_fwd", "hist_reco_lead_reco_subl_quench_mid_fwd", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_reco_lead_reco_subl_quench_mid_bkw = new THnSparseD("hist_reco_lead_reco_subl_quench_mid_bkw", "hist_reco_lead_reco_subl_quench_mid_bkw", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_reco_lead_reco_subl_quench_fwd_mid = new THnSparseD("hist_reco_lead_reco_subl_quench_fwd_mid", "hist_reco_lead_reco_subl_quench_fwd_mid", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_reco_lead_reco_subl_quench_bkw_mid = new THnSparseD("hist_reco_lead_reco_subl_quench_bkw_mid", "hist_reco_lead_reco_subl_quench_bkw_mid", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_reco_lead_reco_subl_quench_fwd_fwd = new THnSparseD("hist_reco_lead_reco_subl_quench_fwd_fwd", "hist_reco_lead_reco_subl_quench_fwd_fwd", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_reco_lead_reco_subl_quench_fwd_bkw = new THnSparseD("hist_reco_lead_reco_subl_quench_fwd_bkw", "hist_reco_lead_reco_subl_quench_fwd_bkw", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_reco_lead_reco_subl_quench_bkw_fwd = new THnSparseD("hist_reco_lead_reco_subl_quench_bkw_fwd", "hist_reco_lead_reco_subl_quench_bkw_fwd", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_reco_lead_reco_subl_quench_bkw_bkw = new THnSparseD("hist_reco_lead_reco_subl_quench_bkw_bkw", "hist_reco_lead_reco_subl_quench_bkw_bkw", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_gen_lead_gen_subl_quench_mid_mid = new THnSparseD("hist_gen_lead_gen_subl_quench_mid_mid", "hist_gen_lead_gen_subl_quench_mid_mid", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_gen_lead_gen_subl_quench_mid_fwd = new THnSparseD("hist_gen_lead_gen_subl_quench_mid_fwd", "hist_gen_lead_gen_subl_quench_mid_fwd", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_gen_lead_gen_subl_quench_mid_bkw = new THnSparseD("hist_gen_lead_gen_subl_quench_mid_bkw", "hist_gen_lead_gen_subl_quench_mid_bkw", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_gen_lead_gen_subl_quench_fwd_mid = new THnSparseD("hist_gen_lead_gen_subl_quench_fwd_mid", "hist_gen_lead_gen_subl_quench_fwd_mid", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_gen_lead_gen_subl_quench_bkw_mid = new THnSparseD("hist_gen_lead_gen_subl_quench_bkw_mid", "hist_gen_lead_gen_subl_quench_bkw_mid", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_gen_lead_gen_subl_quench_fwd_fwd = new THnSparseD("hist_gen_lead_gen_subl_quench_fwd_fwd", "hist_gen_lead_gen_subl_quench_fwd_fwd", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_gen_lead_gen_subl_quench_fwd_bkw = new THnSparseD("hist_gen_lead_gen_subl_quench_fwd_bkw", "hist_gen_lead_gen_subl_quench_fwd_bkw", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_gen_lead_gen_subl_quench_bkw_fwd = new THnSparseD("hist_gen_lead_gen_subl_quench_bkw_fwd", "hist_gen_lead_gen_subl_quench_bkw_fwd", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_gen_lead_gen_subl_quench_bkw_bkw = new THnSparseD("hist_gen_lead_gen_subl_quench_bkw_bkw", "hist_gen_lead_gen_subl_quench_bkw_bkw", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_ref_lead_ref_subl_quench_mid_mid = new THnSparseD("hist_ref_lead_ref_subl_quench_mid_mid", "hist_ref_lead_ref_subl_quench_mid_mid", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_ref_lead_ref_subl_quench_mid_fwd = new THnSparseD("hist_ref_lead_ref_subl_quench_mid_fwd", "hist_ref_lead_ref_subl_quench_mid_fwd", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_ref_lead_ref_subl_quench_mid_bkw = new THnSparseD("hist_ref_lead_ref_subl_quench_mid_bkw", "hist_ref_lead_ref_subl_quench_mid_bkw", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_ref_lead_ref_subl_quench_fwd_mid = new THnSparseD("hist_ref_lead_ref_subl_quench_fwd_mid", "hist_ref_lead_ref_subl_quench_fwd_mid", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_ref_lead_ref_subl_quench_bkw_mid = new THnSparseD("hist_ref_lead_ref_subl_quench_bkw_mid", "hist_ref_lead_ref_subl_quench_bkw_mid", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_ref_lead_ref_subl_quench_fwd_fwd = new THnSparseD("hist_ref_lead_ref_subl_quench_fwd_fwd", "hist_ref_lead_ref_subl_quench_fwd_fwd", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_ref_lead_ref_subl_quench_fwd_bkw = new THnSparseD("hist_ref_lead_ref_subl_quench_fwd_bkw", "hist_ref_lead_ref_subl_quench_fwd_bkw", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_ref_lead_ref_subl_quench_bkw_fwd = new THnSparseD("hist_ref_lead_ref_subl_quench_bkw_fwd", "hist_ref_lead_ref_subl_quench_bkw_fwd", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
+THnSparseD *hist_ref_lead_ref_subl_quench_bkw_bkw = new THnSparseD("hist_ref_lead_ref_subl_quench_bkw_bkw", "hist_ref_lead_ref_subl_quench_bkw_bkw", 4, bins4D_quenc, xmin4D_quenc, xmax4D_quenc);
 
-// Axis : 0 -> Aj, 1 -> Xj, 2 -> delta phi 2PC, 3 -> multiplicity
-int    bins4D_quenc_2pc[4]   =   { 20   , 20    , 30                  , multbinsize-1          };
-double xmin4D_quenc_2pc[4]   =   { 0.0  , 0.0   , -TMath::Pi()/2.0    , 0                      };
-double xmax4D_quenc_2pc[4]   =   { 1.0  , 1.0   , 3.0*TMath::Pi()/2.0 , (double) multbinsize-1 };
-THnSparseD *hist_reco_lead_reco_subl_quench2pc = new THnSparseD("hist_reco_lead_reco_subl_quench2pc", "hist_reco_lead_reco_subl_quench2pc", 4, bins4D_quenc_2pc, xmin4D_quenc_2pc, xmax4D_quenc_2pc);
-THnSparseD *hist_gen_lead_gen_subl_quench2pc = new THnSparseD("hist_gen_lead_gen_subl_quench2pc", "hist_gen_lead_gen_subl_quench2pc", 4, bins4D_quenc_2pc, xmin4D_quenc_2pc, xmax4D_quenc_2pc);
-THnSparseD *hist_ref_lead_ref_subl_quench2pc = new THnSparseD("hist_ref_lead_ref_subl_quench2pc", "hist_ref_lead_ref_subl_quench2pc", 4, bins4D_quenc_2pc, xmin4D_quenc_2pc, xmax4D_quenc_2pc);
+
 
 //Assymetry studies
 // Axis : 0 -> etaDijet, 1 -> Xj, 2 -> delta phi, 3 -> ET or ETEta4, 4 -> multiplicity
@@ -691,12 +709,33 @@ void sw2(){
 	hist_SLJ_trk_from_reco_gen_mix->Sumw2();
 	hist_SLJ_trk_from_gen_reco_mix->Sumw2();
 	hist_SLJ_trk_from_gen_gen_mix->Sumw2();
-    hist_reco_lead_reco_subl_quench->Sumw2(); 
-    hist_reco_lead_reco_subl_quench2pc->Sumw2();
-   	hist_gen_lead_gen_subl_quench->Sumw2(); 
-   	hist_gen_lead_gen_subl_quench2pc->Sumw2();
-	hist_ref_lead_ref_subl_quench->Sumw2();
-	hist_ref_lead_ref_subl_quench2pc->Sumw2();
+	hist_reco_lead_reco_subl_quench_mid_mid->Sumw2();
+	hist_reco_lead_reco_subl_quench_mid_fwd->Sumw2();
+	hist_reco_lead_reco_subl_quench_mid_bkw->Sumw2();
+	hist_reco_lead_reco_subl_quench_fwd_mid->Sumw2();
+	hist_reco_lead_reco_subl_quench_bkw_mid->Sumw2();
+	hist_reco_lead_reco_subl_quench_fwd_fwd->Sumw2();
+	hist_reco_lead_reco_subl_quench_fwd_bkw->Sumw2();
+	hist_reco_lead_reco_subl_quench_bkw_fwd->Sumw2();
+	hist_reco_lead_reco_subl_quench_bkw_bkw->Sumw2();
+	hist_gen_lead_gen_subl_quench_mid_mid->Sumw2();
+	hist_gen_lead_gen_subl_quench_mid_fwd->Sumw2();
+	hist_gen_lead_gen_subl_quench_mid_bkw->Sumw2();
+	hist_gen_lead_gen_subl_quench_fwd_mid->Sumw2();
+	hist_gen_lead_gen_subl_quench_bkw_mid->Sumw2();
+	hist_gen_lead_gen_subl_quench_fwd_fwd->Sumw2();
+	hist_gen_lead_gen_subl_quench_fwd_bkw->Sumw2();
+	hist_gen_lead_gen_subl_quench_bkw_fwd->Sumw2();
+	hist_gen_lead_gen_subl_quench_bkw_bkw->Sumw2();
+	hist_ref_lead_ref_subl_quench_mid_mid->Sumw2();
+	hist_ref_lead_ref_subl_quench_mid_fwd->Sumw2();
+	hist_ref_lead_ref_subl_quench_mid_bkw->Sumw2();
+	hist_ref_lead_ref_subl_quench_fwd_mid->Sumw2();
+	hist_ref_lead_ref_subl_quench_bkw_mid->Sumw2();
+	hist_ref_lead_ref_subl_quench_fwd_fwd->Sumw2();
+	hist_ref_lead_ref_subl_quench_fwd_bkw->Sumw2();
+	hist_ref_lead_ref_subl_quench_bkw_fwd->Sumw2();
+	hist_ref_lead_ref_subl_quench_bkw_bkw->Sumw2();
 	hist_matched_jet_weighted_nocut->Sumw2();
 	hist_matched_jet->Sumw2();
 	hist_matched_jet_weighted->Sumw2();
@@ -1142,13 +1181,34 @@ void w_gengen_hist(bool mixing, bool rotation, bool doinclusive, bool doleadsubl
 isMC: true for MC and false for Data
 */
 void w_jetquenching_hist(bool isMC){
-    hist_reco_lead_reco_subl_quench->Write(); 
-    hist_reco_lead_reco_subl_quench2pc->Write();
+	hist_reco_lead_reco_subl_quench_mid_mid->Write();
+	hist_reco_lead_reco_subl_quench_mid_fwd->Write();
+	hist_reco_lead_reco_subl_quench_mid_bkw->Write();
+	hist_reco_lead_reco_subl_quench_fwd_mid->Write();
+	hist_reco_lead_reco_subl_quench_bkw_mid->Write();
+	hist_reco_lead_reco_subl_quench_fwd_fwd->Write();
+	hist_reco_lead_reco_subl_quench_fwd_bkw->Write();
+	hist_reco_lead_reco_subl_quench_bkw_fwd->Write();
+	hist_reco_lead_reco_subl_quench_bkw_bkw->Write();
     if(isMC){
-    	hist_gen_lead_gen_subl_quench->Write(); 
-    	hist_gen_lead_gen_subl_quench2pc->Write();
-    	hist_ref_lead_ref_subl_quench->Write();
-		hist_ref_lead_ref_subl_quench2pc->Write();
+		hist_gen_lead_gen_subl_quench_mid_mid->Write();
+		hist_gen_lead_gen_subl_quench_mid_fwd->Write();
+		hist_gen_lead_gen_subl_quench_mid_bkw->Write();
+		hist_gen_lead_gen_subl_quench_fwd_mid->Write();
+		hist_gen_lead_gen_subl_quench_bkw_mid->Write();
+		hist_gen_lead_gen_subl_quench_fwd_fwd->Write();
+		hist_gen_lead_gen_subl_quench_fwd_bkw->Write();
+		hist_gen_lead_gen_subl_quench_bkw_fwd->Write();
+		hist_gen_lead_gen_subl_quench_bkw_bkw->Write();
+		hist_ref_lead_ref_subl_quench_mid_mid->Write();
+		hist_ref_lead_ref_subl_quench_mid_fwd->Write();
+		hist_ref_lead_ref_subl_quench_mid_bkw->Write();
+		hist_ref_lead_ref_subl_quench_fwd_mid->Write();
+		hist_ref_lead_ref_subl_quench_bkw_mid->Write();
+		hist_ref_lead_ref_subl_quench_fwd_fwd->Write();
+		hist_ref_lead_ref_subl_quench_fwd_bkw->Write();
+		hist_ref_lead_ref_subl_quench_bkw_fwd->Write();
+		hist_ref_lead_ref_subl_quench_bkw_bkw->Write();
     }
 }
 

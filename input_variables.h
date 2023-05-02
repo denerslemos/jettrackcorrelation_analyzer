@@ -28,6 +28,7 @@ std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFi
 bool do_inclusejettrack_correlation = true; // Inclusive jets + track correlation
 bool do_leading_subleading_jettrack_correlation = true; // Leading jets + track correlation and Sub-Leading jets + track correlation
 bool do_flow = false; // if true if makes correlation for Jet-Vn flow if false it multiply by trk pT to get jet shapes
+bool do_jetquenching = false; // quantities for jet quenching searches
 
 //=========================================================
 
@@ -37,17 +38,33 @@ TString jet_collection = "ak4PFJetAnalyzer"; // jet collection in forest
 bool dojettrigger = false; // apply jet trigger
 TString jet_trigger = "HLT_PAAK4PFJet80_Eta5p1_v3"; // jet trigger in forest 
 float JetR = 0.4;
-float jet_pt_min_cut = 100.0; // jet min pT cut 
+float jet_pt_min_cut = 50.0; // jet min pT cut 
 float jet_pt_max_cut = 8160.0; // jet max pT cut 
 float jet_eta_min_cut = -1.6; // jet min eta cut 
-float jet_eta_max_cut = 1.6; // jet min eta cut 
+float jet_eta_max_cut = 1.6; // jet max eta cut 
+
 
 TString JEC_file = "Autumn16_HI_pPb_pgoing_Unembedded_MC_L2Relative_AK4PF.txt"; //JEC file
 TString JEU_file = "Autumn16_HI_pPb_pgoing_Unembedded_MC_L2Relative_AK4PF.txt"; //JEU file (future)
 bool use_WTA = true; // use WTA or E-Scheme axis 
 float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation and jet quenching analysis; use 0 for all;
-float leading_pT_min = jet_pt_min_cut; //used for jet leading and subleading correlation and jet quenching analysis
+float leading_pT_min = 120.0; //used for jet leading and subleading correlation and jet quenching analysis
 float subleading_pT_min = 50.0; //used for jet leading and subleading correlation and jet quenching analysis
+
+//pseudorapidity regions for jet-track leading and subleading correlations
+TString fwdbkw_jettrk_option = "mid_mid"; // midrapidity + midrapidity
+//TString fwdbkw_jettrk_option = "mid_fwd"; // midrapidity + forward
+//TString fwdbkw_jettrk_option = "mid_bkw"; // midrapidity + backward
+//TString fwdbkw_jettrk_option = "fwd_mid"; // forward + midrapidity
+//TString fwdbkw_jettrk_option = "bkw_mid"; // backward + midrapidity
+//TString fwdbkw_jettrk_option = "fwd_fwd"; // forward + forward
+//TString fwdbkw_jettrk_option = "fwd_bkw"; // forward + midrapidity
+//TString fwdbkw_jettrk_option = "bkw_fwd"; // backward + forward
+//TString fwdbkw_jettrk_option = "bkw_bkw"; // backward + backward
+float jet_fwd_eta_min_cut = 1.65; // jet fwd min eta cut 
+float jet_fwd_eta_max_cut = 2.65; // jet fwd  min eta cut 
+float jet_bkw_eta_min_cut = -2.65; // jet fwd min eta cut 
+float jet_bkw_eta_max_cut = -1.65; // jet fwd  min eta cut 
 
 // if we want to make Xj or Aj selections [0,1] are full inclusive
 bool do_Xj_or_Ajcut = false;
