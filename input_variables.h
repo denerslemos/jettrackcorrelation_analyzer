@@ -26,10 +26,10 @@ std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFi
 
 // by default the code will calculated QA plots for jets and tracks, you can turn on or off the flags bellow based on your studies
 // be carefull about memory usage (e.g. do not run incluse + fragmentation at same time)
-bool do_inclusejettrack_correlation = true; // Inclusive jets + track correlation
-bool do_leading_subleading_jettrack_correlation = true; // Leading jets + track correlation and Sub-Leading jets + track correlation
+bool do_inclusejettrack_correlation = false; // Inclusive jets + track correlation
+bool do_leading_subleading_jettrack_correlation = false; // Leading jets + track correlation and Sub-Leading jets + track correlation
 bool do_flow = false; // if true if makes correlation for Jet-Vn flow if false it multiply by trk pT to get jet shapes
-bool do_jetquenching = false; // quantities for jet quenching searches
+bool do_jetquenching = true; // quantities for jet quenching searches
 
 //=========================================================
 
@@ -41,15 +41,15 @@ TString jet_trigger = "HLT_PAAK4PFJet80_Eta5p1_v3"; // jet trigger in forest
 float JetR = 0.4;
 float jet_pt_min_cut = 50.0; // jet min pT cut 
 float jet_pt_max_cut = 8160.0; // jet max pT cut 
-float jet_eta_min_cut = -1.6; // jet min eta cut 
-float jet_eta_max_cut = 1.6; // jet max eta cut 
+float jet_eta_min_cut = -1.1; // jet min eta cut 
+float jet_eta_max_cut = 1.1; // jet max eta cut 
 
 
 TString JEC_file = "Autumn16_HI_pPb_pgoing_Unembedded_MC_L2Relative_AK4PF.txt"; //JEC file
 TString JEU_file = "Autumn16_HI_pPb_pgoing_Unembedded_MC_L2Relative_AK4PF.txt"; //JEU file (future)
 bool use_WTA = true; // use WTA or E-Scheme axis 
 float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation and jet quenching analysis; use 0 for all;
-float leading_pT_min = 120.0; //used for jet leading and subleading correlation and jet quenching analysis
+float leading_pT_min = 100.0; //used for jet leading and subleading correlation and jet quenching analysis
 float subleading_pT_min = 50.0; //used for jet leading and subleading correlation and jet quenching analysis
 
 //pseudorapidity regions for jet-track leading and subleading correlations
@@ -62,10 +62,10 @@ TString fwdbkw_jettrk_option = "mid_mid"; // midrapidity + midrapidity
 //TString fwdbkw_jettrk_option = "fwd_bkw"; // forward + midrapidity
 //TString fwdbkw_jettrk_option = "bkw_fwd"; // backward + forward
 //TString fwdbkw_jettrk_option = "bkw_bkw"; // backward + backward
-float jet_fwd_eta_min_cut = 1.65; // jet fwd min eta cut 
-float jet_fwd_eta_max_cut = 2.65; // jet fwd  min eta cut 
-float jet_bkw_eta_min_cut = -2.65; // jet fwd min eta cut 
-float jet_bkw_eta_max_cut = -1.65; // jet fwd  min eta cut 
+float jet_fwd_eta_min_cut = 2.0; // jet fwd min eta cut 
+float jet_fwd_eta_max_cut = 3.0; // jet fwd  min eta cut 
+float jet_bkw_eta_min_cut = -3.0; // jet fwd min eta cut 
+float jet_bkw_eta_max_cut = -2.0; // jet fwd  min eta cut 
 
 // if we want to make Xj or Aj selections [0,1] are full inclusive
 bool do_Xj_or_Ajcut = false;
@@ -100,7 +100,7 @@ TString trk_eff_file = "Hijing_8TeV_dataBS.root"; //track efficiency table
 // use just one ref sample due memory issues
 
 //--> Mixing ref. samples quantities
-bool do_mixing = true; // use mixing method?
+bool do_mixing = false; // use mixing method?
 bool similar_events = false; // if true we consider only tracks coming for similar events (onl if jet requirement is satisfied), if false all tracks are used
 int N_ev_mix = 20; // number of events to mix
 int Mult_or_Cent_range = 100; // multiplicity or centrality interval allowed between event and mixed event
