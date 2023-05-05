@@ -9,6 +9,7 @@ int year_of_datataking = 2016;
 
 bool do_CM_pPb = false; // do center-of-mass correction in pPb? If true all jet eta cuts are on CM frame
 bool is_pgoing = false; // is p-going direction?
+bool invert_pgoing = false; // do eta -> -eta for pgoing?
 
 bool use_centrality = false; // only true for: "XeXe" and "PbPb" (but also can be set as false to see evolution with multiplicity)
 
