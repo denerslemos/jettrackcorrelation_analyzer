@@ -47,6 +47,7 @@ float jet_eta_max_cut = 1.1; // jet max eta cut
 
 TString JEC_file = "Autumn16_HI_pPb_pgoing_Unembedded_MC_L2Relative_AK4PF.txt"; //JEC file
 TString JEU_file = "Autumn16_HI_pPb_pgoing_Unembedded_MC_L2Relative_AK4PF.txt"; //JEU file (future)
+
 bool use_WTA = true; // use WTA or E-Scheme axis 
 float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation and jet quenching analysis; use 0 for all;
 float leading_pT_min = 100.0; //used for jet leading and subleading correlation and jet quenching analysis
@@ -81,7 +82,7 @@ bool do_jet_smearing = false;
 
 //============= Track information =========================
 
-const std::vector<double> trk_pt_bins{0.7, 1.0, 2.0, 3.0, 4.0, 8.0, 12.0, 300.0}; //trk pT bin range for correlations
+const std::vector<double> trk_pt_bins{0.4, 0.7, 1.0, 2.0, 3.0, 4.0, 8.0, 12.0, 300.0}; //trk pT bin range for correlations
 float trk_eta_cut = 2.4; // trk +/- eta range
 float trk_pt_resolution_cut = 0.1; // trk pt resolution cut
 float trk_dca_xy_cut = 3.0; // trk XY DCA cut
