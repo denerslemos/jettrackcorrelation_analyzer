@@ -44,7 +44,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	//print important informations in the output file
 	TString data_or_mc;
 	if(!is_MC){data_or_mc="Data";}else{data_or_mc="MC";}
-	if(colliding_system == "pPb" && is_pgoing && invert_pgoing){data_or_mc+="_invertside"}
+	if(colliding_system == "pPb" && is_pgoing && invert_pgoing){data_or_mc+="_invertside";}
 	TString simev;
 	if(similar_events){simev = "simevs";}else{simev = "";}
 	TString ref_sample = "norefsample";
@@ -596,10 +596,16 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			if(leadrecojet_pt > leading_pT_min && sublrecojet_pt > subleading_pT_min){
 				
 				Nevents->Fill(7);
-
+				double leadrecojet_eta_lab = leadrecojet_eta;  // before boost for eta dijet
+				double sublrecojet_eta_lab = sublrecojet_eta;  // before boost for eta dijet
 				leadrecojet_eta = leadrecojet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 				sublrecojet_eta = sublrecojet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-				if(invert_pgoing){leadrecojet_eta = -leadrecojet_eta; sublrecojet_eta = -sublrecojet_eta;}
+				if(invert_pgoing){
+					leadrecojet_eta = -leadrecojet_eta; 
+					sublrecojet_eta = -sublrecojet_eta;
+					leadrecojet_eta_lab = -leadrecojet_eta_lab; 
+					sublrecojet_eta_lab = -sublrecojet_eta_lab;
+				}
 				
 				Nevents->Fill(8);	
 				
@@ -626,12 +632,20 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					if(leadbkwrap && sublfwdrap) hist_reco_lead_reco_subl_quench_bkw_fwd->Fill(x4D_reco,event_weight*ljet_weight*sljet_weight);
 					if(leadbkwrap && sublbkwrap) hist_reco_lead_reco_subl_quench_bkw_bkw->Fill(x4D_reco,event_weight*ljet_weight*sljet_weight);
 				}
-				double etadijet = (leadrecojet_eta + sublrecojet_eta)/2.0;
-				double etadiff = deltaeta(leadrecojet_eta,sublrecojet_eta);
+				double etadijet = 0.5*(leadrecojet_eta_lab + sublrecojet_eta_lab);
 				double x5D_etaassym_ETEta4[5] = {etadijet,Xj_reco,delta_phi_reco,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
-				if(do_jetquenching) hist_etaDijet_ETEta4_reco->Fill(x5D_etaassym_ETEta4,event_weight*ljet_weight*sljet_weight);
+				double x5D_etaassym_AJ_ETEta4[5] = {etadijet,Aj_reco,delta_phi_reco,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+				if(do_jetquenching && fabs(leadrecojet_eta_lab) < 2.65 && fabs(sublrecojet_eta_lab) < 2.65){
+					hist_etaDijet_ETEta4_reco->Fill(x5D_etaassym_ETEta4,event_weight*ljet_weight*sljet_weight);
+					hist_etaDijet_AJ_ETEta4_reco->Fill(x5D_etaassym_AJ_ETEta4,event_weight*ljet_weight*sljet_weight);
+				}
+				double etadiff = deltaeta(leadrecojet_eta_lab,sublrecojet_eta_lab);
 				double x5D_etadiff_ETEta4[5] = {etadiff,Xj_reco,delta_phi_reco,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
-				if(do_jetquenching) hist_etaDiff_ETEta4_reco->Fill(x5D_etadiff_ETEta4,event_weight*ljet_weight*sljet_weight);
+				double x5D_etadiff_AJ_ETEta4[5] = {etadiff,Aj_reco,delta_phi_reco,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+				if(do_jetquenching && fabs(leadrecojet_eta_lab) < 2.65 && fabs(sublrecojet_eta_lab) < 2.65){
+					hist_etaDiff_ETEta4_reco->Fill(x5D_etadiff_ETEta4,event_weight*ljet_weight*sljet_weight);
+					hist_etaDiff_AJ_ETEta4_reco->Fill(x5D_etadiff_AJ_ETEta4,event_weight*ljet_weight*sljet_weight);
+				}
 
 				/*
 				double x5D_etaassym_ET[5] = {etadijet,Xj_reco,delta_phi_reco,(double)(hfplus+hfminus),(double)multcentbin};
@@ -643,7 +657,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
 				if(delta_phi_reco > leading_subleading_deltaphi_min){
 
-					double x5D_etaAssym[5] = {0,Xj_reco,(double)(hfplus+hfminus),(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+					double x5D_etaAssym[5] = {0,Xj_reco, Aj_reco, (double)(hfplusEta4+hfminusEta4),(double)multcentbin};
 					if(do_jetquenching){ if(etadijet > pPbRapidityBoost){hist_etaAssym_numerator_reco->Fill(x5D_etaAssym,event_weight*ljet_weight*sljet_weight);}else if(etadijet < pPbRapidityBoost){hist_etaAssym_denominator_reco->Fill(x5D_etaAssym,event_weight*ljet_weight*sljet_weight);} }
 
 					if((Xj_reco >= xjmin && Xj_reco <= xjmax) && (Aj_reco >= Ajmin && Aj_reco <= Ajmax)){
@@ -720,9 +734,16 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			//leading/subleading pT cuts
 			if(is_MC && leadrefjet_pt > leading_pT_min && sublrefjet_pt > subleading_pT_min){
 			
+				double leadrefjet_eta_lab = leadrefjet_eta; // before boost for eta dijet
+				double sublrefjet_eta_lab = sublrefjet_eta;	// before boost	for eta dijet
 				leadrefjet_eta = leadrefjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 				sublrefjet_eta = sublrefjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-				if(invert_pgoing){leadrefjet_eta = -leadrefjet_eta; sublrefjet_eta = -sublrefjet_eta;}
+				if(invert_pgoing){
+					leadrefjet_eta = -leadrefjet_eta; 
+					sublrefjet_eta = -sublrefjet_eta;
+					leadrefjet_eta_lab = -leadrefjet_eta_lab; 
+					sublrefjet_eta_lab = -sublrefjet_eta_lab;
+				}
 
 				double lrefjet_weight = get_leadjetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadrefjet_pt);  // Jet weight (specially for MC)
 				double slrefjet_weight = get_subleadjetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublrefjet_pt);  // Jet weight (specially for MC)
@@ -749,12 +770,23 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					if(leadbkwrap && sublfwdrap) hist_ref_lead_ref_subl_quench_bkw_fwd->Fill(x4D_ref,event_weight*lrefjet_weight*slrefjet_weight);
 					if(leadbkwrap && sublbkwrap) hist_ref_lead_ref_subl_quench_bkw_bkw->Fill(x4D_ref,event_weight*lrefjet_weight*slrefjet_weight);
 				}
-				double etadijet = (leadrefjet_eta + sublrefjet_eta)/2.0;
-				double etadiff = deltaeta(leadrefjet_eta,sublrefjet_eta);
+
+				double etadijet = 0.5*(leadrefjet_eta_lab + sublrefjet_eta_lab);
 				double x5D_etaassym_ETEta4[5] = {etadijet,Xj_ref,delta_phi_ref,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
-				if(do_jetquenching) hist_etaDijet_ETEta4_ref->Fill(x5D_etaassym_ETEta4,event_weight*lrefjet_weight*slrefjet_weight);
+				double x5D_etaassym_AJ_ETEta4[5] = {etadijet,Aj_ref,delta_phi_ref,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+				if(do_jetquenching && fabs(leadrefjet_eta_lab) < 2.65 && fabs(sublrefjet_eta_lab) < 2.65){
+					hist_etaDijet_ETEta4_ref->Fill(x5D_etaassym_ETEta4,event_weight*lrefjet_weight*slrefjet_weight);
+					hist_etaDijet_AJ_ETEta4_ref->Fill(x5D_etaassym_AJ_ETEta4,event_weight*lrefjet_weight*slrefjet_weight);
+				}
+				
+				double etadiff = deltaeta(leadrefjet_eta_lab,sublrefjet_eta_lab);
 				double x5D_etadiff_ETEta4[5] = {etadiff,Xj_ref,delta_phi_ref,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
-				if(do_jetquenching) hist_etaDiff_ETEta4_ref->Fill(x5D_etadiff_ETEta4,event_weight*lrefjet_weight*slrefjet_weight);
+				double x5D_etadiff_AJ_ETEta4[5] = {etadiff,Aj_ref,delta_phi_ref,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+				if(do_jetquenching && fabs(leadrefjet_eta_lab) < 2.65 && fabs(sublrefjet_eta_lab) < 2.65){
+					hist_etaDiff_ETEta4_ref->Fill(x5D_etadiff_ETEta4,event_weight*lrefjet_weight*slrefjet_weight);
+					hist_etaDiff_AJ_ETEta4_ref->Fill(x5D_etadiff_AJ_ETEta4,event_weight*lrefjet_weight*slrefjet_weight);
+				}
+
 				/*
 				double x5D_etaassym_ET[5] = {etadijet,Xj_ref,delta_phi_ref,(double)(hfplus+hfminus),(double)multcentbin};
 				hist_etaDijet_ET_ref->Fill(x5D_etaassym_ET,event_weight*lrefjet_weight*slrefjet_weight);
@@ -763,7 +795,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				*/
 				// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
 				if(delta_phi_ref > leading_subleading_deltaphi_min){
-					double x5D_etaAssym[5] = {0,Xj_ref,(double)(hfplus+hfminus),(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+					double x5D_etaAssym[5] = {0, Xj_ref, Aj_ref, (double)(hfplusEta4+hfminusEta4), (double)multcentbin};
 					if(do_jetquenching){ if(etadijet > pPbRapidityBoost){hist_etaAssym_numerator_ref->Fill(x5D_etaAssym,event_weight*lrefjet_weight*slrefjet_weight);}else if(etadijet < pPbRapidityBoost){hist_etaAssym_denominator_ref->Fill(x5D_etaAssym,event_weight*lrefjet_weight*slrefjet_weight);} }
 				}
 			}
@@ -984,10 +1016,19 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 				//leading/subleading pT cuts
 				if(leadgenjet_pt > leading_pT_min && sublgenjet_pt > subleading_pT_min){ 
-				
+
+
+					double leadgenjet_eta_lab = leadgenjet_eta; // before boost for eta dijet
+					double sublgenjet_eta_lab = sublgenjet_eta;	// before boost	for eta dijet
 					leadgenjet_eta = leadgenjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 					sublgenjet_eta = sublgenjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-					if(invert_pgoing){leadgenjet_eta = -leadgenjet_eta; sublgenjet_eta = -sublgenjet_eta; }
+					if(invert_pgoing){
+						leadgenjet_eta = -leadgenjet_eta; 
+						sublgenjet_eta = -sublgenjet_eta;
+						leadgenjet_eta_lab = -leadgenjet_eta_lab; 
+						sublgenjet_eta_lab = -sublgenjet_eta_lab;
+					}
+
 
 					// Fill leading/subleading jet quenching quantities
 					double delta_phi_gen = fabs(deltaphi(leadgenjet_phi, sublgenjet_phi));
@@ -1014,23 +1055,27 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					}
 
 
-					double etadijet = (leadgenjet_eta + sublgenjet_eta)/2.0;
-					double etadiff = deltaeta(leadgenjet_eta,sublgenjet_eta);
+					double etadijet = 0.5*(leadgenjet_eta_lab + sublgenjet_eta_lab);
 					double x5D_etaassym_ETEta4[5] = {etadijet,Xj_gen,delta_phi_gen,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
-					if(do_jetquenching) hist_etaDijet_ETEta4_gen->Fill(x5D_etaassym_ETEta4,event_weight*ljet_weight*sljet_weight);
+					double x5D_etaassym_AJ_ETEta4[5] = {etadijet,Aj_gen,delta_phi_gen,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+					if(do_jetquenching && fabs(leadgenjet_eta_lab) < 2.65 && fabs(sublgenjet_eta_lab) < 2.65){
+						hist_etaDijet_ETEta4_gen->Fill(x5D_etaassym_ETEta4,event_weight*ljet_weight*sljet_weight);
+						hist_etaDijet_AJ_ETEta4_gen->Fill(x5D_etaassym_AJ_ETEta4,event_weight*ljet_weight*sljet_weight);
+					}
+	
+					double etadiff = deltaeta(leadgenjet_eta_lab,sublgenjet_eta_lab);
 					double x5D_etadiff_ETEta4[5] = {etadiff,Xj_gen,delta_phi_gen,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
-					if(do_jetquenching) hist_etaDiff_ETEta4_gen->Fill(x5D_etadiff_ETEta4,event_weight*ljet_weight*sljet_weight);
-					/*
-					double x5D_etaassym_ET[5] = {etadijet,Xj_gen,delta_phi_gen,(double)(hfplus+hfminus),(double)multcentbin};
-					hist_etaDijet_ET_gen->Fill(x5D_etaassym_ET,event_weight*ljet_weight*sljet_weight);
-					double x5D_etadiff_ET[5] = {etadiff,Xj_gen,delta_phi_gen,(double)(hfplus+hfminus),(double)multcentbin};
-					hist_etaDiff_ET_gen->Fill(x5D_etadiff_ET,event_weight*ljet_weight*sljet_weight);
-					*/
+					double x5D_etadiff_AJ_ETEta4[5] = {etadiff,Aj_gen,delta_phi_gen,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+					if(do_jetquenching && fabs(leadgenjet_eta_lab) < 2.65 && fabs(sublgenjet_eta_lab) < 2.65){
+						hist_etaDiff_ETEta4_gen->Fill(x5D_etadiff_ETEta4,event_weight*ljet_weight*sljet_weight);
+						hist_etaDiff_AJ_ETEta4_gen->Fill(x5D_etadiff_AJ_ETEta4,event_weight*ljet_weight*sljet_weight);
+					}
+					
 					// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations				
 					if(delta_phi_gen > leading_subleading_deltaphi_min){
 
-						double x5D_etaAssym[5] = {0,Xj_gen,(double)(hfplus+hfminus),(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
-						if(do_jetquenching){ if(etadijet > pPbRapidityBoost){hist_etaAssym_numerator_gen->Fill(x5D_etaAssym);}else if(etadijet < pPbRapidityBoost){hist_etaAssym_denominator_gen->Fill(x5D_etaAssym);} } 
+						double x5D_etaAssym[5] = {0,Xj_gen,Aj_gen,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+						if(do_jetquenching){if(etadijet > pPbRapidityBoost){hist_etaAssym_numerator_gen->Fill(x5D_etaAssym);}else if(etadijet < pPbRapidityBoost){hist_etaAssym_denominator_gen->Fill(x5D_etaAssym);} } 
 			
 						if((Xj_gen >= xjmin && Xj_gen < xjmax) && (Aj_gen >= Ajmin && Aj_gen < Ajmax)){
 
