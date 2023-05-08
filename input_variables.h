@@ -41,12 +41,16 @@ TString jet_trigger = "HLT_PAAK4PFJet80_Eta5p1_v3"; // jet trigger in forest
 float JetR = 0.4;
 float jet_pt_min_cut = 50.0; // jet min pT cut 
 float jet_pt_max_cut = 8160.0; // jet max pT cut 
-float jet_eta_min_cut = -1.1; // jet min eta cut 
-float jet_eta_max_cut = 1.1; // jet max eta cut 
+float jet_eta_min_cut = -1.0; // jet min eta cut 
+float jet_eta_max_cut = 1.0; // jet max eta cut 
 
 
 TString JEC_file = "Autumn16_HI_pPb_pgoing_Unembedded_MC_L2Relative_AK4PF.txt"; //JEC file
 TString JEU_file = "Autumn16_HI_pPb_pgoing_Unembedded_MC_L2Relative_AK4PF.txt"; //JEU file (future)
+if(!is_pgoing){
+	JEC_file = "Autumn16_HI_pPb_Pbgoing_Unembedded_MC_L2Relative_AK4PF.txt"
+	JEU_file = "Autumn16_HI_pPb_Pbgoing_Unembedded_MC_L2Relative_AK4PF.txt"
+}
 
 bool use_WTA = true; // use WTA or E-Scheme axis 
 float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation and jet quenching analysis; use 0 for all;
@@ -63,10 +67,10 @@ TString fwdbkw_jettrk_option = "mid_mid"; // midrapidity + midrapidity
 //TString fwdbkw_jettrk_option = "fwd_bkw"; // forward + midrapidity
 //TString fwdbkw_jettrk_option = "bkw_fwd"; // backward + forward
 //TString fwdbkw_jettrk_option = "bkw_bkw"; // backward + backward
-float jet_fwd_eta_min_cut = 2.0; // jet fwd min eta cut 
-float jet_fwd_eta_max_cut = 3.0; // jet fwd  min eta cut 
-float jet_bkw_eta_min_cut = -3.0; // jet fwd min eta cut 
-float jet_bkw_eta_max_cut = -2.0; // jet fwd  min eta cut 
+float jet_fwd_eta_min_cut = 1.2; // jet fwd min eta cut 
+float jet_fwd_eta_max_cut = 2.2; // jet fwd  min eta cut 
+float jet_bkw_eta_min_cut = -3.1; // jet fwd min eta cut 
+float jet_bkw_eta_max_cut = -2.1; // jet fwd  min eta cut 
 
 // if we want to make Xj or Aj selections [0,1] are full inclusive
 bool do_Xj_or_Ajcut = false;
