@@ -380,11 +380,11 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		int jetsize = (int)nref; // number of jets in an event
 		for (int j = 0; j < jetsize; j++){
 
-	        if(trackMax[j]/rawpt[j] < 0.01)continue; // Cut for jets with only very low pT particles
-	        if(trackMax[j]/rawpt[j] > 0.98)continue; // Cut for jets where all the pT is taken by one track
+	        	if(trackMax[j]/rawpt[j] < 0.01)continue; // Cut for jets with only very low pT particles
+	        	if(trackMax[j]/rawpt[j] > 0.98)continue; // Cut for jets where all the pT is taken by one track
 			if(jteta[j] < -4.0 || jteta[j] > 4.0) continue; // no accept jets with |eta| > 4
 			if(trackMax[j] < trackmaxpt) continue;
-			trackmaxptinjethisto->Fill(trackMax[j],(double) multcentbin);
+			trackmaxptinjethisto->Fill(trackMax[j],mult);
 
 			// Define jet kinematics
 		 	float jet_rawpt = rawpt[j];
