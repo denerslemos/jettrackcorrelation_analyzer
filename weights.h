@@ -13,7 +13,7 @@ vz: event Vz
 weighttree: pt hat weight
 leadjetpt: leading jet pT
 */
-float get_event_weight(bool isMC, bool use_centrality, string system, int year, int energy, float vz, int mult, float weighttree, float leadjetpt){
+float get_event_weight(int nevents, bool isMC, bool use_centrality, string system, int year, int energy, float vz, int mult, float weighttree, float leadjetpt){
 
 	float vzweight = 1.0;
 	float multweight = 1.0;
@@ -54,21 +54,22 @@ float get_event_weight(bool isMC, bool use_centrality, string system, int year, 
 
 	}
 
-        if(isMC && !use_centrality && system == "pPb" && energy == 8160 && year == 2016){
+    if(isMC && !use_centrality && system == "pPb" && energy == 8160 && year == 2016 && !isembedded){
 
-		if(leadjetpt > 15.0 && leadjetpt <= 30.){evtweight = 1.0404701e-06;}
-		else if(leadjetpt > 30. && leadjetpt <= 50.){evtweight = 7.7966624e-08;}
-		else if(leadjetpt > 50. && leadjetpt <= 80.){evtweight = 1.0016052e-08;}
-		else if(leadjetpt > 80. && leadjetpt <= 120.){evtweight = 1.3018269e-09;}
-		else if(leadjetpt > 120. && leadjetpt <= 170.){evtweight = 2.2648493e-10;}
-		else if(leadjetpt > 170. && leadjetpt <= 220.){evtweight = 4.0879112e-11;}
-		else if(leadjetpt > 220. && leadjetpt <= 280.){evtweight = 1.1898939e-11;}
-		else if(leadjetpt > 280. && leadjetpt <= 370.){evtweight = 3.3364433e-12;}
-		else if(leadjetpt > 370. && leadjetpt <= 460.){evtweight = 7.6612402e-13;}
-		else if(leadjetpt > 460. && leadjetpt <= 540.){evtweight = 2.1341026e-13;}
-		else if(leadjetpt > 540.){evtweight = 7.9191586e-14;}
+		if(leadjetpt > 15.0 && leadjetpt <= 30.){evtweight = 1.0404701e-06 * 961104;}
+		else if(leadjetpt > 30. && leadjetpt <= 50.){evtweight = 7.7966624e-08 * 952110;}
+		else if(leadjetpt > 50. && leadjetpt <= 80.){evtweight = 1.0016052e-08 * 952554;}
+		else if(leadjetpt > 80. && leadjetpt <= 120.){evtweight = 1.3018269e-09 * 996844;}
+		else if(leadjetpt > 120. && leadjetpt <= 170.){evtweight = 2.2648493e-10 * 964681;}
+		else if(leadjetpt > 170. && leadjetpt <= 220.){evtweight = 4.0879112e-11 * 999260;}
+		else if(leadjetpt > 220. && leadjetpt <= 280.){evtweight = 1.1898939e-11 * 964336;}
+		else if(leadjetpt > 280. && leadjetpt <= 370.){evtweight = 3.3364433e-12 * 995036;}
+		else if(leadjetpt > 370. && leadjetpt <= 460.){evtweight = 7.6612402e-13 * 958160;}
+		else if(leadjetpt > 460. && leadjetpt <= 540.){evtweight = 2.1341026e-13 * 981427;}
+		else if(leadjetpt > 540.){evtweight = 7.9191586e-14 * 1000000;}
+		evtweight = (float) evtweight / nevents;
 
-        }
+    }
 
 	totalweight = evtweight*multweight*vzweight*multefficiency*jetefficiency;
 	return totalweight;
