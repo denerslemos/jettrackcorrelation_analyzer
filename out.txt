@@ -1,0 +1,92 @@
+
+Processing jettrackcorrelation_analyzer.C("test.txt","out",1,15,8160)...
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
++                                                              +
++                                      ______        ______    +
++   UUU    UUU  IIIIIIII      CCCCCC  |   % /   /\   \ %   |   +
++   UUU    UUU    IIII      CCCC      |  % /   /  \   \ %  |   +
++   UUU    UUU    IIII    CCC         | % /   / %  \   \ % |   +
++   UUU    UUU    IIII    CCC         |% /   / Jets \   \ %|   +
++   UUU    UUU    IIII      CCCC      | /   /   %    \   \ |   +
++    UUUUUUUU   IIIIIIII      CCCCCC  |/   /__________\   \|   +
++                                                              +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                                                              +
++    Welcome to UIC-HENP jet analysis code for Data and MC     +
++            From Dener Lemos: dener.lemos@cern.ch             +
++                                                              +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Starting at : Mon May 15 22:11:33 2023
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+
+From input:
+
+Running over MC
+Colliding system: pPb
+Colliding energy: 8.16 TeV
+Data taking in  2016
+Event filters applied: {pBeamScrapingFilter,pPAprimaryVertexFilter,HBHENoiseFilterResultRun2Loose,phfCoincFilter,pVertexFilterCutdz1p0}
+Vz acceptance: -10 < Vz < 10 cm
+Multiplicity bins: {10,80,100,120,185,210,250,400}
+
+=========== Jets ===========
+
+Jet collection: ak4PFJetAnalyzer
+No jet trigger applied!
+Using WTA jet axis
+Jet eta range: [-1,1]
+Jet pT min: 60 GeV
+Jet pT max: 8160 GeV
+JEC file: Autumn16_HI_pPb_pgoing_Unembedded_MC_L2Relative_AK4PF.txt
+JEU file: Autumn16_HI_pPb_pgoing_Unembedded_MC_L2Relative_AK4PF.txt
+pThat min: 15 GeV
+pThat max: 8160 GeV
+minimum pT of leading track in jet 0GeV
+
+=========== Tracks/Particles ===========
+
+Track eta range: [-2.4,2.4]
+Reco track pT resolution < 10%
+Reco track XY DCA significance < 3
+Reco track Z DCA significance < 3
+Track pt bins for correlations: {0.4,0.7,1,2,3,4,8,12,300} GeV
+
+Track/particle efficiency file: Hijing_8TeV_dataBS.root
+
+=========== Reference Samples ===========
+
+No reference sample used!
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++          This code will return the histograms for            +
++ --> Jets and tracks QA quantities                            +
++ --> Jet quenching observables                                +
++                       For Jet Shapes                        +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+List of input files founded! --> test.txt
+Error in <TFile::TFile>: file /Users/ddesouza/Box/workstation/Analysis/maincode/jettrackcorrelation_analyzer/out.root does not exist
+Total number of events in those files: 0
+
+-------------------------------------------------
+
+Writing histograms on 
+output file: out_pPb_MC_8160GeV_Quench_ak4PFJetAnalyzer_HLT_PAAK4PFJet80_Eta5p1_v3_Jptmin_60p0_Jptmax_8160p0_Jetamin_N1p0_Jetamax_1p0_WTA_norefsample_CH_jetshape_20230515.root
+
+------------------------------------- DONE --------------------------------------
+
+========================================
+Total running time: 0.273061 [s]
+========================================
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Stopping at : Mon May 15 22:11:34 2023
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+

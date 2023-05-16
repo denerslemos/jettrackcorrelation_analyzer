@@ -16,7 +16,7 @@ bool use_centrality = false; // only true for: "XeXe" and "PbPb" (but also can b
 float vz_cut_min = -10.0; //vz acceptance
 float vz_cut_max = 10.0; //vz acceptance
 
-const std::vector<double> multiplicity_centrality_bins{10.0, 50.0, 80.0, 100.0, 120.0, 150.0, 185.0, 210.0, 250.0, 400.0}; //multiplicity range
+const std::vector<double> multiplicity_centrality_bins{10.0, 80.0, 100.0, 120.0, 185.0, 210.0, 250.0, 400.0}; //multiplicity range
 //event filters
 std::vector<int> event_filter_bool; // event filter booleans
 //std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose"}; // event filters to be applied (pp ref - 2017)
@@ -43,19 +43,15 @@ float jet_pt_min_cut = 60.0; // jet min pT cut
 float jet_pt_max_cut = 8160.0; // jet max pT cut 
 float jet_eta_min_cut = -1.0; // jet min eta cut 
 float jet_eta_max_cut = 1.0; // jet max eta cut 
-
-
 TString JEC_file = "Autumn16_HI_pPb_pgoing_Unembedded_MC_L2Relative_AK4PF.txt"; //JEC file
 TString JEU_file = "Autumn16_HI_pPb_pgoing_Unembedded_MC_L2Relative_AK4PF.txt"; //JEU file (future)
-if(!is_pgoing){
-	JEC_file = "Autumn16_HI_pPb_Pbgoing_Unembedded_MC_L2Relative_AK4PF.txt"
-	JEU_file = "Autumn16_HI_pPb_Pbgoing_Unembedded_MC_L2Relative_AK4PF.txt"
-}
-
 bool use_WTA = true; // use WTA or E-Scheme axis 
 float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation and jet quenching analysis; use 0 for all;
 float leading_pT_min = 100.0; //used for jet leading and subleading correlation and jet quenching analysis
 float subleading_pT_min = 50.0; //used for jet leading and subleading correlation and jet quenching analysis
+const std::vector<double> pt_ave_bins{75.0, 95.0, 115.0, 150., 250.,1000000.0}; //multiplicity range
+float dijetetamax = 2.65;
+float trackmaxpt = 0.0;
 
 //pseudorapidity regions for jet-track leading and subleading correlations
 TString fwdbkw_jettrk_option = "mid_mid"; // midrapidity + midrapidity
@@ -165,8 +161,9 @@ void print_input(TString data_or_mc, TFile *fileeff, TString coll_system, float 
 		cout << "Sub-Leading jet pT min: " << subleading_pT_min  << " GeV"<< endl;
 		cout << "Delta phi (leading,subleading) jets > " << leading_subleading_deltaphi_min << endl;
 	}
-	cout << "pThat min: " << pthatmin  << " GeV"<< endl;
-	cout << "pThat max: " << pthatmax  << " GeV"<< endl;
+	cout << "pThat min: " << pthatmin  << " GeV" << endl;
+	cout << "pThat max: " << pthatmax  << " GeV" << endl;
+	cout << "minimum pT of leading track in jet " << trackmaxpt << "GeV" << endl;
 	cout << endl;
 	cout << "=========== Tracks/Particles ===========" << endl;
 	cout << endl;
