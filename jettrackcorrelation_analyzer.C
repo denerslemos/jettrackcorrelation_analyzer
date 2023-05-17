@@ -232,7 +232,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		} 
 
 		// event weight(s), this must be applied in all histograms
-		double event_weight = get_event_weight(nevents,is_MC, use_centrality, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, vertexz, mult, weight, pthat); // get the event weight
+		float extra_variable_forweight = hfplusEta4+hfminusEta4;
+		double event_weight = get_event_weight(nevents,is_MC, use_centrality, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, vertexz, mult, weight, pthat, extra_variable_forweight); // get the event weight
 
 		// Fill vertex, pthat and multiplicity/centrality histograms
 		multiplicity->Fill(mult);
