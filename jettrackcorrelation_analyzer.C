@@ -218,6 +218,18 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if(mult < multiplicity_centrality_bins[0] || mult > multiplicity_centrality_bins[multiplicity_centrality_bins.size()-1])continue; //centrality of multiplicity range	
 		int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float) mult);
 		Nevents->Fill(5);
+		
+		float hfplus_temp = hfplus;
+		float hfminus_temp = hfminus;
+		float hfplusE4_temp = hfplusEta4;
+		float hfminusE4_temp = hfminusEta4;
+		float zdcplus_temp = zdcplus;
+		float zdcminus_temp = zdcminus;
+		if(invert_pgoing) { // invert the HF/ZDC sides
+			hfplus = hfminus_temp; hfminus = hfplus_temp;
+			hfplusEta4 = hfminusE4_temp; hfminusEta4 = hfplusE4_temp;
+			zdcplus = zdcminus_temp; zdcminus = zdcplus_temp;
+		} 
 
 		// event weight(s), this must be applied in all histograms
 		double event_weight = get_event_weight(nevents,is_MC, use_centrality, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, vertexz, mult, weight, pthat); // get the event weight
