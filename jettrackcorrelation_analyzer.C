@@ -206,7 +206,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		Nevents->Fill(3);
 		//pthat (MC only)
 		if(do_pthatcut){if(pthat <= pthatmin || pthat > pthatmax) continue;}
-		if(is_MC){if(gen_jtpt[0] > 2.*pthat || rawpt[0] > 2.*pthat) continue;} 
+		if(is_MC){if(gen_jtpt[0] > 3.*pthat || rawpt[0] > 3.*pthat) continue;} 
 		Nevents->Fill(4);
 		//multiplicity or centrality
 		int trksize = (int)ntrk;
