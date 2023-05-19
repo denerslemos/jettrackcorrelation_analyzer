@@ -202,7 +202,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 		//apply event selections
 		//Vz
-		if(vertexz <= vz_cut_min || vertexz >= vz_cut_max) continue;
+		if(colliding_system == "pPb" && is_pgoing && invert_pgoing) { vertexz = -vertexz; }
+		if(vertexz < vz_cut_min || vertexz > vz_cut_max) continue;
 		Nevents->Fill(3);
 		//pthat (MC only)
 		if(do_pthatcut){if(pthat <= pthatmin || pthat > pthatmax) continue;}
@@ -225,7 +226,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		float hfminusE4_temp = hfminusEta4;
 		float zdcplus_temp = zdcplus;
 		float zdcminus_temp = zdcminus;
-		if(invert_pgoing) { // invert the HF/ZDC sides
+		if(colliding_system == "pPb" && is_pgoing && invert_pgoing) { // invert the HF/ZDC sides
 			hfplus = hfminus_temp; hfminus = hfplus_temp;
 			hfplusEta4 = hfminusE4_temp; hfminusEta4 = hfplusE4_temp;
 			zdcplus = zdcminus_temp; zdcminus = zdcplus_temp;
@@ -325,7 +326,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		 	trk_weight = trk_weight*getTrkCorrWeight(fileeff, use_centrality, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, mult, trk_pt, trk_eta);
 
 			trk_eta = trk_eta + boost; // In pPb case, for the center-of-mass correction if needed
-			if(invert_pgoing)trk_eta = -trk_eta;
+			if(colliding_system == "pPb" && is_pgoing && invert_pgoing)trk_eta = -trk_eta;
 
 			// Track QA histogram filling
 			double x4D_reco_trk[4]={trk_pt,trk_eta,trk_phi,(double) multcentbin}; 
@@ -418,7 +419,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		 	find_leading_subleading(jet_pt_corr,jet_eta,jet_phi,leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,sublrecojet_pt,sublrecojet_eta,sublrecojet_phi); // Find leading and subleading jets
 
 			jet_eta = jet_eta + boost; // In pPb case, for the center-of-mass correction if needed
-			if(invert_pgoing)jet_eta = -jet_eta;
+			if(colliding_system == "pPb" && is_pgoing && invert_pgoing)jet_eta = -jet_eta;
 
 		 	// Fill reco jet QA histograms
 		 	double x4D_reco_jet[4]={jet_rawpt,jet_eta,jet_phi,(double) multcentbin}; 
@@ -490,7 +491,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		 		find_leading_subleading(ref_pt,ref_eta,ref_phi,leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,sublrefjet_pt,sublrefjet_eta,sublrefjet_phi); // Find leading and subleading ref jets
 
 				ref_eta = ref_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-				if(invert_pgoing)ref_eta = -ref_eta;
+				if(colliding_system == "pPb" && is_pgoing && invert_pgoing)ref_eta = -ref_eta;
 
 		 		if(jet_rawpt <= 0) continue;
 		 		if(jet_pt_corr <= 0) continue;
@@ -620,7 +621,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double sublrecojet_eta_lab = sublrecojet_eta;  // before boost for eta dijet
 				leadrecojet_eta = leadrecojet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 				sublrecojet_eta = sublrecojet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-				if(invert_pgoing){
+				if(colliding_system == "pPb" && is_pgoing && invert_pgoing){
 					leadrecojet_eta = -leadrecojet_eta; 
 					sublrecojet_eta = -sublrecojet_eta;
 					leadrecojet_eta_lab = -leadrecojet_eta_lab; 
@@ -772,7 +773,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double sublrefjet_eta_lab = sublrefjet_eta;	// before boost	for eta dijet
 				leadrefjet_eta = leadrefjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 				sublrefjet_eta = sublrefjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-				if(invert_pgoing){
+				if(colliding_system == "pPb" && is_pgoing && invert_pgoing){
 					leadrefjet_eta = -leadrefjet_eta; 
 					sublrefjet_eta = -sublrefjet_eta;
 					leadrefjet_eta_lab = -leadrefjet_eta_lab; 
@@ -894,7 +895,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				if(do_pid){if(fabs(gen_trkpid->at(j)) != particlepid) continue;}
 
 				gtrk_eta = gtrk_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-				if(invert_pgoing){gtrk_eta = -gtrk_eta;}
+				if(colliding_system == "pPb" && is_pgoing && invert_pgoing){gtrk_eta = -gtrk_eta;}
 
 				// Track/particle QA histogram filling
 				double x4D_gen_trk[4]={gtrk_pt,gtrk_eta,gtrk_phi,(double) multcentbin}; 
@@ -961,7 +962,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				find_leading_subleading(gjet_pt,gjet_eta,gjet_phi,leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,sublgenjet_pt,sublgenjet_eta,sublgenjet_phi); // Find leading and subleading jets
 
 				gjet_eta = gjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-				if(invert_pgoing){gjet_eta = -gjet_eta;}
+				if(colliding_system == "pPb" && is_pgoing && invert_pgoing){gjet_eta = -gjet_eta;}
 
 		 		// Fill gen jet QA histograms
 				double x4D_gen_jet[4]={gjet_pt,gjet_eta,gjet_phi,(double) multcentbin}; 
@@ -1065,7 +1066,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					double sublgenjet_eta_lab = sublgenjet_eta;	// before boost	for eta dijet
 					leadgenjet_eta = leadgenjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 					sublgenjet_eta = sublgenjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-					if(invert_pgoing){
+					if(colliding_system == "pPb" && is_pgoing && invert_pgoing){
 						leadgenjet_eta = -leadgenjet_eta; 
 						sublgenjet_eta = -sublgenjet_eta;
 						leadgenjet_eta_lab = -leadgenjet_eta_lab; 
