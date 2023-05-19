@@ -41,6 +41,8 @@ TH1D *gen_mult_weighted = new TH1D("gen_mult_weighted", "gen_mult_weighted", 80,
 // Z vertex
 TH2D *vzhist = new TH2D("vzhist", "vzhist", 60, -15.5, 15.5, 80, 0.0, 400.0);
 TH2D *vzhist_weighted = new TH2D("vzhist_weighted", "vzhist_weighted", 60, -15.5, 15.5, 80, 0.0, 400.0);
+TH2D *vzhist_jet_weighted = new TH2D("vzhist_jet_weighted", "vzhist_jet_weighted", 60, -15.5, 15.5, 80, 0.0, 400.0);
+TH2D *vzhist_dijet_weighted = new TH2D("vzhist_dijet_weighted", "vzhist_dijet_weighted", 60, -15.5, 15.5, 80, 0.0, 400.0);
 
 // pthat
 TH2D *pthathist = new TH2D("pthathist", "pthathist", 100, 0, 1000, 80, 0.0, 400.0);
@@ -573,8 +575,10 @@ void sw2(){
 	reco_mult_weighted->Sumw2();
    	multiplicity->Sumw2();
    	multiplicity_weighted->Sumw2();
-    vzhist->Sumw2();
+    	vzhist->Sumw2();
    	vzhist_weighted->Sumw2();
+	vzhist_jet_weighted->Sumw2();
+	vzhist_dijet_weighted->Sumw2();
    	pthathist->Sumw2();
    	pthathist_weighted->Sumw2();
    	hfhist->Sumw2();
@@ -620,18 +624,18 @@ void sw2(){
 	hist_gen_trk->Sumw2();
 	hist_gen_trk_weighted->Sumw2();
 	hist_reco_jet_weighted_nocut->Sumw2();
-    hist_reco_jet->Sumw2();
-    hist_reco_jet_corr->Sumw2();
-    hist_reco_jet_weighted->Sumw2();
-    hist_reco_jet_corr_weighted->Sumw2();
-    hist_reco_leadjet_pt_nocut->Sumw2();
-    hist_reco_leadjet_pt_nocut_weighted->Sumw2();
-    hist_reco_subljet_pt_nocut->Sumw2();
-    hist_reco_subljet_pt_nocut_weighted->Sumw2();
-    hist_reco_leadjet->Sumw2();
-    hist_reco_leadjet_weighted->Sumw2();
-    hist_reco_subljet->Sumw2();
-    hist_reco_subljet_weighted->Sumw2();
+    	hist_reco_jet->Sumw2();
+    	hist_reco_jet_corr->Sumw2();
+    	hist_reco_jet_weighted->Sumw2();
+    	hist_reco_jet_corr_weighted->Sumw2();
+    	hist_reco_leadjet_pt_nocut->Sumw2();
+    	hist_reco_leadjet_pt_nocut_weighted->Sumw2();
+    	hist_reco_subljet_pt_nocut->Sumw2();
+    	hist_reco_subljet_pt_nocut_weighted->Sumw2();
+    	hist_reco_leadjet->Sumw2();
+    	hist_reco_leadjet_weighted->Sumw2();
+    	hist_reco_subljet->Sumw2();
+    	hist_reco_subljet_weighted->Sumw2();
 	hist_gen_jet_weighted_nocut->Sumw2();
 	hist_gen_jet->Sumw2();
 	hist_gen_jet_weighted->Sumw2();
@@ -655,13 +659,13 @@ void sw2(){
 	hist_inSubljet_reco_track_gen->Sumw2();
 	hist_inSubljet_gen_track_reco->Sumw2();
 	hist_inSubljet_gen_track_gen->Sumw2();
-    hist_correlation_signal_jet_reco_track_reco->Sumw2();
-    hist_correlation_rotation_jet_reco_track_reco->Sumw2();
-    hist_correlation_mixing_jet_reco_track_reco->Sumw2();
-    hist_correlation_signal_lead_jet_reco_track_reco->Sumw2();
-    hist_correlation_rotation_lead_jet_reco_track_reco->Sumw2();
-    hist_correlation_mixing_lead_jet_reco_track_reco->Sumw2();
-    hist_correlation_signal_subl_jet_reco_track_reco->Sumw2(); 
+    	hist_correlation_signal_jet_reco_track_reco->Sumw2();
+    	hist_correlation_rotation_jet_reco_track_reco->Sumw2();
+    	hist_correlation_mixing_jet_reco_track_reco->Sumw2();
+    	hist_correlation_signal_lead_jet_reco_track_reco->Sumw2();
+    	hist_correlation_rotation_lead_jet_reco_track_reco->Sumw2();
+    	hist_correlation_mixing_lead_jet_reco_track_reco->Sumw2();
+    	hist_correlation_signal_subl_jet_reco_track_reco->Sumw2(); 
     hist_correlation_rotation_subl_jet_reco_track_reco->Sumw2();
     hist_correlation_mixing_subl_jet_reco_track_reco->Sumw2();
     hist_correlation_signal_jet_reco_track_gen->Sumw2();
@@ -936,10 +940,12 @@ void w_QA_hist(bool isMC, bool doleadsubl){
 	}
 	reco_mult->Write();
 	reco_mult_weighted->Write();
-    multiplicity->Write();
+    	multiplicity->Write();
    	multiplicity_weighted->Write();
-    vzhist->Write();
-   	vzhist_weighted->Write();
+    	vzhist->Write();
+    	vzhist_weighted->Write();
+	vzhist_jet_weighted->Write();
+	vzhist_dijet_weighted->Write();
     if(isMC){
         pthathist->Write();
         pthathist_weighted->Write();
