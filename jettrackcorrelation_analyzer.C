@@ -575,6 +575,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			multiplicity_withonejet_weighted->Fill(mult,event_weight);
 			reco_mult_withonejet->Fill(recomult);
 			reco_mult_withonejet_weighted->Fill(recomult, event_weight);
+			vzhist_jet_weighted->Fill(vertexz, (double) mult, event_weight);
 			if(colliding_system=="pPb" && year_of_datataking==2016){
 				double x3D_hiHF_onejet[3]={hfplus,hfminus,(double) mult}; /*hfhist_onejet->Fill(x3D_hiHF_onejet);*/ hfhist_onejet_weighted->Fill(x3D_hiHF_onejet,event_weight);
 				double x3D_hiHFEta4_onejet[3]={hfplusEta4,hfminusEta4,(double) mult}; /*hfhistEta4_onejet->Fill(x3D_hiHFEta4_onejet);*/ hfhistEta4_onejet_weighted->Fill(x3D_hiHFEta4_onejet,event_weight);
@@ -848,6 +849,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			multiplicity_withdijets_weighted->Fill(mult,event_weight);
 			reco_mult_withdijets->Fill(recomult);
 			reco_mult_withdijets_weighted->Fill(recomult, event_weight);
+			vzhist_dijet_weighted->Fill(vertexz, (double) mult, event_weight);
 			if(colliding_system=="pPb" && year_of_datataking==2016){
 				double x3D_hiHF_dijet[3]={hfplus,hfminus,(double) mult}; /*hfhist_dijet->Fill(x3D_hiHF_dijet);*/ hfhist_dijet_weighted->Fill(x3D_hiHF_dijet,event_weight);
 				double x3D_hiHFEta4_dijet[3]={hfplusEta4,hfminusEta4,(double) mult};/*hfhistEta4_dijet->Fill(x3D_hiHFEta4_dijet);*/ hfhistEta4_dijet_weighted->Fill(x3D_hiHFEta4_dijet,event_weight);
