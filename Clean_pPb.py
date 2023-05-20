@@ -3,6 +3,7 @@
 import os.path
 
 os.system('rm -r cond/*')
+os.system('rm -r out*.sub')
 os.system('rm files_input/pPb_8160/DATA_PAEGJet/pgoing/*part*.txt')
 os.system('rm files_input/pPb_8160/DATA_PAEGJet/Pbgoing/*part*.txt')
 os.system('rm files_input/pPb_8160/DATA_MB/pgoing/*part*.txt')

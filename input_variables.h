@@ -3,6 +3,7 @@
 
 // Input quatities used the codes
 
+bool do_quicktest = false;
 TString colliding_system = "pPb"; // use one of this options = "pp", "pPb", "XeXe" and "PbPb" (OO and pO in the future)
 int sNN_energy_GeV = 8160; //center of mass colliding energy (GeV)
 int year_of_datataking = 2016;

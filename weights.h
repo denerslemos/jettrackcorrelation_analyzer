@@ -54,7 +54,7 @@ float get_event_weight(int nevents, bool isMC, bool use_centrality, string syste
 
 	}
 
-    if(isMC && !use_centrality && system == "pPb" && energy == 8160 && year == 2016){
+    if(isMC && !use_centrality && system == "pPb" && energy == 8160 && year == 2016){ // pPb data
 
 		if(leadjetpt > 15.0 && leadjetpt <= 30.){evtweight = 1.0404701e-06 * 961104;}
 		else if(leadjetpt > 30. && leadjetpt <= 50.){evtweight = 7.7966624e-08 * 952110;}
@@ -70,7 +70,7 @@ float get_event_weight(int nevents, bool isMC, bool use_centrality, string syste
 		evtweight = (float) evtweight / nevents;
 
     }
-
+/*
     if(!isMC && !use_centrality && system == "pPb" && energy == 8160 && year == 2016){
     	if(mult <= 100.0){
 			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol1", 70.0, 140.0);
@@ -90,7 +90,7 @@ float get_event_weight(int nevents, bool isMC, bool use_centrality, string syste
 			multweight = EtWeightFunction->Eval(extraquantity);					
 		}
     }
-
+*/
 	totalweight = evtweight*multweight*vzweight*multefficiency*jetefficiency;
 	return totalweight;
 

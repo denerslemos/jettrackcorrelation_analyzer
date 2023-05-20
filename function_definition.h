@@ -29,6 +29,9 @@ mva: track MVA algorith value [-1,1]
 int get_Ntrkoff(TString col_sys, int col_energy, int yearofdatataking, int size, float *eta, float *pt, int *charge, bool *hp, float *pterr, float *dcaxy, float *dcaxyerr,  float *dcaz, float *dcazerr, float* chi2, unsigned char* ndof, unsigned char* nlayer, unsigned char* nhits, int* algo, float* mva){
 	int Ntrk_off = 0;
 	for(int ii=0; ii<size; ii++){ 
+		int NDF = (int) ndof[ii];
+		int NLayer = (int) ndof[ii];
+		int NHits = (int) nhits[ii];	
 		if(fabs(eta[ii]) > 2.4) continue; 
 		if(fabs(charge[ii]) == 0)continue;
 		if(hp[ii] == false) continue;
@@ -36,26 +39,33 @@ int get_Ntrkoff(TString col_sys, int col_energy, int yearofdatataking, int size,
 		if(fabs(dcaxy[ii]/dcaxyerr[ii]) >= 3.0) continue;
 		if(fabs(dcaz[ii]/dcazerr[ii]) >= 3.0) continue;
 		double calomatching = ((pfEcal[ii]+pfHcal[ii])/cosh(eta[ii]))/pt[ii];
+		
 		if(col_sys=="pPb" && col_energy==8160 && yearofdatataking==2016){if(pt[ii] <= 0.4) continue;}
-		if(col_sys=="pp" && col_energy==5020 && yearofdatataking==2017){if(pt[ii] <= 0.5) continue;}
-		if(col_sys=="pp" && col_energy==13000 && yearofdatataking==2017){if(pt[ii] <= 0.5) continue;}
+		
+		if(col_sys=="pp" && yearofdatataking==2017){if(pt[ii] <= 0.5) continue;}
+		
 		if(col_sys=="XeXe" && col_energy==5440 && yearofdatataking==2017){
 			if(pt[ii] <= 0.5) continue; 
-			if((chi2[ii]/ndof[ii])/nlayer[ii] >= 0.15) continue;
-		 	if(nhits[ii] < 11) continue;
+			if((chi2[ii]/NDF)/NLayer >= 0.15) continue;
+		 	if(NHits < 11) continue;
 		 	if(pt[ii] > 20.0){if(calomatching<=0.5)continue;} //is this applicable in pp or pPb?
 		}
+		
 		if(col_sys=="PbPb" && col_energy==5020 && yearofdatataking==2018){
 			if(pt[ii] <= 0.5) continue; 
-			if((chi2[ii]/ndof[ii])/nlayer[ii] >= 0.18) continue;
-		 	if(nhits[ii] < 11) continue;
+			if((chi2[ii]/NDF)/NLayer >= 0.18) continue;
+		 	if(NHits < 11) continue;
 		 	if(pt[ii] > 20.0){if(calomatching<=0.5)continue;} //is this applicable in pp or pPb?
 			if(algo[ii]==6 && mva[ii]<0.98) continue;
 		}
+		
 		Ntrk_off=Ntrk_off+1;
+	
 	}
+	
 	return Ntrk_off;
 }
+
 /*
 Find number of tracks for reco -> updated for all systems (and easy to update for future systems)
 --> Arguments
@@ -191,18 +201,27 @@ leadphi: leading jet Phi
 sublpt: subleading jet pT
 subleta: subleading jet Eta
 sublphi: subleading jet Phi
+thrdpt: third jet pT
+thrdeta: third jet Eta
+thrdphi: third jet Phi
 */
-void find_leading_subleading(float pt, float eta, float phi, float &leadpt, float &leadeta, float &leadphi, float &sublpt, float &subleta, float &sublphi){
+void find_leading_subleading_third(float pt, float eta, float phi, float &leadpt, float &leadeta, float &leadphi, float &sublpt, float &subleta, float &sublphi, float &thrdpt, float &thrdeta, float &thrdphi){
 	if( pt > leadpt ) {
+		thrdpt = sublpt;
     	sublpt = leadpt;
         leadpt = pt;
         leadeta = eta;
         leadphi = phi;
-    } else if( sublpt < pt) {
+    } else if( pt > sublpt ) {
+	    thrdpt = sublpt;
     	sublpt = pt;
         subleta = eta;
         sublphi = phi;
-    }
+    } else if( pt > thrdpt ) {
+    	thrdpt = pt;
+        thrdeta = eta;
+        thrdphi = phi;
+    } 
 }
 
 /*
@@ -234,6 +253,8 @@ N_rot: number of rotation (only use if do_rotation is true)
 histo_rot: histogram using rotation method (only use if do_rotation is true)
 sube_trk: vector with sube track (MC embedded samples) sube == 0 means PYTHIA embedded tracks while sube > 0 means the other MC (HYDJET, EPOS, ...)
 histo_corr_subeg0: if sube > 0 save in this histogram
+JetR: jet radii defined in input_variables.h
+histo_injet: in jet multiplicity
 flow: true for flow measurement false for jet shapes
 */
 void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::vector<TVector3> tracks, std::vector<double> tracks_w, THnSparse* histo_corr, THnSparse* histjet, THnSparse* histtrk, float event_weight, int mult, bool do_rotation, int N_rot, THnSparse* histo_rot, std::vector<int> sube_trk, THnSparse* histo_corr_subeg0, float JetR, THnSparse* histo_injet, bool flow){
@@ -342,11 +363,12 @@ Measure the 2 particle correlation
 --> Arguments
 tracks: vector with track informations
 tracks_w: vector with track weight informations
-histo_corr: multidimentional histogram for correlations {Delta Phi, Delta Eta, track pT bin, multiplicity or centrality}
+histo_2pcorr: multidimentional histogram for correlations {Delta Phi, Delta Eta, track pT bin, multiplicity or centrality}
 event_weight: event weight vector for each event
 mult: multiplicity or centrality vector for each event
 sube_trk: vector with sube track (MC embedded samples) sube == 0 means PYTHIA embedded tracks while sube > 0 means the other MC (HYDJET, EPOS, ...)
-histo_corr_subeg0: if sube > 0 save in this histogram
+histo_2pcorr_subeg0: if sube > 0 save in this histogram
+histo_2pcorr_subeg0_cross: cross correlation sub == 0 and sub != 0
 */
 void twoparticlecorrelation(std::vector<TVector3> tracks, std::vector<double> tracks_w, THnSparse* histo_2pcorr, float event_weight, int mult, std::vector<int> sube_trk, THnSparse* histo_2pcorr_subeg0, THnSparse* histo_2pcorr_subeg0_cross){
 	// get correlation histograms
