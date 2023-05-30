@@ -113,7 +113,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if(is_MC){gen_tree->Add(*listIterator);}
 		if(colliding_system=="pPb" && year_of_datataking==2016){ep_tree->Add(*listIterator);}
 	}
-
+        file_name_vector.clear();
+	
 	// Connect all chains
 	hlt_tree->AddFriend(trk_tree);
 	hlt_tree->AddFriend(hea_tree);
