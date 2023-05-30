@@ -101,9 +101,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	
 	// add all the trees to the chain
 	for (std::vector<TString>::iterator listIterator = file_name_vector.begin(); listIterator != file_name_vector.end(); listIterator++){
-                TFile *testfile = TFile::Open(*listIterator);
-                if(!testfile || testfile->IsZombie() || testfile->TestBit(TFile::kRecovered)) cout << "File: " << *listIterator << " failed to open" << endl;
-                if(!testfile || testfile->IsZombie() || testfile->TestBit(TFile::kRecovered)) continue;
+		TFile *testfile = TFile::Open(*listIterator);
+		if(!testfile || testfile->IsZombie() || testfile->TestBit(TFile::kRecovered)) cout << "File: " << *listIterator << " failed to open" << endl;
+		if(!testfile || testfile->IsZombie() || testfile->TestBit(TFile::kRecovered)) continue;
 		cout << "Adding file " << *listIterator << " to the chains" << endl;
 		hlt_tree->Add(*listIterator);
 		trk_tree->Add(*listIterator);
@@ -113,7 +113,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if(is_MC){gen_tree->Add(*listIterator);}
 		if(colliding_system=="pPb" && year_of_datataking==2016){ep_tree->Add(*listIterator);}
 	}
-        file_name_vector.clear();
+    file_name_vector.clear();
 	
 	// Connect all chains
 	hlt_tree->AddFriend(trk_tree);
@@ -228,8 +228,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		} 
 
 		// event weight(s), this must be applied in all histograms
-		float extra_variable_forweight = hfplusEta4+hfminusEta4;
-		double event_weight = get_event_weight(nevents,is_MC, use_centrality, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, vertexz, mult, weight, pthat, extra_variable_forweight); // get the event weight
+		float extra_variable = hfminusEta4;
+		double event_weight = get_event_weight(nevents,is_MC, use_centrality, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, vertexz, mult, weight, pthat, extra_variable); // get the event weight
 
 		// Fill vertex, pthat and multiplicity/centrality histograms
 		multiplicity->Fill(mult);
@@ -425,7 +425,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			double x4D_reco_jet_corr[4]={jet_pt_corr,jet_eta,jet_phi,(double) multcentbin}; 
 			hist_reco_jet_corr->Fill(x4D_reco_jet_corr);
 			hist_reco_jet_corr_weighted->Fill(x4D_reco_jet_corr,event_weight*jet_weight);
-			double x4D_reco_jet_corrET[4]={jet_pt_corr,jet_eta,jet_phi,(double)(hfplusEta4+hfminusEta4)}; 
+			double x4D_reco_jet_corrET[4]={jet_pt_corr,jet_eta,jet_phi,(double)(extra_variable)}; 
 			hist_reco_jetET->Fill(x4D_reco_jet_corrET,event_weight*jet_weight);
 
 
@@ -495,7 +495,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double x4D_match_jet[4]={ref_pt,ref_eta,ref_phi,(double) multcentbin}; 
 				hist_matched_jet->Fill(x4D_match_jet);
 				hist_matched_jet_weighted->Fill(x4D_match_jet,event_weight*refjet_weight);
-				double x4D_match_jetET[4]={ref_pt,ref_eta,ref_phi,(double)(hfplusEta4+hfminusEta4)}; 
+				double x4D_match_jetET[4]={ref_pt,ref_eta,ref_phi,(double)(extra_variable)}; 
 				hist_ref_jetET->Fill(x4D_match_jetET,event_weight*refjet_weight);
 
 				if(ref_eta <= jet_eta_min_cut || ref_eta >= jet_eta_max_cut)continue;
@@ -619,19 +619,19 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				
 				float ptdijet = 0.5*(leadrecojet_pt + sublrecojet_pt);
 				int ptdijetbin = (int) find_my_bin(pt_ave_bins, (float) ptdijet);
-				double x4D_ptave_reco[4] = {ptdijet,delta_phi_reco,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+				double x4D_ptave_reco[4] = {ptdijet,delta_phi_reco,(double)(extra_variable),(double)multcentbin};
 
 				double etadijet = 0.5*(leadrecojet_eta_lab + sublrecojet_eta_lab);
-				double x6D_etaassym_ETEta4[6] = {etadijet,Xj_reco,delta_phi_reco,(double)(hfplusEta4+hfminusEta4),(double)multcentbin,(double)ptdijetbin};
-				double x6D_etaassym_AJ_ETEta4[6] = {etadijet,Aj_reco,delta_phi_reco,(double)(hfplusEta4+hfminusEta4),(double)multcentbin,(double)ptdijetbin};
+				double x6D_etaassym_ETEta4[6] = {etadijet,Xj_reco,delta_phi_reco,(double)(extra_variable),(double)multcentbin,(double)ptdijetbin};
+				double x6D_etaassym_AJ_ETEta4[6] = {etadijet,Aj_reco,delta_phi_reco,(double)(extra_variable),(double)multcentbin,(double)ptdijetbin};
 				if(do_jetquenching && fabs(leadrecojet_eta_lab) < dijetetamax && fabs(sublrecojet_eta_lab) < dijetetamax){
 					hist_etaDijet_ETEta4_reco->Fill(x6D_etaassym_ETEta4,event_weight*ljet_weight*sljet_weight);
 					hist_etaDijet_AJ_ETEta4_reco->Fill(x6D_etaassym_AJ_ETEta4,event_weight*ljet_weight*sljet_weight);
 					hist_reco_jetavept->Fill(x4D_ptave_reco,event_weight*ljet_weight*sljet_weight);
 				}
 				double etadiff = deltaeta(leadrecojet_eta_lab,sublrecojet_eta_lab);
-				double x6D_etadiff_ETEta4[6] = {etadiff,Xj_reco,delta_phi_reco,(double)(hfplusEta4+hfminusEta4),(double)multcentbin,(double)ptdijetbin};
-				double x6D_etadiff_AJ_ETEta4[6] = {etadiff,Aj_reco,delta_phi_reco,(double)(hfplusEta4+hfminusEta4),(double)multcentbin,(double)ptdijetbin};
+				double x6D_etadiff_ETEta4[6] = {etadiff,Xj_reco,delta_phi_reco,(double)(extra_variable),(double)multcentbin,(double)ptdijetbin};
+				double x6D_etadiff_AJ_ETEta4[6] = {etadiff,Aj_reco,delta_phi_reco,(double)(extra_variable),(double)multcentbin,(double)ptdijetbin};
 				if(do_jetquenching && fabs(leadrecojet_eta_lab) < dijetetamax && fabs(sublrecojet_eta_lab) < dijetetamax){
 					hist_etaDiff_ETEta4_reco->Fill(x6D_etadiff_ETEta4,event_weight*ljet_weight*sljet_weight);
 					hist_etaDiff_AJ_ETEta4_reco->Fill(x6D_etadiff_AJ_ETEta4,event_weight*ljet_weight*sljet_weight);
@@ -650,13 +650,13 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double x4D_lead[4]={leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,(double) multcentbin}; 
 						hist_reco_leadjet->Fill(x4D_lead);
 						hist_reco_leadjet_weighted->Fill(x4D_lead,event_weight*ljet_weight);
-						double x4D_leadET[4]={leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,(double)(hfplusEta4+hfminusEta4)}; 
+						double x4D_leadET[4]={leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,(double)(extra_variable)}; 
 						hist_reco_LjetET->Fill(x4D_leadET,event_weight*ljet_weight);
 						
 						double x4D_sublead[4]={sublrecojet_pt,sublrecojet_eta,sublrecojet_phi,(double) multcentbin}; 
 						hist_reco_subljet->Fill(x4D_sublead);
 						hist_reco_subljet_weighted->Fill(x4D_sublead,event_weight*sljet_weight);
-						double x4D_subleadET[4]={sublrecojet_pt,sublrecojet_eta,sublrecojet_phi,(double)(hfplusEta4+hfminusEta4)}; 
+						double x4D_subleadET[4]={sublrecojet_pt,sublrecojet_eta,sublrecojet_phi,(double)(extra_variable)}; 
 						hist_reco_SLjetET->Fill(x4D_subleadET,event_weight*sljet_weight);
 
 						double x4D_dijetEpEPb[4]={etadijet,(double)hfplusEta4,(double)hfminusEta4,(double)multcentbin}; 
@@ -761,11 +761,11 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 				float ptdijet = 0.5*(leadrefjet_pt + sublrefjet_pt);
 				int ptdijetbin = (int) find_my_bin(pt_ave_bins, (float) ptdijet);
-				double x4D_ptave_ref[4] = {ptdijet,delta_phi_ref,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+				double x4D_ptave_ref[4] = {ptdijet,delta_phi_ref,(double)(extra_variable),(double)multcentbin};
 
 				double etadijet = 0.5*(leadrefjet_eta_lab + sublrefjet_eta_lab);
-				double x6D_etaassym_ETEta4[6] = {etadijet,Xj_ref,delta_phi_ref,(double)(hfplusEta4+hfminusEta4),(double)multcentbin,(double)ptdijetbin};
-				double x6D_etaassym_AJ_ETEta4[6] = {etadijet,Aj_ref,delta_phi_ref,(double)(hfplusEta4+hfminusEta4),(double)multcentbin,(double)ptdijetbin};
+				double x6D_etaassym_ETEta4[6] = {etadijet,Xj_ref,delta_phi_ref,(double)(extra_variable),(double)multcentbin,(double)ptdijetbin};
+				double x6D_etaassym_AJ_ETEta4[6] = {etadijet,Aj_ref,delta_phi_ref,(double)(extra_variable),(double)multcentbin,(double)ptdijetbin};
 				if(do_jetquenching && fabs(leadrefjet_eta_lab) < dijetetamax && fabs(sublrefjet_eta_lab) < dijetetamax){
 					hist_etaDijet_ETEta4_ref->Fill(x6D_etaassym_ETEta4,event_weight*lrefjet_weight*slrefjet_weight);
 					hist_etaDijet_AJ_ETEta4_ref->Fill(x6D_etaassym_AJ_ETEta4,event_weight*lrefjet_weight*slrefjet_weight);
@@ -773,8 +773,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				}
 				
 				double etadiff = deltaeta(leadrefjet_eta_lab,sublrefjet_eta_lab);
-				double x6D_etadiff_ETEta4[6] = {etadiff,Xj_ref,delta_phi_ref,(double)(hfplusEta4+hfminusEta4),(double)multcentbin,(double)ptdijetbin};
-				double x6D_etadiff_AJ_ETEta4[6] = {etadiff,Aj_ref,delta_phi_ref,(double)(hfplusEta4+hfminusEta4),(double)multcentbin,(double)ptdijetbin};
+				double x6D_etadiff_ETEta4[6] = {etadiff,Xj_ref,delta_phi_ref,(double)(extra_variable),(double)multcentbin,(double)ptdijetbin};
+				double x6D_etadiff_AJ_ETEta4[6] = {etadiff,Aj_ref,delta_phi_ref,(double)(extra_variable),(double)multcentbin,(double)ptdijetbin};
 				if(do_jetquenching && fabs(leadrefjet_eta_lab) < dijetetamax && fabs(sublrefjet_eta_lab) < dijetetamax){
 					hist_etaDiff_ETEta4_ref->Fill(x6D_etadiff_ETEta4,event_weight*lrefjet_weight*slrefjet_weight);
 					hist_etaDiff_AJ_ETEta4_ref->Fill(x6D_etadiff_AJ_ETEta4,event_weight*lrefjet_weight*slrefjet_weight);
@@ -909,7 +909,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double x4D_gen_jet[4]={gjet_pt,gjet_eta,gjet_phi,(double) multcentbin}; 
 				hist_gen_jet->Fill(x4D_gen_jet);
 				hist_gen_jet_weighted->Fill(x4D_gen_jet,event_weight*jet_weight);
-				double x4D_gen_jetET[4]={gjet_pt,gjet_eta,gjet_phi,(double)(hfplusEta4+hfminusEta4)}; 
+				double x4D_gen_jetET[4]={gjet_pt,gjet_eta,gjet_phi,(double)(extra_variable)}; 
 				hist_gen_jetET->Fill(x4D_gen_jetET,event_weight*jet_weight);
 
 				if(gjet_eta < jet_eta_min_cut || gjet_eta > jet_eta_max_cut) continue; // jet eta cut
@@ -1044,11 +1044,11 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 					float ptdijet = 0.5*(leadgenjet_pt + sublgenjet_pt);
 					int ptdijetbin = (int) find_my_bin(pt_ave_bins, (float) ptdijet);
-					double x4D_ptave_gen[4] = {ptdijet,delta_phi_gen,(double)(hfplusEta4+hfminusEta4),(double)multcentbin};
+					double x4D_ptave_gen[4] = {ptdijet,delta_phi_gen,(double)(extra_variable),(double)multcentbin};
 					
 					double etadijet = 0.5*(leadgenjet_eta_lab + sublgenjet_eta_lab);
-					double x6D_etaassym_ETEta4[6] = {etadijet,Xj_gen,delta_phi_gen,(double)(hfplusEta4+hfminusEta4),(double)multcentbin,(double)ptdijetbin};
-					double x6D_etaassym_AJ_ETEta4[6] = {etadijet,Aj_gen,delta_phi_gen,(double)(hfplusEta4+hfminusEta4),(double)multcentbin,(double)ptdijetbin};
+					double x6D_etaassym_ETEta4[6] = {etadijet,Xj_gen,delta_phi_gen,(double)(extra_variable),(double)multcentbin,(double)ptdijetbin};
+					double x6D_etaassym_AJ_ETEta4[6] = {etadijet,Aj_gen,delta_phi_gen,(double)(extra_variable),(double)multcentbin,(double)ptdijetbin};
 					if(do_jetquenching && fabs(leadgenjet_eta_lab) < dijetetamax && fabs(sublgenjet_eta_lab) < dijetetamax){
 						hist_etaDijet_ETEta4_gen->Fill(x6D_etaassym_ETEta4,event_weight*ljet_weight*sljet_weight);
 						hist_etaDijet_AJ_ETEta4_gen->Fill(x6D_etaassym_AJ_ETEta4,event_weight*ljet_weight*sljet_weight);
@@ -1056,8 +1056,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					}
 	
 					double etadiff = deltaeta(leadgenjet_eta_lab,sublgenjet_eta_lab);
-					double x6D_etadiff_ETEta4[6] = {etadiff,Xj_gen,delta_phi_gen,(double)(hfplusEta4+hfminusEta4),(double)multcentbin,(double)ptdijetbin};
-					double x6D_etadiff_AJ_ETEta4[6] = {etadiff,Aj_gen,delta_phi_gen,(double)(hfplusEta4+hfminusEta4),(double)multcentbin,(double)ptdijetbin};
+					double x6D_etadiff_ETEta4[6] = {etadiff,Xj_gen,delta_phi_gen,(double)(extra_variable),(double)multcentbin,(double)ptdijetbin};
+					double x6D_etadiff_AJ_ETEta4[6] = {etadiff,Aj_gen,delta_phi_gen,(double)(extra_variable),(double)multcentbin,(double)ptdijetbin};
 					if(do_jetquenching && fabs(leadgenjet_eta_lab) < dijetetamax && fabs(sublgenjet_eta_lab) < dijetetamax){
 						hist_etaDiff_ETEta4_gen->Fill(x6D_etadiff_ETEta4,event_weight*ljet_weight*sljet_weight);
 						hist_etaDiff_AJ_ETEta4_gen->Fill(x6D_etadiff_AJ_ETEta4,event_weight*ljet_weight*sljet_weight);
@@ -1072,12 +1072,12 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double x4D_lead[4]={leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,(double) multcentbin}; 
 							hist_gen_leadjet->Fill(x4D_lead);
 							hist_gen_leadjet_weighted->Fill(x4D_lead,event_weight*ljet_weight);
-							double x4D_leadET[4]={leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,(double)(hfplusEta4+hfminusEta4)}; 
+							double x4D_leadET[4]={leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,(double)(extra_variable)}; 
 							hist_gen_LjetET->Fill(x4D_leadET,event_weight*ljet_weight);
 							double x4D_sublead[4]={sublgenjet_pt,sublgenjet_eta,sublgenjet_phi,(double) multcentbin}; 
 							hist_gen_subljet->Fill(x4D_sublead);
 							hist_gen_subljet_weighted->Fill(x4D_sublead,event_weight*sljet_weight);
-							double x4D_subleadET[4]={sublgenjet_pt,sublgenjet_eta,sublgenjet_phi,(double)(hfplusEta4+hfminusEta4)}; 
+							double x4D_subleadET[4]={sublgenjet_pt,sublgenjet_eta,sublgenjet_phi,(double)(extra_variable)}; 
 							hist_gen_SLjetET->Fill(x4D_subleadET,event_weight*sljet_weight);
 
 							double x4D_dijetEpEPb[4]={etadijet,(double)hfplusEta4,(double)hfminusEta4,(double)multcentbin}; 
