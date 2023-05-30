@@ -31,7 +31,7 @@ int get_Ntrkoff(TString col_sys, int col_energy, int yearofdatataking, int size,
 	for(int ii=0; ii<size; ii++){ 
 		if(fabs(eta[ii]) > 2.4) continue; 
 		if(fabs(charge[ii]) == 0)continue;
-		if(hp[ii] == false) continue;
+		if(hp[ii] != 1) continue;
 		if(fabs(pterr[ii]/pt[ii]) >= 0.1) continue;
 		if(fabs(dcaxy[ii]/dcaxyerr[ii]) >= 3.0) continue;
 		if(fabs(dcaz[ii]/dcazerr[ii]) >= 3.0) continue;
