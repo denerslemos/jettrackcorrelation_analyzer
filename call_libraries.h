@@ -32,7 +32,19 @@
 #include "TDatime.h"
 #include <stdlib.h>
 #include <algorithm>	
+#include "TApplication.h"
+#include "Rtypes.h"
+#include "TObject.h"
+#include "TDirectoryFile.h"
 
 using namespace ROOT::Math;
 
 using namespace std;
+
+#ifdef __CINT__
+
+#pragma link off all globals;
+#pragma link off all classes;
+#pragma link off all functions;
+
+#endif
