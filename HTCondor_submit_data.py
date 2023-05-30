@@ -68,7 +68,7 @@ elif(ratio != len(Lines)):
 		if( i == nJobs - 1 ):
 			endi = len(Lines)
 		for line in Lines[starti:endi]:
-			outtempfiles.write(line.strip())
+			outtempfiles.write(line)
 		outtempfiles.close()
 		temp = '''
 log        = cond/'''+subFiles+'''_part_'''+str(i)+'''.log
@@ -82,7 +82,7 @@ elif(ratio == 1):
 	i=0
 	for line in Lines:
 		outtempfiles = open(inFiles+"_part"+str(i)+".txt", "w")
-		outtempfiles.write(line.strip())
+		outtempfiles.write(line)
 		outtempfiles.close()
 		temp = '''
 log        = cond/'''+subFiles+'''_part_'''+str(i)+'''.log
