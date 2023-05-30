@@ -22,6 +22,8 @@ pthatmax: pthat max cut for MC only
 */
 void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int MCSim, float pthatmin, float pthatmax){
 
+	TApplication *a = new TApplication("a", 0, 0);
+
 	clock_t sec_start, sec_end, sec_start_mix, sec_end_mix;
 	sec_start = clock(); // start timing measurement
 	TDatime* date = new TDatime();
@@ -99,8 +101,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	
 	// add all the trees to the chain
 	for (std::vector<TString>::iterator listIterator = file_name_vector.begin(); listIterator != file_name_vector.end(); listIterator++){
-		TFile testfile(*listIterator, "READ"); 
-		if(testfile.IsZombie() || testfile.TestBit(TFile::kRecovered)) continue;
+                TFile *testfile = TFile::Open(*listIterator);
+                if(!testfile || testfile->IsZombie() || testfile->TestBit(TFile::kRecovered)) cout << "File: " << *listIterator << " failed to open" << endl;
+                if(!testfile || testfile->IsZombie() || testfile->TestBit(TFile::kRecovered)) continue;
 		cout << "Adding file " << *listIterator << " to the chains" << endl;
 		hlt_tree->Add(*listIterator);
 		trk_tree->Add(*listIterator);
@@ -1296,5 +1299,5 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	cout << "========================================" << endl;
 
 	print_stop(); // Print time, date and hour when it stops
-	
+	return 0;
 }
