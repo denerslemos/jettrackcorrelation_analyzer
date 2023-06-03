@@ -8,7 +8,7 @@ const TString colliding_system = "pPb"; // use one of this options = "pp", "pPb"
 const int sNN_energy_GeV = 8160; //center of mass colliding energy (GeV)
 const int year_of_datataking = 2016;
 
-const bool do_CM_pPb = false; // do center-of-mass correction in pPb? If true all jet eta cuts are on CM frame
+bool do_CM_pPb = false; // do center-of-mass correction in pPb? If true all jet eta cuts are on CM frame
 const bool is_pgoing = false; // is p-going direction?
 const bool invert_pgoing = false; // do eta -> -eta for pgoing?
 
@@ -27,18 +27,18 @@ const std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVe
 
 // by default the code will calculated QA plots for jets and tracks, you can turn on or off the flags bellow based on your studies
 // be carefull about memory usage (e.g. do not run incluse + fragmentation at same time)
-const bool do_inclusejettrack_correlation = false; // Inclusive jets + track correlation
-const bool do_leading_subleading_jettrack_correlation = false; // Leading jets + track correlation and Sub-Leading jets + track correlation
+const bool do_inclusejettrack_correlation = true; // Inclusive jets + track correlation
+const bool do_leading_subleading_jettrack_correlation = true; // Leading jets + track correlation and Sub-Leading jets + track correlation
 const bool do_flow = false; // if true if makes correlation for Jet-Vn flow if false it multiply by trk pT to get jet shapes
-const bool do_jetquenching = true; // quantities for jet quenching searches
+const bool do_dijetstudies = true; // quantities for jet quenching searches
 
 //=========================================================
 
 //============= Jet information =========================== 
 
 const TString jet_collection = "ak4PFJetAnalyzer"; // jet collection in forest
-const bool dojettrigger = false; // apply jet trigger
-const TString jet_trigger = "HLT_PAAK4PFJet80_Eta5p1_v3"; // jet trigger in forest 
+bool dojettrigger = false; // apply jet trigger
+TString jet_trigger = "HLT_PAAK4PFJet80_Eta5p1_v3"; // jet trigger in forest 
 const float JetR = 0.4;
 const float jet_pt_min_cut = 60.0; // jet min pT cut 
 const float jet_pt_max_cut = 8160.0; // jet max pT cut 
@@ -46,13 +46,14 @@ const float jet_eta_min_cut = -1.0; // jet min eta cut
 const float jet_eta_max_cut = 1.0; // jet max eta cut 
 const TString JEC_file = "Autumn16_HI_pPb_pgoing_Unembedded_MC_L2Relative_AK4PF.txt"; //JEC file
 const TString JEU_file = "Autumn16_HI_pPb_pgoing_Unembedded_MC_L2Relative_AK4PF.txt"; //JEU file (future)
-const bool use_WTA = true; // use WTA or E-Scheme axis 
-const float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation and jet quenching analysis; use 0 for all;
+const bool use_WTA = false; // use WTA or E-Scheme axis 
+const float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation only
 const float leading_pT_min = 100.0; //used for jet leading and subleading correlation and jet quenching analysis
 const float subleading_pT_min = 50.0; //used for jet leading and subleading correlation and jet quenching analysis
 const std::vector<double> pt_ave_bins{75.0, 95.0, 115.0, 150., 250.,1000000.0}; //multiplicity range
-const float dijetetamax = 2.65;
-const float trackmaxpt = 0.0;
+const bool do_thirdjet_removal = false; // remove third jet
+const float dijetetamax = 2.65; // maximum dijet eta
+const float trackmaxpt = 0.0; // maximum track pT inside of a jet
 
 //pseudorapidity regions for jet-track leading and subleading correlations
 const TString fwdbkw_jettrk_option = "mid_mid"; // midrapidity + midrapidity
@@ -80,8 +81,8 @@ const float Ajmax = 1.0;//Aj maximum
 const bool do_jet_smearing = false; 
 
 //============= Extra dependency =========================
-const std::vector<double> extra_bins{-100000000.,100000000.}; //extra bins
-
+// for pPb, we are using Pb side energy in HF
+const std::vector<double> extra_bins{0.0,20.0,25.0,30.0,40.0,70.0,120.0,100000.0}; //extra bins
 //=========================================================
 
 //============= Track information =========================
@@ -105,7 +106,7 @@ const TString trk_eff_file = "Hijing_8TeV_dataBS.root"; //track efficiency table
 // use just one ref sample due memory issues
 
 //--> Mixing ref. samples quantities
-const bool do_mixing = false; // use mixing method?
+const bool do_mixing = true; // use mixing method?
 const bool similar_events = false; // if true we consider only tracks coming for similar events (onl if jet requirement is satisfied), if false all tracks are used
 const int N_ev_mix = 20; // number of events to mix
 const int Mult_or_Cent_range = 100; // multiplicity or centrality interval allowed between event and mixed event
@@ -119,9 +120,9 @@ const int N_of_rot = N_ev_mix; // setup number of rotations
 
 //For MC only
 const bool double_weight_mix = false; // double weighting in the mixing
-const bool do_pid = false; // apply PID? // choose the value between [] based on particleid.h
-const int particlepid = pid[Pion];   
-const TString particles = pid_str[Pion];
+bool do_pid = false; // apply PID? // choose the value between [] based on particleid.h
+int particlepid = pid[Pion];   
+TString particles = pid_str[Pion];
 
 /*
 Print out the inputs
@@ -176,7 +177,7 @@ void print_input(TString data_or_mc, TFile *fileeff, TString coll_system, float 
 	cout << "Reco track XY DCA significance < " << trk_dca_xy_cut << endl;
 	cout << "Reco track Z DCA significance < " << trk_dca_z_cut << endl;
 	if(coll_system=="PbPb" || coll_system=="XeXe"){
-		cout << "Calo calo_matching: for pT > 20 GeV, ET/pT > " << calo_matching << endl;
+		cout << "Calo matching: for pT > 20 GeV, ET/pT > " << calo_matching << endl;
 		cout << "Reco track chi2/ndf/nlayer < " << chi2_ndf_nlayer_cut << endl;
 		cout << "Reco track number of hits >= " << nhits << endl;
 		if(coll_system=="PbPb" && sNN_energy_GeV==5020 && year_of_datataking==2018)	cout << "For reco track algorithm 6 remove MVA values less than 0.98" << endl;
@@ -211,12 +212,12 @@ void print_input(TString data_or_mc, TFile *fileeff, TString coll_system, float 
 	cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
 	cout << "+          This code will return the histograms for            +" << endl;
 	cout << "+ --> Jets and tracks QA quantities                            +" << endl;
-	cout << "+ --> Jet quenching observables                                +" << endl;
+	if(do_dijetstudies) cout << "+ --> Dijet observables                                +" << endl;
 	if(do_inclusejettrack_correlation) cout << "+ --> Inclusive Jets + tracks (or particle) correlations       +" << endl;
 	if(do_leading_subleading_jettrack_correlation) cout << "+ --> Leading Jets + tracks (or particle) correlations         +" << endl;
 	if(do_leading_subleading_jettrack_correlation) cout << "+ --> Sub-Leading Jets + tracks (or particle) correlations     +" << endl;
 	if(do_flow) cout << "+                          For Flow                            +" << endl;
-	if(!do_flow) cout << "+                       For Jet Shapes                        +" << endl;
+	if(!do_flow && (do_inclusejettrack_correlation || do_leading_subleading_jettrack_correlation)) cout << "+                       For Jet Shapes                         +" << endl;
 	cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
 }
 

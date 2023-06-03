@@ -11,7 +11,7 @@ bool checkBounds(double pt, double eta){
 
 // inputs are 2D histograms: reff2D for efficiency, rfak2D for fakes, rsec2D for secondary (decays), rmul2D for multiple reconstruction
 // pT and eta are the transverse momentum and pseudorapidity of the track (considering a 2D histogram where X is eta axis and Y pT axis)
-double getTrkCorrWeight(TFile *trkeff_file, bool use_centrality, string system, int year, int energy, int mult, double pT, double eta){
+double getTrkCorrWeight(TFile *trkeff_file, bool use_centrality, string system, int year, int energy, int mult, double pT, double eta, double phi){
 
   if( !checkBounds(pT, eta) ) return 0;
   double factor = 1.0;

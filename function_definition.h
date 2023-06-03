@@ -30,7 +30,7 @@ int get_Ntrkoff(TString col_sys, int col_energy, int yearofdatataking, int size,
 	int Ntrk_off = 0;
 	for(int ii=0; ii<size; ii++){ 
 		int NDF = (int) ndof[ii];
-		int NLayer = (int) ndof[ii];
+		int NLayer = (int) nlayer[ii];
 		int NHits = (int) nhits[ii];	
 		if(fabs(eta[ii]) > 2.4) continue; 
 		if(fabs(charge[ii]) == 0)continue;
@@ -257,12 +257,13 @@ JetR: jet radii defined in input_variables.h
 histo_injet: in jet multiplicity
 flow: true for flow measurement false for jet shapes
 */
-void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::vector<TVector3> tracks, std::vector<double> tracks_w, THnSparse* histo_corr, THnSparse* histjet, THnSparse* histtrk, float event_weight, int mult, bool do_rotation, int N_rot, THnSparse* histo_rot, std::vector<int> sube_trk, THnSparse* histo_corr_subeg0, float JetR, THnSparse* histo_injet, bool flow){
+void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::vector<TVector3> tracks, std::vector<double> tracks_w, THnSparse* histo_corr, THnSparse* histjet, THnSparse* histtrk, float event_weight, int mult, float extra_variable, bool do_rotation, int N_rot, THnSparse* histo_rot, std::vector<int> sube_trk, THnSparse* histo_corr_subeg0, float JetR, THnSparse* histo_injet, bool flow){
 	// get correlation histograms
-	int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float) mult);
+	int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (double) mult);
+	int extrabin = (int) find_my_bin(extra_bins, (double) extra_variable);
 	for (int a = 0; a < jets.size(); a++){ // start loop over jets
-        	double jet_weight = jets_w[a];
-        	int injettrk = 0;
+       	double jet_weight = jets_w[a];
+       	int injettrk = 0;
 		for (int b = 0; b < tracks.size(); b++){ // start loop over tracks
 			double trkpt = tracks[b].Pt();
 			double trketa = tracks[b].Eta();
@@ -272,18 +273,18 @@ void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::ve
            	// Find track and multiplicity bins
 			int trkbin = (int) find_my_bin(trk_pt_bins,trkpt);
 			// Fill jet and track quantities
-			double x4D_jet[4]={jets[a].Pt(),jets[a].Eta(),jets[a].Phi(), (double)multcentbin}; histjet->Fill(x4D_jet,jet_weight*event_weight);
-			double x4D_trk[4]={tracks[b].Pt(),tracks[b].Eta(),tracks[b].Phi(), (double)multcentbin}; histtrk->Fill(x4D_trk,trk_weight*event_weight);
+			double x_jet[5]={jets[a].Pt(),jets[a].Eta(),jets[a].Phi(), (double)multcentbin,(double)extrabin}; histjet->Fill(x_jet,jet_weight*event_weight);
+			double x_trk[5]={tracks[b].Pt(),tracks[b].Eta(),tracks[b].Phi(), (double)multcentbin,(double)extrabin}; histtrk->Fill(x_trk,trk_weight*event_weight);
 			// Fill correlation histograms
 			double del_phi = deltaphi2PC(jets[a].Phi(), tracks[b].Phi());
 			double del_eta = deltaeta(jets[a].Eta(), tracks[b].Eta());
-			double x4D[4]={del_phi,del_eta,(double)trkbin, (double)multcentbin}; 
-			if(flow){if(subetrk==0){histo_corr->Fill(x4D,jet_weight*trk_weight*event_weight);}else{histo_corr_subeg0->Fill(x4D,jet_weight*trk_weight*event_weight);}
-			}else{if(subetrk==0){histo_corr->Fill(x4D,jet_weight*trk_weight*event_weight*trkpt);}else{histo_corr_subeg0->Fill(x4D,jet_weight*trk_weight*event_weight*trkpt);}}
+			double xhisto[5]={del_phi,del_eta,(double)trkbin, (double)multcentbin,(double)extrabin}; 
+			if(flow){if(subetrk==0){histo_corr->Fill(xhisto,jet_weight*trk_weight*event_weight);}else{histo_corr_subeg0->Fill(xhisto,jet_weight*trk_weight*event_weight);}
+			}else{if(subetrk==0){histo_corr->Fill(xhisto,jet_weight*trk_weight*event_weight*trkpt);}else{histo_corr_subeg0->Fill(xhisto,jet_weight*trk_weight*event_weight*trkpt);}}
 			double delta_R = deltaR(jets[a].Eta(), jets[a].Phi(), tracks[b].Eta(), tracks[b].Phi());
 			if(delta_R < JetR) injettrk = injettrk + 1;
 		}
-		double x2D[2]={(double)injettrk, (double)multcentbin}; histo_injet->Fill(x2D,jet_weight*event_weight);
+		double xinjet[3]={(double)injettrk, (double)multcentbin,(double)extrabin}; histo_injet->Fill(xinjet,jet_weight*event_weight);
 
 
 		// get rotation histograms 
@@ -305,12 +306,12 @@ void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::ve
 					// Fill correlation histograms     
 					double del_phi_rot = deltaphi2PC(newphi, tracks[d].Phi());
 					double del_eta_rot = deltaeta(neweta, tracks[d].Eta());
-					double x4D_rot[4]={del_phi_rot,del_eta_rot,(double)trkbin,(double)multcentbin}; 
-					if(flow){histo_rot->Fill(x4D_rot,jet_weight*trk_weight*event_weight);}else{histo_rot->Fill(x4D_rot,jet_weight*trk_weight*event_weight*trkpt);}
+					double x_rot[5]={del_phi_rot,del_eta_rot,(double)trkbin,(double)multcentbin,(double)extrabin}; 
+					if(flow){histo_rot->Fill(x_rot,jet_weight*trk_weight*event_weight);}else{histo_rot->Fill(x_rot,jet_weight*trk_weight*event_weight*trkpt);}
 				}
 			}
-		}//end rotation
-	}//end jet track loop
+		} //end rotation
+	} //end jet track loop
 }
 
 /*
@@ -333,7 +334,7 @@ multvec: vector to be used in the mixing with event multiplicity or centrality i
 vzvec: vector to be used in the mixing with event Z vertex position information
 weightvec: vector to be used in the mixing with event weight information
 */
-void fillvectors(bool similar_events, TH1* nev, std::vector<TVector3> jets, std::vector<double> jet_weight, std::vector<TVector3> tracks, std::vector<double> trk_weight, int mult, double vertexz, double weight, std::vector<std::vector<TVector3>> &ev_jet_vector, std::vector<std::vector<double>> &ev_jet_weight_vector, std::vector<std::vector<TVector3>> &ev_track_vector, std::vector<std::vector<double>> &ev_trk_weight_vector, std::vector<int> &multvec, std::vector<double> &vzvec, std::vector<double> &weightvec){
+void fillvectors(bool similar_events, TH1* nev, std::vector<TVector3> jets, std::vector<double> jet_weight, std::vector<TVector3> tracks, std::vector<double> trk_weight, int mult, double vertexz, double weight, double extra_variable, std::vector<std::vector<TVector3>> &ev_jet_vector, std::vector<std::vector<double>> &ev_jet_weight_vector, std::vector<std::vector<TVector3>> &ev_track_vector, std::vector<std::vector<double>> &ev_trk_weight_vector, std::vector<int> &multvec, std::vector<double> &vzvec, std::vector<double> &weightvec, std::vector<double> &extravec){
 			if(similar_events){
 				if(jets.size() > 0 && tracks.size() > 0){
 					nev->Fill(0);
@@ -344,6 +345,7 @@ void fillvectors(bool similar_events, TH1* nev, std::vector<TVector3> jets, std:
 					multvec.push_back(mult);
 					vzvec.push_back(vertexz);
 					weightvec.push_back(weight);
+					extravec.push_back(extra_variable);
 				}
 			}else{
 				nev->Fill(0);
@@ -354,6 +356,7 @@ void fillvectors(bool similar_events, TH1* nev, std::vector<TVector3> jets, std:
 				multvec.push_back(mult);
 				vzvec.push_back(vertexz);
 				weightvec.push_back(weight);
+				extravec.push_back(extra_variable);
 			}
 }
 
@@ -370,41 +373,33 @@ sube_trk: vector with sube track (MC embedded samples) sube == 0 means PYTHIA em
 histo_2pcorr_subeg0: if sube > 0 save in this histogram
 histo_2pcorr_subeg0_cross: cross correlation sub == 0 and sub != 0
 */
-void twoparticlecorrelation(std::vector<TVector3> tracks, std::vector<double> tracks_w, THnSparse* histo_2pcorr, float event_weight, int mult, std::vector<int> sube_trk, THnSparse* histo_2pcorr_subeg0, THnSparse* histo_2pcorr_subeg0_cross){
+void twoparticlecorrelation(std::vector<TVector3> tracks, std::vector<double> tracks_w, THnSparse* histo_2pcorr, float event_weight, int mult, float extra_variable, std::vector<int> sube_trk, THnSparse* histo_2pcorr_subeg0, THnSparse* histo_2pcorr_subeg0_cross){
+    // Find track and multiplicity  and extra variable bins
+	int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (double) mult);
+	int extrabin = (int) find_my_bin(extra_bins, (double) extra_variable);
 	// get correlation histograms
 	for (int a = 0; a < tracks.size(); a++){ // start loop over tracks
 		double trkpt1 = tracks[a].Pt();
         double trk_weight1 = tracks_w[a];
 		int subetrk1 = sube_trk[a];
 		int trkbin1 = (int) find_my_bin(trk_pt_bins,trkpt1);
-
 		for (int b = 0; b < tracks.size(); b++){ // start loop over tracks+1
 			double trkpt2 = tracks[b].Pt();
-            		double trk_weight2 = tracks_w[b];
+			double trk_weight2 = tracks_w[b];
 			int subetrk2 = sube_trk[b];
 			int trkbin2 = (int) find_my_bin(trk_pt_bins,trkpt2);
-			
 			if(trkbin1 != trkbin2) continue; // only same bin to get vn as sqrt of Vn
-			
 			int trkbin = trkbin1;
-            
            	// track efficiency correction for reco
             double trk_weight = trk_weight1*trk_weight2;
-
-            // Find track and multiplicity bins
-			int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float) mult);
-
 			// Fill correlation histograms
 			double del_phi = deltaphi2PC(tracks[a].Phi(), tracks[b].Phi());
 			double del_eta = deltaeta(tracks[a].Eta(), tracks[b].Eta());
-			
 			if(del_phi == 0 && del_eta == 0 && trkpt1 == trkpt2) continue; // do not fill histograms if particles are identical
-			
-			double x4D[4]={del_phi,del_eta,(double)trkbin,(double)multcentbin}; 
-			if(subetrk1==0 && subetrk2==0){histo_2pcorr->Fill(x4D,trk_weight*event_weight);
-			}else if(subetrk1>0 && subetrk2>0){histo_2pcorr_subeg0->Fill(x4D,trk_weight*event_weight);
-			}else{histo_2pcorr_subeg0_cross->Fill(x4D,trk_weight*event_weight);}
-			
+			double x2pc[5]={del_phi,del_eta,(double)trkbin,(double)multcentbin,(double)extrabin}; 
+			if(subetrk1==0 && subetrk2==0){histo_2pcorr->Fill(x2pc,trk_weight*event_weight);
+			}else if(subetrk1>0 && subetrk2>0){histo_2pcorr_subeg0->Fill(x2pc,trk_weight*event_weight);
+			}else{histo_2pcorr_subeg0_cross->Fill(x2pc,trk_weight*event_weight);}
 		} // b loop
 	} // a loop
 }

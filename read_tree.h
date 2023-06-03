@@ -4,6 +4,8 @@
 
 // event quantities
 float vertexz; // event z vertex
+float vertexx; // event x vertex
+float vertexy; // event y vertex
 float hfplus; // event hf + deposit of energy
 float hfminus; // event hf - deposit of energy
 float hfplusEta4; // event hf + deposit of energy for |eta| > 4
@@ -121,6 +123,8 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
     // event quantities
     tree->SetBranchStatus(Form("%s",jet_trigger.Data()), 1);
     tree->SetBranchStatus("vz", 1);
+    tree->SetBranchStatus("vx", 1);
+    tree->SetBranchStatus("vy", 1);
     
     if(colliding_system=="pPb" && colliding_energy == 8160){
 
@@ -217,6 +221,8 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
 
     tree->SetBranchAddress(Form("%s",jet_trigger.Data()), &jet_trigger_bit);
     tree->SetBranchAddress("vz", &vertexz);
+    tree->SetBranchAddress("vx", &vertexx);
+    tree->SetBranchAddress("vy", &vertexy);
     if(colliding_system=="PbPb" || colliding_system=="XeXe") tree->SetBranchAddress("hiBin", &hiBin); //centrality only for PbPb and XeXe
     for(int i = 0; i < event_filters.size(); i++) tree->SetBranchAddress(Form("%s",event_filterstr[i].Data()),&event_filters[i]);
 
