@@ -1084,54 +1084,45 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	MyFile->cd(); 
 
 	// Write in different folders (see histogram_definition.h)
+	// Control plots
 	MyFile->mkdir("QA_histograms"); 
 	MyFile->cd("QA_histograms"); 
-	w_QA_hist(is_MC,(do_leading_subleading_jettrack_correlation || do_dijetstudies)); 
+	w_QA_hist(is_MC); 
+
+	// Jet+Track correlations
 	if(do_inclusejettrack_correlation || do_leading_subleading_jettrack_correlation){
 		MyFile->mkdir("correlation_reco_reco_histograms"); 
 		MyFile->cd("correlation_reco_reco_histograms");
 		w_recoreco_hist(do_mixing,do_rotation,do_inclusejettrack_correlation,do_leading_subleading_jettrack_correlation);
-	}
-	
-	if(is_MC){
-		if(do_inclusejettrack_correlation || do_leading_subleading_jettrack_correlation){
+		if(is_MC){
 			MyFile->mkdir("correlation_reco_gen_histograms"); 
 			MyFile->cd("correlation_reco_gen_histograms");
 			w_recogen_hist(do_mixing,do_rotation,do_inclusejettrack_correlation,do_leading_subleading_jettrack_correlation);
-
 			MyFile->mkdir("correlation_gen_reco_histograms"); 
 			MyFile->cd("correlation_gen_reco_histograms");
 			w_genreco_hist(do_mixing,do_rotation,do_inclusejettrack_correlation,do_leading_subleading_jettrack_correlation);
-
 			MyFile->mkdir("correlation_gen_gen_histograms"); 
 			MyFile->cd("correlation_gen_gen_histograms");
-			w_gengen_hist(do_mixing,do_rotation,do_inclusejettrack_correlation,do_leading_subleading_jettrack_correlation);
+			w_gengen_hist(do_mixing,do_rotation,do_inclusejettrack_correlation,do_leading_subleading_jettrack_correlation);		
 		}
-		MyFile->mkdir("JES_JER"); 
-		MyFile->cd("JES_JER");  
-		w_jes_jer_hist();
 	}
 
+	// Dijet histograms	
+	if(do_dijetstudies){
+		MyFile->mkdir("dijet_histograms"); 
+		MyFile->cd("dijet_histograms");  
+		w_dijet_hist(is_MC);
+	}
+
+	// 2PC histograms		
 	if(colliding_system=="pPb" && year_of_datataking==2016 && do_flow){
 		MyFile->mkdir("eventplane_histograms"); 
 		MyFile->cd("eventplane_histograms");  
 		w_ep_hist(is_MC);
-	}
-	
-	if(do_flow){
 		MyFile->mkdir("TwoPC_histograms"); 
 		MyFile->cd("TwoPC_histograms");  
 		w_2pc_hist(is_MC, do_mixing);
 	}
-
-	if(do_dijetstudies){
-
-		MyFile->mkdir("jetquenching_histograms"); 
-		MyFile->cd("jetquenching_histograms");  
-		w_dijet_hist(is_MC);
-
-	}
-	
 
 	MyFile->Close();
 

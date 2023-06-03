@@ -705,7 +705,7 @@ hist_gen_gen_2pcorrelation_mixing->Sumw2();
 isMC: true for MC and false for Data
 doleadsubl: in the case of measuring leading and subleading jet correlation
 */
-void w_QA_hist(bool isMC, bool doleadsubl){
+void w_QA_hist(bool isMC){
 	Nevents->Write();
 	Nev_recoreco->Write();
 	Nev_recoreco_lead->Write();
@@ -781,6 +781,8 @@ void w_QA_hist(bool isMC, bool doleadsubl){
 		hist_gen_leadjet_weighted->Write();
 		hist_gen_subljet->Write();
 		hist_gen_subljet_weighted->Write();
+		hist_jes_reco_weighted->Write();
+		hist_jes_reco_fromB_weighted->Write();
 	}
 }
 
@@ -1024,12 +1026,6 @@ void w_dijet_hist(bool isMC){
 		hist_etaDijet_gen->Write();
 		hist_etaDijet_CM_gen->Write();
 	}
-}
-
-// JES and JER histograms
-void w_jes_jer_hist(){ 
-	hist_jes_reco_weighted->Write();
-	hist_jes_reco_fromB_weighted->Write();
 }
 
 // 2PCorrelation histograms
