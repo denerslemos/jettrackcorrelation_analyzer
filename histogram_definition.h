@@ -220,7 +220,7 @@ THnSparseD *Dphi_GEN_flat_EP4_subleading_plus = new THnSparseD("Dphi_GEN_flat_EP
 // Jet quantities
 int	bins_jet[5]      =   { 100	  ,  40  ,   32		      , multbinsize-1          , extrabinsize-1};
 double xmin_jet[5]   =   { 0.0	  , -4.0 ,   -TMath::Pi() , 0.0                    , 0.0};
-double xmax_jet[5]   =   { 500.0  ,  4.0 ,   TMath::Pi()  , (double) multbinsize-1 , (double)extrabinsize-1};
+double xmax_jet[5]   =   { 1000.0  ,  4.0 ,   TMath::Pi()  , (double) multbinsize-1 , (double)extrabinsize-1};
 // --> Reco
 THnSparseD *hist_reco_jet = new THnSparseD("hist_reco_jet", "hist_reco_jet", 5, bins_jet, xmin_jet, xmax_jet);
 THnSparseD *hist_reco_jet_corr = new THnSparseD("hist_reco_jet_corr", "hist_reco_jet_corr", 5, bins_jet, xmin_jet, xmax_jet);
