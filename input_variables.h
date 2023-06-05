@@ -82,7 +82,9 @@ const bool do_jet_smearing = false;
 
 //============= Extra dependency =========================
 // for pPb, we are using Pb side energy in HF
-const std::vector<double> extra_bins{0.0,20.0,25.0,30.0,40.0,70.0,120.0,100000.0}; //extra bins
+//const std::vector<double> extra_bins{0.0,20.0,25.0,30.0,40.0,70.0,120.0,100000.0}; //extra bins (if use HF 4 < |eta| < 5.2) as previous CMS analysis
+const std::vector<double> extra_bins{0.0,3.0,9.0,22.0,36.0,44.0,60.0,80.0,120.0,100000.0}; //extra bins (if use HF 4 < |eta| < 5.2)
+//const std::vector<double> extra_bins{0.0,10.0,25.0,55.0,70.0,90.0,110.0,125.0,200.0,100000.0}; //extra bins (if use full HF) as centrality
 //=========================================================
 
 //============= Track information =========================
