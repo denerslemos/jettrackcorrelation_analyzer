@@ -313,7 +313,7 @@ THnSparseD *hist_ref_lead_ref_subl_quench_bkw_bkw = new THnSparseD("hist_ref_lea
 
 // Assymetry studies
 // Axis : 0 -> etaDijet, 1 -> delta eta / 2, 2 -> Xj, 3 -> Aj, 4 -> delta phi, 5 -> x_p, 6 -> x_Pb, 7 -> multiplicity, 8 -> jet pT average, 9 -> extra dependency
-int	bins_etaDijet[10]      =   {  40   ,  16  , 20	  , 20 , 6		     , 30    ,  30     ,	 multbinsize-1		  	 ,	 ptavebinsize-1			  ,  extrabinsize-1};
+int	bins_etaDijet[10]      =   {  40   ,  16  , 20	  , 20 , 30		     , 30    ,  30     ,	 multbinsize-1		  	 ,	 ptavebinsize-1			  ,  extrabinsize-1};
 double xmin_etaDijet[10]   =   { -4.0  , -4.0,  0.0   , 0.0, 0.0 	     , 0.001 ,  0.001  ,     0.0		   			 ,	 0.0					  ,	 0.0};
 double xmax_etaDijet[10]   =   {  4.0  ,  4.0,  1.0   , 1.0, TMath::Pi() , 1.0   ,  1.0    ,     (double) multbinsize-1  ,   (double) ptavebinsize-1  ,  (double) extrabinsize-1};
 THnSparseD *hist_etaDijet_reco = new THnSparseD("hist_etaDijet_reco", "hist_etaDijet_reco", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);

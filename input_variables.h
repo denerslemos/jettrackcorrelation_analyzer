@@ -8,9 +8,9 @@ const TString colliding_system = "pPb"; // use one of this options = "pp", "pPb"
 const int sNN_energy_GeV = 8160; //center of mass colliding energy (GeV)
 const int year_of_datataking = 2016;
 
-bool do_CM_pPb = false; // do center-of-mass correction in pPb? If true all jet eta cuts are on CM frame
-const bool is_pgoing = false; // is p-going direction?
-const bool invert_pgoing = false; // do eta -> -eta for pgoing?
+bool do_CM_pPb = true; // do center-of-mass correction in pPb? If true all jet eta cuts are on CM frame
+const bool is_pgoing = true; // is p-going direction?
+const bool invert_pgoing = true; // do eta -> -eta for pgoing?
 
 const bool use_centrality = false; // only true for: "XeXe" and "PbPb" (but also can be set as false to see evolution with multiplicity)
 
@@ -27,8 +27,8 @@ const std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVe
 
 // by default the code will calculated QA plots for jets and tracks, you can turn on or off the flags bellow based on your studies
 // be carefull about memory usage (e.g. do not run incluse + fragmentation at same time)
-const bool do_inclusejettrack_correlation = true; // Inclusive jets + track correlation
-const bool do_leading_subleading_jettrack_correlation = true; // Leading jets + track correlation and Sub-Leading jets + track correlation
+const bool do_inclusejettrack_correlation = false; // Inclusive jets + track correlation
+const bool do_leading_subleading_jettrack_correlation = false; // Leading jets + track correlation and Sub-Leading jets + track correlation
 const bool do_flow = false; // if true if makes correlation for Jet-Vn flow if false it multiply by trk pT to get jet shapes
 const bool do_dijetstudies = true; // quantities for jet quenching searches
 
@@ -50,7 +50,7 @@ const bool use_WTA = false; // use WTA or E-Scheme axis
 const float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation only
 const float leading_pT_min = 100.0; //used for jet leading and subleading correlation and jet quenching analysis
 const float subleading_pT_min = 50.0; //used for jet leading and subleading correlation and jet quenching analysis
-const std::vector<double> pt_ave_bins{75.0, 95.0, 115.0, 150., 250.,1000000.0}; //multiplicity range
+const std::vector<double> pt_ave_bins{70.0, 95.0, 115.0, 150., 250.,1000000.0}; //multiplicity range
 const bool do_thirdjet_removal = false; // remove third jet
 const float dijetetamax = 2.65; // maximum dijet eta
 const float trackmaxpt = 0.0; // maximum track pT inside of a jet
@@ -106,7 +106,7 @@ const TString trk_eff_file = "Hijing_8TeV_dataBS.root"; //track efficiency table
 // use just one ref sample due memory issues
 
 //--> Mixing ref. samples quantities
-const bool do_mixing = true; // use mixing method?
+const bool do_mixing = false; // use mixing method?
 const bool similar_events = false; // if true we consider only tracks coming for similar events (onl if jet requirement is satisfied), if false all tracks are used
 const int N_ev_mix = 20; // number of events to mix
 const int Mult_or_Cent_range = 100; // multiplicity or centrality interval allowed between event and mixed event
