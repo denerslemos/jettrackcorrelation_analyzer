@@ -50,7 +50,7 @@ const bool use_WTA = false; // use WTA or E-Scheme axis
 const float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation only
 const float leading_pT_min = 100.0; //used for jet leading and subleading correlation and jet quenching analysis
 const float subleading_pT_min = 50.0; //used for jet leading and subleading correlation and jet quenching analysis
-const std::vector<double> pt_ave_bins{70.0, 95.0, 115.0, 150., 250.,1000000.0}; //multiplicity range
+const std::vector<double> pt_ave_bins{75.0, 85.0, 95.0, 105.0, 115.0, 125.0, 150.0, 200.0, 250.0, 300.0, 400.0, 1000000.0}; //multiplicity range
 const bool do_thirdjet_removal = false; // remove third jet
 const float dijetetamax = 2.65; // maximum dijet eta
 const float trackmaxpt = 0.0; // maximum track pT inside of a jet
@@ -82,8 +82,8 @@ const bool do_jet_smearing = false;
 
 //============= Extra dependency =========================
 // for pPb, we are using Pb side energy in HF
-//const std::vector<double> extra_bins{0.0,20.0,25.0,30.0,40.0,70.0,120.0,100000.0}; //extra bins (if use HF 4 < |eta| < 5.2) as previous CMS analysis
-const std::vector<double> extra_bins{0.0,3.0,9.0,22.0,36.0,44.0,60.0,80.0,120.0,100000.0}; //extra bins (if use HF 4 < |eta| < 5.2)
+const std::vector<double> extra_bins{0.0,20.0,25.0,30.0,40.0,70.0,120.0,100000.0}; //extra bins (if use HF 4 < |eta| < 5.2) as previous CMS analysis
+//const std::vector<double> extra_bins{0.0,3.0,9.0,22.0,36.0,44.0,60.0,80.0,120.0,100000.0}; //extra bins (if use HF 4 < |eta| < 5.2)
 //const std::vector<double> extra_bins{0.0,10.0,25.0,55.0,70.0,90.0,110.0,125.0,200.0,100000.0}; //extra bins (if use full HF) as centrality
 //=========================================================
 

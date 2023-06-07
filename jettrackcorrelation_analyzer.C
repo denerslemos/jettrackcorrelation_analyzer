@@ -216,7 +216,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		} 
 
 		//  add extra dependency
-		float extra_variable = hfminusEta4;
+		float extra_variable = hfplusE4_temp+hfminusEta4;
 		int extrabin = (int) find_my_bin(extra_bins, (double) extra_variable);
 
 		// event weight(s), this must be applied in all histograms
@@ -483,11 +483,12 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 		double xnjets[3]={(double) njets, (double) multcentbin, (double) extrabin}; NJets->Fill(xnjets,event_weight);
 		bool isdijet = false;
-		bool removethirdjet = true;
-		if(do_thirdjet_removal) removethirdjet = (thirdrefjet_pt < 0.5*sublrecojet_pt);
+
+		bool removethirdjet = false;
+		if(do_thirdjet_removal){if(thirdrecojet_pt > 0.5*sublrecojet_pt) removethirdjet = true;}
 
 		//dijets
-		if(jetsize > 1){
+		if(jetsize > 1 && !removethirdjet){
 
 			Nevents->Fill(6);
 			double ljet_weight = get_leadjetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadrecojet_pt);  // Jet weight (specially for MC)
@@ -640,8 +641,11 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double x3D_hiZDC_dijet[3]={zdcplus,zdcminus,(double) mult}; zdchist_dijet_weighted->Fill(x3D_hiZDC_dijet,event_weight);
 			}
 		}
+
+		bool removethirdjet_ref = false;
+		if(do_thirdjet_removal){if(thirdrefjet_pt > 0.5*sublrefjet_pt) removethirdjet_ref = true;}
 		
-		if(jetsize > 1){
+		if(jetsize > 1 && !removethirdjet_ref){
 			//leading/subleading pT cuts
 			if(is_MC && leadrefjet_pt > leading_pT_min && sublrefjet_pt > subleading_pT_min){
 
@@ -708,13 +712,13 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		// Measure correlations and filling mixing vectors
 		// Reco-Reco
 		// Inclusive jets
-		if(do_inclusejettrack_correlation && pass_Aj_or_Xj_reco_cut){
+		if(do_inclusejettrack_correlation && pass_Aj_or_Xj_reco_cut && !removethirdjet_ref){
 			correlation(jets_reco, jet_w_reco, tracks_reco, track_w_reco, hist_correlation_signal_jet_reco_track_reco, hist_jet_from_reco_reco_sig, hist_trk_from_reco_reco_sig, event_weight, mult, extra_variable, do_rotation, N_of_rot, hist_correlation_rotation_jet_reco_track_reco, sube_tracks_reco, hist_correlation_signal_subg0_jet_reco_track_reco,JetR,hist_injet_reco_track_reco,do_flow); // calculate correlations
 			fillvectors(similar_events, Nev_recoreco, jets_reco, jet_w_reco, tracks_reco, track_w_reco, mult, vertexz, event_weight, extra_variable, ev_jet_vector_reco_reco, jet_weights_reco_reco, ev_track_vector_reco_reco, trk_weights_reco_reco, multvec_reco_reco, vzvec_reco_reco, weights_reco_reco,extravec_reco_reco);	// for mixing --> store vectors for mixing
 		}
 
 		// Leading/SubLeading jets
-		if(do_leading_subleading_jettrack_correlation && pass_Aj_or_Xj_reco_cut){
+		if(do_leading_subleading_jettrack_correlation && pass_Aj_or_Xj_reco_cut && !removethirdjet_ref){
 			correlation(lead_jets_reco, lead_jet_w_reco, tracks_reco, track_w_reco, hist_correlation_signal_lead_jet_reco_track_reco, hist_lead_jet_from_reco_reco_sig, hist_LJ_trk_from_reco_reco_sig, event_weight, mult, extra_variable, do_rotation, N_of_rot, hist_correlation_rotation_lead_jet_reco_track_reco, sube_tracks_reco, hist_correlation_signal_subg0_lead_jet_reco_track_reco,JetR,hist_inLeadjet_reco_track_reco,do_flow); // calculate correlations
 			correlation(subl_jets_reco, subl_jet_w_reco, tracks_reco, track_w_reco, hist_correlation_signal_subl_jet_reco_track_reco, hist_subl_jet_from_reco_reco_sig, hist_SLJ_trk_from_reco_reco_sig, event_weight, mult, extra_variable, do_rotation, N_of_rot, hist_correlation_rotation_subl_jet_reco_track_reco, sube_tracks_reco, hist_correlation_signal_subg0_subl_jet_reco_track_reco,JetR,hist_inSubljet_reco_track_reco,do_flow); // calculate correlations
 			fillvectors(similar_events, Nev_recoreco_lead, lead_jets_reco, lead_jet_w_reco, tracks_reco, track_w_reco, mult, vertexz, event_weight, extra_variable, ev_jet_vector_leadjet_reco_reco, jet_weights_leadjet_reco_reco, ev_track_vector_leadjet_reco_reco, trk_weights_leadjet_reco_reco, multvec_leadjet_reco_reco, vzvec_leadjet_reco_reco, weights_leadjet_reco_reco, extravec_leadjet_reco_reco);	// for mixing --> store vectors for mixing
@@ -852,9 +856,13 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			
 			if(isgjetincluded){gen_mult_withonejet_weighted->Fill(genmult, event_weight);}
 			bool isgdijet = false;
+
+			bool removethirdjet_gen = false;
+			if(do_thirdjet_removal){if(thirdgenjet_pt > 0.5*sublgenjet_pt) removethirdjet_gen = true;}
+
 			
 			//leading/subleading jets
-			if(gen_jetsize > 1){
+			if(gen_jetsize > 1 && !removethirdjet_gen){
 
 				double ljet_weight = get_leadjetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadgenjet_pt); // Jet weight (specially for MC)
 				//resolutionfactor: Worsening resolution by 20%: 0.663, by 10%: 0.458 , by 30%: 0.831
@@ -993,7 +1001,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			if(isgdijet){gen_mult_withdijets_weighted->Fill(genmult, event_weight);}
 
 			// Measure correlations and fill mixing vectors for inclusive jet+track correlations
-			if(do_inclusejettrack_correlation){
+			if(do_inclusejettrack_correlation && !removethirdjet_gen){
 				// Reco-Gen
 				if(pass_Aj_or_Xj_reco_cut && pass_Aj_or_Xj_gen_cut) correlation(jets_reco, jet_w_reco, tracks_gen, track_w_gen, hist_correlation_signal_jet_reco_track_gen, hist_jet_from_reco_gen_sig, hist_trk_from_reco_gen_sig, event_weight, mult, extra_variable, do_rotation, N_of_rot, hist_correlation_rotation_jet_reco_track_gen, sube_tracks_gen, hist_correlation_signal_subg0_jet_reco_track_gen,JetR,hist_injet_reco_track_gen,do_flow); // calculate correlations
 				if(pass_Aj_or_Xj_reco_cut && pass_Aj_or_Xj_gen_cut) fillvectors(similar_events, Nev_recogen, jets_reco, jet_w_reco, tracks_gen, track_w_gen, mult, vertexz, event_weight, extra_variable, ev_jet_vector_reco_gen, jet_weights_reco_gen, ev_track_vector_reco_gen, trk_weights_reco_gen, multvec_reco_gen, vzvec_reco_gen, weights_reco_gen, extravec_reco_gen);	// for mixing --> store vectors for mixing
@@ -1005,7 +1013,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				if(pass_Aj_or_Xj_gen_cut) fillvectors(similar_events, Nev_gengen, jets_gen, jet_w_gen, tracks_gen, track_w_gen, mult, vertexz, event_weight, extra_variable, ev_jet_vector_gen_gen, jet_weights_gen_gen, ev_track_vector_gen_gen, trk_weights_gen_gen, multvec_gen_gen, vzvec_gen_gen, weights_gen_gen, extravec_gen_gen);	// for mixing --> store vectors for mixing
 			}
 			// Measure correlations and fill mixing vectors for (leading/subleading) jet+track correlations
-			if(do_leading_subleading_jettrack_correlation){
+			if(do_leading_subleading_jettrack_correlation && !removethirdjet_gen){
 				// Reco-Gen
 				if(pass_Aj_or_Xj_reco_cut && pass_Aj_or_Xj_gen_cut) correlation(lead_jets_reco, lead_jet_w_reco, tracks_gen, track_w_gen, hist_correlation_signal_lead_jet_reco_track_gen, hist_lead_jet_from_reco_gen_sig, hist_LJ_trk_from_reco_gen_sig, event_weight, mult, extra_variable, do_rotation, N_of_rot, hist_correlation_rotation_lead_jet_reco_track_gen, sube_tracks_gen, hist_correlation_signal_subg0_lead_jet_reco_track_gen,JetR,hist_inLeadjet_reco_track_gen,do_flow); // calculate correlations
 				if(pass_Aj_or_Xj_reco_cut && pass_Aj_or_Xj_gen_cut) correlation(subl_jets_reco, subl_jet_w_reco, tracks_gen, track_w_gen, hist_correlation_signal_subl_jet_reco_track_gen, hist_subl_jet_from_reco_gen_sig, hist_SLJ_trk_from_reco_gen_sig, event_weight, mult, extra_variable, do_rotation, N_of_rot, hist_correlation_rotation_subl_jet_reco_track_gen, sube_tracks_gen, hist_correlation_signal_subg0_subl_jet_reco_track_gen,JetR,hist_inSubljet_reco_track_gen,do_flow); // calculate correlations
