@@ -447,7 +447,7 @@ void sw2(){
 
 hist_etaDijet_reco->GetAxis(5)->Set(bins_etaDijet[5],XBins);
 hist_etaDijet_reco->GetAxis(6)->Set(bins_etaDijet[6],XBins);
-hist_etaDijet_CM_reco->GetAxis(5)->Set(bins_etaDijet);
+hist_etaDijet_CM_reco->GetAxis(5)->Set(bins_etaDijet[5],XBins);
 hist_etaDijet_CM_reco->GetAxis(6)->Set(bins_etaDijet[6],XBins);
 hist_etaDijet_ref->GetAxis(5)->Set(bins_etaDijet[5],XBins);
 hist_etaDijet_ref->GetAxis(6)->Set(bins_etaDijet[6],XBins);
