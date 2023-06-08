@@ -61,6 +61,17 @@ THnSparseD *zdchist_weighted = new THnSparseD("zdchist_weighted", "zdchist_weigh
 THnSparseD *zdchist_onejet_weighted = new THnSparseD("zdchist_onejet_weighted", "zdchist_onejet_weighted", 3, bins_ZDC, xmin_ZDC, xmax_ZDC);
 THnSparseD *zdchist_dijet_weighted = new THnSparseD("zdchist_dijet_weighted", "zdchist_dijet_weighted", 3, bins_ZDC, xmin_ZDC, xmax_ZDC);
 
+// HFSum
+int	bins_HFSum[2]   =      { 500  ,  80};
+double xmin_HFSum[2]   =   { 0.0  ,  0.0};
+double xmax_HFSum[2]   =   { 500  ,  400};
+THnSparseD *hfhistSum_weighted = new THnSparseD("hfhistSum_weighted", "hfhistSum_weighted", 2, bins_HFSum, xmin_HFSum, xmax_HFSum);
+THnSparseD *hfhistEta4Sum_weighted = new THnSparseD("hfhistEta4Sum_weighted", "hfhistEta4Sum_weighted", 2, bins_HFSum, xmin_HFSum, xmax_HFSum);
+THnSparseD *hfhistSum_onejet_weighted = new THnSparseD("hfhistSum_onejet_weighted", "hfhistSum_onejet_weighted", 2, bins_HFSum, xmin_HFSum, xmax_HFSum);
+THnSparseD *hfhistEta4Sum_onejet_weighted = new THnSparseD("hfhistEta4Sum_onejet_weighted", "hfhistEta4Sum_onejet_weighted", 2, bins_HFSum, xmin_HFSum, xmax_HFSum);
+THnSparseD *hfhistSum_dijet_weighted = new THnSparseD("hfhistSum_dijet_weighted", "hfhistSum_dijet_weighted", 2, bins_HFSum, xmin_HFSum, xmax_HFSum);
+THnSparseD *hfhistEta4Sum_dijet_weighted = new THnSparseD("hfhistEta4Sum_dijet_weighted", "hfhistEta4Sum_dijet_weighted", 2, bins_HFSum, xmin_HFSum, xmax_HFSum);
+
 // Vertex
 // Axis : 0 -> Vz, 1 -> event multiplicity, 2 -> extra dependency
 int	bins_vz[3]   	=   {  60   ,   multbinsize-1    		 ,  extrabinsize-1};
@@ -462,6 +473,12 @@ zdchist->Sumw2();
 zdchist_weighted->Sumw2();
 zdchist_onejet_weighted->Sumw2();
 zdchist_dijet_weighted->Sumw2();
+hfhistSum_weighted->Sumw2();
+hfhistEta4Sum_weighted->Sumw2();
+hfhistSum_onejet_weighted->Sumw2();
+hfhistEta4Sum_onejet_weighted->Sumw2();
+hfhistSum_dijet_weighted->Sumw2();
+hfhistEta4Sum_dijet_weighted->Sumw2();
 vzhist->Sumw2();
 vzhist_weighted->Sumw2();
 vzhist_jet_weighted->Sumw2();
@@ -753,6 +770,12 @@ void w_QA_hist(bool isMC){
 	zdchist_weighted->Write();
 	zdchist_onejet_weighted->Write();
 	zdchist_dijet_weighted->Write();
+	hfhistSum_weighted->Sumw2();
+	hfhistEta4Sum_weighted->Sumw2();
+	hfhistSum_onejet_weighted->Sumw2();
+	hfhistEta4Sum_onejet_weighted->Sumw2();
+	hfhistSum_dijet_weighted->Sumw2();
+	hfhistEta4Sum_dijet_weighted->Sumw2();
 	//tracks 
 	//reco
 	hist_reco_trk->Write();

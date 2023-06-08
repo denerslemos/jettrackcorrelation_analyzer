@@ -216,7 +216,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		} 
 
 		//  add extra dependency
-		float extra_variable = hfplusE4_temp+hfminusEta4;
+		float extra_variable = hfminusEta4;
 		int extrabin = (int) find_my_bin(extra_bins, (double) extra_variable);
 
 		// event weight(s), this must be applied in all histograms
@@ -239,6 +239,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			double x3D_hiHF[3]={hfplus,hfminus,(double) mult}; hfhist->Fill(x3D_hiHF); hfhist_weighted->Fill(x3D_hiHF,event_weight);
 			double x3D_hiHFEta4[3]={hfplusEta4,hfminusEta4,(double) mult}; hfhistEta4->Fill(x3D_hiHFEta4); hfhistEta4_weighted->Fill(x3D_hiHFEta4,event_weight);
 			double x3D_hiZDC[3]={zdcplus,zdcminus,(double) mult}; zdchist->Fill(x3D_hiZDC); zdchist_weighted->Fill(x3D_hiZDC,event_weight);
+			double x2D_hiHFSum[2]={hfplus+hfminus,(double) mult}; hfhistSum_weighted->Fill(x2D_hiHFSum,event_weight);
+			double x2D_hiHFEta4Sum[2]={hfplusEta4+hfminusEta4,(double) mult}; hfhistEta4Sum_weighted->Fill(x2D_hiHFEta4Sum,event_weight);			
 			
 			if(do_flow){
 				//event plane information and filling of histograms
@@ -478,6 +480,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double x3D_hiHF_onejet[3]={hfplus,hfminus,(double) mult}; hfhist_onejet_weighted->Fill(x3D_hiHF_onejet,event_weight);
 				double x3D_hiHFEta4_onejet[3]={hfplusEta4,hfminusEta4,(double) mult}; hfhistEta4_onejet_weighted->Fill(x3D_hiHFEta4_onejet,event_weight);
 				double x3D_hiZDC_onejet[3]={zdcplus,zdcminus,(double) mult}; zdchist_onejet_weighted->Fill(x3D_hiZDC_onejet,event_weight);
+				double x2D_hiHFSum_onejet[2]={hfplus+hfminus,(double) mult}; hfhistSum_onejet_weighted->Fill(x2D_hiHFSum_onejet,event_weight);
+				double x2D_hiHFEta4Sum_onejet[2]={hfplusEta4+hfminusEta4,(double) mult}; hfhistEta4Sum_onejet_weighted->Fill(x2D_hiHFEta4Sum_onejet,event_weight);			
 			}
 		}
 
@@ -639,6 +643,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double x3D_hiHF_dijet[3]={hfplus,hfminus,(double) mult}; hfhist_dijet_weighted->Fill(x3D_hiHF_dijet,event_weight);
 				double x3D_hiHFEta4_dijet[3]={hfplusEta4,hfminusEta4,(double) mult}; hfhistEta4_dijet_weighted->Fill(x3D_hiHFEta4_dijet,event_weight);
 				double x3D_hiZDC_dijet[3]={zdcplus,zdcminus,(double) mult}; zdchist_dijet_weighted->Fill(x3D_hiZDC_dijet,event_weight);
+				double x2D_hiHFSum_dijet[2]={hfplus+hfminus,(double) mult}; hfhist_dijet_weighted->Fill(x2D_hiHFSum_dijet,event_weight);
+				double x2D_hiHFEta4Sum_dijet[2]={hfplusEta4+hfminusEta4,(double) mult}; hfhistEta4_dijet_weighted->Fill(x2D_hiHFEta4Sum_dijet,event_weight);
 			}
 		}
 
