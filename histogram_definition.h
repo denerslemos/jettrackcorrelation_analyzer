@@ -323,16 +323,36 @@ THnSparseD *hist_ref_lead_ref_subl_quench_bkw_fwd = new THnSparseD("hist_ref_lea
 THnSparseD *hist_ref_lead_ref_subl_quench_bkw_bkw = new THnSparseD("hist_ref_lead_ref_subl_quench_bkw_bkw", "hist_ref_lead_ref_subl_quench_bkw_bkw", 6, bins_quenc, xmin_quenc, xmax_quenc);
 
 // Assymetry studies
+// Need to define log binning
+const Int_t nXBins = 40;
+const Double_t minX = 0.0001;
+const Double_t maxX = 1.0;
+const Double_t binnerShift = 0.0;
+const Double_t XlogBinWidth = (TMath::Log(maxX+binnerShift) - TMath::Log(minX+binnerShift)) / nXBins;
+Double_t XBins[nXBins+1];
+for(int iX = 0; iX <= nXBins; iX++){XBins[iX] = (minX+binnerShift)*TMath::Exp(iX*XlogBinWidth)-binnerShift;}
 // Axis : 0 -> etaDijet, 1 -> delta eta / 2, 2 -> Xj, 3 -> Aj, 4 -> delta phi, 5 -> x_p, 6 -> x_Pb, 7 -> multiplicity, 8 -> jet pT average, 9 -> extra dependency
-int	bins_etaDijet[10]      =   {  40   ,  16  , 20	  , 20 , 30		     , 1     ,  1      ,	 multbinsize-1		  	 ,	 ptavebinsize-1			  ,  extrabinsize-1};
-double xmin_etaDijet[10]   =   { -4.0  , -4.0,  0.0   , 0.0, 0.0 	     , 0.0   ,  0.0    ,     0.0		   			 ,	 0.0					  ,	 0.0};
-double xmax_etaDijet[10]   =   {  4.0  ,  4.0,  1.0   , 1.0, TMath::Pi() , 1.0   ,  1.0    ,     (double) multbinsize-1  ,   (double) ptavebinsize-1  ,  (double) extrabinsize-1};
+int	bins_etaDijet[10]      =   {  40   ,  16  , 20	  , 20 , 30		     , nXBins ,  nXBins  ,	 multbinsize-1		  	 ,	 ptavebinsize-1			  ,  extrabinsize-1};
+double xmin_etaDijet[10]   =   { -4.0  , -4.0,  0.0   , 0.0, 0.0 	     , minX   ,  minX    ,   0.0		   			 ,	 0.0					  ,	 0.0};
+double xmax_etaDijet[10]   =   {  4.0  ,  4.0,  1.0   , 1.0, TMath::Pi() , maxX   ,  maxX    ,   (double) multbinsize-1  ,   (double) ptavebinsize-1  ,  (double) extrabinsize-1};
 THnSparseD *hist_etaDijet_reco = new THnSparseD("hist_etaDijet_reco", "hist_etaDijet_reco", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
+hist_etaDijet_reco->SetBinEdges(5,XBins);
+hist_etaDijet_reco->SetBinEdges(6,XBins);
 THnSparseD *hist_etaDijet_CM_reco = new THnSparseD("hist_etaDijet_CM_reco", "hist_etaDijet_CM_reco", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
+hist_etaDijet_CM_reco->SetBinEdges(5,XBins);
+hist_etaDijet_CM_reco->SetBinEdges(6,XBins);
 THnSparseD *hist_etaDijet_ref = new THnSparseD("hist_etaDijet_ref", "hist_etaDijet_ref", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
+hist_etaDijet_ref->SetBinEdges(5,XBins);
+hist_etaDijet_ref->SetBinEdges(6,XBins);
 THnSparseD *hist_etaDijet_CM_ref = new THnSparseD("hist_etaDijet_CM_ref", "hist_etaDijet_CM_ref", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
+hist_etaDijet_CM_ref->SetBinEdges(5,XBins);
+hist_etaDijet_CM_ref->SetBinEdges(6,XBins);
 THnSparseD *hist_etaDijet_gen = new THnSparseD("hist_etaDijet_gen", "hist_etaDijet_gen", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
+hist_etaDijet_gen->SetBinEdges(5,XBins);
+hist_etaDijet_gen->SetBinEdges(6,XBins);
 THnSparseD *hist_etaDijet_CM_gen = new THnSparseD("hist_etaDijet_CM_gen", "hist_etaDijet_CM_gen", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
+hist_etaDijet_CM_gen->SetBinEdges(5,XBins);
+hist_etaDijet_CM_gen->SetBinEdges(6,XBins);
 
 // Axis : 0 -> in-jet multiplicity, 1 -> multiplicity, 2 -> extra dimension
 int	bins_injettrk[3]   	  =   { 100 ,  multbinsize-1			  ,  extrabinsize-1};
