@@ -330,7 +330,7 @@ const Double_t maxX = 1.0;
 const Double_t binnerShift = 0.0;
 const Double_t XlogBinWidth = (TMath::Log(maxX+binnerShift) - TMath::Log(minX+binnerShift)) / nXBins;
 Double_t XBins[nXBins+1] = {0.0001, 0.000125893, 0.000158489, 0.000199526, 0.000251189, 0.000316228, 0.000398107, 0.000501187, 0.000630957, 0.000794328, 0.001, 0.00125893, 0.00158489, 0.00199526, 0.00251189, 0.00316228, 0.00398107, 0.00501187, 0.00630957, 0.00794328, 0.01, 0.0125893, 0.0158489, 0.0199526, 0.0251189, 0.0316228, 0.0398107, 0.0501187, 0.0630957, 0.0794328, 0.1, 0.125893, 0.158489, 0.199526, 0.251189, 0.316228, 0.398107, 0.501187, 0.630957, 0.794328, 1.0};
-//for(int iX = 0; iX <= nXBins; iX++){XBins[iX] = (minX+binnerShift)*TMath::Exp(iX*XlogBinWidth)-binnerShift;}
+//for(int iX = 0; iX <= nXBins; iX++){XBins[iX] = (minX+binnerShift)*TMath::Exp(iX*XlogBinWidth)-binnerShift;} // add bins by hand, because cannot loop here
 // Axis : 0 -> etaDijet, 1 -> delta eta / 2, 2 -> Xj, 3 -> Aj, 4 -> delta phi, 5 -> x_p, 6 -> x_Pb, 7 -> multiplicity, 8 -> jet pT average, 9 -> extra dependency
 int	bins_etaDijet[10]      =   {  40   ,  16  , 20	  , 20 , 30		     , nXBins ,  nXBins  ,	 multbinsize-1		  	 ,	 ptavebinsize-1			  ,  extrabinsize-1};
 double xmin_etaDijet[10]   =   { -4.0  , -4.0,  0.0   , 0.0, 0.0 	     , minX   ,  minX    ,   0.0		   			 ,	 0.0					  ,	 0.0};
