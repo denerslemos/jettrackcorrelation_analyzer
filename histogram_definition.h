@@ -336,23 +336,12 @@ int	bins_etaDijet[10]      =   {  40   ,  16  , 20	  , 20 , 30		     , nXBins , 
 double xmin_etaDijet[10]   =   { -4.0  , -4.0,  0.0   , 0.0, 0.0 	     , minX   ,  minX    ,   0.0		   			 ,	 0.0					  ,	 0.0};
 double xmax_etaDijet[10]   =   {  4.0  ,  4.0,  1.0   , 1.0, TMath::Pi() , maxX   ,  maxX    ,   (double) multbinsize-1  ,   (double) ptavebinsize-1  ,  (double) extrabinsize-1};
 THnSparseD *hist_etaDijet_reco = new THnSparseD("hist_etaDijet_reco", "hist_etaDijet_reco", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
-hist_etaDijet_reco->GetAxis(5)->Set(bins_etaDijet[5],XBins);
-hist_etaDijet_reco->GetAxis(6)->Set(bins_etaDijet[6],XBins);
 THnSparseD *hist_etaDijet_CM_reco = new THnSparseD("hist_etaDijet_CM_reco", "hist_etaDijet_CM_reco", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
-hist_etaDijet_CM_reco->GetAxis(5)->Set(bins_etaDijet);
-hist_etaDijet_CM_reco->GetAxis(6)->Set(bins_etaDijet[6],XBins);
 THnSparseD *hist_etaDijet_ref = new THnSparseD("hist_etaDijet_ref", "hist_etaDijet_ref", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
-hist_etaDijet_ref->GetAxis(5)->Set(bins_etaDijet[5],XBins);
-hist_etaDijet_ref->GetAxis(6)->Set(bins_etaDijet[6],XBins);
 THnSparseD *hist_etaDijet_CM_ref = new THnSparseD("hist_etaDijet_CM_ref", "hist_etaDijet_CM_ref", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
-hist_etaDijet_CM_ref->GetAxis(5)->Set(bins_etaDijet[5],XBins);
-hist_etaDijet_CM_ref->GetAxis(6)->Set(bins_etaDijet[6],XBins);
 THnSparseD *hist_etaDijet_gen = new THnSparseD("hist_etaDijet_gen", "hist_etaDijet_gen", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
-hist_etaDijet_gen->GetAxis(5)->Set(bins_etaDijet[5],XBins);
-hist_etaDijet_gen->GetAxis(6)->Set(bins_etaDijet[6],XBins);
 THnSparseD *hist_etaDijet_CM_gen = new THnSparseD("hist_etaDijet_CM_gen", "hist_etaDijet_CM_gen", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
-hist_etaDijet_CM_gen->GetAxis(5)->Set(bins_etaDijet[5],XBins);
-hist_etaDijet_CM_gen->GetAxis(6)->Set(bins_etaDijet[6],XBins);
+
 
 // Axis : 0 -> in-jet multiplicity, 1 -> multiplicity, 2 -> extra dimension
 int	bins_injettrk[3]   	  =   { 100 ,  multbinsize-1			  ,  extrabinsize-1};
@@ -455,6 +444,19 @@ THnSparseD *hist_gen_gen_2pcorrelation_mixing = new THnSparseD("hist_gen_gen_2pc
 
 // Evaluate uncertainties correctly at ROOT
 void sw2(){
+
+hist_etaDijet_reco->GetAxis(5)->Set(bins_etaDijet[5],XBins);
+hist_etaDijet_reco->GetAxis(6)->Set(bins_etaDijet[6],XBins);
+hist_etaDijet_CM_reco->GetAxis(5)->Set(bins_etaDijet);
+hist_etaDijet_CM_reco->GetAxis(6)->Set(bins_etaDijet[6],XBins);
+hist_etaDijet_ref->GetAxis(5)->Set(bins_etaDijet[5],XBins);
+hist_etaDijet_ref->GetAxis(6)->Set(bins_etaDijet[6],XBins);
+hist_etaDijet_CM_ref->GetAxis(5)->Set(bins_etaDijet[5],XBins);
+hist_etaDijet_CM_ref->GetAxis(6)->Set(bins_etaDijet[6],XBins);
+hist_etaDijet_gen->GetAxis(5)->Set(bins_etaDijet[5],XBins);
+hist_etaDijet_gen->GetAxis(6)->Set(bins_etaDijet[6],XBins);
+hist_etaDijet_CM_gen->GetAxis(5)->Set(bins_etaDijet[5],XBins);
+hist_etaDijet_CM_gen->GetAxis(6)->Set(bins_etaDijet[6],XBins);
 
 Nevents->Sumw2();
 Nev_recoreco->Sumw2();
