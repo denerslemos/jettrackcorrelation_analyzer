@@ -329,30 +329,30 @@ const Double_t minX = 0.0001;
 const Double_t maxX = 1.0;
 const Double_t binnerShift = 0.0;
 const Double_t XlogBinWidth = (TMath::Log(maxX+binnerShift) - TMath::Log(minX+binnerShift)) / nXBins;
-Double_t XBins[nXBins+1];
-for(int iX = 0; iX <= nXBins; iX++){XBins[iX] = (minX+binnerShift)*TMath::Exp(iX*XlogBinWidth)-binnerShift;}
+Double_t XBins[nXBins+1] = {0.0001, 0.000125893, 0.000158489, 0.000199526, 0.000251189, 0.000316228, 0.000398107, 0.000501187, 0.000630957, 0.000794328, 0.001, 0.00125893, 0.00158489, 0.00199526, 0.00251189, 0.00316228, 0.00398107, 0.00501187, 0.00630957, 0.00794328, 0.01, 0.0125893, 0.0158489, 0.0199526, 0.0251189, 0.0316228, 0.0398107, 0.0501187, 0.0630957, 0.0794328, 0.1, 0.125893, 0.158489, 0.199526, 0.251189, 0.316228, 0.398107, 0.501187, 0.630957, 0.794328, 1.0};
+//for(int iX = 0; iX <= nXBins; iX++){XBins[iX] = (minX+binnerShift)*TMath::Exp(iX*XlogBinWidth)-binnerShift;}
 // Axis : 0 -> etaDijet, 1 -> delta eta / 2, 2 -> Xj, 3 -> Aj, 4 -> delta phi, 5 -> x_p, 6 -> x_Pb, 7 -> multiplicity, 8 -> jet pT average, 9 -> extra dependency
 int	bins_etaDijet[10]      =   {  40   ,  16  , 20	  , 20 , 30		     , nXBins ,  nXBins  ,	 multbinsize-1		  	 ,	 ptavebinsize-1			  ,  extrabinsize-1};
 double xmin_etaDijet[10]   =   { -4.0  , -4.0,  0.0   , 0.0, 0.0 	     , minX   ,  minX    ,   0.0		   			 ,	 0.0					  ,	 0.0};
 double xmax_etaDijet[10]   =   {  4.0  ,  4.0,  1.0   , 1.0, TMath::Pi() , maxX   ,  maxX    ,   (double) multbinsize-1  ,   (double) ptavebinsize-1  ,  (double) extrabinsize-1};
 THnSparseD *hist_etaDijet_reco = new THnSparseD("hist_etaDijet_reco", "hist_etaDijet_reco", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
-hist_etaDijet_reco->SetBinEdges(5,XBins);
-hist_etaDijet_reco->SetBinEdges(6,XBins);
+hist_etaDijet_reco->GetAxis(5)->Set(bins[5],XBins);
+hist_etaDijet_reco->GetAxis(6)->Set(bins[6],XBins);
 THnSparseD *hist_etaDijet_CM_reco = new THnSparseD("hist_etaDijet_CM_reco", "hist_etaDijet_CM_reco", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
-hist_etaDijet_CM_reco->SetBinEdges(5,XBins);
-hist_etaDijet_CM_reco->SetBinEdges(6,XBins);
+hist_etaDijet_CM_reco->GetAxis(5)->Set(bins[5],XBins);
+hist_etaDijet_CM_reco->GetAxis(6)->Set(bins[6],XBins);
 THnSparseD *hist_etaDijet_ref = new THnSparseD("hist_etaDijet_ref", "hist_etaDijet_ref", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
-hist_etaDijet_ref->SetBinEdges(5,XBins);
-hist_etaDijet_ref->SetBinEdges(6,XBins);
+hist_etaDijet_ref->GetAxis(5)->Set(bins[5],XBins);
+hist_etaDijet_ref->GetAxis(6)->Set(bins[6],XBins);
 THnSparseD *hist_etaDijet_CM_ref = new THnSparseD("hist_etaDijet_CM_ref", "hist_etaDijet_CM_ref", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
-hist_etaDijet_CM_ref->SetBinEdges(5,XBins);
-hist_etaDijet_CM_ref->SetBinEdges(6,XBins);
+hist_etaDijet_CM_ref->GetAxis(5)->Set(bins[5],XBins);
+hist_etaDijet_CM_ref->GetAxis(6)->Set(bins[6],XBins);
 THnSparseD *hist_etaDijet_gen = new THnSparseD("hist_etaDijet_gen", "hist_etaDijet_gen", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
-hist_etaDijet_gen->SetBinEdges(5,XBins);
-hist_etaDijet_gen->SetBinEdges(6,XBins);
+hist_etaDijet_gen->GetAxis(5)->Set(bins[5],XBins);
+hist_etaDijet_gen->GetAxis(6)->Set(bins[6],XBins);
 THnSparseD *hist_etaDijet_CM_gen = new THnSparseD("hist_etaDijet_CM_gen", "hist_etaDijet_CM_gen", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
-hist_etaDijet_CM_gen->SetBinEdges(5,XBins);
-hist_etaDijet_CM_gen->SetBinEdges(6,XBins);
+hist_etaDijet_CM_gen->GetAxis(5)->Set(bins[5],XBins);
+hist_etaDijet_CM_gen->GetAxis(6)->Set(bins[6],XBins);
 
 // Axis : 0 -> in-jet multiplicity, 1 -> multiplicity, 2 -> extra dimension
 int	bins_injettrk[3]   	  =   { 100 ,  multbinsize-1			  ,  extrabinsize-1};
