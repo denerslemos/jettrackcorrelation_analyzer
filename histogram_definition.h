@@ -790,12 +790,12 @@ void w_QA_hist(bool isMC){
 	zdchist_weighted->Write();
 	zdchist_onejet_weighted->Write();
 	zdchist_dijet_weighted->Write();
-	hfhistSum_weighted->Sumw2();
-	hfhistEta4Sum_weighted->Sumw2();
-	hfhistSum_onejet_weighted->Sumw2();
-	hfhistEta4Sum_onejet_weighted->Sumw2();
-	hfhistSum_dijet_weighted->Sumw2();
-	hfhistEta4Sum_dijet_weighted->Sumw2();
+	hfhistSum_weighted->Write();
+	hfhistEta4Sum_weighted->Write();
+	hfhistSum_onejet_weighted->Write();
+	hfhistEta4Sum_onejet_weighted->Write();
+	hfhistSum_dijet_weighted->Write();
+	hfhistEta4Sum_dijet_weighted->Write();
 	//tracks 
 	//reco
 	hist_reco_trk->Write();
