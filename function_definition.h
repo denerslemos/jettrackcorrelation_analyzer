@@ -205,22 +205,25 @@ thrdpt: third jet pT
 thrdeta: third jet Eta
 thrdphi: third jet Phi
 */
-void find_leading_subleading_third(float pt, float eta, float phi, float &leadpt, float &leadeta, float &leadphi, float &sublpt, float &subleta, float &sublphi, float &thrdpt, float &thrdeta, float &thrdphi){
+void find_leading_subleading_third(float pt, float eta, float phi, float mass, float &leadpt, float &leadeta, float &leadphi, float &leadmass, float &sublpt, float &subleta, float &sublphi, float &sublmass, float &thrdpt, float &thrdeta, float &thrdphi, float &thrdmass){
 	if( pt > leadpt ) {
 		thrdpt = sublpt;
     	sublpt = leadpt;
         leadpt = pt;
         leadeta = eta;
         leadphi = phi;
+        leadmass = mass;
     } else if( pt > sublpt ) {
 	    thrdpt = sublpt;
     	sublpt = pt;
         subleta = eta;
         sublphi = phi;
+        sublmass = mass;
     } else if( pt > thrdpt ) {
     	thrdpt = pt;
         thrdeta = eta;
         thrdphi = phi;
+        thrdmass = mass;
     } 
 }
 

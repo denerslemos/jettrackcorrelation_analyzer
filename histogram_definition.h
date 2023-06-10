@@ -14,6 +14,11 @@ const double minX = 0.0001;  // minimum
 const double maxX = 1.0; 	   // maximum
 double XlogBinWidth = (TMath::Log(maxX+binnerShift) - TMath::Log(minX+binnerShift)) / nXBins; // binwidth
 //double XBins[nXBins+1] = {minX, 0.000125893, 0.000158489, 0.000199526, 0.000251189, 0.000316228, 0.000398107, 0.000501187, 0.000630957, 0.000794328, 0.001, 0.00125893, 0.00158489, 0.00199526, 0.00251189, 0.00316228, 0.00398107, 0.00501187, 0.00630957, 0.00794328, 0.01, 0.0125893, 0.0158489, 0.0199526, 0.0251189, 0.0316228, 0.0398107, 0.0501187, 0.0630957, 0.0794328, 0.1, 0.125893, 0.158489, 0.199526, 0.251189, 0.316228, 0.398107, 0.501187, 0.630957, 0.794328, maxX};
+// M12 -> see sumw2 function
+const int nMBins = 30; // number of bins
+const double minM = 100.0;  // minimum
+const double maxM = 2000.0; // maximum
+double MlogBinWidth = (TMath::Log(maxM+binnerShift) - TMath::Log(minM+binnerShift)) / nMBins; // binwidth
 // PT average -> see sumw2 function
 const int nPtaveBins = 30; // number of bins
 const double minPtave = 55.0;  // minimum
@@ -338,20 +343,20 @@ THnSparseD *hist_ref_lead_ref_subl_quench_bkw_fwd = new THnSparseD("hist_ref_lea
 THnSparseD *hist_ref_lead_ref_subl_quench_bkw_bkw = new THnSparseD("hist_ref_lead_ref_subl_quench_bkw_bkw", "hist_ref_lead_ref_subl_quench_bkw_bkw", 6, bins_quenc, xmin_quenc, xmax_quenc);
 
 // Assymetry studies
-// Axis : 0 -> etaDijet, 1 -> delta eta / 2, 2 -> Xj, 3 -> Aj, 4 -> delta phi, 5 -> x_p, 6 -> x_Pb, 7 -> multiplicity, 8 -> jet pT average, 9 -> extra dependency
-int	bins_etaDijet[10]      =   {  40   ,  16  , 20	  , 20 , 30		     , nXBins ,  nXBins  ,	 multbinsize-1		  	 					  ,	 nPtaveBins	 ,  extrabinsize-1};
-double xmin_etaDijet[10]   =   { -4.0  , -4.0,  0.0   , 0.0, 0.0 	     , minX   ,  minX    ,   multiplicity_centrality_bins[0]		   	  ,	 minPtave	 ,  extra_bins[0]};
-double xmax_etaDijet[10]   =   {  4.0  ,  4.0,  1.0   , 1.0, TMath::Pi() , maxX   ,  maxX    ,   multiplicity_centrality_bins[multbinsize-1]  ,  maxPtave    ,  extra_bins[extrabinsize-1]};
-THnSparseD *hist_etaDijet_reco = new THnSparseD("hist_etaDijet_reco", "hist_etaDijet_reco", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
-THnSparseD *hist_etaDijet_CM_reco = new THnSparseD("hist_etaDijet_CM_reco", "hist_etaDijet_CM_reco", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
-THnSparseD *hist_etaDijet_ref = new THnSparseD("hist_etaDijet_ref", "hist_etaDijet_ref", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
-THnSparseD *hist_etaDijet_CM_ref = new THnSparseD("hist_etaDijet_CM_ref", "hist_etaDijet_CM_ref", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
-THnSparseD *hist_etaDijet_gen = new THnSparseD("hist_etaDijet_gen", "hist_etaDijet_gen", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
-THnSparseD *hist_etaDijet_CM_gen = new THnSparseD("hist_etaDijet_CM_gen", "hist_etaDijet_CM_gen", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
+// Axis : 0 -> etaDijet, 1 -> delta eta / 2, 2 -> Xj, 3 -> Aj, 4 -> delta phi, 5 -> x_p, 6 -> x_Pb, 7-> M12, 8 -> multiplicity, 9 -> jet pT average, 10 -> extra dependency
+int	bins_etaDijet[11]      =   {  40   ,  16  , 20	  , 20 , 30		     , nXBins ,  nXBins  ,  nMBins,	 multbinsize-1		  	 					  ,	 nPtaveBins	 ,  extrabinsize-1};
+double xmin_etaDijet[11]   =   { -4.0  , -4.0,  0.0   , 0.0, 0.0 	     , minX   ,  minX    ,  minM, 	 multiplicity_centrality_bins[0]		   	  ,	 minPtave	 ,  extra_bins[0]};
+double xmax_etaDijet[11]   =   {  4.0  ,  4.0,  1.0   , 1.0, TMath::Pi() , maxX   ,  maxX    ,  maxM, 	 multiplicity_centrality_bins[multbinsize-1]  ,  maxPtave    ,  extra_bins[extrabinsize-1]};
+THnSparseD *hist_etaDijet_reco = new THnSparseD("hist_etaDijet_reco", "hist_etaDijet_reco", 11, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
+THnSparseD *hist_etaDijet_CM_reco = new THnSparseD("hist_etaDijet_CM_reco", "hist_etaDijet_CM_reco", 11, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
+THnSparseD *hist_etaDijet_ref = new THnSparseD("hist_etaDijet_ref", "hist_etaDijet_ref", 11, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
+THnSparseD *hist_etaDijet_CM_ref = new THnSparseD("hist_etaDijet_CM_ref", "hist_etaDijet_CM_ref", 11, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
+THnSparseD *hist_etaDijet_gen = new THnSparseD("hist_etaDijet_gen", "hist_etaDijet_gen", 11, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
+THnSparseD *hist_etaDijet_CM_gen = new THnSparseD("hist_etaDijet_CM_gen", "hist_etaDijet_CM_gen", 11, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
 // rapidity dependency
-THnSparseD *hist_yDijet_CM_reco = new THnSparseD("hist_yDijet_CM_reco", "hist_yDijet_CM_reco", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
-THnSparseD *hist_yDijet_CM_ref = new THnSparseD("hist_yDijet_CM_ref", "hist_yDijet_CM_ref", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
-THnSparseD *hist_yDijet_CM_gen = new THnSparseD("hist_yDijet_CM_gen", "hist_yDijet_CM_gen", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
+THnSparseD *hist_yDijet_CM_reco = new THnSparseD("hist_yDijet_CM_reco", "hist_yDijet_CM_reco", 11, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
+THnSparseD *hist_yDijet_CM_ref = new THnSparseD("hist_yDijet_CM_ref", "hist_yDijet_CM_ref", 11, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
+THnSparseD *hist_yDijet_CM_gen = new THnSparseD("hist_yDijet_CM_gen", "hist_yDijet_CM_gen", 11, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
 
 // Axis : 0 -> in-jet multiplicity, 1 -> multiplicity, 2 -> extra dimension
 int	bins_injettrk[3]   	  =   { 100 , multbinsize-1			  						  ,  extrabinsize-1};
@@ -475,19 +480,31 @@ hist_yDijet_CM_reco->GetAxis(6)->Set(bins_etaDijet[6],XBins);
 hist_yDijet_CM_ref->GetAxis(5)->Set(bins_etaDijet[5],XBins);
 hist_yDijet_CM_ref->GetAxis(6)->Set(bins_etaDijet[6],XBins);
 hist_yDijet_CM_gen->GetAxis(5)->Set(bins_etaDijet[5],XBins);
+double MBins[nMBins+1];
+for(int a = 0; a <= nMBins; a++){MBins[a] = (minM+binnerShift)*TMath::Exp(a*MlogBinWidth)-binnerShift;} // add bins by hand (bellow), because cannot loop here
+hist_etaDijet_reco->GetAxis(7)->Set(bins_etaDijet[7],MBins);
+hist_etaDijet_CM_reco->GetAxis(7)->Set(bins_etaDijet[7],MBins);
+hist_etaDijet_ref->GetAxis(7)->Set(bins_etaDijet[7],MBins);
+hist_etaDijet_CM_ref->GetAxis(7)->Set(bins_etaDijet[7],MBins);
+hist_etaDijet_gen->GetAxis(7)->Set(bins_etaDijet[7],MBins);
+hist_etaDijet_CM_gen->GetAxis(7)->Set(bins_etaDijet[7],MBins);
+hist_yDijet_CM_reco->GetAxis(7)->Set(bins_etaDijet[7],MBins);
+hist_yDijet_CM_ref->GetAxis(7)->Set(bins_etaDijet[7],MBins);
+hist_yDijet_CM_gen->GetAxis(7)->Set(bins_etaDijet[7],MBins);
+// pT average
 double PtaveBins[nPtaveBins+1];
 // pT average
-for(int a = 0; a <= nXBins; a++){PtaveBins[a] = (minPtave+binnerShift)*TMath::Exp(a*PtavelogBinWidth)-binnerShift;} // add bins by hand (bellow), because cannot loop here
+for(int a = 0; a <= nPtaveBins; a++){PtaveBins[a] = (minPtave+binnerShift)*TMath::Exp(a*PtavelogBinWidth)-binnerShift;} // add bins by hand (bellow), because cannot loop here
 //adjust the bins for pT average
-hist_etaDijet_reco->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
-hist_etaDijet_CM_reco->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
-hist_etaDijet_ref->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
-hist_etaDijet_CM_ref->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
-hist_etaDijet_gen->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
-hist_etaDijet_CM_gen->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
-hist_yDijet_CM_reco->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
-hist_yDijet_CM_ref->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
-hist_yDijet_CM_gen->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
+hist_etaDijet_reco->GetAxis(9)->Set(bins_etaDijet[9],PtaveBins);
+hist_etaDijet_CM_reco->GetAxis(9)->Set(bins_etaDijet[9],PtaveBins);
+hist_etaDijet_ref->GetAxis(9)->Set(bins_etaDijet[9],PtaveBins);
+hist_etaDijet_CM_ref->GetAxis(9)->Set(bins_etaDijet[9],PtaveBins);
+hist_etaDijet_gen->GetAxis(9)->Set(bins_etaDijet[9],PtaveBins);
+hist_etaDijet_CM_gen->GetAxis(9)->Set(bins_etaDijet[9],PtaveBins);
+hist_yDijet_CM_reco->GetAxis(9)->Set(bins_etaDijet[9],PtaveBins);
+hist_yDijet_CM_ref->GetAxis(9)->Set(bins_etaDijet[9],PtaveBins);
+hist_yDijet_CM_gen->GetAxis(9)->Set(bins_etaDijet[9],PtaveBins);
 //adjust the bins for pT average
 hist_reco_lead_reco_subl_quench_mid_mid->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
 hist_reco_lead_reco_subl_quench_mid_fwd->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
@@ -750,15 +767,15 @@ hist_ref_lead_ref_subl_quench_fwd_fwd->GetAxis(3)->Set(bins_quenc[3],MultCentbin
 hist_ref_lead_ref_subl_quench_fwd_bkw->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
 hist_ref_lead_ref_subl_quench_bkw_fwd->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
 hist_ref_lead_ref_subl_quench_bkw_bkw->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_etaDijet_reco->GetAxis(7)->Set(bins_etaDijet[7],MultCentbins);
-hist_etaDijet_CM_reco->GetAxis(7)->Set(bins_etaDijet[7],MultCentbins);
-hist_etaDijet_ref->GetAxis(7)->Set(bins_etaDijet[7],MultCentbins);
-hist_etaDijet_CM_ref->GetAxis(7)->Set(bins_etaDijet[7],MultCentbins);
-hist_etaDijet_gen->GetAxis(7)->Set(bins_etaDijet[7],MultCentbins);
-hist_etaDijet_CM_gen->GetAxis(7)->Set(bins_etaDijet[7],MultCentbins);
-hist_yDijet_CM_reco->GetAxis(7)->Set(bins_etaDijet[7],MultCentbins);
-hist_yDijet_CM_ref->GetAxis(7)->Set(bins_etaDijet[7],MultCentbins);
-hist_yDijet_CM_gen->GetAxis(7)->Set(bins_etaDijet[7],MultCentbins);
+hist_etaDijet_reco->GetAxis(8)->Set(bins_etaDijet[8],MultCentbins);
+hist_etaDijet_CM_reco->GetAxis(8)->Set(bins_etaDijet[8],MultCentbins);
+hist_etaDijet_ref->GetAxis(8)->Set(bins_etaDijet[8],MultCentbins);
+hist_etaDijet_CM_ref->GetAxis(8)->Set(bins_etaDijet[8],MultCentbins);
+hist_etaDijet_gen->GetAxis(8)->Set(bins_etaDijet[8],MultCentbins);
+hist_etaDijet_CM_gen->GetAxis(8)->Set(bins_etaDijet[8],MultCentbins);
+hist_yDijet_CM_reco->GetAxis(8)->Set(bins_etaDijet[8],MultCentbins);
+hist_yDijet_CM_ref->GetAxis(8)->Set(bins_etaDijet[8],MultCentbins);
+hist_yDijet_CM_gen->GetAxis(8)->Set(bins_etaDijet[8],MultCentbins);
 hist_injet_reco_track_reco->GetAxis(1)->Set(bins_injettrk[1],MultCentbins);
 hist_injet_reco_track_gen->GetAxis(1)->Set(bins_injettrk[1],MultCentbins);
 hist_injet_gen_track_reco->GetAxis(1)->Set(bins_injettrk[1],MultCentbins);
@@ -990,15 +1007,15 @@ hist_ref_lead_ref_subl_quench_fwd_fwd->GetAxis(5)->Set(bins_quenc[5],Extrabins);
 hist_ref_lead_ref_subl_quench_fwd_bkw->GetAxis(5)->Set(bins_quenc[5],Extrabins);
 hist_ref_lead_ref_subl_quench_bkw_fwd->GetAxis(5)->Set(bins_quenc[5],Extrabins);
 hist_ref_lead_ref_subl_quench_bkw_bkw->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_etaDijet_reco->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
-hist_etaDijet_CM_reco->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
-hist_etaDijet_ref->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
-hist_etaDijet_CM_ref->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
-hist_etaDijet_gen->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
-hist_etaDijet_CM_gen->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
-hist_yDijet_CM_reco->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
-hist_yDijet_CM_ref->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
-hist_yDijet_CM_gen->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
+hist_etaDijet_reco->GetAxis(10)->Set(bins_etaDijet[10],Extrabins);
+hist_etaDijet_CM_reco->GetAxis(10)->Set(bins_etaDijet[10],Extrabins);
+hist_etaDijet_ref->GetAxis(10)->Set(bins_etaDijet[10],Extrabins);
+hist_etaDijet_CM_ref->GetAxis(10)->Set(bins_etaDijet[10],Extrabins);
+hist_etaDijet_gen->GetAxis(10)->Set(bins_etaDijet[10],Extrabins);
+hist_etaDijet_CM_gen->GetAxis(10)->Set(bins_etaDijet[10],Extrabins);
+hist_yDijet_CM_reco->GetAxis(10)->Set(bins_etaDijet[10],Extrabins);
+hist_yDijet_CM_ref->GetAxis(10)->Set(bins_etaDijet[10],Extrabins);
+hist_yDijet_CM_gen->GetAxis(10)->Set(bins_etaDijet[10],Extrabins);
 hist_injet_reco_track_reco->GetAxis(2)->Set(bins_injettrk[2],Extrabins);
 hist_injet_reco_track_gen->GetAxis(2)->Set(bins_injettrk[2],Extrabins);
 hist_injet_gen_track_reco->GetAxis(2)->Set(bins_injettrk[2],Extrabins);

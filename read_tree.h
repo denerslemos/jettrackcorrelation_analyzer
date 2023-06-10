@@ -50,6 +50,7 @@ int nref;         // number of jets
 float jteta[9999]; // jet eta
 float jtphi[9999]; // jet phi
 float rawpt[9999]; // jet pT without JEC
+float jtmass[9999]; // jet mass
 float trackMax[9999]; // track maximum pT in a jet
 // reco tracks
 int ntrk;                 // number of track
@@ -82,12 +83,14 @@ int ngen;             // number of gen jets
 float gen_jtpt[9999];  // gen jet pT
 float gen_jteta[9999]; // gen jet eta
 float gen_jtphi[9999]; // gen jet phi
+float gen_jtmass[9999]; // gen jet mass
 float gen_jteta_otheraxis[9999]; // gen jet eta
 float gen_jtphi_otheraxis[9999]; // gen jet phi
 // matched jets
 float refpt[9999]; // jet pT matched with Gen pT
 float refeta[9999]; // jet eta matched with Gen eta
 float refphi[9999]; // jet phi matched with Gen phi
+float refmass[9999]; // jet phi matched with Gen mass
 int refparton_flavor[9999]; // jet phi matched with Gen phi
 int refparton_flavorForB[9999]; // jet phi matched with Gen phi
 
@@ -236,6 +239,7 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
     // jet quantities
     tree->SetBranchStatus("nref", 1);
     tree->SetBranchStatus("rawpt", 1);
+    tree->SetBranchStatus("jtm", 1);
     tree->SetBranchStatus("trackMax", 1);
     if(use_WTA){
         tree->SetBranchStatus("WTAeta", 1);
@@ -247,6 +251,7 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
 
     tree->SetBranchAddress("nref", &nref);
     tree->SetBranchAddress("rawpt", &rawpt);
+    tree->SetBranchAddress("jtm", &jtmass);
     tree->SetBranchAddress("trackMax", &trackMax);
     if(use_WTA){
         tree->SetBranchAddress("WTAeta", &jteta);
@@ -265,10 +270,12 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
         tree->SetBranchStatus("WTAgenphi", 1);
         tree->SetBranchStatus("geneta", 1);
         tree->SetBranchStatus("genphi", 1);
-
+		tree->SetBranchStatus("genm", 1);
+		
         tree->SetBranchAddress("ngen", &ngen);
         tree->SetBranchAddress("genpt", &gen_jtpt);
-
+        tree->SetBranchAddress("genm", &gen_jtmass);
+        
         if(use_WTA){
             tree->SetBranchAddress("WTAgeneta", &gen_jteta);
             tree->SetBranchAddress("WTAgenphi", &gen_jtphi);
@@ -289,6 +296,8 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
         tree->SetBranchStatus("refphi", 1);
         tree->SetBranchAddress("refphi", &refphi);
         tree->SetBranchStatus("refparton_flavor", 1);
+        tree->SetBranchStatus("refm", 1);
+        tree->SetBranchAddress("refm", &refmass);
         tree->SetBranchAddress("refparton_flavor", &refparton_flavor);
         tree->SetBranchStatus("refparton_flavorForB", 1);
         tree->SetBranchAddress("refparton_flavorForB", &refparton_flavorForB);
