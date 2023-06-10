@@ -485,9 +485,9 @@ hist_etaDijet_ref->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
 hist_etaDijet_CM_ref->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
 hist_etaDijet_gen->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
 hist_etaDijet_CM_gen->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
-hist_yDijet_CM_reco->GetAxis(8)->Set(bins_etaDijet[8],XBins);
-hist_yDijet_CM_ref->GetAxis(8)->Set(bins_etaDijet[8],XBins);
-hist_yDijet_CM_gen->GetAxis(8)->Set(bins_etaDijet[8],XBins);
+hist_yDijet_CM_reco->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
+hist_yDijet_CM_ref->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
+hist_yDijet_CM_gen->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
 //adjust the bins for pT average
 hist_reco_lead_reco_subl_quench_mid_mid->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
 hist_reco_lead_reco_subl_quench_mid_fwd->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
