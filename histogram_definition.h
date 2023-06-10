@@ -102,7 +102,7 @@ THnSparseD *vzhist_dijet_weighted = new THnSparseD("vzhist_dijet_weighted", "vzh
 int	bins_vxy[4]   	 =   {  100 , 100  , multbinsize-1    		 					  ,  extrabinsize-1};
 double xmin_vxy[4]   =   { -1.0 , -1.0 , multiplicity_centrality_bins[0]  			  ,  extra_bins[0]};
 double xmax_vxy[4]   =   {  1.0 ,  1.0 , multiplicity_centrality_bins[multbinsize-1]  ,  extra_bins[extrabinsize-1]};
-THnSparseD *vxyhist = new THnSparseD("vxyhist", "vxyhist", 3, bins_vxy, xmin_vxy, xmax_vxy);
+THnSparseD *vxyhist = new THnSparseD("vxyhist", "vxyhist", 4, bins_vxy, xmin_vxy, xmax_vxy);
 THnSparseD *vxyhist_weighted = new THnSparseD("vxyhist_weighted", "vxyhist_weighted", 4, bins_vxy, xmin_vxy, xmax_vxy);
 
 // Pthat
