@@ -199,7 +199,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		int genmult;
 		if(is_MC) genmult = get_simple_mult_gen(colliding_system, sNN_energy_GeV, year_of_datataking, (int) gen_trkpt->size(), gen_trketa, gen_trkpt, gen_trkchg); // gen multiplicity (only pt and eta cuts)
 		if(mult < multiplicity_centrality_bins[0] || mult > multiplicity_centrality_bins[multiplicity_centrality_bins.size()-1])continue; //centrality of multiplicity range
-		int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float) mult);
+		//int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float) mult);
+		double multcentbin = (double) mult;
 		Nevents->Fill(5);
 		
 		// invert the HF/ZDC sides for pPb
@@ -217,7 +218,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 		//  add extra dependency
 		float extra_variable = hfminusEta4;
-		int extrabin = (int) find_my_bin(extra_bins, (double) extra_variable);
+		//int extrabin = (int) find_my_bin(extra_bins, (double) extra_variable);
+		double extrabin = (double) extra_variable;
 
 		// event weight(s), this must be applied in all histograms
 		double event_weight = get_event_weight(nevents,is_MC, use_centrality, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, vertexz, mult, weight, pthat, extra_variable); // get the event weight
@@ -332,7 +334,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			double trk_etamix_weight = get_trketamix_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, trk_eta, true); // weight to deal with Seagull (test)
 			track_w_reco.push_back(trk_weight*trk_etamix_weight); // save weight to apply in the mixing
 
-			int trackbin = (int) find_my_bin(trk_pt_bins, (float) trk_pt);
+			//int trackbin = (int) find_my_bin(trk_pt_bins, (float) trk_pt);
+			double trackbin = (double) trk_pt;
 			if(colliding_system=="pPb" && year_of_datataking==2016 && do_flow){
 				//event plane information
 				// Psi 2
@@ -526,7 +529,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double Aj_reco = asymmetry(leadrecojet_pt,sublrecojet_pt);
 				double Xj_reco = xjvar(leadrecojet_pt,sublrecojet_pt);
 				float ptdijet = 0.5*(leadrecojet_pt + sublrecojet_pt);
-				int ptdijetbin = (int) find_my_bin(pt_ave_bins, (float) ptdijet);
+				//int ptdijetbin = (int) find_my_bin(pt_ave_bins, (float) ptdijet);
+				double ptdijetbin = (double) ptdijet;
 				double x_reco[6]={Xj_reco,Aj_reco,delta_phi_reco,(double)multcentbin,(double)ptdijetbin,(double)extrabin}; 
 				// combinations of midrapidity, forward and backward
 				bool leadmidrap = (leadrecojet_eta > jet_eta_min_cut && leadrecojet_eta < jet_eta_max_cut);
@@ -674,7 +678,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double Aj_ref = asymmetry(leadrefjet_pt,sublrefjet_pt);
 				double Xj_ref = xjvar(leadrefjet_pt,sublrefjet_pt);
 				float ptdijet = 0.5*(leadrefjet_pt + sublrefjet_pt);
-				int ptdijetbin = (int) find_my_bin(pt_ave_bins, (float) ptdijet);
+				//int ptdijetbin = (int) find_my_bin(pt_ave_bins, (float) ptdijet);
+				double ptdijetbin = (double) ptdijet;
 				double x_ref[6]={Xj_ref,Aj_ref,delta_phi_ref,(double)multcentbin,(double)ptdijetbin,(double)extrabin};
 				// combinations of midrapidity, forward and backward
 				bool leadmidrap = (leadrefjet_eta > jet_eta_min_cut && leadrefjet_eta < jet_eta_max_cut);
@@ -770,8 +775,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double trk_etamix_weight = get_trketamix_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, gtrk_eta, false); // weight to deal with Seagull (test)
 				track_w_gen.push_back(trk_etamix_weight); // save weight to apply in the mixing
 				
-				int trackbin = (int) find_my_bin(trk_pt_bins, (float) gtrk_pt);
-				
+				//int trackbin = (int) find_my_bin(trk_pt_bins, (float) gtrk_pt);
+				double trackbin = (double) gtrk_pt;
 				if(do_flow){
 					//event plane information
 					// Psi 2
@@ -897,7 +902,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					double Aj_gen = asymmetry(leadgenjet_pt,sublgenjet_pt);
 					double Xj_gen = xjvar(leadgenjet_pt,sublgenjet_pt);
 					float ptdijet = 0.5*(leadrecojet_pt + sublrecojet_pt);
-					int ptdijetbin = (int) find_my_bin(pt_ave_bins, (float) ptdijet);
+					//int ptdijetbin = (int) find_my_bin(pt_ave_bins, (float) ptdijet);
+					double ptdijetbin = (double) ptdijet;
 					double x_gen[6]={Xj_gen,Aj_gen,delta_phi_gen,(double)multcentbin,(double)ptdijetbin,(double)extrabin}; 
 					// combinations of midrapidity, forward and backward
 					bool leadmidrap = (leadgenjet_eta > jet_eta_min_cut && leadgenjet_eta < jet_eta_max_cut);

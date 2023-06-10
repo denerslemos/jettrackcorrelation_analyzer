@@ -259,8 +259,10 @@ flow: true for flow measurement false for jet shapes
 */
 void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::vector<TVector3> tracks, std::vector<double> tracks_w, THnSparse* histo_corr, THnSparse* histjet, THnSparse* histtrk, float event_weight, int mult, float extra_variable, bool do_rotation, int N_rot, THnSparse* histo_rot, std::vector<int> sube_trk, THnSparse* histo_corr_subeg0, float JetR, THnSparse* histo_injet, bool flow){
 	// get correlation histograms
-	int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (double) mult);
-	int extrabin = (int) find_my_bin(extra_bins, (double) extra_variable);
+	//int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (double) mult);
+	//int extrabin = (int) find_my_bin(extra_bins, (double) extra_variable);
+	double multcentbin = (double) mult;
+	double extrabin = (double) extra_variable;
 	for (int a = 0; a < jets.size(); a++){ // start loop over jets
        	double jet_weight = jets_w[a];
        	int injettrk = 0;
@@ -271,7 +273,8 @@ void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::ve
             // track efficiency correction for reco
             double trk_weight = tracks_w[b];
            	// Find track and multiplicity bins
-			int trkbin = (int) find_my_bin(trk_pt_bins,trkpt);
+			//int trkbin = (int) find_my_bin(trk_pt_bins,trkpt);
+			double trkbin = (double) trkpt;
 			// Fill jet and track quantities
 			double x_jet[5]={jets[a].Pt(),jets[a].Eta(),jets[a].Phi(), (double)multcentbin,(double)extrabin}; histjet->Fill(x_jet,jet_weight*event_weight);
 			double x_trk[5]={tracks[b].Pt(),tracks[b].Eta(),tracks[b].Phi(), (double)multcentbin,(double)extrabin}; histtrk->Fill(x_trk,trk_weight*event_weight);
@@ -302,7 +305,8 @@ void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::ve
            			// track efficiency correction for reco
            			double trk_weight = tracks_w[d];
             		// Find track and multiplicity bins
-					int trkbin = (int) find_my_bin(trk_pt_bins,trkpt);
+					//int trkbin = (int) find_my_bin(trk_pt_bins,trkpt);
+					double trkbin = (double) trkpt;
 					// Fill correlation histograms     
 					double del_phi_rot = deltaphi2PC(newphi, tracks[d].Phi());
 					double del_eta_rot = deltaeta(neweta, tracks[d].Eta());
@@ -375,8 +379,10 @@ histo_2pcorr_subeg0_cross: cross correlation sub == 0 and sub != 0
 */
 void twoparticlecorrelation(std::vector<TVector3> tracks, std::vector<double> tracks_w, THnSparse* histo_2pcorr, float event_weight, int mult, float extra_variable, std::vector<int> sube_trk, THnSparse* histo_2pcorr_subeg0, THnSparse* histo_2pcorr_subeg0_cross){
     // Find track and multiplicity  and extra variable bins
-	int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (double) mult);
-	int extrabin = (int) find_my_bin(extra_bins, (double) extra_variable);
+	//int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (double) mult);
+	//int extrabin = (int) find_my_bin(extra_bins, (double) extra_variable);
+	double multcentbin = (double) mult;
+	double extrabin = (double) extra_variable;
 	// get correlation histograms
 	for (int a = 0; a < tracks.size(); a++){ // start loop over tracks
 		double trkpt1 = tracks[a].Pt();
@@ -389,7 +395,8 @@ void twoparticlecorrelation(std::vector<TVector3> tracks, std::vector<double> tr
 			int subetrk2 = sube_trk[b];
 			int trkbin2 = (int) find_my_bin(trk_pt_bins,trkpt2);
 			if(trkbin1 != trkbin2) continue; // only same bin to get vn as sqrt of Vn
-			int trkbin = trkbin1;
+			//int trkbin = trkbin1;
+			double trkbin = (double) trkpt1;
            	// track efficiency correction for reco
             double trk_weight = trk_weight1*trk_weight2;
 			// Fill correlation histograms

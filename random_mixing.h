@@ -103,9 +103,12 @@ void MixEvents_random(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_ntrk
               // track efficiency correction for reco
               double trk_weight = Track_w_nevt_ass_vec[iimix];
               // find track and multiplicity bins
-              int trkbin = (int) find_my_bin(trk_pt_bin,trkpt);
-              int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (double) ev_ntrkoff[nevt_trg]);
-              int extrabin = (int) find_my_bin(extravar_bins, (double) ev_extravar[nevt_trg]);
+              //int trkbin = (int) find_my_bin(trk_pt_bin,trkpt);
+              //int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (double) ev_ntrkoff[nevt_trg]);
+              //int extrabin = (int) find_my_bin(extravar_bins, (double) ev_extravar[nevt_trg]);
+              double trkbin = (double) trkpt;
+              double multcentbin = (double) ev_ntrkoff[nevt_trg];
+              double extrabin = (double) ev_extravar[nevt_trg];
               // Fill correlation histograms
               double x_jet[5]={Jet_nevt_trg_vec[imix].Pt(),Jet_nevt_trg_vec[imix].Eta(),Jet_nevt_trg_vec[imix].Phi(),(double)multcentbin,(double)extrabin}; histo_jet->Fill(x_jet,jet_weight*f_weight);
               double x_trk[5]={Track_nevt_ass_vec[iimix].Pt(),Track_nevt_ass_vec[iimix].Eta(),Track_nevt_ass_vec[iimix].Phi(),(double)multcentbin,(double)extrabin}; histo_trk->Fill(x_trk,trk_weight*f_weight);
@@ -216,14 +219,16 @@ void MixEvents_random_2pc(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_
               	double trk_weight2 = Track_w_nevt_ass_vec[iimix];
               	int trkbin2 = (int) find_my_bin(trk_pt_bins,trkpt2);
               	if( trkbin1 != trkbin2 ) continue; // only same bin to get vn as sqrt of Vn
-              	int trkbin = trkbin1;
+              	//int trkbin = trkbin1;
+              	double trkbin = (double) trkpt1;
               	// track efficiency correction for reco
               	double trk_weight = trk_weight1*trk_weight2;
 
               	// Find track and multiplicity bins
-              	int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (double) ev_ntrkoff[nevt_trg]);
-              	int extrabin = (int) find_my_bin(extravar_bins, (double) ev_extravar[nevt_trg]);
-              
+              	//int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (double) ev_ntrkoff[nevt_trg]);
+              	//int extrabin = (int) find_my_bin(extravar_bins, (double) ev_extravar[nevt_trg]);
+    	        double multcentbin = (double) ev_ntrkoff[nevt_trg];
+	            double extrabin = (double) ev_extravar[nevt_trg];              
               	// Fill correlation histograms
               	double del_phi = deltaphi2PC(Trk_nevt_trg_vec[imix].Phi(), Track_nevt_ass_vec[iimix].Phi());
               	double del_eta = deltaeta(Trk_nevt_trg_vec[imix].Eta(), Track_nevt_ass_vec[iimix].Eta());
