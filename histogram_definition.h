@@ -1682,10 +1682,10 @@ void w_dijet_hist(bool isMC){
 		hist_ref_lead_ref_subl_quench_bkw_bkw->Write();
 		hist_etaDijet_ref->Write();
 		hist_etaDijet_CM_ref->Write();
-		hist_yDijet_CM_ref->Sumw2();
+		hist_yDijet_CM_ref->Write();
 		hist_etaDijet_gen->Write();
 		hist_etaDijet_CM_gen->Write();
-		hist_yDijet_CM_gen->Sumw2();
+		hist_yDijet_CM_gen->Write();
 	}
 }
 
