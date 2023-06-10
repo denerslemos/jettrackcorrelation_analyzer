@@ -370,7 +370,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		float thirdrecojet_pt=-999, thirdrecojet_eta=-999, thirdrecojet_phi=-999, thirdrecojet_mass=-999; // third jet quantities
 		float leadrefjet_pt=-999, leadrefjet_eta=-999, leadrefjet_phi=-999, leadrefjet_mass=-999;; // leading jet ref quantities
 		float sublrefjet_pt=-999, sublrefjet_eta=-999, sublrefjet_phi=-999, sublrefjet_mass=-999;; // subleading jet ref quantities
-		float thirdrefjet_pt=-999, thirdrefjet_eta=-999, thirdrefjet_phi=-999, thirdrecojet_mass=-999; // third jet quantities
+		float thirdrefjet_pt=-999, thirdrefjet_eta=-999, thirdrefjet_phi=-999, thirdrefjet_mass=-999; // third jet quantities
 		
 		bool isjetincluded = false;
 		int njets = 0;
@@ -569,8 +569,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					double m12_reco_CM = 2.0*ptdijet*cosh(etadiff_CM); // for future, if needed 		
 					double x_dijet_reco_CM[11] = {etadijet_CM, etadiff_CM, Xj_reco, Aj_reco, delta_phi_reco, xp_reco_CM, xPb_reco_CM, m12_reco_CM, (double)multcentbin, (double)ptdijetbin, (double)extrabin};
 
-					ROOT::Math::PtEtaPhiM4D Lead_reco_jet(leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,leadrecojet_mass);
-					ROOT::Math::PtEtaPhiM4D Subl_reco_jet(sublrecojet_pt,sublrecojet_eta,sublrecojet_phi,sublrecojet_mass);			
+					ROOT::Math::PtEtaPhiMVector Lead_reco_jet(leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,leadrecojet_mass);
+					ROOT::Math::PtEtaPhiMVector Subl_reco_jet(sublrecojet_pt,sublrecojet_eta,sublrecojet_phi,sublrecojet_mass);			
 					double etadijet_CM_y = 0.5*(Lead_reco_jet.Rapidity() + Subl_reco_jet.Rapidity());
 					double etadiff_CM_y = 0.5*deltaeta(Lead_reco_jet.Rapidity(),Subl_reco_jet.Rapidity());
 					double xp_reco_CM_y = 2.0*(ptdijet*exp(etadijet_CM_y)*cosh(etadiff_CM_y))/sqrts;
@@ -733,8 +733,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					double m12_ref_CM = 2.0*ptdijet*cosh(etadiff_CM); // for future, if needed 	
 					double x_dijet_ref_CM[11] = {etadijet_CM, etadiff_CM, Xj_ref, Aj_ref, delta_phi_ref, xp_ref_CM, xPb_ref_CM, m12_ref_CM, (double)multcentbin, (double)ptdijetbin, (double)extrabin};
 
-					ROOT::Math::PtEtaPhiM4D Lead_ref_jet(leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,leadrefjet_mass);
-					ROOT::Math::PtEtaPhiM4D Subl_ref_jet(sublrefjet_pt,sublrefjet_eta,sublrefjet_phi,sublrefjet_mass);			
+					ROOT::Math::PtEtaPhiMVector Lead_ref_jet(leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,leadrefjet_mass);
+					ROOT::Math::PtEtaPhiMVector Subl_ref_jet(sublrefjet_pt,sublrefjet_eta,sublrefjet_phi,sublrefjet_mass);			
 					double etadijet_CM_y = 0.5*(Lead_ref_jet.Rapidity() + Subl_ref_jet.Rapidity());
 					double etadiff_CM_y = 0.5*deltaeta(Lead_ref_jet.Rapidity(),Subl_ref_jet.Rapidity());
 					double xp_ref_CM_y = 2.0*(ptdijet*exp(etadijet_CM_y)*cosh(etadiff_CM_y))/sqrts;
@@ -972,8 +972,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double m12_gen_CM = 2.0*ptdijet*cosh(etadiff_CM); // for future, if needed 	
 						double x_dijet_gen_CM[11] = {etadijet_CM, etadiff_CM, Xj_gen, Aj_gen, delta_phi_gen, xp_gen_CM, xPb_gen_CM, m12_gen_CM, (double)multcentbin, (double)ptdijetbin, (double)extrabin};
 
-						ROOT::Math::PtEtaPhiM4D Lead_gen_jet(leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,leadgenjet_mass);
-						ROOT::Math::PtEtaPhiM4D Subl_gen_jet(sublgenjet_pt,sublgenjet_eta,sublgenjet_phi,sublgenjet_mass);			
+						ROOT::Math::PtEtaPhiMVector Lead_gen_jet(leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,leadgenjet_mass);
+						ROOT::Math::PtEtaPhiMVector Subl_gen_jet(sublgenjet_pt,sublgenjet_eta,sublgenjet_phi,sublgenjet_mass);			
 						double etadijet_CM_y = 0.5*(Lead_gen_jet.Rapidity() + Subl_gen_jet.Rapidity());
 						double etadiff_CM_y = 0.5*deltaeta(Lead_gen_jet.Rapidity(),Subl_gen_jet.Rapidity());
 						double xp_gen_CM_y = 2.0*(ptdijet*exp(etadijet_CM_y)*cosh(etadiff_CM_y))/sqrts;
