@@ -454,8 +454,7 @@ THnSparseD *hist_gen_gen_2pcorrelation_signal_subcross = new THnSparseD("hist_ge
 THnSparseD *hist_gen_gen_2pcorrelation_mixing = new THnSparseD("hist_gen_gen_2pcorrelation_mixing","hist_gen_gen_2pcorrelation_mixing",5,bins_2pc,xmin_2pc,xmax_2pc);
 
 // Evaluate uncertainties correctly at ROOT
-void sw2(){
-
+void binning_adjust(){
 // Xp and XpPb dependency
 for(int a = 0; a <= nXBins; a++){XBins[a] = (minX+binnerShift)*TMath::Exp(a*XlogBinWidth)-binnerShift;}
 //adjust the bins for Xp and XPb
@@ -1067,6 +1066,9 @@ hist_gen_gen_2pcorrelation_signal->GetAxis(4)->Set(bins_2pc[4],Extrabins);
 hist_gen_gen_2pcorrelation_signal_subg0->GetAxis(4)->Set(bins_2pc[4],Extrabins);
 hist_gen_gen_2pcorrelation_signal_subcross->GetAxis(4)->Set(bins_2pc[4],Extrabins);
 hist_gen_gen_2pcorrelation_mixing->GetAxis(4)->Set(bins_2pc[4],Extrabins);
+}
+
+void sw2(){
 //Sumw2 starts here!
 Nevents->Sumw2();
 Nev_recoreco->Sumw2();

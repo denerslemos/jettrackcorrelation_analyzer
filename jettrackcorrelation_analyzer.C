@@ -115,6 +115,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
     // Read the desired branchs in the trees
 	read_tree(hlt_tree, is_MC, use_WTA, jet_trigger.Data(), colliding_system.Data(), sNN_energy_GeV, year_of_datataking, event_filter_str, event_filter_bool); // access the tree informations
 	if(!dojettrigger) jet_trigger="nojettrig"; // just for output name
+
+	//adjust the binning
+	binning_adjust();
 	
     // Use sumw2() to make sure about histogram uncertainties in ROOT
 	sw2(); 
