@@ -69,6 +69,65 @@ float get_event_weight(int nevents, bool isMC, bool use_centrality, string syste
 		else if(leadjetpt > 540.){evtweight = 7.9191586e-14 * 1000000;}
 		evtweight = (float) evtweight / nevents;
 
+		// multiplicity weight
+
+		// PYTHIA+EPOS
+		/*
+    	if(mult < 210.0){
+			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8", 0, 214);
+			EtWeightFunction->SetParameters(-0.0915839,-0.00212374,0.00242633,-8.75813e-05,1.48422e-06,-1.3365e-08,6.57739e-11,-1.67841e-13,1.74335e-16);
+			multweight = EtWeightFunction->Eval(mult);
+		}else if(mult >= 210 && mult <= 300){
+			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol4",210,320);
+			EtWeightFunction->SetParameters(-6.2635,0.135792,-0.000754343,1.4557e-06,-7.25631e-10);
+			multweight = EtWeightFunction->Eval(mult);					
+		}else{multweight = 1.0;}
+		*/
+		
+		// PYTHIA only
+		/*
+    	if(mult < 105.0){
+			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8", 0,109);
+			EtWeightFunction->SetParameters(-3.3272,0.641081,-0.0356275,0.00120248,-2.63759e-05,3.62415e-07,-2.97515e-09,1.33199e-11,-2.50344e-14);
+			multweight = EtWeightFunction->Eval(mult);
+		}else if(mult >= 105.0 && mult <= 250.0){
+			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "expo",105,250);
+			EtWeightFunction->SetParameters(9.99045,-0.13026);
+			multweight = EtWeightFunction->Eval(mult);					
+		}else{multweight = 1.0;}
+		*/
+		
+		// EPb weight
+		
+		// PYTHIA+EPOS
+		/*
+	   	if(extraquantity < 65.0){
+			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8",0,70);
+			EtWeightFunction->SetParameters(0.173544,0.0295155,0.00574286,3.39713e-05,-2.61854e-05,1.12039e-06,-2.08602e-08,1.86687e-10,-6.57817e-13);
+			multweight = EtWeightFunction->Eval(extraquantity);
+		}else if(extraquantity >= 65.0 && extraquantity < 95.0){
+			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol2",60,120);
+			EtWeightFunction->SetParameters(2.56581,-0.0458321,0.000231857);
+			multweight = EtWeightFunction->Eval(extraquantity);					
+		}else{
+			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol0",90,200);
+			EtWeightFunction->SetParameters(0.29061);	
+			multweight = EtWeightFunction->Eval(extraquantity);			
+		}
+		*/
+  		// PYTHIA only
+  		/*
+	   	if(extraquantity < 75.0){
+			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol7",3,80);
+			EtWeightFunction->SetParameters(1.45325,0.0357072,-0.011459,0.00062546,-1.64134e-05,2.32377e-07,-1.70596e-09,5.09787e-12);
+			multweight = EtWeightFunction->Eval(extraquantity);
+		}else{
+			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol0",75,200);
+			EtWeightFunction->SetParameters(0.0727252);
+			multweight = EtWeightFunction->Eval(extraquantity);			
+		}
+		*/
+		multweight = 1./multweight;
     }
 /*
     if(!isMC && !use_centrality && system == "pPb" && energy == 8160 && year == 2016){
