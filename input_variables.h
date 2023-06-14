@@ -44,8 +44,12 @@ const float jet_pt_min_cut = 60.0; // jet min pT cut
 const float jet_pt_max_cut = 8160.0; // jet max pT cut 
 const float jet_eta_min_cut = -1.0; // jet min eta cut 
 const float jet_eta_max_cut = 1.0; // jet max eta cut 
-const TString JEC_file = "Autumn16_HI_pPb_pgoing_Unembedded_MC_L2Relative_AK4PF.txt"; //JEC file
-const TString JEU_file = "Autumn16_HI_pPb_pgoing_Unembedded_MC_L2Relative_AK4PF.txt"; //JEU file (future)
+const TString JEC_file = "Autumn16_HI_pPb_pgoing_Embedded_MC_L2Relative_AK4PF.txt"; //JEC file
+const TString JEC_file_data = "Summer16_23Sep2016HV4_DATA_L2L3Residual_AK4PF.txt"; //JEC file for data
+const TString JEU_file = "Summer16_23Sep2016HV4_DATA_Uncertainty_AK4PF.txt"; //JEU file (future)
+const bool do_jeu_up = false; // for JES systematics
+const bool do_jeu_down = false; // for JES systematics
+const bool do_jet_smearing = false; // for jet smearing
 const bool use_WTA = false; // use WTA or E-Scheme axis 
 const float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation only
 const float leading_pT_min = 100.0; //used for jet leading and subleading correlation and jet quenching analysis
@@ -76,9 +80,6 @@ const float xjmin = 0.0;//xj minimum
 const float xjmax = 1.0;//xj maximum
 const float Ajmin = 0.0;//Aj minimum
 const float Ajmax = 1.0;//Aj maximum
-
-// for ejt smearing
-const bool do_jet_smearing = false; 
 
 //============= Extra dependency =========================
 // for pPb, we are using Pb side energy in HF

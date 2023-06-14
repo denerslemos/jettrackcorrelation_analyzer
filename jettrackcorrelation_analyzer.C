@@ -44,6 +44,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	TString ref_sample = "norefsample"; if(do_mixing && !do_rotation){ref_sample = Form("mix%ievsMult%iDVz%.1f%s",N_ev_mix,Mult_or_Cent_range,DVz_range,simev.Data());}else if(!do_mixing && do_rotation){ref_sample = Form("rot%ievs",N_of_rot);}else if(do_mixing && do_rotation){ref_sample = Form("mix%ievsMult%iDVz%.1f%s_rot%ievs",N_ev_mix,Mult_or_Cent_range,DVz_range,simev.Data(),N_of_rot);}
 	TString jet_axis; if(use_WTA){jet_axis = "WTA";}else{jet_axis = "ESC";}
 	TString smear; if(do_jet_smearing){smear = "_smearing_";}else{smear = "";}
+	if(do_jeu_down && !do_jeu_up){smear += "_jeudown_";}else if(!do_jeu_down && do_jeu_up){smear += "_jeuup_";}
 	TString jet_type; if(do_inclusejettrack_correlation) jet_type += "Incl"; if(do_leading_subleading_jettrack_correlation) jet_type += Form("LeadSubl_%s",fwdbkw_jettrk_option.Data()); if(do_dijetstudies) jet_type += "Quench";
 	TString XjAj; if(do_Xj_or_Ajcut){XjAj = Form("_Ajmin_%.1f_Ajmax_%.1f_Xjmin_%.1f_Xjmax_%.1f",Ajmin,Ajmax,xjmin,xjmax);}else{XjAj = "";}
 	TString isflow;	if(do_flow){isflow="flow";}else{isflow="jetshape";}
@@ -57,7 +58,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	// Read Jet Energy Correction file
 	vector<string> Files;
 	Files.push_back(Form("aux_files/%s_%i/JEC/%s",colliding_system.Data(),sNN_energy_GeV,JEC_file.Data()));
+	if(!is_MC) Files.push_back(Form("aux_files/%s_%i/JEC/%s",colliding_system.Data(),sNN_energy_GeV,JEC_file_data.Data()));
 	JetCorrector JEC(Files);
+	JetUncertainty JEU(Form("aux_files/%s_%i/JEC/%s",colliding_system.Data(),sNN_energy_GeV,JEU_file.Data()));
 
 	// Track or particle efficiency file
 	TFile *fileeff = TFile::Open(Form("aux_files/%s_%i/trk_eff_table/%s",colliding_system.Data(),sNN_energy_GeV,trk_eff_file.Data()));
@@ -395,10 +398,25 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			JEC.SetJetEta(jet_eta); 
 			JEC.SetJetPhi(jet_phi);
 			float jet_pt_corr = JEC.GetCorrectedPT();
+			
+			// Apply JEU systematics
+			JEU.SetJetPT(jet_pt_corr);
+    		JEU.SetJetEta(jet_eta);
+    		JEU.SetJetPhi(jet_phi);
+    		if(do_jeu_down && !do_jeu_up){jet_pt_corr = jet_pt_corr * (1 - JEU.GetUncertainty().first);}else if(!do_jeu_down && do_jeu_up){jet_pt_corr = jet_pt_corr * (1 + JEU.GetUncertainty().second);}
+			
+			if(do_jet_smearing){
+				TRandom *randnumber = new TRandom2();
+				TF1* JetSmear = new TF1("JetSmear","sqrt([0]*[0] + [1]*[1]/x + [2]*[2]/(x*x))",30,800);
+				JetSmear->SetParameters(-1.91758e-05,-1.79691,1.0988e+01);
+				double sigma_smear = 0.663*JetSmear->Eval(jet_pt_corr); //20% worst
+				double mu_smar = 1.0;
+				double smear = randnumber->Gaus(mu_smar,sigma_smear);
+				jet_pt_corr = jet_pt_corr*smear;		
+			}
 
 			//resolutionfactor: Worsening resolution by 20%: 0.663, by 10%: 0.458 , by 30%: 0.831
 			double jet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, jet_pt_corr); // Jet weight (specially for MC)
-			if(do_jet_smearing) jet_weight = jet_weight*get_jetpTsmering_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, jet_pt_corr, do_jet_smearing, 0.663); // Jet smearing (For systematics)
 			
 			//leading and subleading
 			find_leading_subleading_third(jet_pt_corr,jet_eta,jet_phi,jet_mass,leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,leadrecojet_mass,sublrecojet_pt,sublrecojet_eta,sublrecojet_phi,sublrecojet_mass,thirdrecojet_pt,thirdrecojet_eta,thirdrecojet_phi,thirdrecojet_mass); // Find leading and subleading jets
@@ -501,12 +519,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 			Nevents->Fill(6);
 			double ljet_weight = get_leadjetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadrecojet_pt);  // Jet weight (specially for MC)
-			//resolutionfactor: Worsening resolution by 20%: 0.663, by 10%: 0.458 , by 30%: 0.831
-			if(do_jet_smearing) ljet_weight = ljet_weight*get_jetpTsmering_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadrecojet_pt, do_jet_smearing, 0.663); // Jet smearing (For systematics)
-
 			double sljet_weight = get_subleadjetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublrecojet_pt);  // Jet weight (specially for MC)
-			//resolutionfactor: Worsening resolution by 20%: 0.663, by 10%: 0.458 , by 30%: 0.831
-			if(do_jet_smearing) sljet_weight = sljet_weight*get_jetpTsmering_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublrecojet_pt, do_jet_smearing, 0.663); // Jet smearing (For systematics)
 
 			//leading/subleading pT cuts
 			if(leadrecojet_pt > leading_pT_min && sublrecojet_pt > subleading_pT_min){
@@ -853,9 +866,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				float gjet_mass = gen_jtmass[j];
 				
 				double jet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, gjet_pt); // Jet weight (specially for MC)
-				//resolutionfactor: Worsening resolution by 20%: 0.663, by 10%: 0.458 , by 30%: 0.831
-				jet_weight = jet_weight*get_jetpTsmering_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, gjet_pt, do_jet_smearing, 0.663); // Jet smearing (For systematics)
-		
+	
 				if(gjet_eta < -5.0 || gjet_eta > 5.0) continue; // no accept jets with |eta| > 4
 
 				find_leading_subleading_third(gjet_pt,gjet_eta,gjet_phi,gjet_mass,leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,leadgenjet_mass,sublgenjet_pt,sublgenjet_eta,sublgenjet_phi,sublgenjet_mass,thirdgenjet_pt,thirdgenjet_eta,thirdgenjet_phi,thirdgenjet_mass); // Find leading and subleading jets
@@ -908,12 +919,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			if(gen_jetsize > 1 && !removethirdjet_gen){
 
 				double ljet_weight = get_leadjetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadgenjet_pt); // Jet weight (specially for MC)
-				//resolutionfactor: Worsening resolution by 20%: 0.663, by 10%: 0.458 , by 30%: 0.831
-				if(do_jet_smearing) ljet_weight = ljet_weight*get_jetpTsmering_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadgenjet_pt, do_jet_smearing, 0.663); // Jet smearing (For systematics)
-
 				double sljet_weight = get_subleadjetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublgenjet_pt); // Jet weight (specially for MC)
-				//resolutionfactor: Worsening resolution by 20%: 0.663, by 10%: 0.458 , by 30%: 0.831
-				if(do_jet_smearing) sljet_weight = sljet_weight*get_jetpTsmering_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublgenjet_pt, do_jet_smearing, 0.663);  // Jet smearing (For systematics)
 
 				//leading/subleading pT cuts
 				if(leadgenjet_pt > leading_pT_min && sublgenjet_pt > subleading_pT_min){ 
