@@ -70,7 +70,6 @@ float get_event_weight(int nevents, bool isMC, bool use_centrality, string syste
 		evtweight = (float) evtweight / nevents;
 
 		// multiplicity weight
-
 		// PYTHIA+EPOS
 		/*
     	if(mult < 210.0){
@@ -82,8 +81,10 @@ float get_event_weight(int nevents, bool isMC, bool use_centrality, string syste
 			EtWeightFunction->SetParameters(-6.2635,0.135792,-0.000754343,1.4557e-06,-7.25631e-10);
 			multweight = EtWeightFunction->Eval(mult);					
 		}else{multweight = 1.0;}
+		TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
+		VzWeightFunction->SetParameters(0.843091,-0.0145326,0.00468752,-0.000202477,3.39591e-05,4.51739e-07,-8.6924e-08,-7.52764e-09,1.1983e-09)
+		vzweight = VzWeightFunction->Eval(vz);
 		*/
-		
 		// PYTHIA only
 		/*
     	if(mult < 105.0){
@@ -95,10 +96,11 @@ float get_event_weight(int nevents, bool isMC, bool use_centrality, string syste
 			EtWeightFunction->SetParameters(9.99045,-0.13026);
 			multweight = EtWeightFunction->Eval(mult);					
 		}else{multweight = 1.0;}
+		TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
+		VzWeightFunction->SetParameters(0.848574,-0.0182413,0.00402673,8.70187e-06,8.54011e-06,-1.76185e-06,1.39702e-07,2.28844e-09,1.01863e-10);
+		vzweight = VzWeightFunction->Eval(vz);
 		*/
-		
 		// EPb weight
-		
 		// PYTHIA+EPOS
 		/*
 	   	if(extraquantity < 65.0){
@@ -114,6 +116,9 @@ float get_event_weight(int nevents, bool isMC, bool use_centrality, string syste
 			EtWeightFunction->SetParameters(0.29061);	
 			multweight = EtWeightFunction->Eval(extraquantity);			
 		}
+		TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
+		VzWeightFunction->SetParameters(0.853343,-0.0157977,0.00431199,-0.000162212,3.61976e-05,-1.21137e-07,-9.833e-08,-4.70594e-09,1.05049e-09);
+		vzweight = VzWeightFunction->Eval(vz);
 		*/
   		// PYTHIA only
   		/*
@@ -126,10 +131,14 @@ float get_event_weight(int nevents, bool isMC, bool use_centrality, string syste
 			EtWeightFunction->SetParameters(0.0727252);
 			multweight = EtWeightFunction->Eval(extraquantity);			
 		}
+		TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
+		VzWeightFunction->SetParameters(0.852218,-0.0164135,0.0047504,-9.06856e-05,2.02e-05,-7.25535e-07,6.2906e-08,-2.08797e-09,5.13e-10);
+		vzweight = VzWeightFunction->Eval(vz);
 		*/
 		multweight = 1./multweight;
+		vzweight = 1./vzweight;
     }
-/*
+/* --> To recover EPb in MB compared to HM triggers --> not useful, bias still there
     if(!isMC && !use_centrality && system == "pPb" && energy == 8160 && year == 2016){
     	if(mult <= 100.0){
 			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol1", 70.0, 140.0);
@@ -227,58 +236,5 @@ float get_subleadjetpT_weight(bool isMC, string system, int year, int energy, fl
 	}
 */
 	return subleadjetptweight;
-
-}
-
-/*
-Jet smearing resolution effect
---> Arguments
-isMC: true for MC and false for Data
-system: colliding system
-year: data-taking year
-energy: colliding energy
-jetpt: jet pT weight
-dosmearing: apply smearing
-resolutionfactor: Worsening resolution by 20%: 0.663, by 10%: 0.458 , by 30%: 0.831
-*/
-float get_jetpTsmering_weight(bool isMC, string system, int year, int energy, float jetpt, bool dosmearing, float resolutionfactor){
-
-	float jetptsmearweight = 1.0;
-	if(!dosmearing) return jetptsmearweight;
-
-	// JetPtSmearingWeightFunction is derived from MC vs data jet pT spectra.
-	if(!isMC && system == "pp" && energy == 5020 && year == 2017){
-		TF1 *JetPtSmearingWeightFunction = new TF1("JetPtSmearingWeightFunction", "pol3", 0.0, 500.0); //Derived from all jets above 120 GeV and JECv6
-		JetPtSmearingWeightFunction->SetParameters(0.174881, -0.00091979, 3.50064e-06, -6.52541e-09, 4.64199e-12);
-		jetptsmearweight = JetPtSmearingWeightFunction->Eval(jetpt);
-		jetptsmearweight = jetptsmearweight*resolutionfactor;
-	}
-
-	return jetptsmearweight;
-
-}
-
-/*
-Track mixing effect (Seagull)
---> Arguments
-isMC: true for MC and false for Data
-system: colliding system
-year: data-taking year
-energy: colliding energy
-trketa: track eta
-*/
-float get_trketamix_weight(bool isMC, string system, int year, int energy, float trketa, bool reco){
-
-	float trketamixweight = 1.0;
-
-	// TrkEtaMixWeightFunction is derived from trk eta from signal over trk eta from mixing
-/*
-	if(isMC && system == "pp" && energy == 5020 && year == 2017 && !reco){
-		TF1 *TrkEtaMixWeightFunction = new TF1("TrkEtaMixWeightFunction", "pol3", 0.0, 500.0); 
-	    TrkEtaMixWeightFunction->SetParameters(0.174881, -0.00091979, 3.50064e-06, -6.52541e-09, 4.64199e-12);
-		trketamixweight = TrkEtaMixWeightFunction->Eval(jetpt);
-	}
-*/
-	return trketamixweight;
 
 }
