@@ -334,7 +334,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			GoodTracks.SetPtEtaPhi(trk_pt, trk_eta, trk_phi);
 			tracks_reco.push_back(GoodTracks);
 			sube_tracks_reco.push_back(0); // set == 0 because this is only valid for gen
-			double trk_etamix_weight = get_trketamix_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, trk_eta, true); // weight to deal with Seagull (test)
+			double trk_etamix_weight = 1.0;//get_trketamix_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, trk_eta, true); // weight to deal with Seagull (test)
 			track_w_reco.push_back(trk_weight*trk_etamix_weight); // save weight to apply in the mixing
 
 			//int trackbin = (int) find_my_bin(trk_pt_bins, (float) trk_pt);
@@ -816,7 +816,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				GoodTracks_gen.SetPtEtaPhi(gtrk_pt, gtrk_eta, gtrk_phi);
 				tracks_gen.push_back(GoodTracks_gen);
 				sube_tracks_gen.push_back(gen_trksube->at(j)); // get sube from the tree
-				double trk_etamix_weight = get_trketamix_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, gtrk_eta, false); // weight to deal with Seagull (test)
+				double trk_etamix_weight = 1.0;//get_trketamix_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, gtrk_eta, false); // weight to deal with Seagull (test)
 				track_w_gen.push_back(trk_etamix_weight); // save weight to apply in the mixing
 				
 				//int trackbin = (int) find_my_bin(trk_pt_bins, (float) gtrk_pt);
