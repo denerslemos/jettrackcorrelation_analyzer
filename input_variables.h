@@ -83,9 +83,9 @@ const float Ajmax = 1.0;//Aj maximum
 
 //============= Extra dependency =========================
 // for pPb, we are using Pb side energy in HF
-//const std::vector<double> extra_bins{0.0,20.0,25.0,30.0,40.0,70.0,120.0,1000.0}; //extra bins (if use HF 4 < |eta| < 5.2) as previous CMS analysis
 const std::vector<double> extra_bins{0.0,3.0,9.0,11.0,14.0,17.0,22.0,29.0,35.0,43.0,50.0,60.0,80.0,120.0,300.0}; //extra bins (if use HF 4 < |eta| < 5.2)
-//const std::vector<double> extra_bins{0.0,10.0,25.0,55.0,70.0,90.0,110.0,125.0,200.0,1000.0}; //extra bins (if use full HF) as centrality
+//const std::vector<double> extra_bins{0.0,10.0,24.0,30.0,39.0,45.0,56.0,73.0,89.0,109.0,123.0,500.0}; //extra bins (if use full HF) as centrality
+//const std::vector<double> extra_bins{0.0,20.0,25.0,30.0,40.0,70.0,120.0,1000.0}; //extra bins (if use HF 4 < |eta| < 5.2) as previous CMS analysis
 //=========================================================
 
 //============= Track information =========================
