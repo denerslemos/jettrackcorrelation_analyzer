@@ -10,18 +10,18 @@ const double binnerShift = 0.0; // shift if starts at 0, Log(0) -> error
 // Needed to define log binning
 // Xp and XPb -> see sumw2 function
 const int nXBins = 40; // number of bins
-const double minX = 0.0001;  // minimum
+const double minX = 3e-04;  // minimum
 const double maxX = 1.0; 	   // maximum
 double XlogBinWidth = (TMath::Log(maxX+binnerShift) - TMath::Log(minX+binnerShift)) / nXBins; // binwidth
 //double XBins[nXBins+1] = {minX, 0.000125893, 0.000158489, 0.000199526, 0.000251189, 0.000316228, 0.000398107, 0.000501187, 0.000630957, 0.000794328, 0.001, 0.00125893, 0.00158489, 0.00199526, 0.00251189, 0.00316228, 0.00398107, 0.00501187, 0.00630957, 0.00794328, 0.01, 0.0125893, 0.0158489, 0.0199526, 0.0251189, 0.0316228, 0.0398107, 0.0501187, 0.0630957, 0.0794328, 0.1, 0.125893, 0.158489, 0.199526, 0.251189, 0.316228, 0.398107, 0.501187, 0.630957, 0.794328, maxX};
 // M12 -> see sumw2 function
-const int nMBins = 30; // number of bins
-const double minM = 100.0;  // minimum
-const double maxM = 2000.0; // maximum
+const int nMBins = 15; // number of bins
+const double minM = 70.0;  // minimum
+const double maxM = 3000.0; // maximum
 double MlogBinWidth = (TMath::Log(maxM+binnerShift) - TMath::Log(minM+binnerShift)) / nMBins; // binwidth
 // PT average -> see sumw2 function
-const int nPtaveBins = 30; // number of bins
-const double minPtave = 55.0;  // minimum
+const int nPtaveBins = 15; // number of bins
+const double minPtave = 70.0;  // minimum
 const double maxPtave = 1000.0; // maximum
 double PtavelogBinWidth = (TMath::Log(maxPtave+binnerShift) - TMath::Log(minPtave+binnerShift)) / nPtaveBins; // binwidth
 //double PtaveBins[nPtaveBins+1] = {minPtave, 60.583, 66.7327, 73.5066, 80.9682, 89.1871, 98.2404, 108.213, 119.197, 131.297, 144.624, 159.305, 175.476, 193.288, 212.909, 234.521, 258.327, 284.549, 313.433, 345.249, 380.295, 418.899, 461.42, 508.258, 559.851, 616.681, 679.279, 748.232, 824.184, 907.846, maxPtave};
