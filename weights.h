@@ -72,7 +72,7 @@ float get_event_weight(int nevents, bool isMC, bool use_centrality, string syste
 		// multiplicity weight
 		// PYTHIA+EPOS
 		/*
-    	if(mult < 210.0){
+    		if(mult < 210.0){
 			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8", 0, 214);
 			EtWeightFunction->SetParameters(-0.0915839,-0.00212374,0.00242633,-8.75813e-05,1.48422e-06,-1.3365e-08,6.57739e-11,-1.67841e-13,1.74335e-16);
 			multweight = EtWeightFunction->Eval(mult);
@@ -82,12 +82,12 @@ float get_event_weight(int nevents, bool isMC, bool use_centrality, string syste
 			multweight = EtWeightFunction->Eval(mult);					
 		}else{multweight = 1.0;}
 		TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
-		VzWeightFunction->SetParameters(0.843091,-0.0145326,0.00468752,-0.000202477,3.39591e-05,4.51739e-07,-8.6924e-08,-7.52764e-09,1.1983e-09)
+		VzWeightFunction->SetParameters(0.843091,-0.0145326,0.00468752,-0.000202477,3.39591e-05,4.51739e-07,-8.6924e-08,-7.52764e-09,1.1983e-09);
 		vzweight = VzWeightFunction->Eval(vz);
 		*/
 		// PYTHIA only
 		/*
-    	if(mult < 105.0){
+    		if(mult < 105.0){
 			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8", 0,109);
 			EtWeightFunction->SetParameters(-3.3272,0.641081,-0.0356275,0.00120248,-2.63759e-05,3.62415e-07,-2.97515e-09,1.33199e-11,-2.50344e-14);
 			multweight = EtWeightFunction->Eval(mult);
@@ -113,7 +113,7 @@ float get_event_weight(int nevents, bool isMC, bool use_centrality, string syste
 			multweight = EtWeightFunction->Eval(extraquantity);					
 		}else{
 			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol0",90,200);
-			EtWeightFunction->SetParameters(0.29061);	
+			EtWeightFunction->SetParameter(0,0.29061);	
 			multweight = EtWeightFunction->Eval(extraquantity);			
 		}
 		TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
@@ -128,7 +128,7 @@ float get_event_weight(int nevents, bool isMC, bool use_centrality, string syste
 			multweight = EtWeightFunction->Eval(extraquantity);
 		}else{
 			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol0",75,200);
-			EtWeightFunction->SetParameters(0.0727252);
+			EtWeightFunction->SetParameter(0,0.0727252);
 			multweight = EtWeightFunction->Eval(extraquantity);			
 		}
 		TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
