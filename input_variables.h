@@ -17,7 +17,7 @@ const bool use_centrality = false; // only true for: "XeXe" and "PbPb" (but also
 const float vz_cut_min = -15.0; //vz acceptance
 const float vz_cut_max = 15.0; //vz acceptance
 
-const std::vector<double> multiplicity_centrality_bins{0.0, 10.0, 80.0, 100.0, 120.0, 185.0, 210.0, 250.0, 400.0}; //multiplicity range
+const std::vector<double> multiplicity_centrality_bins{0.0, 10.0, 60.0, 80.0, 100.0, 120.0, 185.0, 210.0, 250.0, 400.0}; //multiplicity range
 //event filters
 std::vector<int> event_filter_bool; // event filter booleans
 //std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose"}; // event filters to be applied (pp ref - 2017)
