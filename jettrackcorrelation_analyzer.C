@@ -95,15 +95,16 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	// loop to add all the trees to the chain
 	for (std::vector<TString>::iterator listIterator = file_name_vector.begin(); listIterator != file_name_vector.end(); listIterator++){
 		TFile *testfile = TFile::Open(*listIterator);
-		if(!testfile || testfile->IsZombie() || testfile->TestBit(TFile::kRecovered)){cout << "File: " << *listIterator << " failed to open" << endl; continue;} // safety against corrupted files
-		cout << "Adding file " << *listIterator << " to the chains" << endl; // adding files to the chains for each step
-		hlt_tree->Add(*listIterator);
-		trk_tree->Add(*listIterator);
-		hea_tree->Add(*listIterator);
-		jet_tree->Add(*listIterator);
-		ski_tree->Add(*listIterator);
-		if(is_MC){gen_tree->Add(*listIterator);}
-		if(colliding_system=="pPb" && year_of_datataking==2016){ep_tree->Add(*listIterator);}
+		if(testfile && !testfile->IsZombie() && !testfile->TestBit(TFile::kRecovered)){ // safety against corrupted files
+			cout << "Adding file " << *listIterator << " to the chains" << endl; // adding files to the chains for each step
+			hlt_tree->Add(*listIterator);
+			trk_tree->Add(*listIterator);
+			hea_tree->Add(*listIterator);
+			jet_tree->Add(*listIterator);
+			ski_tree->Add(*listIterator);
+			if(is_MC){gen_tree->Add(*listIterator);}
+			if(colliding_system=="pPb" && year_of_datataking==2016){ep_tree->Add(*listIterator);}
+		}else{cout << "File: " << *listIterator << " failed!" << endl;}
 	}
     file_name_vector.clear();
 	
