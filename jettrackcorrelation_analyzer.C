@@ -479,17 +479,17 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double refjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, ref_pt); // Jet weight (specially for MC)
 
 				find_leading_subleading_third(ref_pt,ref_eta,ref_phi,ref_mass,leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,leadrefjet_mass,sublrefjet_pt,sublrefjet_eta,sublrefjet_phi,sublrefjet_mass,thirdrefjet_pt,thirdrefjet_eta,thirdrefjet_phi,thirdrefjet_mass); // Find leading and subleading ref jets
-
+				float ref_eta_lab = ref_eta;
 				ref_eta = ref_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 				if(colliding_system == "pPb" && is_pgoing && invert_pgoing)ref_eta = -ref_eta;
 
 				double JES_ratio_reco_vs_ref = jet_pt_corr/ref_pt;
-				int refparton; if(fabs(refparton_flavor[j]) >= 1 && fabs(refparton_flavor[j]) <= 6){refparton = fabs(refparton_flavor[j]);}else if(fabs(refparton_flavor[j]) == 21){refparton = 7;}else{refparton = 0;}
-				double x_JES_ratio_reco_vs_ref[6]={JES_ratio_reco_vs_ref,ref_pt,ref_eta,(double)refparton,(double)multcentbin,(double) extrabin}; 
-				hist_jes_reco_weighted->Fill(x_JES_ratio_reco_vs_ref,event_weight*refjet_weight*jet_weight);
+//				int refparton; if(fabs(refparton_flavor[j]) >= 1 && fabs(refparton_flavor[j]) <= 6){refparton = fabs(refparton_flavor[j]);}else if(fabs(refparton_flavor[j]) == 21){refparton = 7;}else{refparton = 0;}
 				int refpartonfromB; if(fabs(refparton_flavorForB[j]) >= 1 && fabs(refparton_flavorForB[j]) <= 6){refpartonfromB = fabs(refparton_flavorForB[j]);}else if(fabs(refparton_flavorForB[j]) == 21){refpartonfromB = 7;}else{refpartonfromB = 0;}
 				double x_JES_ratio_reco_vs_reffromB[6]={JES_ratio_reco_vs_ref,ref_pt,ref_eta,(double)refpartonfromB,(double)multcentbin,(double) extrabin}; 
 				hist_jes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_reffromB,event_weight*refjet_weight*jet_weight);
+				double x_JES_ratio_reco_vs_ref[6]={JES_ratio_reco_vs_ref,ref_pt,ref_eta_lab,(double)refpartonfromB,(double)multcentbin,(double) extrabin}; 
+				hist_jes_reco_weighted->Fill(x_JES_ratio_reco_vs_ref,event_weight*refjet_weight*jet_weight);
 				
 			} // End if over ref (MC)
 
