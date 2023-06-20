@@ -1,9 +1,9 @@
 universe   = vanilla
 getenv     = True
 executable = sub.sh
-+JobFlavour           = "testmatch"
++JobFlavour           = "workday"
 requirements = (OpSysAndVer =?= "CentOS7")
-RequestCpus = 20
+RequestCpus = 6
 
 log        = cond/pthat15_unemb_Pbgoing_nocut.log
 output     = cond/pthat15_unemb_Pbgoing_nocut.out

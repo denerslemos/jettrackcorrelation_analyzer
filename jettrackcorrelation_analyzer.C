@@ -94,7 +94,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	
 	// loop to add all the trees to the chain
 	for (std::vector<TString>::iterator listIterator = file_name_vector.begin(); listIterator != file_name_vector.end(); listIterator++){
-		TFile *testfile = TFile::Open(*listIterator);
+		TFile *testfile = TFile::Open(*listIterator,"READ");
 		if(testfile && !testfile->IsZombie() && !testfile->TestBit(TFile::kRecovered)){ // safety against corrupted files
 			cout << "Adding file " << *listIterator << " to the chains" << endl; // adding files to the chains for each step
 			hlt_tree->Add(*listIterator);
