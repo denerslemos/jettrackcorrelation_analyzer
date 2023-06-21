@@ -316,6 +316,10 @@ double xmin_jes[6]   =   { 0.0  ,  0    , -4.0 ,  0, multiplicity_centrality_bin
 double xmax_jes[6]   =   { 10.0 ,  1000 ,  4.0 ,  8, multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
 THnSparseD *hist_jes_reco_weighted = new THnSparseD("hist_jes_reco_weighted", "hist_jes_reco_weighted", 6, bins_jes, xmin_jes, xmax_jes);
 THnSparseD *hist_jes_reco_fromB_weighted = new THnSparseD("hist_jes_reco_fromB_weighted", "hist_jes_reco_fromB_weighted", 6, bins_jes, xmin_jes, xmax_jes);
+THnSparseD *hist_leadjes_reco_weighted = new THnSparseD("hist_leadjes_reco_weighted", "hist_leadjes_reco_weighted", 6, bins_jes, xmin_jes, xmax_jes);
+THnSparseD *hist_leadjes_reco_fromB_weighted = new THnSparseD("hist_leadjes_reco_fromB_weighted", "hist_leadjes_reco_fromB_weighted", 6, bins_jes, xmin_jes, xmax_jes);
+THnSparseD *hist_subleadjes_reco_weighted = new THnSparseD("hist_subleadjes_reco_weighted", "hist_subleadjes_reco_weighted", 6, bins_jes, xmin_jes, xmax_jes);
+THnSparseD *hist_subleadjes_reco_fromB_weighted = new THnSparseD("hist_subleadjes_reco_fromB_weighted", "hist_subleadjes_reco_fromB_weighted", 6, bins_jes, xmin_jes, xmax_jes);
 
 // --------------------------------------------------------------------------------------------------------
 // Quenching studies
@@ -861,6 +865,10 @@ hist_subl_jet_from_gen_reco_mix->GetAxis(3)->Set(bins_jet[3],MultCentbins);
 hist_subl_jet_from_gen_gen_mix->GetAxis(3)->Set(bins_jet[3],MultCentbins);
 hist_jes_reco_weighted->GetAxis(4)->Set(bins_jes[4],MultCentbins);
 hist_jes_reco_fromB_weighted->GetAxis(4)->Set(bins_jes[4],MultCentbins);
+hist_leadjes_reco_weighted->GetAxis(4)->Set(bins_jes[4],MultCentbins);
+hist_leadjes_reco_fromB_weighted->GetAxis(4)->Set(bins_jes[4],MultCentbins);
+hist_subleadjes_reco_weighted->GetAxis(4)->Set(bins_jes[4],MultCentbins);
+hist_subleadjes_reco_fromB_weighted->GetAxis(4)->Set(bins_jes[4],MultCentbins);
 hist_reco_lead_reco_subl_quench_mid_mid->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
 hist_reco_lead_reco_subl_quench_mid_fwd->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
 hist_reco_lead_reco_subl_quench_mid_bkw->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
@@ -1101,6 +1109,10 @@ hist_subl_jet_from_gen_reco_mix->GetAxis(4)->Set(bins_jet[4],Extrabins);
 hist_subl_jet_from_gen_gen_mix->GetAxis(4)->Set(bins_jet[4],Extrabins);
 hist_jes_reco_weighted->GetAxis(5)->Set(bins_jes[5],Extrabins);
 hist_jes_reco_fromB_weighted->GetAxis(5)->Set(bins_jes[5],Extrabins);
+hist_leadjes_reco_weighted->GetAxis(5)->Set(bins_jes[5],Extrabins);
+hist_leadjes_reco_fromB_weighted->GetAxis(5)->Set(bins_jes[5],Extrabins);
+hist_subleadjes_reco_weighted->GetAxis(5)->Set(bins_jes[5],Extrabins);
+hist_subleadjes_reco_fromB_weighted->GetAxis(5)->Set(bins_jes[5],Extrabins);
 hist_reco_lead_reco_subl_quench_mid_mid->GetAxis(5)->Set(bins_quenc[5],Extrabins);
 hist_reco_lead_reco_subl_quench_mid_fwd->GetAxis(5)->Set(bins_quenc[5],Extrabins);
 hist_reco_lead_reco_subl_quench_mid_bkw->GetAxis(5)->Set(bins_quenc[5],Extrabins);
@@ -1359,6 +1371,10 @@ hist_gen_subljet->Sumw2();
 hist_gen_subljet_weighted->Sumw2();
 hist_jes_reco_weighted->Sumw2();
 hist_jes_reco_fromB_weighted->Sumw2();
+hist_leadjes_reco_weighted->Sumw2();
+hist_leadjes_reco_fromB_weighted->Sumw2();
+hist_subleadjes_reco_weighted->Sumw2();
+hist_subleadjes_reco_fromB_weighted->Sumw2();
 hist_jet_from_reco_reco_sig->Sumw2();
 hist_jet_from_reco_gen_sig->Sumw2();
 hist_jet_from_gen_reco_sig->Sumw2();
@@ -1572,14 +1588,16 @@ void w_QA_hist(bool isMC){
 	if(isMC){
 		hist_jes_reco_weighted->Write();
 		hist_jes_reco_fromB_weighted->Write();
+//		hist_leadjes_reco_weighted->Write();
+		hist_leadjes_reco_fromB_weighted->Write();
+//		hist_subleadjes_reco_weighted->Write();
+		hist_subleadjes_reco_fromB_weighted->Write();
 		hist_gen_jet->Write();
 		hist_gen_jet_weighted->Write();
 		hist_gen_leadjet->Write();
 		hist_gen_leadjet_weighted->Write();
 		hist_gen_subljet->Write();
 		hist_gen_subljet_weighted->Write();
-		hist_jes_reco_weighted->Write();
-		hist_jes_reco_fromB_weighted->Write();
 	}
 }
 
