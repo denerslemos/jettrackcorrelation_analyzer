@@ -13,7 +13,7 @@ vz: event Vz
 weighttree: pt hat weight
 leadjetpt: leading jet pT
 */
-float get_event_weight(int nevents, bool isMC, bool use_centrality, string system, int year, int energy, float vz, int mult, float weighttree, float leadjetpt, float extraquantity){
+float get_event_weight(int nevents, bool isMC, bool use_centrality, string system, int year, int energy, float vz, int mult, float weighttree, float leadjetpt, float extraquantity, bool is_embedded, bool is_multdep){
 
 	float vzweight = 1.0;
 	float multweight = 1.0;
@@ -71,70 +71,70 @@ float get_event_weight(int nevents, bool isMC, bool use_centrality, string syste
 
 		// multiplicity weight
 		// PYTHIA+EPOS
-		/*
+		if(is_embedded && is_multdep){
     		if(mult < 210.0){
-			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8", 0, 214);
-			EtWeightFunction->SetParameters(-0.0915839,-0.00212374,0.00242633,-8.75813e-05,1.48422e-06,-1.3365e-08,6.57739e-11,-1.67841e-13,1.74335e-16);
-			multweight = EtWeightFunction->Eval(mult);
-		}else if(mult >= 210 && mult <= 300){
-			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol4",210,320);
-			EtWeightFunction->SetParameters(-6.2635,0.135792,-0.000754343,1.4557e-06,-7.25631e-10);
-			multweight = EtWeightFunction->Eval(mult);					
-		}else{multweight = 1.0;}
-		TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
-		VzWeightFunction->SetParameters(0.843091,-0.0145326,0.00468752,-0.000202477,3.39591e-05,4.51739e-07,-8.6924e-08,-7.52764e-09,1.1983e-09);
-		vzweight = VzWeightFunction->Eval(vz);
-		*/
+				TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8", 0, 214);
+				EtWeightFunction->SetParameters(-0.0915839,-0.00212374,0.00242633,-8.75813e-05,1.48422e-06,-1.3365e-08,6.57739e-11,-1.67841e-13,1.74335e-16);
+				multweight = EtWeightFunction->Eval(mult);
+			}else if(mult >= 210 && mult <= 300){
+				TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol4",210,320);
+				EtWeightFunction->SetParameters(-6.2635,0.135792,-0.000754343,1.4557e-06,-7.25631e-10);
+				multweight = EtWeightFunction->Eval(mult);					
+			}else{multweight = 1.0;}
+				TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
+				VzWeightFunction->SetParameters(0.843091,-0.0145326,0.00468752,-0.000202477,3.39591e-05,4.51739e-07,-8.6924e-08,-7.52764e-09,1.1983e-09);
+			vzweight = VzWeightFunction->Eval(vz);
+		}
 		// PYTHIA only
-		/*
+		if(!is_embedded && is_multdep){
     		if(mult < 105.0){
-			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8", 0,109);
-			EtWeightFunction->SetParameters(-3.3272,0.641081,-0.0356275,0.00120248,-2.63759e-05,3.62415e-07,-2.97515e-09,1.33199e-11,-2.50344e-14);
-			multweight = EtWeightFunction->Eval(mult);
-		}else if(mult >= 105.0 && mult <= 250.0){
-			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "expo",105,250);
-			EtWeightFunction->SetParameters(9.99045,-0.13026);
-			multweight = EtWeightFunction->Eval(mult);					
-		}else{multweight = 1.0;}
-		TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
-		VzWeightFunction->SetParameters(0.848574,-0.0182413,0.00402673,8.70187e-06,8.54011e-06,-1.76185e-06,1.39702e-07,2.28844e-09,1.01863e-10);
-		vzweight = VzWeightFunction->Eval(vz);
-		*/
+				TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8", 0,109);
+				EtWeightFunction->SetParameters(-3.3272,0.641081,-0.0356275,0.00120248,-2.63759e-05,3.62415e-07,-2.97515e-09,1.33199e-11,-2.50344e-14);
+				multweight = EtWeightFunction->Eval(mult);
+			}else if(mult >= 105.0 && mult <= 250.0){
+				TF1 *EtWeightFunction = new TF1("EtWeightFunction", "expo",105,250);
+				EtWeightFunction->SetParameters(9.99045,-0.13026);
+				multweight = EtWeightFunction->Eval(mult);					
+			}else{multweight = 1.0;}
+			TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
+			VzWeightFunction->SetParameters(0.848574,-0.0182413,0.00402673,8.70187e-06,8.54011e-06,-1.76185e-06,1.39702e-07,2.28844e-09,1.01863e-10);
+			vzweight = VzWeightFunction->Eval(vz);
+		}
 		// EPb weight
 		// PYTHIA+EPOS
-		/*
-	   	if(extraquantity < 65.0){
-			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8",0,70);
-			EtWeightFunction->SetParameters(0.173544,0.0295155,0.00574286,3.39713e-05,-2.61854e-05,1.12039e-06,-2.08602e-08,1.86687e-10,-6.57817e-13);
-			multweight = EtWeightFunction->Eval(extraquantity);
-		}else if(extraquantity >= 65.0 && extraquantity < 95.0){
-			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol2",60,120);
-			EtWeightFunction->SetParameters(2.56581,-0.0458321,0.000231857);
-			multweight = EtWeightFunction->Eval(extraquantity);					
-		}else{
-			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol0",90,200);
-			EtWeightFunction->SetParameter(0,0.29061);	
-			multweight = EtWeightFunction->Eval(extraquantity);			
+		if(is_embedded && !is_multdep){
+		   	if(extraquantity < 65.0){
+				TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8",0,70);
+				EtWeightFunction->SetParameters(0.173544,0.0295155,0.00574286,3.39713e-05,-2.61854e-05,1.12039e-06,-2.08602e-08,1.86687e-10,-6.57817e-13);
+				multweight = EtWeightFunction->Eval(extraquantity);
+			}else if(extraquantity >= 65.0 && extraquantity < 95.0){
+				TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol2",60,120);
+				EtWeightFunction->SetParameters(2.56581,-0.0458321,0.000231857);
+				multweight = EtWeightFunction->Eval(extraquantity);					
+			}else{
+				TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol0",90,200);
+				EtWeightFunction->SetParameter(0,0.29061);	
+				multweight = EtWeightFunction->Eval(extraquantity);			
+			}
+			TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
+			VzWeightFunction->SetParameters(0.853343,-0.0157977,0.00431199,-0.000162212,3.61976e-05,-1.21137e-07,-9.833e-08,-4.70594e-09,1.05049e-09);
+			vzweight = VzWeightFunction->Eval(vz);
 		}
-		TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
-		VzWeightFunction->SetParameters(0.853343,-0.0157977,0.00431199,-0.000162212,3.61976e-05,-1.21137e-07,-9.833e-08,-4.70594e-09,1.05049e-09);
-		vzweight = VzWeightFunction->Eval(vz);
-		*/
   		// PYTHIA only
-  		/*
-	   	if(extraquantity < 75.0){
-			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol7",3,80);
-			EtWeightFunction->SetParameters(1.45325,0.0357072,-0.011459,0.00062546,-1.64134e-05,2.32377e-07,-1.70596e-09,5.09787e-12);
-			multweight = EtWeightFunction->Eval(extraquantity);
-		}else{
-			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol0",75,200);
-			EtWeightFunction->SetParameter(0,0.0727252);
-			multweight = EtWeightFunction->Eval(extraquantity);			
+		if(!is_embedded && !is_multdep){
+	   		if(extraquantity < 75.0){
+				TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol7",3,80);
+				EtWeightFunction->SetParameters(1.45325,0.0357072,-0.011459,0.00062546,-1.64134e-05,2.32377e-07,-1.70596e-09,5.09787e-12);
+				multweight = EtWeightFunction->Eval(extraquantity);
+			}else{
+				TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol0",75,200);
+				EtWeightFunction->SetParameter(0,0.0727252);
+				multweight = EtWeightFunction->Eval(extraquantity);			
+			}
+			TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
+			VzWeightFunction->SetParameters(0.852218,-0.0164135,0.0047504,-9.06856e-05,2.02e-05,-7.25535e-07,6.2906e-08,-2.08797e-09,5.13e-10);
+			vzweight = VzWeightFunction->Eval(vz);
 		}
-		TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
-		VzWeightFunction->SetParameters(0.852218,-0.0164135,0.0047504,-9.06856e-05,2.02e-05,-7.25535e-07,6.2906e-08,-2.08797e-09,5.13e-10);
-		vzweight = VzWeightFunction->Eval(vz);
-		*/
 		multweight = 1./multweight;
 		vzweight = 1./vzweight;
     }
@@ -173,7 +173,7 @@ year: data-taking year
 energy: colliding energy
 jetpt: jet pT weight
 */
-float get_jetpT_weight(bool isMC, string system, int year, int energy, float jetpt){
+float get_jetpT_weight(bool isMC, string system, int year, int energy, float jetpt, float jeteta){
 
 	float jetptweight = 1.0;
 
@@ -186,55 +186,5 @@ float get_jetpT_weight(bool isMC, string system, int year, int energy, float jet
 	}
 */
 	return jetptweight;
-
-}
-
-/*
-For compatibility between MC RECO and Data
---> Arguments
-isMC: true for MC and false for Data
-system: colliding system
-year: data-taking year
-energy: colliding energy
-leadjetpt: leading jet pT weight
-*/
-float get_leadjetpT_weight(bool isMC, string system, int year, int energy, float leadjetpt){
-
-	float leadjetptweight = 1.0;
-
-	// LeadJetPtWeightFunction is derived from MC vs data leading jet pT spectra.
-/*
-	if(isMC && system == "pp" && energy == 5020 && year == 2017){
-		TF1 *LeadJetPtWeightFunction = new TF1("LeadJetPtWeightFunction", "pol3", 0.0, 500.0); //Derived from leading jets above 120 GeV and JECv6
-	    LeadJetPtWeightFunction->SetParameters(0.876682,0.00131479,-3.90884e-06,4.40358e-09); ;
-		leadjetptweight = LeadJetPtWeightFunction->Eval(leadjetpt);
-	}
-*/
-	return leadjetptweight;
-
-}
-
-/*
-For compatibility between MC RECO and Data
---> Arguments
-isMC: true for MC and false for Data
-system: colliding system
-year: data-taking year
-energy: colliding energy
-subleadjetpt: subleading jet pT weight
-*/
-float get_subleadjetpT_weight(bool isMC, string system, int year, int energy, float subleadjetpt){
-
-	float subleadjetptweight = 1.0;
-
-	// SubLeadJetPtWeightFunction is derived from MC vs data subleading jet pT spectra.
-/*
-	if(isMC && system == "pp" && energy == 5020 && year == 2017){
-		TF1 *SubLeadJetPtWeightFunction = new TF1("SubLeadJetPtWeightFunction", "pol3", 0.0, 500.0); //Derived from leading jets above 120 GeV and JECv6
-	    SubLeadJetPtWeightFunction->SetParameters(0.876682,0.00131479,-3.90884e-06,4.40358e-09); ;
-		subleadjetptweight = SubLeadJetPtWeightFunction->Eval(subleadjetpt);
-	}
-*/
-	return subleadjetptweight;
 
 }

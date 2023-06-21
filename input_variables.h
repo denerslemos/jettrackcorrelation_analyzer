@@ -47,16 +47,18 @@ const float jet_eta_max_cut = 1.0; // jet max eta cut
 const TString JEC_file = "Autumn16_HI_pPb_pgoing_Embedded_MC_L2Relative_AK4PF.txt"; //JEC file
 const TString JEC_file_data = "Summer16_23Sep2016HV4_DATA_L2L3Residual_AK4PF.txt"; //JEC file for data
 const TString JEU_file = "Summer16_23Sep2016HV4_DATA_Uncertainty_AK4PF.txt"; //JEU file (future)
+const TString JER_sys_file = "sys_resolution_Summer16_25nsV1_MC_SF_AK4PF.root"; //JEU file (future)
 const bool do_jeu_up = false; // for JES systematics
 const bool do_jeu_down = false; // for JES systematics
-const bool do_jet_smearing = false; // for jet smearing
+const bool do_jer_up = false; // for JER systematics
+const bool do_jer_down = false; // for JER systematics
 const bool use_WTA = false; // use WTA or E-Scheme axis 
 const float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation only
 const float leading_pT_min = 100.0; //used for jet leading and subleading correlation and jet quenching analysis
 const float subleading_pT_min = 50.0; //used for jet leading and subleading correlation and jet quenching analysis
 //const std::vector<double> pt_ave_bins{75.0, 85.0, 95.0, 105.0, 115.0, 125.0, 150.0, 200.0, 250.0, 300.0, 400.0, 1000000.0}; //removed
 const bool do_thirdjet_removal = false; // remove third jet
-const float dijetetamax = 2.65; // maximum dijet eta
+const float dijetetamax = 3.0; // maximum dijet eta
 const float trackmaxpt = 0.0; // maximum track pT inside of a jet
 
 //pseudorapidity regions for jet-track leading and subleading correlations
@@ -70,8 +72,8 @@ const TString fwdbkw_jettrk_option = "mid_mid"; // midrapidity + midrapidity
 //TString fwdbkw_jettrk_option = "bkw_fwd"; // backward + forward
 //TString fwdbkw_jettrk_option = "bkw_bkw"; // backward + backward
 const float jet_fwd_eta_min_cut = 1.2; // jet fwd min eta cut 
-const float jet_fwd_eta_max_cut = 2.2; // jet fwd  min eta cut 
-const float jet_bkw_eta_min_cut = -3.1; // jet fwd min eta cut 
+const float jet_fwd_eta_max_cut = 2.4; // jet fwd  min eta cut 
+const float jet_bkw_eta_min_cut = -3.3; // jet fwd min eta cut 
 const float jet_bkw_eta_max_cut = -2.1; // jet fwd  min eta cut 
 
 // if we want to make Xj or Aj selections [0,1] are full inclusive
@@ -126,6 +128,8 @@ const bool double_weight_mix = false; // double weighting in the mixing
 bool do_pid = false; // apply PID? // choose the value between [] based on particleid.h
 int particlepid = pid[Pion];   
 TString particles = pid_str[Pion];
+bool is_embedded = false;
+bool is_multdep = false;
 
 /*
 Print out the inputs
@@ -157,7 +161,6 @@ void print_input(TString data_or_mc, TFile *fileeff, TString coll_system, float 
 	cout << "Jet pT max: " << jet_pt_max_cut << " GeV"<< endl;
 	cout << "JEC file: " << JEC_file.Data() << endl;
 	cout << "JEU file: " << JEU_file.Data() << endl;
-	if(do_jet_smearing) cout << "Smearing applied" << endl;
 	if(do_Xj_or_Ajcut){
 		cout << "Jet Xj min: " << xjmin << endl;
 		cout << "Jet Xj max: " << xjmax << endl;
