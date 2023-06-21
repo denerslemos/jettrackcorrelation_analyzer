@@ -133,7 +133,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
     //boosting
     double boost = 0;
     if(colliding_system=="pPb" && do_CM_pPb && is_pgoing){boost = pPbRapidityBoost;}else if(colliding_system=="pPb" && do_CM_pPb && !is_pgoing){boost = -pPbRapidityBoost;}
-    // if(isMC) boost = -boost; // pPb MC has proton in + direction, pPb data has it in minus, and both are reversed for the 'Pbp definition'
+    if(is_MC) boost = -boost; // pPb MC has proton in + direction, pPb data has it in minus, and both are reversed for the 'Pbp definition'
 
 	// Start loop over events
 	double nev = (double)nevents;
