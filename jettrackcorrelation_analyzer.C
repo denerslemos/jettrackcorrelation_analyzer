@@ -64,6 +64,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	JetUncertainty JEU(Form("aux_files/%s_%i/JEC/%s",colliding_system.Data(),sNN_energy_GeV,JEU_file.Data()));
 	//JER sys file
 	TFile *filejersys = TFile::Open(Form("aux_files/%s_%i/JEC/%s",colliding_system.Data(),sNN_energy_GeV,JER_sys_file.Data()));
+	TH1 *resolution_histo = nullptr;
+	if(!do_jer_up && !do_jer_down) filejersys->GetObject("JERnominal", resolution_histo);
+	if(do_jer_up && !do_jer_down) filejersys->GetObject("JERup", resolution_histo);
+	if(!do_jer_up && do_jer_down) filejersys->GetObject("JERdown", resolution_histo);
 	// Track or particle efficiency file
 	TFile *fileeff = TFile::Open(Form("aux_files/%s_%i/trk_eff_table/%s",colliding_system.Data(),sNN_energy_GeV,trk_eff_file.Data()));
 	cout << endl;
@@ -410,10 +414,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			
 			if(is_MC && (!do_jer_up || !do_jer_down)) {
 			
-				TH1 *resolution_histo = nullptr;
-				if(!do_jer_up && !do_jer_down) filejersys->GetObject("JERnominal", resolution_histo);
-				if(do_jer_up && !do_jer_down) filejersys->GetObject("JERup", resolution_histo);
-				if(!do_jer_up && do_jer_down) filejersys->GetObject("JERdown", resolution_histo);
 				double resolution_factor = resolution_histo->GetBinContent( resolution_histo->GetXaxis()->FindBin(jet_eta) );
 				double extraResolution = TMath::Sqrt(resolution_factor*resolution_factor-1.0); // found jet resolution
 				TRandom *randnumber = new TRandom2();
