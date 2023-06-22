@@ -208,9 +208,9 @@ THnSparseD *NJets = new THnSparseD("NJets", "NJets", 3, bins_NJETS, xmin_NJETS, 
 
 // trackmax histogram
 // Axis : 0 -> delta phi between jet and EP, 1 -> multiplicity bins, 2 -> extra dependence bins
-int	bins_trkmax[3]      =   {  1000   ,   multbinsize-1    							    ,  extrabinsize-1};
+int	bins_trkmax[3]      =   {  200   ,   multbinsize-1    							    ,  extrabinsize-1};
 double xmin_trkmax[3]   =   {  0.0 	  ,   multiplicity_centrality_bins[0]  			    ,  extra_bins[0]};
-double xmax_trkmax[3]   =   {  1000.0 ,   multiplicity_centrality_bins[multbinsize-1]   ,  extra_bins[extrabinsize-1]};
+double xmax_trkmax[3]   =   {  100.0 ,   multiplicity_centrality_bins[multbinsize-1]   ,  extra_bins[extrabinsize-1]};
 THnSparseD *trackmaxptinjethisto = new THnSparseD("trackmaxptinjethisto", "trackmaxptinjethisto", 3, bins_trkmax, xmin_trkmax, xmax_trkmax);
 
 //correlations to EP
@@ -311,9 +311,9 @@ THnSparseD *hist_subl_jet_from_gen_reco_mix = new THnSparseD("hist_subl_jet_from
 THnSparseD *hist_subl_jet_from_gen_gen_mix = new THnSparseD("hist_subl_jet_from_gen_gen_mix", "hist_subl_jet_from_gen_gen_mix", 5, bins_jet, xmin_jet, xmax_jet);
 
 // Jet Energy Scale (JES) and Jet Energy Resolution (JER)
-int	bins_jes[6]   =      { 200  ,  100  ,  80  ,  8, multbinsize-1          					 , extrabinsize-1};
+int	bins_jes[6]   =      { 50  ,  100  ,  40  ,  8, multbinsize-1          					 , extrabinsize-1};
 double xmin_jes[6]   =   { 0.0  ,  0    , -4.0 ,  0, multiplicity_centrality_bins[0]             , extra_bins[0]};
-double xmax_jes[6]   =   { 10.0 ,  1000 ,  4.0 ,  8, multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
+double xmax_jes[6]   =   { 5.0 ,  1000 ,  4.0 ,  8, multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
 THnSparseD *hist_jes_reco_weighted = new THnSparseD("hist_jes_reco_weighted", "hist_jes_reco_weighted", 6, bins_jes, xmin_jes, xmax_jes);
 THnSparseD *hist_jes_reco_fromB_weighted = new THnSparseD("hist_jes_reco_fromB_weighted", "hist_jes_reco_fromB_weighted", 6, bins_jes, xmin_jes, xmax_jes);
 THnSparseD *hist_leadjes_reco_weighted = new THnSparseD("hist_leadjes_reco_weighted", "hist_leadjes_reco_weighted", 6, bins_jes, xmin_jes, xmax_jes);
