@@ -64,10 +64,13 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	JetUncertainty JEU(Form("aux_files/%s_%i/JEC/%s",colliding_system.Data(),sNN_energy_GeV,JEU_file.Data()));
 	//JER sys file
 	TFile *filejersys = TFile::Open(Form("aux_files/%s_%i/JEC/%s",colliding_system.Data(),sNN_energy_GeV,JER_sys_file.Data()));
-	TH1 *resolution_histo = nullptr;
-	if(!do_jer_up && !do_jer_down) filejersys->GetObject("JERnominal", resolution_histo);
-	if(do_jer_up && !do_jer_down) filejersys->GetObject("JERup", resolution_histo);
-	if(!do_jer_up && do_jer_down) filejersys->GetObject("JERdown", resolution_histo);
+        TH1 *resolution_histo = nullptr;
+        if(!do_jer_up && !do_jer_down) filejersys->GetObject("JERnominal", resolution_histo);
+        if(do_jer_up && !do_jer_down) filejersys->GetObject("JERup", resolution_histo);
+        if(!do_jer_up && do_jer_down) filejersys->GetObject("JERdown", resolution_histo);
+        TRandom *randnumber = new TRandom2();
+        TF1* JetSmear = new TF1("JetSmear","sqrt([0]*[0] + [1]*[1]/x + [2]*[2]/(x*x))",20,800);
+        JetSmear->SetParameters(4.48588e-02, 9.48647e-0, 0.0); // fitted from JER
 	// Track or particle efficiency file
 	TFile *fileeff = TFile::Open(Form("aux_files/%s_%i/trk_eff_table/%s",colliding_system.Data(),sNN_energy_GeV,trk_eff_file.Data()));
 	cout << endl;
@@ -137,7 +140,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
     //boosting
     double boost = 0;
     if(colliding_system=="pPb" && do_CM_pPb && is_pgoing){boost = pPbRapidityBoost;}else if(colliding_system=="pPb" && do_CM_pPb && !is_pgoing){boost = -pPbRapidityBoost;}
-    //if(is_MC) boost = -boost; // pPb MC has proton in + direction, pPb data has it in minus, and both are reversed for the 'Pbp definition'
+    // if(is_MC) boost = -boost; // pPb MC has proton in + direction, pPb data has it in minus, and both are reversed for the 'Pbp definition'
 
 	// Start loop over events
 	double nev = (double)nevents;
@@ -408,17 +411,14 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			
 			// Apply JEU systematics
 			JEU.SetJetPT(jet_pt_corr);
-    		JEU.SetJetEta(jet_eta);
-    		JEU.SetJetPhi(jet_phi);
-    		if(do_jeu_down && !do_jeu_up){jet_pt_corr = jet_pt_corr * (1 - JEU.GetUncertainty().first);}else if(!do_jeu_down && do_jeu_up){jet_pt_corr = jet_pt_corr * (1 + JEU.GetUncertainty().second);}
+    			JEU.SetJetEta(jet_eta);
+    			JEU.SetJetPhi(jet_phi);
+    			if(do_jeu_down && !do_jeu_up){jet_pt_corr = jet_pt_corr * (1 - JEU.GetUncertainty().first);}else if(!do_jeu_down && do_jeu_up){jet_pt_corr = jet_pt_corr * (1 + JEU.GetUncertainty().second);}
 			
 			if(is_MC && (!do_jer_up || !do_jer_down)) {
 			
 				double resolution_factor = resolution_histo->GetBinContent( resolution_histo->GetXaxis()->FindBin(jet_eta) );
 				double extraResolution = TMath::Sqrt(resolution_factor*resolution_factor-1.0); // found jet resolution
-				TRandom *randnumber = new TRandom2();
-				TF1* JetSmear = new TF1("JetSmear","sqrt([0]*[0] + [1]*[1]/x + [2]*[2]/(x*x))",20,800);
-				JetSmear->SetParameters(4.48588e-02, 9.48647e-0, 0.0); // fitted from JER
 				double sigma_smear = extraResolution*JetSmear->Eval(jet_pt_corr); //20% worst
 				double mu_smar = 1.0;
 				double smear = randnumber->Gaus(mu_smar,sigma_smear);
