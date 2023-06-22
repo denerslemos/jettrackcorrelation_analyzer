@@ -128,8 +128,8 @@ const bool double_weight_mix = false; // double weighting in the mixing
 bool do_pid = false; // apply PID? // choose the value between [] based on particleid.h
 int particlepid = pid[Pion];   
 TString particles = pid_str[Pion];
-bool is_embedded = false;
-bool is_multdep = false;
+bool is_embedded = true;
+bool is_multdep = true;
 
 /*
 Print out the inputs
