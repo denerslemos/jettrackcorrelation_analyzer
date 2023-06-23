@@ -22,6 +22,9 @@ const std::vector<double> multiplicity_centrality_bins{10.0, 60.0, 80.0, 100.0, 
 std::vector<int> event_filter_bool; // event filter booleans
 //std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose"}; // event filters to be applied (pp ref - 2017)
 const std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose", "phfCoincFilter", "pVertexFilterCutdz1p0"}; // event filters to be applied (pPb - 2016)
+//const std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFilter", "HBHENoiseFilterResultRun2Tight", "phfCoincFilter", "pVertexFilterCutdz1p0"}; // event filters to be applied (pPb - 2016)
+//const std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose", "phfCoincFilter", "pVertexFilterCutGplus"}; // event filters to be applied (pPb - 2016)
+//const std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose", "phfCoincFilter", "pVertexFilterCutVtx1"}; // event filters to be applied (pPb - 2016)
 //std::vector<TString> event_filter_str{"pprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose", "collisionEventSelectionAOD", "phfCoincFilter2Th4", "pclusterCompatibilityFilter"}; // event filters to be applied (PbPb - 2018)
 //std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose", "phfCoincFilter", "pVertexFilterCutdz1p0"}; // event filters to be applied (XeXe - 2017)
 
@@ -44,7 +47,7 @@ const float jet_pt_min_cut = 60.0; // jet min pT cut
 const float jet_pt_max_cut = 8160.0; // jet max pT cut 
 const float jet_eta_min_cut = -1.0; // jet min eta cut 
 const float jet_eta_max_cut = 1.0; // jet max eta cut 
-const TString JEC_file = "Autumn16_HI_pPb_pgoing_Embedded_MC_L2Relative_AK4PF.txt"; //JEC file
+const TString JEC_file = "Autumn16_HI_pPb_pgoing_Unembedded_MC_L2Relative_AK4PF.txt"; //JEC file
 const TString JEC_file_data = "Summer16_23Sep2016HV4_DATA_L2L3Residual_AK4PF.txt"; //JEC file for data
 const TString JEU_file = "Summer16_23Sep2016HV4_DATA_Uncertainty_AK4PF.txt"; //JEU file (future)
 const TString JER_sys_file = "sys_resolution_Summer16_25nsV1_MC_SF_AK4PF.root"; //JEU file (future)

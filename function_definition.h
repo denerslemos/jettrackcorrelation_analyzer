@@ -205,7 +205,7 @@ thrdpt: third jet pT
 thrdeta: third jet Eta
 thrdphi: third jet Phi
 */
-void find_leading_subleading_third(float pt, float eta, float phi, float mass, float flavor, float &leadpt, float &leadeta, float &leadphi, float &leadmass, float &leadflavor, float &sublpt, float &subleta, float &sublphi, float &sublmass, float &sublflavor, float &thrdpt, float &thrdeta, float &thrdphi, float &thrdmass, float &thrdflavor){
+void find_leading_subleading_third(float pt, float eta, float phi, float mass, float flavor, int jetindex, float &leadpt, float &leadeta, float &leadphi, float &leadmass, float &leadflavor, int &leadindex, float &sublpt, float &subleta, float &sublphi, float &sublmass, float &sublflavor, int &sublindex, float &thrdpt, float &thrdeta, float &thrdphi, float &thrdmass, float &thrdflavor, int &thrdindex){
 	if( pt > leadpt ) {
 		thrdpt = sublpt;
     	sublpt = leadpt;
@@ -214,6 +214,7 @@ void find_leading_subleading_third(float pt, float eta, float phi, float mass, f
         leadphi = phi;
         leadmass = mass;
         leadflavor = flavor;
+        leadindex = jetindex;
     } else if( pt > sublpt ) {
 	    thrdpt = sublpt;
     	sublpt = pt;
@@ -221,12 +222,14 @@ void find_leading_subleading_third(float pt, float eta, float phi, float mass, f
         sublphi = phi;
         sublmass = mass;
         sublflavor = flavor;
+        sublindex = jetindex;
     } else if( pt > thrdpt ) {
     	thrdpt = pt;
         thrdeta = eta;
         thrdphi = phi;
         thrdmass = mass;
         thrdflavor = flavor;
+        thrdindex = jetindex;
     } 
 }
 
