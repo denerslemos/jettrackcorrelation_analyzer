@@ -792,17 +792,17 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		
 		if(isdijet){
 
-				double JES_ratio_reco_vs_ref_leading = leadrecojet_pt/ref_pt[leadrecojet_index];
-				double JES_ratio_reco_vs_ref_subleading = sublrecojet_pt/ref_pt[sublrecojet_index];
+				double JES_ratio_reco_vs_ref_leading = leadrecojet_pt/refpt[leadrecojet_index];
+				double JES_ratio_reco_vs_ref_subleading = sublrecojet_pt/refpt[sublrecojet_index];
 
 				double ljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadrecojet_pt, leadrecojet_eta);  // Jet weight (specially for MC)
 				double sljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublrecojet_pt, sublrecojet_eta);  // Jet weight (specially for MC)
-				double lrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, ref_pt[leadrecojet_index], ref_eta[leadrecojet_index]);  // Jet weight (specially for MC)
-				double slrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, ref_pt[sublrecojet_index], ref_eta[sublrecojet_index]);  // Jet weight (specially for MC)
+				double lrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[leadrecojet_index], refeta[leadrecojet_index]);  // Jet weight (specially for MC)
+				double slrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[sublrecojet_index], refeta[sublrecojet_index]);  // Jet weight (specially for MC)
 				
-				double x_JES_ratio_reco_vs_reffromB_leading[6]={JES_ratio_reco_vs_ref_leading,ref_pt[leadrecojet_index],ref_eta[leadrecojet_index],(double)leadrecojet_flavor,(double)multcentbin,(double) extrabin}; 
+				double x_JES_ratio_reco_vs_reffromB_leading[6]={JES_ratio_reco_vs_ref_leading,refpt[leadrecojet_index],refeta[leadrecojet_index],(double)leadrecojet_flavor,(double)multcentbin,(double) extrabin}; 
 				hist_leadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_reffromB_leading,event_weight*lrefjet_weight*ljet_weight);
-				double x_JES_ratio_reco_vs_reffromB_sleading[6]={JES_ratio_reco_vs_ref_subleading,ref_pt[sublrecojet_index],ref_eta[sublrecojet_index],(double)sublrecojet_flavor,(double)multcentbin,(double) extrabin}; 
+				double x_JES_ratio_reco_vs_reffromB_sleading[6]={JES_ratio_reco_vs_ref_subleading,refpt[sublrecojet_index],refeta[sublrecojet_index],(double)sublrecojet_flavor,(double)multcentbin,(double) extrabin}; 
 				hist_subleadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_reffromB_sleading,event_weight*slrefjet_weight*sljet_weight);
 
 		}
