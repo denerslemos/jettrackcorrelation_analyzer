@@ -68,7 +68,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
         if(!do_jer_up && !do_jer_down) filejersys->GetObject("JERnominal", resolution_histo);
         if(do_jer_up && !do_jer_down) filejersys->GetObject("JERup", resolution_histo);
         if(!do_jer_up && do_jer_down) filejersys->GetObject("JERdown", resolution_histo);
-        TRandom *randnumber = new TRandom2();
         TF1* JetSmear = new TF1("JetSmear","sqrt([0]*[0] + [1]*[1]/x + [2]*[2]/(x*x))",20,800);
         JetSmear->SetParameters(4.48588e-02, 9.48647e-0, 0.0); // fitted from JER
 	// Track or particle efficiency file
@@ -393,7 +392,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		int jetsize = (int)nref; // number of jets in an event
 		// Start loop over jets
 		for (int j = 0; j < jetsize; j++){
-
+			if(rawpt[j] < 10.0) continue;
 			if(trackMax[j]/rawpt[j] < 0.01)continue; // Cut for jets with only very low pT particles
 			if(trackMax[j]/rawpt[j] > 0.98)continue; // Cut for jets where all the pT is taken by one track
 			if(jteta[j] < -5.0 || jteta[j] > 5.0) continue; // no accept jets with |eta| > 5
@@ -413,17 +412,18 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			
 			// Apply JEU systematics
 			JEU.SetJetPT(jet_pt_corr);
-    			JEU.SetJetEta(jet_eta);
-    			JEU.SetJetPhi(jet_phi);
-    			if(do_jeu_down && !do_jeu_up){jet_pt_corr = jet_pt_corr * (1 - JEU.GetUncertainty().first);}else if(!do_jeu_down && do_jeu_up){jet_pt_corr = jet_pt_corr * (1 + JEU.GetUncertainty().second);}
+			JEU.SetJetEta(jet_eta);
+			JEU.SetJetPhi(jet_phi);
+			if(do_jeu_down && !do_jeu_up){jet_pt_corr = jet_pt_corr * (1 - JEU.GetUncertainty().first);}else if(!do_jeu_down && do_jeu_up){jet_pt_corr = jet_pt_corr * (1 + JEU.GetUncertainty().second);}
 			
 			if(is_MC && (!do_jer_up || !do_jer_down)) {
 			
 				double resolution_factor = resolution_histo->GetBinContent( resolution_histo->GetXaxis()->FindBin(jet_eta) );
-				double extraResolution = TMath::Sqrt(resolution_factor*resolution_factor-1.0); // found jet resolution
-				double sigma_smear = extraResolution*JetSmear->Eval(jet_pt_corr); //20% worst
+				double extraResolution = TMath::Sqrt(TMath::Max(resolution_factor*resolution_factor-1.0,0.0)); // found jet resolution
+				double sigma_smear = extraResolution*JetSmear->Eval(jet_pt_corr); // some % worst --> from JetMET
 				double mu_smar = 1.0;
-				double smear = randnumber->Gaus(mu_smar,sigma_smear);
+				auto rand = new TRandom2();
+				double smear = rand->Gaus(mu_smar,sigma_smear);
 				jet_pt_corr = jet_pt_corr*smear;	
 					
 			}
@@ -495,9 +495,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				float ref_phi = refphi[j];
 				float ref_mass = refmass[j];
 				
-				if(ref_pt <= 0) continue; // just remove non-matched
-				if(jet_rawpt <= 0) continue;
-				if(jet_pt_corr <= 0) continue;
+				if(ref_pt < 10) continue; // just remove non-matched
+				if(jet_rawpt < 0) continue;
+				if(jet_pt_corr < 0) continue;
 				if(ref_eta < -5.0 || ref_eta > 5.0) continue; // max jet eta
 
 				double refjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, ref_pt, ref_eta); // Jet weight (specially for MC)
@@ -911,7 +911,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				float gjet_flavor = 0.0;
 				
 				double jet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, gjet_pt, gjet_eta); // Jet weight (specially for MC)
-	
+				if(gjet_pt < 10.0) continue;
 				if(gjet_eta < -5.0 || gjet_eta > 5.0) continue; // no accept jets with |eta| > 4
 
 				find_leading_subleading_third(gjet_pt,gjet_eta,gjet_phi,gjet_mass,gjet_flavor,j,leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,leadgenjet_mass,leadgenjet_flavor,leadgenjet_index,sublgenjet_pt,sublgenjet_eta,sublgenjet_phi,sublgenjet_mass,sublgenjet_flavor,sublgenjet_index,thirdgenjet_pt,thirdgenjet_eta,thirdgenjet_phi,thirdgenjet_mass,thirdgenjet_flavor,thirdgenjet_index); // Find leading and subleading jets
