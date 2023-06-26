@@ -25,7 +25,7 @@ do_flow: correlation not weighted by pT that can be used for flow analysis
 void MixEvents_random(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_ntrkoff, std::vector<double> multiplicity_centrality_bins, std::vector<double> ev_extravar, std::vector<double> extravar_bins, std::vector<double> vtx_z, double vzcut, std::vector<std::vector<TVector3>> Jet_Vector, std::vector<std::vector<double>> Jet_W_Vector, std::vector<std::vector<TVector3>> Track_Vector, std::vector<std::vector<double>> Track_W_Vector, THnSparse *histo, std::vector<double> trk_pt_bin, std::vector<double> event_weight, THnSparse *histo_jet, THnSparse *histo_trk, bool double_weight, bool flow){
 
    int aux_n_evts = (int)ev_ntrkoff.size(); // total number of events
-   TRandom2 *r = new TRandom2(); // random number producer
+   //TRandom2 *r = new TRandom2(); // random number producer
 
    std::vector<int> indexes; // vector to make sure we do not have same combinations
 
@@ -60,7 +60,7 @@ void MixEvents_random(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_ntrk
                ntrkoff_int = ntrkoff_int+1;
                n_associated_check = 0;
          }
-
+	 auto r = new TRandom2();
          int nevt_assoc = r->Integer(aux_n_evts-1); // random events between 0 and aux_n_evts-1
          if(nevt_trg == nevt_assoc) continue; // make sure that we do not choose same events
          if(fabs(ev_ntrkoff[nevt_trg] - ev_ntrkoff[nevt_assoc]) > ntrkoff_int) continue; // multiplicity or centrality matching
@@ -148,7 +148,7 @@ double_weight: boolean to apply or not double weighting
 void MixEvents_random_2pc(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_ntrkoff, std::vector<double> multiplicity_centrality_bins, std::vector<double> ev_extravar, std::vector<double> extravar_bins, std::vector<double> vtx_z, double vzcut, std::vector<std::vector<TVector3>> Track_Vector, std::vector<std::vector<double>> Track_W_Vector, THnSparse *histo, std::vector<double> trk_pt_bin, std::vector<double> event_weight, bool double_weight){
 
    int aux_n_evts = (int)ev_ntrkoff.size(); // total number of events
-   TRandom2 *r = new TRandom2(); // random number producer
+   //TRandom2 *r = new TRandom2(); // random number producer
 
    std::vector<int> indexes; // vector to make sure we do not have same combinations
 
@@ -178,7 +178,7 @@ void MixEvents_random_2pc(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_
                ntrkoff_int = ntrkoff_int+1;
                n_associated_check = 0;
          }
-
+	 auto r = new TRandom2();
          int nevt_assoc = r->Integer(aux_n_evts-1); // random events between 0 and aux_n_evts-1
          if(nevt_trg == nevt_assoc) continue; // make sure that we do not choose same events
          if(fabs(ev_ntrkoff[nevt_trg] - ev_ntrkoff[nevt_assoc]) > ntrkoff_int) continue; // multiplicity or centrality matching
