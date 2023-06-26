@@ -33,7 +33,7 @@ void MixEvents_random(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_ntrk
    for(int nevt_trg = 0; nevt_trg < aux_n_evts; nevt_trg++){
 
       if(nevt_trg != 0 && (nevt_trg % 1000) == 0){double alpha = (double)nevt_trg; cout << " Status: " << std::setprecision(3) << ((alpha / aux_n_evts) * 100) << "%" << endl;}
-      
+      auto r = new TRandom2();
       int n_associated = 0; // counter used to find the number to mix 
       int n_associated_check = 0; // counter assure we find the required number of events to mix
       std::vector<int> eventcheck; // vector to make sure we do not have same combinations
@@ -60,7 +60,6 @@ void MixEvents_random(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_ntrk
                ntrkoff_int = ntrkoff_int+1;
                n_associated_check = 0;
          }
-	 auto r = new TRandom2();
          int nevt_assoc = r->Integer(aux_n_evts-1); // random events between 0 and aux_n_evts-1
          if(nevt_trg == nevt_assoc) continue; // make sure that we do not choose same events
          if(fabs(ev_ntrkoff[nevt_trg] - ev_ntrkoff[nevt_assoc]) > ntrkoff_int) continue; // multiplicity or centrality matching
