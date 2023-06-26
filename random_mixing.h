@@ -26,7 +26,6 @@ void MixEvents_random(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_ntrk
 
    int aux_n_evts = (int)ev_ntrkoff.size(); // total number of events
    //TRandom2 *r = new TRandom2(); // random number producer
-
    std::vector<int> indexes; // vector to make sure we do not have same combinations
 
    // first loop over all events to define the jet event
@@ -41,16 +40,13 @@ void MixEvents_random(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_ntrk
       std::vector<TVector3> Jet_nevt_trg_vec = Jet_Vector[nevt_trg]; // jet vector for each event
       std::vector<double> Jet_w_nevt_trg_vec = Jet_W_Vector[nevt_trg]; // jet weight vector for each event
       int nMix_nevt_trg = Jet_nevt_trg_vec.size(); // jet vector size
-
       std::vector<TVector3> Trk_nevt_trg_vec = Track_Vector[nevt_trg]; // jet vector for each event
       std::vector<double> Trk_w_nevt_trg_vec = Track_W_Vector[nevt_trg]; // jet weight vector for each event
       int nMix_nevt_trg_Trk = Trk_nevt_trg_vec.size(); // jet vector size
-
       double weight_trgev = event_weight[nevt_trg]; // event weight vector
 
       // while the number of mixed events is less than the required do this loop
       while (n_associated < nEvt_to_mix){ 
-      
          // additional check, if we do not have nEvt_to_mix after check all events, increase the values
          n_associated_check = n_associated_check + 1;
          if (n_associated_check == (aux_n_evts - 1)*10){
@@ -81,15 +77,11 @@ void MixEvents_random(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_ntrk
          double weight_assev = event_weight[nevt_assoc];
          double f_weight = 1.0;
          if(!double_weight){f_weight =  weight_trgev;}else{f_weight = weight_trgev * weight_assev;} //weighting 
-
          eventcheck.push_back(nevt_assoc); // save all events that pass the requirements
-
          n_associated = n_associated + 1; // if pass the requirements sum 1
-         
          std::vector<TVector3> Track_nevt_ass_vec = Track_Vector[nevt_assoc]; // get the vector of tracks
          std::vector<double> Track_w_nevt_ass_vec = Track_W_Vector[nevt_assoc]; // get the vector of tracks      
          int nMix_nevt_ass = (int)Track_nevt_ass_vec.size(); // get the vector of tracks size
-
          std::vector<TVector3> Jet_nevt_ass_vec = Jet_Vector[nevt_assoc]; // get the vector of tracks
          std::vector<double> Jet_w_nevt_ass_vec = Jet_W_Vector[nevt_assoc]; // get the vector of tracks      
          int nMix_nevt_ass_Jet = (int)Jet_nevt_ass_vec.size(); // get the vector of tracks size
@@ -102,9 +94,6 @@ void MixEvents_random(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_ntrk
               // track efficiency correction for reco
               double trk_weight = Track_w_nevt_ass_vec[iimix];
               // find track and multiplicity bins
-              //int trkbin = (int) find_my_bin(trk_pt_bin,trkpt);
-              //int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (double) ev_ntrkoff[nevt_trg]);
-              //int extrabin = (int) find_my_bin(extravar_bins, (double) ev_extravar[nevt_trg]);
               double trkbin = (double) trkpt;
               double multcentbin = (double) ev_ntrkoff[nevt_trg];
               double extrabin = (double) ev_extravar[nevt_trg];
@@ -148,13 +137,13 @@ void MixEvents_random_2pc(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_
 
    int aux_n_evts = (int)ev_ntrkoff.size(); // total number of events
    //TRandom2 *r = new TRandom2(); // random number producer
-
    std::vector<int> indexes; // vector to make sure we do not have same combinations
 
    // first loop over all events to define the jet event
    for(int nevt_trg = 0; nevt_trg < aux_n_evts; nevt_trg++){
       
       if(nevt_trg != 0 && (nevt_trg % 1000) == 0){double alpha = (double)nevt_trg; cout << " Status: " << std::setprecision(3) << ((alpha / aux_n_evts) * 100) << "%" << endl;}
+      auto r = new TRandom2();
       int n_associated = 0; // counter used to find the number to mix 
       int n_associated_check = 0; // counter assure we find the required number of events to mix
       std::vector<int> eventcheck; // vector to make sure we do not have same combinations
@@ -177,7 +166,6 @@ void MixEvents_random_2pc(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_
                ntrkoff_int = ntrkoff_int+1;
                n_associated_check = 0;
          }
-	 auto r = new TRandom2();
          int nevt_assoc = r->Integer(aux_n_evts-1); // random events between 0 and aux_n_evts-1
          if(nevt_trg == nevt_assoc) continue; // make sure that we do not choose same events
          if(fabs(ev_ntrkoff[nevt_trg] - ev_ntrkoff[nevt_assoc]) > ntrkoff_int) continue; // multiplicity or centrality matching
@@ -218,16 +206,12 @@ void MixEvents_random_2pc(int ntrkoff_int, int nEvt_to_mix, std::vector<int> ev_
               	double trk_weight2 = Track_w_nevt_ass_vec[iimix];
               	int trkbin2 = (int) find_my_bin(trk_pt_bins,trkpt2);
               	if( trkbin1 != trkbin2 ) continue; // only same bin to get vn as sqrt of Vn
-              	//int trkbin = trkbin1;
               	double trkbin = (double) trkpt1;
               	// track efficiency correction for reco
               	double trk_weight = trk_weight1*trk_weight2;
-
               	// Find track and multiplicity bins
-              	//int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (double) ev_ntrkoff[nevt_trg]);
-              	//int extrabin = (int) find_my_bin(extravar_bins, (double) ev_extravar[nevt_trg]);
     	        double multcentbin = (double) ev_ntrkoff[nevt_trg];
-	            double extrabin = (double) ev_extravar[nevt_trg];              
+	        double extrabin = (double) ev_extravar[nevt_trg];              
               	// Fill correlation histograms
               	double del_phi = deltaphi2PC(Trk_nevt_trg_vec[imix].Phi(), Track_nevt_ass_vec[iimix].Phi());
               	double del_eta = deltaeta(Trk_nevt_trg_vec[imix].Eta(), Track_nevt_ass_vec[iimix].Eta());
