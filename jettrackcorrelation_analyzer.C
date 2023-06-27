@@ -200,7 +200,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 		//pthat (MC only)
 		if(do_pthatcut){if(pthat <= pthatmin || pthat > pthatmax) continue;} //pthat ranges
-		if(is_MC){if(gen_jtpt[0] > 3.*pthat || rawpt[0] > 3.*pthat) continue;} //safety to remove some high-pT ejts from low pthat samples 
+		if(is_MC){if(gen_jtpt[0] > 3.*pthat) continue;} //safety to remove some high-pT jets from low pthat samples 
 		Nevents->Fill(4);
 
 		//multiplicity or centrality
@@ -392,7 +392,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		int jetsize = (int)nref; // number of jets in an event
 		// Start loop over jets
 		for (int j = 0; j < jetsize; j++){
-			if(rawpt[j] < 10.0) continue;
 			if(trackMax[j]/rawpt[j] < 0.01)continue; // Cut for jets with only very low pT particles
 			if(trackMax[j]/rawpt[j] > 0.98)continue; // Cut for jets where all the pT is taken by one track
 			if(jteta[j] < -5.0 || jteta[j] > 5.0) continue; // no accept jets with |eta| > 5
@@ -494,8 +493,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				float ref_eta = refeta[j];
 				float ref_phi = refphi[j];
 				float ref_mass = refmass[j];
-				
-				if(ref_pt < 10) continue; // just remove non-matched
+
 				if(jet_rawpt < 0) continue;
 				if(jet_pt_corr < 0) continue;
 				if(ref_eta < -5.0 || ref_eta > 5.0) continue; // max jet eta
@@ -579,15 +577,15 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				bool leadbkwrap = (leadrecojet_eta > jet_bkw_eta_min_cut && leadrecojet_eta < jet_bkw_eta_max_cut);
 				bool sublbkwrap = (sublrecojet_eta > jet_bkw_eta_min_cut && sublrecojet_eta < jet_bkw_eta_max_cut);
 				if(do_dijetstudies){
-					if(leadmidrap && sublmidrap) hist_reco_lead_reco_subl_quench_mid_mid->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
-					if(leadmidrap && sublfwdrap) hist_reco_lead_reco_subl_quench_mid_fwd->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
-					if(leadmidrap && sublbkwrap) hist_reco_lead_reco_subl_quench_mid_bkw->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
-					if(leadfwdrap && sublmidrap) hist_reco_lead_reco_subl_quench_fwd_mid->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
-					if(leadbkwrap && sublmidrap) hist_reco_lead_reco_subl_quench_bkw_mid->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
-					if(leadfwdrap && sublfwdrap) hist_reco_lead_reco_subl_quench_fwd_fwd->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
-					if(leadfwdrap && sublbkwrap) hist_reco_lead_reco_subl_quench_fwd_bkw->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
-					if(leadbkwrap && sublfwdrap) hist_reco_lead_reco_subl_quench_bkw_fwd->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
-					if(leadbkwrap && sublbkwrap) hist_reco_lead_reco_subl_quench_bkw_bkw->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
+					if(leadmidrap && sublmidrap){hist_reco_lead_reco_subl_quench_mid_mid->Fill(x_reco,event_weight*ljet_weight*sljet_weight); multiplicity_midmid_weighted->Fill(mult,event_weight);}
+					if(leadmidrap && sublfwdrap){hist_reco_lead_reco_subl_quench_mid_fwd->Fill(x_reco,event_weight*ljet_weight*sljet_weight); multiplicity_midfwd_weighted->Fill(mult,event_weight);}
+					if(leadmidrap && sublbkwrap){hist_reco_lead_reco_subl_quench_mid_bkw->Fill(x_reco,event_weight*ljet_weight*sljet_weight); multiplicity_midbkw_weighted->Fill(mult,event_weight);}
+					if(leadfwdrap && sublmidrap){hist_reco_lead_reco_subl_quench_fwd_mid->Fill(x_reco,event_weight*ljet_weight*sljet_weight); multiplicity_fwdmid_weighted->Fill(mult,event_weight);}
+					if(leadbkwrap && sublmidrap){hist_reco_lead_reco_subl_quench_bkw_mid->Fill(x_reco,event_weight*ljet_weight*sljet_weight); multiplicity_bkwmid_weighted->Fill(mult,event_weight);}
+					if(leadfwdrap && sublfwdrap){hist_reco_lead_reco_subl_quench_fwd_fwd->Fill(x_reco,event_weight*ljet_weight*sljet_weight); multiplicity_fwdfwd_weighted->Fill(mult,event_weight);}
+					if(leadfwdrap && sublbkwrap){hist_reco_lead_reco_subl_quench_fwd_bkw->Fill(x_reco,event_weight*ljet_weight*sljet_weight); multiplicity_fwdbkw_weighted->Fill(mult,event_weight);}
+					if(leadbkwrap && sublfwdrap){hist_reco_lead_reco_subl_quench_bkw_fwd->Fill(x_reco,event_weight*ljet_weight*sljet_weight); multiplicity_bkwfwd_weighted->Fill(mult,event_weight);}
+					if(leadbkwrap && sublbkwrap){hist_reco_lead_reco_subl_quench_bkw_bkw->Fill(x_reco,event_weight*ljet_weight*sljet_weight); multiplicity_bkwbkw_weighted->Fill(mult,event_weight);}
 				}
 				
 				if(colliding_system=="pPb" && year_of_datataking==2016 && do_dijetstudies){
@@ -790,7 +788,12 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			}
 		}
 		
-		if(isdijet){
+		if(isdijet && isrefdijet){
+		
+			if(leadrecojet_index >= 0 && sublrecojet_index >= 0){
+			
+				if(leadrecojet_index !=  leadrefjet_index)continue;
+				if(sublrecojet_index !=  sublrefjet_index)continue;
 
 				double JES_ratio_reco_vs_ref_leading = leadrecojet_pt/refpt[leadrecojet_index];
 				double JES_ratio_reco_vs_ref_subleading = sublrecojet_pt/refpt[sublrecojet_index];
@@ -804,6 +807,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				hist_leadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_reffromB_leading,event_weight*lrefjet_weight*ljet_weight);
 				double x_JES_ratio_reco_vs_reffromB_sleading[6]={JES_ratio_reco_vs_ref_subleading,refpt[sublrecojet_index],refeta[sublrecojet_index],(double)sublrecojet_flavor,(double)multcentbin,(double) extrabin}; 
 				hist_subleadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_reffromB_sleading,event_weight*slrefjet_weight*sljet_weight);
+			}
 
 		}
 		
@@ -911,7 +915,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				float gjet_flavor = 0.0;
 				
 				double jet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, gjet_pt, gjet_eta); // Jet weight (specially for MC)
-				if(gjet_pt < 10.0) continue;
+
 				if(gjet_eta < -5.0 || gjet_eta > 5.0) continue; // no accept jets with |eta| > 4
 
 				find_leading_subleading_third(gjet_pt,gjet_eta,gjet_phi,gjet_mass,gjet_flavor,j,leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,leadgenjet_mass,leadgenjet_flavor,leadgenjet_index,sublgenjet_pt,sublgenjet_eta,sublgenjet_phi,sublgenjet_mass,sublgenjet_flavor,sublgenjet_index,thirdgenjet_pt,thirdgenjet_eta,thirdgenjet_phi,thirdgenjet_mass,thirdgenjet_flavor,thirdgenjet_index); // Find leading and subleading jets

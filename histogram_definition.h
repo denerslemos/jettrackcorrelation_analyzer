@@ -57,6 +57,16 @@ TH1D *multiplicity = new TH1D("multiplicity", "multiplicity", 80, 0.0, 400.0);
 TH1D *multiplicity_weighted = new TH1D("multiplicity_weighted", "multiplicity_weighted", 80, 0.0, 400.0);
 TH1D *multiplicity_withonejet_weighted = new TH1D("multiplicity_withonejet_weighted", "multiplicity_withonejet_weighted", 80, 0.0, 400.0);
 TH1D *multiplicity_withdijets_weighted = new TH1D("multiplicity_withdijets_weighted", "multiplicity_withdijets_weighted", 80, 0.0, 400.0);
+TH1D *multiplicity_midmid_weighted = new TH1D("multiplicity_midmid_weighted", "multiplicity_midmid_weighted", 80, 0.0, 400.0);
+TH1D *multiplicity_midfwd_weighted = new TH1D("multiplicity_midfwd_weighted", "multiplicity_midfwd_weighted", 80, 0.0, 400.0);
+TH1D *multiplicity_midbkw_weighted = new TH1D("multiplicity_midbkw_weighted", "multiplicity_midbkw_weighted", 80, 0.0, 400.0);
+TH1D *multiplicity_fwdmid_weighted = new TH1D("multiplicity_fwdmid_weighted", "multiplicity_fwdmid_weighted", 80, 0.0, 400.0);
+TH1D *multiplicity_fwdfwd_weighted = new TH1D("multiplicity_fwdfwd_weighted", "multiplicity_fwdfwd_weighted", 80, 0.0, 400.0);
+TH1D *multiplicity_fwdbkw_weighted = new TH1D("multiplicity_fwdbkw_weighted", "multiplicity_fwdbkw_weighted", 80, 0.0, 400.0);
+TH1D *multiplicity_bwdmid_weighted = new TH1D("multiplicity_bwdmid_weighted", "multiplicity_bwdmid_weighted", 80, 0.0, 400.0);
+TH1D *multiplicity_bkwfwd_weighted = new TH1D("multiplicity_bkwfwd_weighted", "multiplicity_bkwfwd_weighted", 80, 0.0, 400.0);
+TH1D *multiplicity_bkwbkw_weighted = new TH1D("multiplicity_bkwbkw_weighted", "multiplicity_bkwbkw_weighted", 80, 0.0, 400.0);
+
 TH1D *reco_mult = new TH1D("reco_mult", "reco_mult", 80, 0.0, 400.0);
 TH1D *reco_mult_weighted = new TH1D("reco_mult_weighted", "reco_mult_weighted", 80, 0.0, 400.0);
 TH1D *reco_mult_withonejet_weighted = new TH1D("reco_mult_withonejet_weighted", "reco_mult_withonejet_weighted", 80, 0.0, 400.0);
@@ -311,7 +321,7 @@ THnSparseD *hist_subl_jet_from_gen_reco_mix = new THnSparseD("hist_subl_jet_from
 THnSparseD *hist_subl_jet_from_gen_gen_mix = new THnSparseD("hist_subl_jet_from_gen_gen_mix", "hist_subl_jet_from_gen_gen_mix", 5, bins_jet, xmin_jet, xmax_jet);
 
 // Jet Energy Scale (JES) and Jet Energy Resolution (JER)
-int	bins_jes[6]   =      { 50  ,  100  ,  40  ,  8, multbinsize-1          					 , extrabinsize-1};
+int	bins_jes[6]   =      { 200  ,  100  ,  40  ,  8, multbinsize-1          					 , extrabinsize-1};
 double xmin_jes[6]   =   { 0.0  ,  0    , -4.0 ,  0, multiplicity_centrality_bins[0]             , extra_bins[0]};
 double xmax_jes[6]   =   { 5.0 ,  1000 ,  4.0 ,  8, multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
 THnSparseD *hist_jes_reco_weighted = new THnSparseD("hist_jes_reco_weighted", "hist_jes_reco_weighted", 6, bins_jes, xmin_jes, xmax_jes);
@@ -1236,6 +1246,15 @@ multiplicity->Sumw2();
 multiplicity_weighted->Sumw2();
 multiplicity_withonejet_weighted->Sumw2();
 multiplicity_withdijets_weighted->Sumw2();
+multiplicity_midmid_weighted->Sumw2();
+multiplicity_midfwd_weighted->Sumw2();
+multiplicity_midbkw_weighted->Sumw2();
+multiplicity_fwdmid_weighted->Sumw2();
+multiplicity_fwdfwd_weighted->Sumw2();
+multiplicity_fwdbkw_weighted->Sumw2();
+multiplicity_bwdmid_weighted->Sumw2();
+multiplicity_bkwfwd_weighted->Sumw2();
+multiplicity_bkwbkw_weighted->Sumw2();
 reco_mult->Sumw2();
 reco_mult_weighted->Sumw2();
 reco_mult_withonejet_weighted->Sumw2();
@@ -1542,6 +1561,15 @@ void w_QA_hist(bool isMC){
 	multiplicity_weighted->Write();
 	multiplicity_withonejet_weighted->Write();
 	multiplicity_withdijets_weighted->Write();
+	multiplicity_midmid_weighted->Write();
+	multiplicity_midfwd_weighted->Write();
+	multiplicity_midbkw_weighted->Write();
+	multiplicity_fwdmid_weighted->Write();
+	multiplicity_fwdfwd_weighted->Write();
+	multiplicity_fwdbkw_weighted->Write();
+	multiplicity_bwdmid_weighted->Write();
+	multiplicity_bkwfwd_weighted->Write();
+	multiplicity_bkwbkw_weighted->Write();
  	vzhist->Write();
  	vzhist_weighted->Write();
 	vzhist_jet_weighted->Write();
