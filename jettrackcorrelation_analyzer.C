@@ -440,9 +440,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				refpartonfromB = 0;}
 			}
 			float jet_flavor = (float) refpartonfromB;
-			
+			int jet_index = (int) j;
 			//leading and subleading
-			find_leading_subleading_third(jet_pt_corr,jet_eta,jet_phi,jet_mass,jet_flavor,j,leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,leadrecojet_mass,leadrecojet_flavor,leadrecojet_index,sublrecojet_pt,sublrecojet_eta,sublrecojet_phi,sublrecojet_mass,sublrecojet_flavor,sublrecojet_index,thirdrecojet_pt,thirdrecojet_eta,thirdrecojet_phi,thirdrecojet_mass,thirdrecojet_flavor,thirdrecojet_index); // Find leading and subleading jets
+			find_leading_subleading_third(jet_pt_corr,jet_eta,jet_phi,jet_mass,jet_flavor,jet_index,leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,leadrecojet_mass,leadrecojet_flavor,leadrecojet_index,sublrecojet_pt,sublrecojet_eta,sublrecojet_phi,sublrecojet_mass,sublrecojet_flavor,sublrecojet_index,thirdrecojet_pt,thirdrecojet_eta,thirdrecojet_phi,thirdrecojet_mass,thirdrecojet_flavor,thirdrecojet_index); // Find leading and subleading jets
 
 			jet_eta = jet_eta + boost; // In pPb case, for the center-of-mass correction if needed
 			if(colliding_system == "pPb" && is_pgoing && invert_pgoing)jet_eta = -jet_eta;
@@ -499,8 +499,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				if(ref_eta < -5.0 || ref_eta > 5.0) continue; // max jet eta
 
 				double refjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, ref_pt, ref_eta); // Jet weight (specially for MC)
-
-				find_leading_subleading_third(ref_pt,ref_eta,ref_phi,ref_mass,jet_flavor,j,leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,leadrefjet_mass,leadrefjet_flavor,leadrefjet_index,sublrefjet_pt,sublrefjet_eta,sublrefjet_phi,sublrefjet_mass,sublrefjet_flavor,sublrefjet_index,thirdrefjet_pt,thirdrefjet_eta,thirdrefjet_phi,thirdrefjet_mass,thirdrefjet_flavor,thirdrefjet_index); // Find leading and subleading ref jets
+				int jet_index_ref = (int) j;
+				find_leading_subleading_third(ref_pt,ref_eta,ref_phi,ref_mass,jet_flavor,jet_index_ref,leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,leadrefjet_mass,leadrefjet_flavor,leadrefjet_index,sublrefjet_pt,sublrefjet_eta,sublrefjet_phi,sublrefjet_mass,sublrefjet_flavor,sublrefjet_index,thirdrefjet_pt,thirdrefjet_eta,thirdrefjet_phi,thirdrefjet_mass,thirdrefjet_flavor,thirdrefjet_index); // Find leading and subleading ref jets
 
 				float ref_eta_lab = ref_eta;
 				ref_eta = ref_eta + boost;  // In pPb case, for the center-of-mass correction if needed
@@ -542,6 +542,25 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			Nevents->Fill(6);
 			double ljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadrecojet_pt, leadrecojet_eta);  // Jet weight (specially for MC)
 			double sljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublrecojet_pt, sublrecojet_eta);  // Jet weight (specially for MC)
+			double lrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[leadrecojet_index], refeta[leadrecojet_index]);  // Jet weight (specially for MC)
+			double slrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[sublrecojet_index], refeta[sublrecojet_index]);  // Jet weight (specially for MC)
+			double JES_ratio_reco_vs_ref_leading = 0.0;
+			double JES_ratio_reco_vs_ref_subleading = 0.0;
+
+			if(is_MC){
+			
+				bool indexes_LSL = (leadrecojet_index > -1) && (sublrecojet_index > -1);
+				if(indexes_LSL){				
+					JES_ratio_reco_vs_ref_leading = leadrecojet_pt/refpt[leadrecojet_index];
+					JES_ratio_reco_vs_ref_subleading = sublrecojet_pt/refpt[sublrecojet_index];
+					bool delta_phi_reco_LSL = fabs(deltaphi(leadrecojet_phi, sublrecojet_phi)) > leading_subleading_deltaphi_min;
+					double x_JES_ratio_reco_vs_ref_leading[6]={JES_ratio_reco_vs_ref_leading,refpt[leadrecojet_index],refeta[leadrecojet_index],(double)leadrecojet_flavor,(double)multcentbin,(double) extrabin}; 
+					double x_JES_ratio_reco_vs_ref_sleading[6]={JES_ratio_reco_vs_ref_subleading,refpt[sublrecojet_index],refeta[sublrecojet_index],(double)sublrecojet_flavor,(double)multcentbin,(double) extrabin}; 
+					if(delta_phi_reco_LSL) hist_leadjes_reco_weighted->Fill(x_JES_ratio_reco_vs_ref_leading,event_weight*lrefjet_weight*ljet_weight);
+					if(delta_phi_reco_LSL) hist_subleadjes_reco_weighted->Fill(x_JES_ratio_reco_vs_ref_sleading,event_weight*slrefjet_weight*sljet_weight);
+				}	
+
+			}
 
 			//leading/subleading pT cuts
 			if(leadrecojet_pt > leading_pT_min && sublrecojet_pt > subleading_pT_min){
@@ -621,26 +640,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					
 				}
 
-				double lrefjet_weight = 1.0;
-				double slrefjet_weight = 1.0;
-				double JES_ratio_reco_vs_ref_leading = 0.0;
-				double JES_ratio_reco_vs_ref_subleading = 0.0;
-
-				if(is_MC){
-				
-					JES_ratio_reco_vs_ref_leading = leadrecojet_pt/refpt[leadrecojet_index];
-					JES_ratio_reco_vs_ref_subleading = sublrecojet_pt/refpt[sublrecojet_index];
-
-					lrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[leadrecojet_index], refeta[leadrecojet_index]);  // Jet weight (specially for MC)
-					slrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[sublrecojet_index], refeta[sublrecojet_index]);  // Jet weight (specially for MC)
-				
-					double x_JES_ratio_reco_vs_ref_leading[6]={JES_ratio_reco_vs_ref_leading,refpt[leadrecojet_index],refeta[leadrecojet_index],(double)leadrecojet_flavor,(double)multcentbin,(double) extrabin}; 
-					double x_JES_ratio_reco_vs_ref_sleading[6]={JES_ratio_reco_vs_ref_subleading,refpt[sublrecojet_index],refeta[sublrecojet_index],(double)sublrecojet_flavor,(double)multcentbin,(double) extrabin}; 
-
-					if(refpt[leadrecojet_index] > leading_pT_min) hist_leadjes_reco_weighted->Fill(x_JES_ratio_reco_vs_ref_leading,event_weight*lrefjet_weight*ljet_weight);
-					if(refpt[sublrecojet_index] > subleading_pT_min) hist_subleadjes_reco_weighted->Fill(x_JES_ratio_reco_vs_ref_sleading,event_weight*slrefjet_weight*sljet_weight);
-				
-				}
 				// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
 				if(delta_phi_reco > leading_subleading_deltaphi_min){
 
@@ -651,19 +650,17 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						isdijet = true;
 
 						if(is_MC){
-
-							JES_ratio_reco_vs_ref_leading = leadrecojet_pt/refpt[leadrecojet_index];
-							JES_ratio_reco_vs_ref_subleading = sublrecojet_pt/refpt[sublrecojet_index];
-
-							lrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[leadrecojet_index], refeta[leadrecojet_index]);  // Jet weight (specially for MC)
-							slrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[sublrecojet_index], refeta[sublrecojet_index]);  // Jet weight (specially for MC)
-
-							double x_JES_ratio_reco_vs_reffromB_leading[6]={JES_ratio_reco_vs_ref_leading,refpt[leadrecojet_index],refeta[leadrecojet_index],(double)leadrecojet_flavor,(double)multcentbin,(double) extrabin}; 
-							double x_JES_ratio_reco_vs_reffromB_sleading[6]={JES_ratio_reco_vs_ref_subleading,refpt[sublrecojet_index],refeta[sublrecojet_index],(double)sublrecojet_flavor,(double)multcentbin,(double) extrabin}; 
-
-							if(refpt[leadrecojet_index] > leading_pT_min) hist_leadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_reffromB_leading,event_weight*lrefjet_weight*ljet_weight);
-							if(refpt[sublrecojet_index] > subleading_pT_min) hist_subleadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_reffromB_sleading,event_weight*slrefjet_weight*sljet_weight);
-
+							bool indexes_LSLDPHI = (leadrecojet_index > -1) && (sublrecojet_index > -1);
+							if(indexes_LSLDPHI){
+								JES_ratio_reco_vs_ref_leading = leadrecojet_pt/refpt[leadrecojet_index];
+								JES_ratio_reco_vs_ref_subleading = sublrecojet_pt/refpt[sublrecojet_index];
+								lrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[leadrecojet_index], refeta[leadrecojet_index]);  // Jet weight (specially for MC)
+								slrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[sublrecojet_index], refeta[sublrecojet_index]);  // Jet weight (specially for MC)
+								double x_JES_ratio_reco_vs_reffromB_leading[6]={JES_ratio_reco_vs_ref_leading,refpt[leadrecojet_index],refeta[leadrecojet_index],(double)leadrecojet_flavor,(double)multcentbin,(double) extrabin}; 
+								double x_JES_ratio_reco_vs_reffromB_sleading[6]={JES_ratio_reco_vs_ref_subleading,refpt[sublrecojet_index],refeta[sublrecojet_index],(double)sublrecojet_flavor,(double)multcentbin,(double) extrabin}; 
+								hist_leadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_reffromB_leading,event_weight*lrefjet_weight*ljet_weight);
+								hist_subleadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_reffromB_sleading,event_weight*slrefjet_weight*sljet_weight);
+							}
 						}
 
 						// Fill leading and subleading jet QA histograms
@@ -929,9 +926,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double jet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, gjet_pt, gjet_eta); // Jet weight (specially for MC)
 
 				if(gjet_eta < -5.0 || gjet_eta > 5.0) continue; // no accept jets with |eta| > 4
-
-				find_leading_subleading_third(gjet_pt,gjet_eta,gjet_phi,gjet_mass,gjet_flavor,j,leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,leadgenjet_mass,leadgenjet_flavor,leadgenjet_index,sublgenjet_pt,sublgenjet_eta,sublgenjet_phi,sublgenjet_mass,sublgenjet_flavor,sublgenjet_index,thirdgenjet_pt,thirdgenjet_eta,thirdgenjet_phi,thirdgenjet_mass,thirdgenjet_flavor,thirdgenjet_index); // Find leading and subleading jets
-
+				int jet_index_gen = (int) j;
+				find_leading_subleading_third(gjet_pt,gjet_eta,gjet_phi,gjet_mass,gjet_flavor,jet_index_gen,leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,leadgenjet_mass,leadgenjet_flavor,leadgenjet_index,sublgenjet_pt,sublgenjet_eta,sublgenjet_phi,sublgenjet_mass,sublgenjet_flavor,sublgenjet_index,thirdgenjet_pt,thirdgenjet_eta,thirdgenjet_phi,thirdgenjet_mass,thirdgenjet_flavor,thirdgenjet_index); // Find leading and subleading jets
 				gjet_eta = gjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 				if(colliding_system == "pPb" && is_pgoing && invert_pgoing){gjet_eta = -gjet_eta;}
 
