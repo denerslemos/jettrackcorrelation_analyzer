@@ -621,6 +621,17 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					
 				}
 
+				double JES_ratio_reco_vs_ref_leading = leadrecojet_pt/refpt[leadrecojet_index];
+				double JES_ratio_reco_vs_ref_subleading = sublrecojet_pt/refpt[sublrecojet_index];
+
+				double lrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[leadrecojet_index], refeta[leadrecojet_index]);  // Jet weight (specially for MC)
+				double slrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[sublrecojet_index], refeta[sublrecojet_index]);  // Jet weight (specially for MC)
+				
+				double x_JES_ratio_reco_vs_reffromB_leading[6]={JES_ratio_reco_vs_ref_leading,refpt[leadrecojet_index],refeta[leadrecojet_index],(double)leadrecojet_flavor,(double)multcentbin,(double) extrabin}; 
+				double x_JES_ratio_reco_vs_reffromB_sleading[6]={JES_ratio_reco_vs_ref_subleading,refpt[sublrecojet_index],refeta[sublrecojet_index],(double)sublrecojet_flavor,(double)multcentbin,(double) extrabin}; 
+
+				hist_leadjes_reco_weighted->Fill(x_JES_ratio_reco_vs_reffromB_leading,event_weight*lrefjet_weight*ljet_weight);
+				hist_subleadjes_reco_weighted->Fill(x_JES_ratio_reco_vs_reffromB_sleading,event_weight*slrefjet_weight*sljet_weight);
 
 				// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
 				if(delta_phi_reco > leading_subleading_deltaphi_min){
@@ -630,6 +641,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						Nevents->Fill(9);
 						pass_Aj_or_Xj_reco_cut = true; // if we apply Xj or Aj cuts
 						isdijet = true;
+
+						hist_leadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_reffromB_leading,event_weight*lrefjet_weight*ljet_weight);
+						hist_subleadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_reffromB_sleading,event_weight*slrefjet_weight*sljet_weight);
 
 						// Fill leading and subleading jet QA histograms
 						double x_lead[5]={leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,(double) multcentbin,(double)extrabin}; 
@@ -786,29 +800,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				}
 				if(delta_phi_ref > leading_subleading_deltaphi_min){if((Xj_ref >= xjmin && Xj_ref <= xjmax) && (Aj_ref >= Ajmin && Aj_ref <= Ajmax)){isrefdijet=true;}}
 			}
-		}
-		
-		if(isdijet && isrefdijet){
-		
-			if(leadrecojet_index >= 0 && sublrecojet_index >= 0){
-			
-				if(leadrecojet_index !=  leadrefjet_index)continue;
-				if(sublrecojet_index !=  sublrefjet_index)continue;
-
-				double JES_ratio_reco_vs_ref_leading = leadrecojet_pt/refpt[leadrecojet_index];
-				double JES_ratio_reco_vs_ref_subleading = sublrecojet_pt/refpt[sublrecojet_index];
-
-				double ljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadrecojet_pt, leadrecojet_eta);  // Jet weight (specially for MC)
-				double sljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublrecojet_pt, sublrecojet_eta);  // Jet weight (specially for MC)
-				double lrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[leadrecojet_index], refeta[leadrecojet_index]);  // Jet weight (specially for MC)
-				double slrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[sublrecojet_index], refeta[sublrecojet_index]);  // Jet weight (specially for MC)
-				
-				double x_JES_ratio_reco_vs_reffromB_leading[6]={JES_ratio_reco_vs_ref_leading,refpt[leadrecojet_index],refeta[leadrecojet_index],(double)leadrecojet_flavor,(double)multcentbin,(double) extrabin}; 
-				hist_leadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_reffromB_leading,event_weight*lrefjet_weight*ljet_weight);
-				double x_JES_ratio_reco_vs_reffromB_sleading[6]={JES_ratio_reco_vs_ref_subleading,refpt[sublrecojet_index],refeta[sublrecojet_index],(double)sublrecojet_flavor,(double)multcentbin,(double) extrabin}; 
-				hist_subleadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_reffromB_sleading,event_weight*slrefjet_weight*sljet_weight);
-			}
-
 		}
 		
 		// Measure correlations and filling mixing vectors

@@ -1616,9 +1616,9 @@ void w_QA_hist(bool isMC){
 	if(isMC){
 		hist_jes_reco_weighted->Write();
 		hist_jes_reco_fromB_weighted->Write();
-//		hist_leadjes_reco_weighted->Write();
+		hist_leadjes_reco_weighted->Write();
 		hist_leadjes_reco_fromB_weighted->Write();
-//		hist_subleadjes_reco_weighted->Write();
+		hist_subleadjes_reco_weighted->Write();
 		hist_subleadjes_reco_fromB_weighted->Write();
 		hist_gen_jet->Write();
 		hist_gen_jet_weighted->Write();
