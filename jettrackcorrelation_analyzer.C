@@ -577,15 +577,15 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				bool leadbkwrap = (leadrecojet_eta > jet_bkw_eta_min_cut && leadrecojet_eta < jet_bkw_eta_max_cut);
 				bool sublbkwrap = (sublrecojet_eta > jet_bkw_eta_min_cut && sublrecojet_eta < jet_bkw_eta_max_cut);
 				if(do_dijetstudies){
-					if(leadmidrap && sublmidrap){hist_reco_lead_reco_subl_quench_mid_mid->Fill(x_reco,event_weight*ljet_weight*sljet_weight); multiplicity_midmid_weighted->Fill(mult,event_weight);}
-					if(leadmidrap && sublfwdrap){hist_reco_lead_reco_subl_quench_mid_fwd->Fill(x_reco,event_weight*ljet_weight*sljet_weight); multiplicity_midfwd_weighted->Fill(mult,event_weight);}
-					if(leadmidrap && sublbkwrap){hist_reco_lead_reco_subl_quench_mid_bkw->Fill(x_reco,event_weight*ljet_weight*sljet_weight); multiplicity_midbkw_weighted->Fill(mult,event_weight);}
-					if(leadfwdrap && sublmidrap){hist_reco_lead_reco_subl_quench_fwd_mid->Fill(x_reco,event_weight*ljet_weight*sljet_weight); multiplicity_fwdmid_weighted->Fill(mult,event_weight);}
-					if(leadbkwrap && sublmidrap){hist_reco_lead_reco_subl_quench_bkw_mid->Fill(x_reco,event_weight*ljet_weight*sljet_weight); multiplicity_bkwmid_weighted->Fill(mult,event_weight);}
-					if(leadfwdrap && sublfwdrap){hist_reco_lead_reco_subl_quench_fwd_fwd->Fill(x_reco,event_weight*ljet_weight*sljet_weight); multiplicity_fwdfwd_weighted->Fill(mult,event_weight);}
-					if(leadfwdrap && sublbkwrap){hist_reco_lead_reco_subl_quench_fwd_bkw->Fill(x_reco,event_weight*ljet_weight*sljet_weight); multiplicity_fwdbkw_weighted->Fill(mult,event_weight);}
-					if(leadbkwrap && sublfwdrap){hist_reco_lead_reco_subl_quench_bkw_fwd->Fill(x_reco,event_weight*ljet_weight*sljet_weight); multiplicity_bkwfwd_weighted->Fill(mult,event_weight);}
-					if(leadbkwrap && sublbkwrap){hist_reco_lead_reco_subl_quench_bkw_bkw->Fill(x_reco,event_weight*ljet_weight*sljet_weight); multiplicity_bkwbkw_weighted->Fill(mult,event_weight);}
+					if(leadmidrap && sublmidrap) hist_reco_lead_reco_subl_quench_mid_mid->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
+					if(leadmidrap && sublfwdrap) hist_reco_lead_reco_subl_quench_mid_fwd->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
+					if(leadmidrap && sublbkwrap) hist_reco_lead_reco_subl_quench_mid_bkw->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
+					if(leadfwdrap && sublmidrap) hist_reco_lead_reco_subl_quench_fwd_mid->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
+					if(leadbkwrap && sublmidrap) hist_reco_lead_reco_subl_quench_bkw_mid->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
+					if(leadfwdrap && sublfwdrap) hist_reco_lead_reco_subl_quench_fwd_fwd->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
+					if(leadfwdrap && sublbkwrap) hist_reco_lead_reco_subl_quench_fwd_bkw->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
+					if(leadbkwrap && sublfwdrap) hist_reco_lead_reco_subl_quench_bkw_fwd->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
+					if(leadbkwrap && sublbkwrap) hist_reco_lead_reco_subl_quench_bkw_bkw->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
 				}
 				
 				if(colliding_system=="pPb" && year_of_datataking==2016 && do_dijetstudies){
@@ -621,18 +621,26 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					
 				}
 
-				double JES_ratio_reco_vs_ref_leading = leadrecojet_pt/refpt[leadrecojet_index];
-				double JES_ratio_reco_vs_ref_subleading = sublrecojet_pt/refpt[sublrecojet_index];
+				double lrefjet_weight = 1.0;
+				double slrefjet_weight = 1.0;
+				double JES_ratio_reco_vs_ref_leading = 0.0;
+				double JES_ratio_reco_vs_ref_subleading = 0.0;
 
-				double lrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[leadrecojet_index], refeta[leadrecojet_index]);  // Jet weight (specially for MC)
-				double slrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[sublrecojet_index], refeta[sublrecojet_index]);  // Jet weight (specially for MC)
+				if(is_MC){
 				
-				double x_JES_ratio_reco_vs_reffromB_leading[6]={JES_ratio_reco_vs_ref_leading,refpt[leadrecojet_index],refeta[leadrecojet_index],(double)leadrecojet_flavor,(double)multcentbin,(double) extrabin}; 
-				double x_JES_ratio_reco_vs_reffromB_sleading[6]={JES_ratio_reco_vs_ref_subleading,refpt[sublrecojet_index],refeta[sublrecojet_index],(double)sublrecojet_flavor,(double)multcentbin,(double) extrabin}; 
+					JES_ratio_reco_vs_ref_leading = leadrecojet_pt/refpt[leadrecojet_index];
+					JES_ratio_reco_vs_ref_subleading = sublrecojet_pt/refpt[sublrecojet_index];
 
-				hist_leadjes_reco_weighted->Fill(x_JES_ratio_reco_vs_reffromB_leading,event_weight*lrefjet_weight*ljet_weight);
-				hist_subleadjes_reco_weighted->Fill(x_JES_ratio_reco_vs_reffromB_sleading,event_weight*slrefjet_weight*sljet_weight);
+					lrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[leadrecojet_index], refeta[leadrecojet_index]);  // Jet weight (specially for MC)
+					slrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[sublrecojet_index], refeta[sublrecojet_index]);  // Jet weight (specially for MC)
+				
+					double x_JES_ratio_reco_vs_ref_leading[6]={JES_ratio_reco_vs_ref_leading,refpt[leadrecojet_index],refeta[leadrecojet_index],(double)leadrecojet_flavor,(double)multcentbin,(double) extrabin}; 
+					double x_JES_ratio_reco_vs_ref_sleading[6]={JES_ratio_reco_vs_ref_subleading,refpt[sublrecojet_index],refeta[sublrecojet_index],(double)sublrecojet_flavor,(double)multcentbin,(double) extrabin}; 
 
+					if(refpt[leadrecojet_index] > leading_pT_min) hist_leadjes_reco_weighted->Fill(x_JES_ratio_reco_vs_ref_leading,event_weight*lrefjet_weight*ljet_weight);
+					if(refpt[sublrecojet_index] > subleading_pT_min) hist_subleadjes_reco_weighted->Fill(x_JES_ratio_reco_vs_ref_sleading,event_weight*slrefjet_weight*sljet_weight);
+				
+				}
 				// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
 				if(delta_phi_reco > leading_subleading_deltaphi_min){
 
@@ -642,8 +650,21 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						pass_Aj_or_Xj_reco_cut = true; // if we apply Xj or Aj cuts
 						isdijet = true;
 
-						hist_leadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_reffromB_leading,event_weight*lrefjet_weight*ljet_weight);
-						hist_subleadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_reffromB_sleading,event_weight*slrefjet_weight*sljet_weight);
+						if(is_MC){
+
+							JES_ratio_reco_vs_ref_leading = leadrecojet_pt/refpt[leadrecojet_index];
+							JES_ratio_reco_vs_ref_subleading = sublrecojet_pt/refpt[sublrecojet_index];
+
+							lrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[leadrecojet_index], refeta[leadrecojet_index]);  // Jet weight (specially for MC)
+							slrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[sublrecojet_index], refeta[sublrecojet_index]);  // Jet weight (specially for MC)
+
+							double x_JES_ratio_reco_vs_reffromB_leading[6]={JES_ratio_reco_vs_ref_leading,refpt[leadrecojet_index],refeta[leadrecojet_index],(double)leadrecojet_flavor,(double)multcentbin,(double) extrabin}; 
+							double x_JES_ratio_reco_vs_reffromB_sleading[6]={JES_ratio_reco_vs_ref_subleading,refpt[sublrecojet_index],refeta[sublrecojet_index],(double)sublrecojet_flavor,(double)multcentbin,(double) extrabin}; 
+
+							if(refpt[leadrecojet_index] > leading_pT_min) hist_leadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_reffromB_leading,event_weight*lrefjet_weight*ljet_weight);
+							if(refpt[sublrecojet_index] > subleading_pT_min) hist_subleadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_reffromB_sleading,event_weight*slrefjet_weight*sljet_weight);
+
+						}
 
 						// Fill leading and subleading jet QA histograms
 						double x_lead[5]={leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,(double) multcentbin,(double)extrabin}; 
@@ -655,15 +676,15 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						hist_reco_subljet_weighted->Fill(x_sublead,event_weight*sljet_weight);
 
 						bool usethisjets = false;
-						if(fwdbkw_jettrk_option == "mid_mid"){ if(leadmidrap && sublmidrap) usethisjets = true; }
-						if(fwdbkw_jettrk_option == "mid_fwd"){ if(leadmidrap && sublfwdrap) usethisjets = true; }
-						if(fwdbkw_jettrk_option == "mid_bkw"){ if(leadmidrap && sublbkwrap) usethisjets = true; }
-						if(fwdbkw_jettrk_option == "fwd_mid"){ if(leadfwdrap && sublmidrap) usethisjets = true; }
-						if(fwdbkw_jettrk_option == "bkw_mid"){ if(leadbkwrap && sublmidrap) usethisjets = true; }
-						if(fwdbkw_jettrk_option == "fwd_fwd"){ if(leadfwdrap && sublfwdrap) usethisjets = true; }
-						if(fwdbkw_jettrk_option == "fwd_bkw"){ if(leadfwdrap && sublbkwrap) usethisjets = true; }
-						if(fwdbkw_jettrk_option == "bkw_fwd"){ if(leadbkwrap && sublfwdrap) usethisjets = true; }
-						if(fwdbkw_jettrk_option == "bkw_bkw"){ if(leadbkwrap && sublbkwrap) usethisjets = true; }
+						if(leadmidrap && sublmidrap){multiplicity_midmid_weighted->Fill(mult,event_weight); if(fwdbkw_jettrk_option == "mid_mid"){usethisjets = true;}}
+						if(leadmidrap && sublfwdrap){multiplicity_midfwd_weighted->Fill(mult,event_weight); if(fwdbkw_jettrk_option == "mid_fwd"){usethisjets = true;}}
+						if(leadmidrap && sublbkwrap){multiplicity_midbkw_weighted->Fill(mult,event_weight); if(fwdbkw_jettrk_option == "mid_bkw"){usethisjets = true;}}
+						if(leadfwdrap && sublmidrap){multiplicity_fwdmid_weighted->Fill(mult,event_weight); if(fwdbkw_jettrk_option == "fwd_mid"){usethisjets = true;}}
+						if(leadbkwrap && sublmidrap){multiplicity_bkwmid_weighted->Fill(mult,event_weight); if(fwdbkw_jettrk_option == "bkw_mid"){usethisjets = true;}}
+						if(leadfwdrap && sublfwdrap){multiplicity_fwdfwd_weighted->Fill(mult,event_weight); if(fwdbkw_jettrk_option == "fwd_fwd"){usethisjets = true;}}
+						if(leadfwdrap && sublbkwrap){multiplicity_fwdbkw_weighted->Fill(mult,event_weight); if(fwdbkw_jettrk_option == "fwd_bkw"){usethisjets = true;}}
+						if(leadbkwrap && sublfwdrap){multiplicity_bkwfwd_weighted->Fill(mult,event_weight); if(fwdbkw_jettrk_option == "bkw_fwd"){usethisjets = true;}}
+						if(leadbkwrap && sublbkwrap){multiplicity_bkwbkw_weighted->Fill(mult,event_weight); if(fwdbkw_jettrk_option == "bkw_bkw"){usethisjets = true;}}
 
 						// Fill leading and subleading jet vectors
 						TVector3 GoodLeadingJets_reco;
