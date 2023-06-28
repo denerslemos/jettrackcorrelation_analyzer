@@ -537,7 +537,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if(do_thirdjet_removal){if(thirdrecojet_pt > 0.5*sublrecojet_pt) removethirdjet = true;}
 
 		//dijets
-		if(jetsize > 1 && !removethirdjet){
+		if(jetsize > 0 && !removethirdjet){
 
 			Nevents->Fill(6);
 			double ljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadrecojet_pt, leadrecojet_eta);  // Jet weight (specially for MC)
@@ -743,7 +743,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		bool removethirdjet_ref = false;
 		if(do_thirdjet_removal){if(thirdrefjet_pt > 0.5*sublrefjet_pt) removethirdjet_ref = true;}
 	
-		if(jetsize > 1 && !removethirdjet_ref){
+		if(jetsize > 0 && !removethirdjet_ref){
 			//leading/subleading pT cuts
 			if(is_MC && leadrefjet_pt > leading_pT_min && sublrefjet_pt > subleading_pT_min){
 
@@ -977,7 +977,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 			
 			//leading/subleading jets
-			if(gen_jetsize > 1 && !removethirdjet_gen){
+			if(gen_jetsize > 0 && !removethirdjet_gen){
 
 				double ljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadgenjet_pt, leadgenjet_eta); // Jet weight (specially for MC)
 				double sljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublgenjet_pt, sublgenjet_eta); // Jet weight (specially for MC)
