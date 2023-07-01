@@ -68,7 +68,7 @@ float get_event_weight(int nevents, bool isMC, bool use_centrality, string syste
 		else if(leadjetpt > 460. && leadjetpt <= 540.){evtweight = 2.1341026e-13 * 981427;}
 		else if(leadjetpt > 540.){evtweight = 7.9191586e-14 * 1000000;}
 		evtweight = (float) evtweight / nevents;
-
+		/*
 		// multiplicity weight
 		// PYTHIA+EPOS
 		if(is_embedded && is_multdep){
@@ -137,28 +137,8 @@ float get_event_weight(int nevents, bool isMC, bool use_centrality, string syste
 		}
 		multweight = 1./multweight;
 		vzweight = 1./vzweight;
+		*/
     }
-/* --> To recover EPb in MB compared to HM triggers --> not useful, bias still there
-    if(!isMC && !use_centrality && system == "pPb" && energy == 8160 && year == 2016){
-    	if(mult <= 100.0){
-			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol1", 70.0, 140.0);
-			EtWeightFunction->SetParameters(8.15578e-01, -4.86085e-03);
-			multweight = EtWeightFunction->Eval(extraquantity);
-		}else if(mult > 100. && mult <= 185.){
-			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol4", 70.0, 140.0);
-			EtWeightFunction->SetParameters(4.08753e+01, -1.56574e+00, 2.31274e-02, -1.48438e-04, 3.51648e-07);
-			multweight = EtWeightFunction->Eval(extraquantity);		
-		}else if(mult > 185. && mult <= 250.){
-			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol2", 70.0, 140.0);
-			EtWeightFunction->SetParameters(2.19684e+01, -3.16469e-01, 1.69276e-03);
-			multweight = EtWeightFunction->Eval(extraquantity);			
-		}else if(mult > 250.){
-			TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol3", 70.0, 140.0);
-			EtWeightFunction->SetParameters(-2.66599e+02, 7.95438e+00, -7.28621e-02, 2.26233e-04);
-			multweight = EtWeightFunction->Eval(extraquantity);					
-		}
-    }
-*/
 	totalweight = evtweight*multweight*vzweight*multefficiency*jetefficiency;
 	return totalweight;
 

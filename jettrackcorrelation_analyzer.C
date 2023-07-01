@@ -125,7 +125,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	if(colliding_system=="pPb" && year_of_datataking==2016){hlt_tree->AddFriend(ep_tree);}
 
     // Read the desired branchs in the trees
-	read_tree(hlt_tree, is_MC, use_WTA, jet_trigger.Data(), colliding_system.Data(), sNN_energy_GeV, year_of_datataking, event_filter_str, event_filter_bool); // access the tree informations
+	read_tree(hlt_tree, is_MC, use_WTA, jet_trigger.Data(), colliding_system.Data(), sNN_energy_GeV, year_of_datataking, event_filter_str); // access the tree informations
 	if(!dojettrigger) jet_trigger="nojettrig"; // just for output name
 	
     // Use sumw2() to make sure about histogram uncertainties in ROOT
@@ -160,7 +160,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		Nevents->Fill(1);
 
 		// Apply event filters
-		for(int ii = 0; ii < event_filter_bool.size(); ii++) if(event_filter_bool[ii] != 1) continue;
+		for(int ii = 0; ii < event_filter_str.size(); ii++){ if(event_filter_bool[ii] != 1) continue; }
 		Nevents->Fill(2);
 
 		// Vectors used for objects
@@ -200,7 +200,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 		//pthat (MC only)
 		if(do_pthatcut){if(pthat <= pthatmin || pthat > pthatmax) continue;} //pthat ranges
-		if(is_MC){if(gen_jtpt[0] > 3.*pthat) continue;} //safety to remove some high-pT jets from low pthat samples 
+		if(is_MC){if(gen_jtpt[0] > 3.*pthat || rawpt[0] > 3.*pthat) continue;} //safety to remove some high-pT jets from low pthat samples 
 		Nevents->Fill(4);
 
 		//multiplicity or centrality
@@ -214,6 +214,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		//int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float) mult);
 		double multcentbin = (double) mult;
 		Nevents->Fill(5);
+	
+		int multat1 = get_Ntrkoff_at1(colliding_system, sNN_energy_GeV, year_of_datataking, trksize, trketa, trkpt, trkcharge, highpur, trkpterr, trkdcaxy, trkdcaxyerr, trkdcaz, trkdcazerr, trkchi2, trkndof, trknlayer, trknhits, trkalgo, trkmva);	 
 		
 		// invert the HF/ZDC sides for pPb
 		if(colliding_system=="pPb" && is_pgoing && invert_pgoing){
@@ -243,6 +245,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		reco_mult_weighted->Fill(recomult, event_weight);
 		gen_mult->Fill(genmult);
 		gen_mult_weighted->Fill(genmult, event_weight);
+		multiplicity_weighted_at1->Fill(multat1, event_weight);
 	
 		double x_vz[3]={(double) vertexz, (double) multcentbin, (double) extrabin}; vzhist->Fill(x_vz); vzhist_weighted->Fill(x_vz,event_weight);
 		double x_vxy[4]={(double) vertexx, (double) vertexy, (double) multcentbin, (double) extrabin}; vxyhist->Fill(x_vxy); vxyhist_weighted->Fill(x_vxy,event_weight);
@@ -521,6 +524,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if(isjetincluded){
 			multiplicity_withonejet_weighted->Fill(mult,event_weight);
 			reco_mult_withonejet_weighted->Fill(recomult, event_weight);
+			multiplicity_withonejet_weighted_at1->Fill(multat1, event_weight);
 			vzhist_jet_weighted->Fill(x_vz, event_weight);
 			if(colliding_system=="pPb" && year_of_datataking==2016){
 				double x3D_hiHF_onejet[3]={hfplus,hfminus,(double) mult}; hfhist_onejet_weighted->Fill(x3D_hiHF_onejet,event_weight);
@@ -711,6 +715,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if(isdijet){
 			multiplicity_withdijets_weighted->Fill(mult,event_weight);
 			reco_mult_withdijets_weighted->Fill(recomult, event_weight);
+			multiplicity_withdijets_weighted_at1->Fill(multat1, event_weight);
 			vzhist_dijet_weighted->Fill(x_vz, event_weight);
 			if(colliding_system=="pPb" && year_of_datataking==2016){
 				double x3D_hiHF_dijet[3]={hfplus,hfminus,(double) mult}; hfhist_dijet_weighted->Fill(x3D_hiHF_dijet,event_weight);

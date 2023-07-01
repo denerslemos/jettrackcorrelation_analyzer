@@ -102,6 +102,8 @@ std::vector<int> *gen_trkchg = 0;   // gen particle charge
 std::vector<int> *gen_trkpid = 0;   // gen particle pid
 std::vector<int> *gen_trksube = 0;   // gen particle pid
 
+int event_filter_bool[5]; // event filter booleans
+
 //All variables listed above are readed in the function bellow
 /*
 Function to read the Forest/Skim tree
@@ -117,7 +119,7 @@ year_of_datataking: year of data taking
 event_filterstr: string of event filters
 event_filters: integer (0 or 1) from event filters
 */
-void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TString colliding_system, int colliding_energy, int year_of_datataking, std::vector<TString> event_filterstr, std::vector<int> event_filters){
+void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TString colliding_system, int colliding_energy, int year_of_datataking, std::vector<TString> event_filterstr){
 
     tree->SetBranchStatus("*", 0); // disable all branches - this is important while reading big files
 
@@ -227,7 +229,7 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
     tree->SetBranchAddress("vx", &vertexx);
     tree->SetBranchAddress("vy", &vertexy);
     if(colliding_system=="PbPb" || colliding_system=="XeXe") tree->SetBranchAddress("hiBin", &hiBin); //centrality only for PbPb and XeXe
-    for(int i = 0; i < event_filters.size(); i++) tree->SetBranchAddress(Form("%s",event_filterstr[i].Data()),&event_filters[i]);
+    for(int i = 0; i < event_filterstr.size(); i++) tree->SetBranchAddress(Form("%s",event_filterstr[i].Data()),&event_filter_bool[i]);
 
     if(is_MC){
         tree->SetBranchStatus("weight", 1);
