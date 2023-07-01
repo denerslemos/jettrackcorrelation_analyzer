@@ -543,8 +543,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		//dijets
 		if(jetsize > 0 && !removethirdjet){
 
-			cout << "leadrecojet_index: " << leadrecojet_index << "sublrecojet_index: " << sublrecojet_index << endl;
-
 			Nevents->Fill(6);
 			double ljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadrecojet_pt, leadrecojet_eta);  // Jet weight (specially for MC)
 			double sljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublrecojet_pt, sublrecojet_eta);  // Jet weight (specially for MC)
@@ -555,8 +553,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 			if(is_MC && leadrecojet_index==leadrefjet_index && sublrecojet_index==sublrefjet_index && leadrecojet_index > -1 && sublrecojet_index > -1){
 			
-					if(refpt[leadrecojet_index] > 0) JES_ratio_reco_vs_ref_leading = leadrecojet_pt/refpt[leadrecojet_index];
-					if(refpt[sublrecojet_index] > 0) JES_ratio_reco_vs_ref_subleading = sublrecojet_pt/refpt[sublrecojet_index];
+					if(refpt[leadrecojet_index] > 0 && leadrecojet_pt > 0) JES_ratio_reco_vs_ref_leading = leadrecojet_pt/refpt[leadrecojet_index];
+					if(refpt[sublrecojet_index] > 0 && sublrecojet_pt > 0) JES_ratio_reco_vs_ref_subleading = sublrecojet_pt/refpt[sublrecojet_index];
 					bool delta_phi_reco_LSL = fabs(deltaphi(leadrecojet_phi, sublrecojet_phi)) > leading_subleading_deltaphi_min;
 					double x_JES_ratio_reco_vs_ref_leading[6]={JES_ratio_reco_vs_ref_leading,refpt[leadrecojet_index],refeta[leadrecojet_index],(double)leadrecojet_flavor,(double)multcentbin,(double) extrabin}; 
 					double x_JES_ratio_reco_vs_ref_sleading[6]={JES_ratio_reco_vs_ref_subleading,refpt[sublrecojet_index],refeta[sublrecojet_index],(double)sublrecojet_flavor,(double)multcentbin,(double) extrabin}; 
