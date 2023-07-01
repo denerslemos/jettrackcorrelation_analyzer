@@ -160,7 +160,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		Nevents->Fill(1);
 
 		// Apply event filters
-		for(int ii = 0; ii < event_filter_str.size(); ii++){ if(event_filter_bool[ii] != 1) continue; }
+		bool event_filter = false;
+		for(int ii = 0; ii < event_filter_str.size(); ii++){ if(event_filter_bool[ii] != 1) event_filter = true; }
+		if(event_filter) continue;
 		Nevents->Fill(2);
 
 		// Vectors used for objects
