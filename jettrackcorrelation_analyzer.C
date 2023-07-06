@@ -69,7 +69,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
         if(do_jer_up && !do_jer_down) filejersys->GetObject("JERup", resolution_histo);
         if(!do_jer_up && do_jer_down) filejersys->GetObject("JERdown", resolution_histo);
         TF1* JetSmear = new TF1("JetSmear","sqrt([0]*[0] + [1]*[1]/x + [2]*[2]/(x*x))",20,800);
-        JetSmear->SetParameters(4.48588e-02, 9.48647e-0, 0.0); // fitted from JER
+        JetSmear->SetParameters(4.25985e-02, 9.51054e-01, 0.0); // fitted from JER
 	// Track or particle efficiency file
 	TFile *fileeff = TFile::Open(Form("aux_files/%s_%i/trk_eff_table/%s",colliding_system.Data(),sNN_energy_GeV,trk_eff_file.Data()));
 	cout << endl;
