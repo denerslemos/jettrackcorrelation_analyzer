@@ -582,17 +582,17 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			 			 double x_unf_lead[4]={leadrecojet_pt,refpt[leadrecojet_index],(double)multcentbin,(double) extrabin}; 
 						 hist_leadjetptclos_weighted->Fill(x_unf_lead,event_weight*lrefjet_weight*ljet_weight);
 			 			 double x_unf_subl[4]={sublrecojet_pt,refpt[sublrecojet_index],(double)multcentbin,(double) extrabin}; 												 
-						 hist_leadjetptclos_weighted->Fill(x_unf_subl,event_weight*slrefjet_weight*sljet_weight);
+						 hist_subljetptclos_weighted->Fill(x_unf_subl,event_weight*slrefjet_weight*sljet_weight);
 
 						 double avepT_reco = (leadrecojet_pt+sublrecojet_pt)/2.;
 						 double avepT_ref = (refpt[leadrecojet_index]+refpt[sublrecojet_index])/2.;					 
 			 			 double x_unf_aver[4]={avepT_reco,avepT_ref,(double)multcentbin,(double) extrabin}; 												 
-						 hist_averjetptclos_weighted->Fill(x_unf_aver,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight)
+						 hist_averjetptclos_weighted->Fill(x_unf_aver,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);
 						
 						 double xjvar_reco = xjvar(leadrecojet_pt,sublrecojet_pt);
 						 double xjvar_ref = xjvar(refpt[leadrecojet_index],refpt[sublrecojet_index]);					 
 			 			 double x_unf_xj[4]={xjvar_reco,xjvar_ref,(double)multcentbin,(double) extrabin}; 												 
-						 hist_averjetptclos_weighted->Fill(x_unf_xj,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight)
+						 hist_xjclos_weighted->Fill(x_unf_xj,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);
 
 					}
 
