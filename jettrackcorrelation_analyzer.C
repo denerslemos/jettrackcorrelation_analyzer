@@ -141,6 +141,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
     if(colliding_system=="pPb" && do_CM_pPb && is_pgoing){boost = pPbRapidityBoost;}else if(colliding_system=="pPb" && do_CM_pPb && !is_pgoing){boost = -pPbRapidityBoost;}
     // if(is_MC) boost = -boost; // pPb MC has proton in + direction, pPb data has it in minus, and both are reversed for the 'Pbp definition'
 
+	int match = 0;
+	int mismatch = 0;
+
 	// Start loop over events
 	double nev = (double)nevents;
 	for(int i = 0; i < nevents; i++){
@@ -511,6 +514,12 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				ref_eta = ref_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 				if(colliding_system == "pPb" && is_pgoing && invert_pgoing)ref_eta = -ref_eta;
 
+				double x_ref_QA[5]={ref_pt,ref_eta,ref_phi,(double)multcentbin,(double) extrabin}; 
+				hist_ref_jet_weighted->Fill(x_ref_QA,event_weight*refjet_weight);
+				
+				double x_unf_pT[4]={jet_pt_corr,ref_pt,(double)multcentbin,(double) extrabin}; 
+				hist_jetptclos_weighted->Fill(x_unf_pT,event_weight*refjet_weight*jet_weight);
+
 				double JES_ratio_reco_vs_ref = jet_pt_corr/ref_pt;
 //				int refparton; if(fabs(refparton_flavor[j]) >= 1 && fabs(refparton_flavor[j]) <= 6){refparton = fabs(refparton_flavor[j]);}else if(fabs(refparton_flavor[j]) == 21){refparton = 7;}else{refparton = 0;}
 //				int refpartonfromB; if(fabs(refparton_flavorForB[j]) >= 1 && fabs(refparton_flavorForB[j]) <= 6){refpartonfromB = fabs(refparton_flavorForB[j]);}else if(fabs(refparton_flavorForB[j]) == 21){refpartonfromB = 7;}else{refpartonfromB = 0;}
@@ -552,16 +561,40 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			double slrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[sublrecojet_index], refeta[sublrecojet_index]);  // Jet weight (specially for MC)
 			double JES_ratio_reco_vs_ref_leading = 0.0;
 			double JES_ratio_reco_vs_ref_subleading = 0.0;
-
+			
+			if(leadrecojet_index==leadrefjet_index && sublrecojet_index==sublrefjet_index && refpt[leadrecojet_index] > 0 && leadrecojet_pt > 0 && leadrecojet_index > -1 && sublrecojet_index > -1 && leadrecojet_phi > -TMath::Pi()-1 && sublrecojet_phi > -TMath::Pi()-1 && fabs(deltaphi(leadrecojet_phi, sublrecojet_phi)) > leading_subleading_deltaphi_min){match++;
+			}else if(refpt[leadrecojet_index] > 0 && leadrecojet_pt > 0 && leadrecojet_index > -1 && sublrecojet_index > -1 && leadrecojet_phi > -TMath::Pi()-1 && sublrecojet_phi > -TMath::Pi()-1 && fabs(deltaphi(leadrecojet_phi, sublrecojet_phi)) > leading_subleading_deltaphi_min){mismatch++;}
+			
 			if(is_MC && leadrecojet_index==leadrefjet_index && sublrecojet_index==sublrefjet_index && leadrecojet_index > -1 && sublrecojet_index > -1){
 			
 					if(refpt[leadrecojet_index] > 0 && leadrecojet_pt > 0) JES_ratio_reco_vs_ref_leading = leadrecojet_pt/refpt[leadrecojet_index];
 					if(refpt[sublrecojet_index] > 0 && sublrecojet_pt > 0) JES_ratio_reco_vs_ref_subleading = sublrecojet_pt/refpt[sublrecojet_index];
-					bool delta_phi_reco_LSL = fabs(deltaphi(leadrecojet_phi, sublrecojet_phi)) > leading_subleading_deltaphi_min;
+					bool delta_phi_reco_LSL = false;
+					if(leadrecojet_phi > -TMath::Pi()-1 && sublrecojet_phi > -TMath::Pi()-1) delta_phi_reco_LSL = fabs(deltaphi(leadrecojet_phi, sublrecojet_phi)) > leading_subleading_deltaphi_min;
 					double x_JES_ratio_reco_vs_ref_leading[6]={JES_ratio_reco_vs_ref_leading,refpt[leadrecojet_index],refeta[leadrecojet_index],(double)leadrecojet_flavor,(double)multcentbin,(double) extrabin}; 
 					double x_JES_ratio_reco_vs_ref_sleading[6]={JES_ratio_reco_vs_ref_subleading,refpt[sublrecojet_index],refeta[sublrecojet_index],(double)sublrecojet_flavor,(double)multcentbin,(double) extrabin}; 
-					if(delta_phi_reco_LSL) hist_leadjes_reco_weighted->Fill(x_JES_ratio_reco_vs_ref_leading,event_weight*lrefjet_weight*ljet_weight);
-					if(delta_phi_reco_LSL) hist_subleadjes_reco_weighted->Fill(x_JES_ratio_reco_vs_ref_sleading,event_weight*slrefjet_weight*sljet_weight);
+
+					if(delta_phi_reco_LSL){
+
+						 hist_leadjes_reco_weighted->Fill(x_JES_ratio_reco_vs_ref_leading,event_weight*lrefjet_weight*ljet_weight);
+						 hist_subleadjes_reco_weighted->Fill(x_JES_ratio_reco_vs_ref_sleading,event_weight*slrefjet_weight*sljet_weight);
+
+			 			 double x_unf_lead[4]={leadrecojet_pt,refpt[leadrecojet_index],(double)multcentbin,(double) extrabin}; 
+						 hist_leadjetptclos_weighted->Fill(x_unf_lead,event_weight*lrefjet_weight*ljet_weight);
+			 			 double x_unf_subl[4]={sublrecojet_pt,refpt[sublrecojet_index],(double)multcentbin,(double) extrabin}; 												 
+						 hist_leadjetptclos_weighted->Fill(x_unf_subl,event_weight*slrefjet_weight*sljet_weight);
+
+						 double avepT_reco = (leadrecojet_pt+sublrecojet_pt)/2.;
+						 double avepT_ref = (refpt[leadrecojet_index]+refpt[sublrecojet_index])/2.;					 
+			 			 double x_unf_aver[4]={avepT_reco,avepT_ref,(double)multcentbin,(double) extrabin}; 												 
+						 hist_averjetptclos_weighted->Fill(x_unf_aver,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight)
+						
+						 double xjvar_reco = xjvar(leadrecojet_pt,sublrecojet_pt);
+						 double xjvar_ref = xjvar(refpt[leadrecojet_index],refpt[sublrecojet_index]);					 
+			 			 double x_unf_xj[4]={xjvar_reco,xjvar_ref,(double)multcentbin,(double) extrabin}; 												 
+						 hist_averjetptclos_weighted->Fill(x_unf_xj,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight)
+
+					}
 
 			}
 
@@ -806,7 +839,15 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						hist_yDijet_CM_ref->Fill(x_dijet_ref_CM_y,event_weight*lrefjet_weight*slrefjet_weight);
 					}
 				}
-				if(delta_phi_ref > leading_subleading_deltaphi_min){if((Xj_ref >= xjmin && Xj_ref <= xjmax) && (Aj_ref >= Ajmin && Aj_ref <= Ajmax)){isrefdijet=true;}}
+				if(delta_phi_ref > leading_subleading_deltaphi_min){
+					if((Xj_ref >= xjmin && Xj_ref <= xjmax) && (Aj_ref >= Ajmin && Aj_ref <= Ajmax)){
+						isrefdijet=true;
+						double x_ref_QA_L[5]={leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,(double)multcentbin,(double) extrabin}; 
+						hist_ref_leadjet_weighted->Fill(x_ref_QA_L,event_weight*lrefjet_weight);
+						double x_ref_QA_SL[5]={leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,(double)multcentbin,(double) extrabin}; 
+						hist_ref_subljet_weighted->Fill(x_ref_QA_SL,event_weight*slrefjet_weight);
+					}
+				}
 			}
 		}
 		
@@ -986,7 +1027,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					double delta_phi_gen = fabs(deltaphi(leadgenjet_phi, sublgenjet_phi));
 					double Aj_gen = asymmetry(leadgenjet_pt,sublgenjet_pt);
 					double Xj_gen = xjvar(leadgenjet_pt,sublgenjet_pt);
-					float ptdijet = 0.5*(leadrecojet_pt + sublrecojet_pt);
+					float ptdijet = 0.5*(leadgenjet_pt + sublgenjet_pt);
 					//int ptdijetbin = (int) find_my_bin(pt_ave_bins, (float) ptdijet);
 					double ptdijetbin = (double) ptdijet;
 					double x_gen[6]={Xj_gen,Aj_gen,delta_phi_gen,(double)multcentbin,(double)ptdijetbin,(double)extrabin}; 
@@ -1254,6 +1295,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	cout << "========================================" << endl;
 	cout << "Total running time: " << (double)(sec_end - sec_start) / CLOCKS_PER_SEC << " [s]" << endl;
 	cout << "========================================" << endl;
+
+	cout << "Match: " << match << "; and Mismatch: " << mismatch << endl;
 
 	print_stop(); // Print time, date and hour when it stops
 	return 0;
