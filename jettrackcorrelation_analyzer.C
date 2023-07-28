@@ -844,7 +844,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						isrefdijet=true;
 						double x_ref_QA_L[5]={leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,(double)multcentbin,(double) extrabin}; 
 						hist_ref_leadjet_weighted->Fill(x_ref_QA_L,event_weight*lrefjet_weight);
-						double x_ref_QA_SL[5]={leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,(double)multcentbin,(double) extrabin}; 
+						double x_ref_QA_SL[5]={sublrefjet_pt,sublrefjet_eta,sublrefjet_phi,(double)multcentbin,(double) extrabin}; 
 						hist_ref_subljet_weighted->Fill(x_ref_QA_SL,event_weight*slrefjet_weight);
 					}
 				}
@@ -1027,6 +1027,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					double delta_phi_gen = fabs(deltaphi(leadgenjet_phi, sublgenjet_phi));
 					double Aj_gen = asymmetry(leadgenjet_pt,sublgenjet_pt);
 					double Xj_gen = xjvar(leadgenjet_pt,sublgenjet_pt);
+					if(fabs(leadgenjet_pt - sublgenjet_pt) < 0.01) continue;
 					float ptdijet = 0.5*(leadgenjet_pt + sublgenjet_pt);
 					//int ptdijetbin = (int) find_my_bin(pt_ave_bins, (float) ptdijet);
 					double ptdijetbin = (double) ptdijet;
