@@ -610,7 +610,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						 hist_subljetptclosremovesome_weighed->Fill(x_unf_subl,event_weight*slrefjet_weight*sljet_weight);
 						 hist_averjetptclosremovesome_weighed->Fill(x_unf_aver,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);
 						 hist_diffjetptclosremovesome_weighed->Fill(x_unf_diff,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);
-						 hist_xjclosremovesome_weighed->Fill(x_unf_xj,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);					
+						 hist_xjclos_removesome_weighted->Fill(x_unf_xj,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);					
 
 					}else{mismatch++;}
 
