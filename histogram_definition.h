@@ -221,11 +221,27 @@ double xmax_NJETS[3]   =   {  30.0 ,   multiplicity_centrality_bins[multbinsize-
 THnSparseD *NJets = new THnSparseD("NJets", "NJets", 3, bins_NJETS, xmin_NJETS, xmax_NJETS);
 
 // trackmax histogram
-// Axis : 0 -> delta phi between jet and EP, 1 -> multiplicity bins, 2 -> extra dependence bins
+// Axis : 0 -> max track pt in a jet, 1 -> multiplicity bins, 2 -> extra dependence bins
 int	bins_trkmax[3]      =   {  200   ,   multbinsize-1    							    ,  extrabinsize-1};
 double xmin_trkmax[3]   =   {  0.0 	  ,   multiplicity_centrality_bins[0]  			    ,  extra_bins[0]};
 double xmax_trkmax[3]   =   {  100.0 ,   multiplicity_centrality_bins[multbinsize-1]   ,  extra_bins[extrabinsize-1]};
 THnSparseD *trackmaxptinjethisto = new THnSparseD("trackmaxptinjethisto", "trackmaxptinjethisto", 3, bins_trkmax, xmin_trkmax, xmax_trkmax);
+
+// trackmax/rawjet histogram
+// Axis : 0 -> max track pt in a jet, 1 -> multiplicity bins, 2 -> extra dependence bins
+int	bins_trkmaxjet[3]      =   {  1000  ,   multbinsize-1    							    ,  extrabinsize-1};
+double xmin_trkmaxjet[3]   =   {  0.0   ,   multiplicity_centrality_bins[0]  			    ,  extra_bins[0]};
+double xmax_trkmaxjet[3]   =   {  1.0   ,   multiplicity_centrality_bins[multbinsize-1]   ,  extra_bins[extrabinsize-1]};
+THnSparseD *jettrackmaxptinjethisto = new THnSparseD("jettrackmaxptinjethisto", "jettrackmaxptinjethisto", 3, bins_trkmaxjet, xmin_trkmaxjet, xmax_trkmaxjet);
+
+// UE histogram
+// Axis : 0 -> ..., 1 -> multiplicity bins, 2 -> extra dependence bins
+int	bins_UE[3]      =   {  100  	,   multbinsize-1    							    ,  extrabinsize-1};
+double xmin_UE[3]   =   {  0.0   	,   multiplicity_centrality_bins[0]  			    ,  extra_bins[0]};
+double xmax_UE[3]   =   {  1000.0   ,   multiplicity_centrality_bins[multbinsize-1]   	,  extra_bins[extrabinsize-1]};
+THnSparseD *histo_jetUE 			 = new THnSparseD("histo_jetUE", "histo_jetUE", 3, bins_UE, xmin_UE, xmax_UE);
+THnSparseD *histo_jetAverageRho 	 = new THnSparseD("histo_jetAverageRho", "histo_jetAverageRho", 3, bins_UE, xmin_UE, xmax_UE);
+THnSparseD *histo_jetcheckcorrection = new THnSparseD("histo_jetcheckcorrection", "histo_jetcheckcorrection", 3, bins_UE, xmin_UE, xmax_UE);
 
 //correlations to EP
 // Axis : 0 -> delta phi between jet and EP, 1 -> multiplicity bins, 2 -> extra dependence bins
@@ -339,6 +355,7 @@ THnSparseD *hist_leadjes_reco_fromB_weighted = new THnSparseD("hist_leadjes_reco
 THnSparseD *hist_subleadjes_reco_weighted = new THnSparseD("hist_subleadjes_reco_weighted", "hist_subleadjes_reco_weighted", 6, bins_jes, xmin_jes, xmax_jes);
 THnSparseD *hist_subleadjes_reco_fromB_weighted = new THnSparseD("hist_subleadjes_reco_fromB_weighted", "hist_subleadjes_reco_fromB_weighted", 6, bins_jes, xmin_jes, xmax_jes);
 
+// for jet closure/unfolding
 int    bins_jetptclos[4]   =   { 100  ,  100  , multbinsize-1                               , extrabinsize-1};
 double xmin_jetptclos[4]   =   { 0    ,  0    , multiplicity_centrality_bins[0]             , extra_bins[0]};
 double xmax_jetptclos[4]   =   { 1000 ,  1000 , multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
@@ -1271,6 +1288,10 @@ Dphi_GEN_EP4_flat_trk_minus->GetAxis(2)->Set(bins_TRKEP[2],MultCentbins);
 Dphi_GEN_EP4_flat_trk_plus->GetAxis(2)->Set(bins_TRKEP[2],MultCentbins);
 NJets->GetAxis(1)->Set(bins_NJETS[1],MultCentbins);
 trackmaxptinjethisto->GetAxis(1)->Set(bins_trkmax[1],MultCentbins);
+jettrackmaxptinjethisto->GetAxis(1)->Set(bins_trkmaxjet[1],MultCentbins);
+histo_jetUE->GetAxis(1)->Set(bins_UE[1],MultCentbins);
+histo_jetAverageRho->GetAxis(1)->Set(bins_UE[1],MultCentbins);
+histo_jetcheckcorrection->GetAxis(1)->Set(bins_UE[1],MultCentbins);
 Dphi_flat_EP2_inclusive_minus->GetAxis(1)->Set(bins_JETEP[1],MultCentbins);
 Dphi_flat_EP2_leading_minus->GetAxis(1)->Set(bins_JETEP[1],MultCentbins);
 Dphi_flat_EP2_subleading_minus->GetAxis(1)->Set(bins_JETEP[1],MultCentbins);
@@ -1639,6 +1660,10 @@ Dphi_GEN_EP4_flat_trk_minus->GetAxis(3)->Set(bins_TRKEP[3],Extrabins);
 Dphi_GEN_EP4_flat_trk_plus->GetAxis(3)->Set(bins_TRKEP[3],Extrabins);
 NJets->GetAxis(2)->Set(bins_NJETS[2],Extrabins);
 trackmaxptinjethisto->GetAxis(2)->Set(bins_trkmax[2],Extrabins);
+jettrackmaxptinjethisto->GetAxis(2)->Set(bins_trkmaxjet[2],Extrabins);
+histo_jetUE->GetAxis(2)->Set(bins_UE[2],Extrabins);
+histo_jetAverageRho->GetAxis(2)->Set(bins_UE[2],Extrabins);
+histo_jetcheckcorrection->GetAxis(2)->Set(bins_UE[2],Extrabins);
 Dphi_flat_EP2_inclusive_minus->GetAxis(2)->Set(bins_JETEP[2],Extrabins);
 Dphi_flat_EP2_leading_minus->GetAxis(2)->Set(bins_JETEP[2],Extrabins);
 Dphi_flat_EP2_subleading_minus->GetAxis(2)->Set(bins_JETEP[2],Extrabins);
@@ -1950,6 +1975,10 @@ Dphi_GEN_EP4_flat_trk_minus->Sumw2();
 Dphi_GEN_EP4_flat_trk_plus->Sumw2();
 NJets->Sumw2();
 trackmaxptinjethisto->Sumw2();
+jettrackmaxptinjethisto->Sumw2();
+histo_jetUE->Sumw2();
+histo_jetAverageRho->Sumw2();
+histo_jetcheckcorrection->Sumw2();
 Dphi_flat_EP2_inclusive_minus->Sumw2();
 Dphi_flat_EP2_leading_minus->Sumw2();
 Dphi_flat_EP2_subleading_minus->Sumw2();
@@ -2340,6 +2369,10 @@ void w_QA_hist(bool isMC){
 	//jets 
 	NJets->Write();
 	trackmaxptinjethisto->Write();
+	jettrackmaxptinjethisto->Write();
+	histo_jetUE->Write();
+	histo_jetAverageRho->Write();
+	histo_jetcheckcorrection->Write();
 	//reco
 	hist_reco_jet->Write();
 	hist_reco_jet_corr->Write();

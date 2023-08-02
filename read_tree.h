@@ -104,6 +104,12 @@ std::vector<int> *gen_trksube = 0;   // gen particle pid
 
 int event_filter_bool[5]; // event filter booleans
 
+// rho variables
+std::vector<double> *etamin = 0;  // gen particle pT
+std::vector<double> *etamax = 0;  // gen particle pT
+std::vector<double> *rho = 0;  // gen particle pT
+
+
 //All variables listed above are readed in the function bellow
 /*
 Function to read the Forest/Skim tree
@@ -376,5 +382,16 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
         tree->SetBranchAddress("pdg", &gen_trkpid);
         tree->SetBranchAddress("sube", &gen_trksube);
     }
+    
+    
+    if(colliding_system=="pPb" && colliding_energy == 8160){
+        tree->SetBranchStatus("etaMin", 1);
+        tree->SetBranchStatus("etaMax", 1);
+        tree->SetBranchStatus("rho", 1);
+        tree->SetBranchAddress("etaMin", &etamin);
+        tree->SetBranchAddress("etaMax", &etamax);
+        tree->SetBranchAddress("rho", &rho);
+    }
+    
 
 }

@@ -94,6 +94,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	TChain *jet_tree = new TChain(Form("%s/t",jet_collection.Data())); // for jet collection
 	TChain *trk_tree = new TChain("ppTrack/trackTree"); // for tracking
 	TChain *hea_tree = new TChain("hiEvtAnalyzer/HiTree"); // event quantities
+	TChain *rho_tree = new TChain("hiFJRhoAnalyzer/rhotree"); // event quantities	
 	TChain *gen_tree;
 	if(is_MC){gen_tree = new TChain("HiGenParticleAna/hi");} // MC gen particles
 	TChain *ski_tree = new TChain("skimanalysis/HltTree"); // event filters
@@ -110,6 +111,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			hea_tree->Add(*listIterator);
 			jet_tree->Add(*listIterator);
 			ski_tree->Add(*listIterator);
+			rho_tree->Add(*listIterator);
 			if(is_MC){gen_tree->Add(*listIterator);}
 			if(colliding_system=="pPb" && year_of_datataking==2016){ep_tree->Add(*listIterator);}
 		}else{cout << "File: " << *listIterator << " failed!" << endl;}
@@ -121,6 +123,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	hlt_tree->AddFriend(hea_tree);
 	hlt_tree->AddFriend(jet_tree);
 	hlt_tree->AddFriend(ski_tree);
+	hlt_tree->AddFriend(rho_tree);
 	if(is_MC){hlt_tree->AddFriend(gen_tree);}
 	if(colliding_system=="pPb" && year_of_datataking==2016){hlt_tree->AddFriend(ep_tree);}
 
@@ -205,7 +208,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 		//pthat (MC only)
 		if(do_pthatcut){if(pthat <= pthatmin || pthat > pthatmax) continue;} //pthat ranges
-		if(is_MC){if(gen_jtpt[0] > 3.*pthat || rawpt[0] > 3.*pthat) continue;} //safety to remove some high-pT jets from low pthat samples 
+		if(is_MC){if(gen_jtpt[0] > 3.*pthat) continue;} //safety to remove some high-pT jets from low pthat samples 
 		Nevents->Fill(4);
 
 		//multiplicity or centrality
@@ -400,10 +403,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		int jetsize = (int)nref; // number of jets in an event
 		// Start loop over jets
 		for (int j = 0; j < jetsize; j++){
-			if(trackMax[j]/rawpt[j] < 0.01)continue; // Cut for jets with only very low pT particles
-			if(trackMax[j]/rawpt[j] > 0.98)continue; // Cut for jets where all the pT is taken by one track
-			if(jteta[j] < -5.0 || jteta[j] > 5.0) continue; // no accept jets with |eta| > 5
+
 			if(trackMax[j] < trackmaxpt) continue; // Can be use to remove jets from low pT tracks
+			//if(trackMax[j]/rawpt[j] < 0.01)continue; // Cut for jets with only very low pT particles
+			//if(trackMax[j]/rawpt[j] > 0.98)continue; // Cut for jets where all the pT is taken by one track
 
 			// Define jet kinematics
 			float jet_rawpt = rawpt[j];
@@ -411,7 +414,11 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			float jet_phi = jtphi[j];
 			float jet_mass = jtmass[j];
 
-			// Apply JEC
+ 			double UE = GetUE(etamin, etamax, rho, jet_eta, JetR);
+ 			double AverageRho = UE / (JetR * JetR * TMath::Pi());
+ 			double checkcorrection = jet_rawpt - UE;
+ 			
+ 			// Apply JEC
 			JEC.SetJetPT(jet_rawpt); 
 			JEC.SetJetEta(jet_eta); 
 			JEC.SetJetPhi(jet_phi);
@@ -437,6 +444,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 			//resolutionfactor: Worsening resolution by 20%: 0.663, by 10%: 0.458 , by 30%: 0.831
 			double jet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, jet_pt_corr, jet_eta); // Jet weight (specially for MC)
+			double x_trkmaxjet[3]={trackMax[j]/rawpt[j],(double) multcentbin,(double) extrabin}; 
+			if(trackMax[j]/rawpt[j]>=0) jettrackmaxptinjethisto->Fill(x_trkmaxjet,event_weight*jet_weight);
 
 			int refpartonfromB = 0; 
 			if(is_MC){
@@ -504,7 +513,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 				if(jet_rawpt < 0) continue;
 				if(jet_pt_corr < 0) continue;
-				if(ref_eta < -5.0 || ref_eta > 5.0) continue; // max jet eta
+				if(ref_pt < 0) continue;
 
 				double refjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, ref_pt, ref_eta); // Jet weight (specially for MC)
 				int jet_index_ref = (int) j;
@@ -521,8 +530,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				hist_jetptclos_weighted->Fill(x_unf_pT,event_weight*refjet_weight*jet_weight);
 
 				double JES_ratio_reco_vs_ref = jet_pt_corr/ref_pt;
-//				int refparton; if(fabs(refparton_flavor[j]) >= 1 && fabs(refparton_flavor[j]) <= 6){refparton = fabs(refparton_flavor[j]);}else if(fabs(refparton_flavor[j]) == 21){refparton = 7;}else{refparton = 0;}
-//				int refpartonfromB; if(fabs(refparton_flavorForB[j]) >= 1 && fabs(refparton_flavorForB[j]) <= 6){refpartonfromB = fabs(refparton_flavorForB[j]);}else if(fabs(refparton_flavorForB[j]) == 21){refpartonfromB = 7;}else{refpartonfromB = 0;}
 				double x_JES_ratio_reco_vs_reffromB[6]={JES_ratio_reco_vs_ref,ref_pt,ref_eta,(double)refpartonfromB,(double)multcentbin,(double) extrabin}; 
 				hist_jes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_reffromB,event_weight*refjet_weight*jet_weight);
 				double x_JES_ratio_reco_vs_ref[6]={JES_ratio_reco_vs_ref,ref_pt,ref_eta_lab,(double)refpartonfromB,(double)multcentbin,(double) extrabin}; 
@@ -1138,7 +1145,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				
 				double jet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, gjet_pt, gjet_eta); // Jet weight (specially for MC)
 
-				if(gjet_eta < -5.0 || gjet_eta > 5.0) continue; // no accept jets with |eta| > 4
 				int jet_index_gen = (int) j;
 				find_leading_subleading_third(gjet_pt,gjet_eta,gjet_phi,gjet_mass,gjet_flavor,jet_index_gen,leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,leadgenjet_mass,leadgenjet_flavor,leadgenjet_index,sublgenjet_pt,sublgenjet_eta,sublgenjet_phi,sublgenjet_mass,sublgenjet_flavor,sublgenjet_index,thirdgenjet_pt,thirdgenjet_eta,thirdgenjet_phi,thirdgenjet_mass,thirdgenjet_flavor,thirdgenjet_index); // Find leading and subleading jets
 				gjet_eta = gjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed

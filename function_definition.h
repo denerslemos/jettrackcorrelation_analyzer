@@ -484,3 +484,44 @@ void twoparticlecorrelation(std::vector<TVector3> tracks, std::vector<double> tr
 	} // a loop
 }
 
+
+/*
+Get underlying events based on Rho variable
+--> Arguments
+etamin: min eta strip
+etamax: max eta strip
+rho: density
+Jet_Eta: jet eta for each jet
+Jet_R: jet cone R
+*/
+double GetUE(std::vector<double> *etamin, vector<double> *etamax, vector<double> *rho, double Jet_Eta, double Jet_R){
+
+   double Result = 0;
+
+   if(etamin == nullptr) return -1;
+   if(etamax == nullptr) return -1;
+   if(rho == nullptr) return -1;
+
+   int NBin = etamin->size();
+   if(NBin == 0) return -1;
+
+   for(int i = 0; i < NBin; i++){
+   
+      if(etamax->at(i) < Jet_Eta - Jet_R) continue;
+      if(etamin->at(i) > Jet_Eta + Jet_R) continue;
+
+      double XMin = (std::max(etamin->at(i), Jet_Eta - Jet_R) - Jet_Eta) / Jet_R;
+      double XMax = (std::min(etamax->at(i), Jet_Eta + Jet_R) - Jet_Eta) / Jet_R;
+
+      if(XMin <= -1) XMin = -0.99999;
+      if(XMax >= +1) XMax = +0.99999;
+
+      double High = XMax * std::sqrt(1 - XMax * XMax) + std::asin(XMax);
+      double Low = XMin * std::sqrt(1 - XMin * XMin) + std::asin(XMin);
+
+      Result = Result + Jet_R * Jet_R * (High - Low) * rho->at(i);
+      
+   }
+
+   return Result;
+}
