@@ -405,8 +405,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		for (int j = 0; j < jetsize; j++){
 
 			if(trackMax[j] < trackmaxpt) continue; // Can be use to remove jets from low pT tracks
-			//if(trackMax[j]/rawpt[j] < 0.01)continue; // Cut for jets with only very low pT particles
-			//if(trackMax[j]/rawpt[j] > 0.98)continue; // Cut for jets where all the pT is taken by one track
+			if(trackMax[j]/rawpt[j] < 0.01)continue; // Cut for jets with only very low pT particles
+			if(trackMax[j]/rawpt[j] > 0.98)continue; // Cut for jets where all the pT is taken by one track
 
 			// Define jet kinematics
 			float jet_rawpt = rawpt[j];
@@ -447,7 +447,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
  			double x_ue[3]={UE,(double) multcentbin,(double) extrabin}; histo_jetUE->Fill(x_ue,event_weight*jet_weight);
  			double x_rho[3]={AverageRho,(double) multcentbin,(double) extrabin}; histo_jetAverageRho->Fill(x_rho,event_weight*jet_weight);
  			double x_check[3]={checkcorrection,(double) multcentbin,(double) extrabin}; histo_jetcheckcorrection->Fill(x_check,event_weight*jet_weight);
-
 
 			double x_trkmaxjet[3]={trackMax[j]/rawpt[j],(double) multcentbin,(double) extrabin}; 
 			if(trackMax[j]/rawpt[j]>=0) jettrackmaxptinjethisto->Fill(x_trkmaxjet,event_weight*jet_weight);
@@ -522,7 +521,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 				double refjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, ref_pt, ref_eta); // Jet weight (specially for MC)
 				int jet_index_ref = (int) j;
+
 				find_leading_subleading_third(ref_pt,ref_eta,ref_phi,ref_mass,jet_flavor,jet_index_ref,leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,leadrefjet_mass,leadrefjet_flavor,leadrefjet_index,sublrefjet_pt,sublrefjet_eta,sublrefjet_phi,sublrefjet_mass,sublrefjet_flavor,sublrefjet_index,thirdrefjet_pt,thirdrefjet_eta,thirdrefjet_phi,thirdrefjet_mass,thirdrefjet_flavor,thirdrefjet_index); // Find leading and subleading ref jets
+				
 
 				float ref_eta_lab = ref_eta;
 				ref_eta = ref_eta + boost;  // In pPb case, for the center-of-mass correction if needed
@@ -601,8 +602,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					if(delta_phi_reco_LSL){
 					
 						 hist_leadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_ref_leading,event_weight*lrefjet_weight*ljet_weight);
-						 hist_subleadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_ref_sleading,event_weight*slrefjet_weight*sljet_weight);
-						 						 
+						 hist_subleadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_ref_sleading,event_weight*slrefjet_weight*sljet_weight);			 
 						 hist_leadjetptclos_weighted->Fill(x_unf_lead,event_weight*lrefjet_weight*ljet_weight);
 						 hist_subljetptclos_weighted->Fill(x_unf_subl,event_weight*slrefjet_weight*sljet_weight);
 						 hist_averjetptclos_weighted->Fill(x_unf_aver,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);
@@ -616,7 +616,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 						 hist_leadjes_reco_weighted->Fill(x_JES_ratio_reco_vs_ref_leading,event_weight*lrefjet_weight*ljet_weight);
 						 hist_subleadjes_reco_weighted->Fill(x_JES_ratio_reco_vs_ref_sleading,event_weight*slrefjet_weight*sljet_weight);
-
 						 hist_leadjetptclosremovesome_weighed->Fill(x_unf_lead,event_weight*lrefjet_weight*ljet_weight);
 						 hist_subljetptclosremovesome_weighed->Fill(x_unf_subl,event_weight*slrefjet_weight*sljet_weight);
 						 hist_averjetptclosremovesome_weighed->Fill(x_unf_aver,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);
