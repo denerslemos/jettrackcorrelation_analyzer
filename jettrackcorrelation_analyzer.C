@@ -414,10 +414,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			float jet_phi = jtphi[j];
 			float jet_mass = jtmass[j];
 
- 			double UE = GetUE(etamin, etamax, rho, jet_eta, JetR);
- 			double AverageRho = UE / (JetR * JetR * TMath::Pi());
- 			double checkcorrection = jet_rawpt - UE;
- 			
  			// Apply JEC
 			JEC.SetJetPT(jet_rawpt); 
 			JEC.SetJetEta(jet_eta); 
@@ -442,8 +438,17 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					
 			}
 
-			//resolutionfactor: Worsening resolution by 20%: 0.663, by 10%: 0.458 , by 30%: 0.831
 			double jet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, jet_pt_corr, jet_eta); // Jet weight (specially for MC)
+
+			// for UE subtraction
+ 			double UE = GetUE(etamin, etamax, rho, jet_eta, JetR);
+ 			double AverageRho = UE / (JetR * JetR * TMath::Pi());
+ 			double checkcorrection = jet_rawpt - UE;
+ 			double x_ue[3]={UE,(double) multcentbin,(double) extrabin}; histo_jetUE->Fill(x_ue,event_weight*jet_weight);
+ 			double x_rho[3]={AverageRho,(double) multcentbin,(double) extrabin}; histo_jetAverageRho->Fill(x_rho,event_weight*jet_weight);
+ 			double x_check[3]={checkcorrection,(double) multcentbin,(double) extrabin}; histo_jetcheckcorrection->Fill(x_check,event_weight*jet_weight);
+
+
 			double x_trkmaxjet[3]={trackMax[j]/rawpt[j],(double) multcentbin,(double) extrabin}; 
 			if(trackMax[j]/rawpt[j]>=0) jettrackmaxptinjethisto->Fill(x_trkmaxjet,event_weight*jet_weight);
 
@@ -601,7 +606,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						 hist_leadjetptclos_weighted->Fill(x_unf_lead,event_weight*lrefjet_weight*ljet_weight);
 						 hist_subljetptclos_weighted->Fill(x_unf_subl,event_weight*slrefjet_weight*sljet_weight);
 						 hist_averjetptclos_weighted->Fill(x_unf_aver,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);
-						 hist_diffjetptclos_weighted->Fill(x_unf_diff,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);
 						 hist_xjclos_weighted->Fill(x_unf_xj,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);					
 					
 					}
@@ -616,7 +620,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						 hist_leadjetptclosremovesome_weighed->Fill(x_unf_lead,event_weight*lrefjet_weight*ljet_weight);
 						 hist_subljetptclosremovesome_weighed->Fill(x_unf_subl,event_weight*slrefjet_weight*sljet_weight);
 						 hist_averjetptclosremovesome_weighed->Fill(x_unf_aver,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);
-						 hist_diffjetptclosremovesome_weighed->Fill(x_unf_diff,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);
 						 hist_xjclos_removesome_weighted->Fill(x_unf_xj,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);					
 
 					}else{mismatch++;}
