@@ -229,15 +229,15 @@ THnSparseD *trackmaxptinjethisto = new THnSparseD("trackmaxptinjethisto", "track
 
 // trackmax/rawjet histogram
 // Axis : 0 -> max track pt in a jet, 1 -> multiplicity bins, 2 -> extra dependence bins
-int	bins_trkmaxjet[3]      =   {  1000  ,   multbinsize-1    							    ,  extrabinsize-1};
+int	bins_trkmaxjet[3]      =   {  100  ,   multbinsize-1    							    ,  extrabinsize-1};
 double xmin_trkmaxjet[3]   =   {  0.0   ,   multiplicity_centrality_bins[0]  			    ,  extra_bins[0]};
 double xmax_trkmaxjet[3]   =   {  1.0   ,   multiplicity_centrality_bins[multbinsize-1]   ,  extra_bins[extrabinsize-1]};
 THnSparseD *jettrackmaxptinjethisto = new THnSparseD("jettrackmaxptinjethisto", "jettrackmaxptinjethisto", 3, bins_trkmaxjet, xmin_trkmaxjet, xmax_trkmaxjet);
 
 // UE histogram
 // Axis : 0 -> ..., 1 -> multiplicity bins, 2 -> extra dependence bins
-int	bins_UE[3]      =   {  100  	,   multbinsize-1    							    ,  extrabinsize-1};
-double xmin_UE[3]   =   {  0.0   	,   multiplicity_centrality_bins[0]  			    ,  extra_bins[0]};
+int	bins_UE[3]      =   {  1000  	,   multbinsize-1    							    ,  extrabinsize-1};
+double xmin_UE[3]   =   {  -1000.0   	,   multiplicity_centrality_bins[0]  			    ,  extra_bins[0]};
 double xmax_UE[3]   =   {  1000.0   ,   multiplicity_centrality_bins[multbinsize-1]   	,  extra_bins[extrabinsize-1]};
 THnSparseD *histo_jetUE 			 = new THnSparseD("histo_jetUE", "histo_jetUE", 3, bins_UE, xmin_UE, xmax_UE);
 THnSparseD *histo_jetAverageRho 	 = new THnSparseD("histo_jetAverageRho", "histo_jetAverageRho", 3, bins_UE, xmin_UE, xmax_UE);
