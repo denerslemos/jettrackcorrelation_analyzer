@@ -259,15 +259,27 @@ Find the leading and subleading jets, return jet leading and subleading pt, eta 
 pt: jet pT
 eta: jet Eta
 phi: jet Phi
+mass: jet Mass
+flavor: jet flavour
+jetindex: jet index in the loop
 leadpt: leading jet pT
 leadeta: leading jet Eta
 leadphi: leading jet Phi
+leadmass: leading jet Mass
+leadflavor: leading jet flavour
+leadindex: leading jet index in the loop
 sublpt: subleading jet pT
 subleta: subleading jet Eta
 sublphi: subleading jet Phi
+sublmass: subleading jet Mass
+sublflavor: subleading jet flavour
+sublindex: subleading jet index in the loop
 thrdpt: third jet pT
 thrdeta: third jet Eta
 thrdphi: third jet Phi
+thrdmass: third jet Mass
+thrdflavor: third jet flavour
+thrdindex: third jet index in the loop
 */
 void find_leading_subleading_third(float pt, float eta, float phi, float mass, float flavor, int jetindex, float &leadpt, float &leadeta, float &leadphi, float &leadmass, float &leadflavor, int &leadindex, float &sublpt, float &subleta, float &sublphi, float &sublmass, float &sublflavor, int &sublindex, float &thrdpt, float &thrdeta, float &thrdphi, float &thrdmass, float &thrdflavor, int &thrdindex){
     if( pt > leadpt ) {
@@ -501,7 +513,7 @@ void twoparticlecorrelation(std::vector<TVector3> tracks, std::vector<double> tr
 
 
 /*
-Get underlying events based on Rho variable
+Get area-based underlying events using rho variable (from Yi)
 --> Arguments
 etamin: min eta strip
 etamax: max eta strip

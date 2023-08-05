@@ -303,9 +303,9 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
         tree->SetBranchAddress("refeta", &refeta);
         tree->SetBranchStatus("refphi", 1);
         tree->SetBranchAddress("refphi", &refphi);
-        tree->SetBranchStatus("refparton_flavor", 1);
         tree->SetBranchStatus("refm", 1);
         tree->SetBranchAddress("refm", &refmass);
+        tree->SetBranchStatus("refparton_flavor", 1);
         tree->SetBranchAddress("refparton_flavor", &refparton_flavor);
         tree->SetBranchStatus("refparton_flavorForB", 1);
         tree->SetBranchAddress("refparton_flavorForB", &refparton_flavorForB);
@@ -384,14 +384,13 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
     }
     
     
-    if(colliding_system=="pPb" && colliding_energy == 8160){
-        tree->SetBranchStatus("etaMin", 1);
-        tree->SetBranchStatus("etaMax", 1);
-        tree->SetBranchStatus("rho", 1);
-        tree->SetBranchAddress("etaMin", &etamin);
-        tree->SetBranchAddress("etaMax", &etamax);
-        tree->SetBranchAddress("rho", &rho);
-    }
+    tree->SetBranchStatus("etaMin", 1);
+    tree->SetBranchStatus("etaMax", 1);
+    tree->SetBranchStatus("rho", 1);
+    tree->SetBranchAddress("etaMin", &etamin);
+    tree->SetBranchAddress("etaMax", &etamax);
+    tree->SetBranchAddress("rho", &rho);
+
     
 
 }
