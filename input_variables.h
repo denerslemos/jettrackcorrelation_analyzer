@@ -42,6 +42,7 @@ const TString jet_collection = "ak4PFJetAnalyzer"; // jet collection in forest
 bool dojettrigger = false; // apply jet trigger
 TString jet_trigger = "HLT_PAAK4PFJet80_Eta5p1_v3"; // jet trigger in forest 
 const float JetR = 0.4;
+const bool doUE_areabased = false;
 const float jet_pt_min_cut = 60.0; // jet min pT cut 
 const float jet_pt_max_cut = 8160.0; // jet max pT cut 
 const float jet_eta_min_cut = -1.0; // jet min eta cut 
@@ -58,8 +59,8 @@ const bool use_WTA = false; // use WTA or E-Scheme axis
 const float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation only
 const float leading_pT_min = 100.0; //used for jet leading and subleading correlation and jet quenching analysis
 const float subleading_pT_min = 50.0; //used for jet leading and subleading correlation and jet quenching analysis
-//const std::vector<double> pt_ave_bins{75.0, 85.0, 95.0, 105.0, 115.0, 125.0, 150.0, 200.0, 250.0, 300.0, 400.0, 1000000.0}; //removed
 const bool do_thirdjet_removal = false; // remove third jet
+const int thirdjet_removal_method = 0; // remove third jet methods --> 0: same as HIN-19-013 (third jet pT > 0.5 * subleading jet pt for all events); 1: remove third jet pT > 0.5 * subleading jet pt for dijet events only; 2: remove third jet pT > 0.5 * subleading jet pt when subleading and third jets are close in phase space;
 const float dijetetamax = 3.0; // maximum dijet eta
 const float trackmaxpt = 0.0; // maximum track pT inside of a jet
 
@@ -78,6 +79,10 @@ const float jet_fwd_eta_max_cut = 2.4; // jet fwd  min eta cut
 const float jet_bkw_eta_min_cut = -3.3; // jet fwd min eta cut 
 const float jet_bkw_eta_max_cut = -2.1; // jet fwd  min eta cut 
 
+// Unfolding
+const bool do_unfolding = false; // jet unfolding
+
+
 // if we want to make Xj or Aj selections [0,1] are full inclusive
 const bool do_Xj_or_Ajcut = false;
 const float xjmin = 0.0;//xj minimum
@@ -88,8 +93,6 @@ const float Ajmax = 1.0;//Aj maximum
 //============= Extra dependency =========================
 // for pPb, we are using Pb side energy in HF
 const std::vector<double> extra_bins{0.0,3.0,9.0,11.0,14.0,17.0,22.0,29.0,35.0,300.0}; //extra bins (if use HF 4 < |eta| < 5.2)
-//const std::vector<double> extra_bins{0.0,10.0,24.0,30.0,39.0,45.0,56.0,73.0,89.0,109.0,123.0,500.0}; //extra bins (if use full HF) as centrality
-//const std::vector<double> extra_bins{0.0,20.0,25.0,30.0,40.0,70.0,120.0,1000.0}; //extra bins (if use HF 4 < |eta| < 5.2) as previous CMS analysis
 //=========================================================
 
 //============= Track information =========================
