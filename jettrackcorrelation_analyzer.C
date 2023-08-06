@@ -20,7 +20,7 @@ MCSim: 0 for data and > 0 for MC
 pthatmin: pthat min cut for MC only
 pthatmax: pthat max cut for MC only
 */
-void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int MCSim, float pthatmin, float pthatmax){
+void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int MCSim, float pthatmin, float pthatmax, float weight){
 
 	TApplication *a = new TApplication("a", 0, 0); // avoid issues with corrupted files
 
@@ -219,7 +219,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		int genmult;
 		if(is_MC) genmult = get_simple_mult_gen(colliding_system, sNN_energy_GeV, year_of_datataking, (int) gen_trkpt->size(), gen_trketa, gen_trkpt, gen_trkchg); // gen multiplicity (only pt and eta cuts)
 		if(mult < multiplicity_centrality_bins[0] || mult > multiplicity_centrality_bins[multiplicity_centrality_bins.size()-1])continue; //centrality of multiplicity range
-		//int multcentbin = (int) find_my_bin(multiplicity_centrality_bins, (float) mult);
 		double multcentbin = (double) mult;
 		Nevents->Fill(5);
 	
@@ -240,11 +239,12 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 		//  add extra dependency
 		float extra_variable = hfminusEta4;
-		//int extrabin = (int) find_my_bin(extra_bins, (double) extra_variable);
 		double extrabin = (double) extra_variable;
 
 		// event weight(s), this must be applied in all histograms
-		double event_weight = get_event_weight(nevents,is_MC, use_centrality, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, vertexz, mult, weight, pthat, extra_variable, is_embedded, is_multdep); // get the event weight
+		double event_weight = get_event_weight(nev,is_MC, use_centrality, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, vertexz, mult, weight, pthat, extra_variable, is_embedded, is_multdep); // get the event weight
+
+		event_weight = event_weight*(weight/nev);
 
 		// Fill vertex, pthat and multiplicity/centrality histograms
 		multiplicity->Fill(mult);
@@ -357,7 +357,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			double trk_etamix_weight = 1.0;// set to one, not useful so far
 			track_w_reco.push_back(trk_weight*trk_etamix_weight); // save weight to apply in the mixing
 
-			//int trackbin = (int) find_my_bin(trk_pt_bins, (float) trk_pt);
 			double trackbin = (double) trk_pt;
 			if(colliding_system=="pPb" && year_of_datataking==2016 && do_flow){
 				//event plane information
@@ -436,8 +435,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double extraResolution = TMath::Sqrt(TMath::Max(resolution_factor*resolution_factor-1.0,0.0)); // found jet resolution
 				double sigma_smear = extraResolution*JetSmear->Eval(jet_pt_corr); // some % worst --> from JetMET
 				double mu_smar = 1.0;
-				auto rand = new TRandom2();
-				double smear = rand->Gaus(mu_smar,sigma_smear);
+				double smear = gRandom->Gaus(mu_smar,sigma_smear);
+				while( smear < 0 ){smear = gRandom->Gaus(mu_smar,sigma_smear);}
 				jet_pt_corr = jet_pt_corr*smear;	
 					
 			}
@@ -902,7 +901,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double Aj_ref = asymmetry(leadrefjet_pt,sublrefjet_pt);
 				double Xj_ref = xjvar(leadrefjet_pt,sublrefjet_pt);
 				float ptdijet = 0.5*(leadrefjet_pt + sublrefjet_pt);
-				//int ptdijetbin = (int) find_my_bin(pt_ave_bins, (float) ptdijet);
 				double ptdijetbin = (double) ptdijet;
 				double x_ref[6]={Xj_ref,Aj_ref,delta_phi_ref,(double)multcentbin,(double)ptdijetbin,(double)extrabin};
 
@@ -1105,7 +1103,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double trk_etamix_weight = 1.0;//get_trketamix_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, gtrk_eta, false); // weight to deal with Seagull (test)
 				track_w_gen.push_back(trk_etamix_weight); // save weight to apply in the mixing
 				
-				//int trackbin = (int) find_my_bin(trk_pt_bins, (float) gtrk_pt);
 				double trackbin = (double) gtrk_pt;
 				if(do_flow){
 					//event plane information

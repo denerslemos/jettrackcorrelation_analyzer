@@ -8,4 +8,4 @@ mkdir -p cond
 echo "Submit skim jobs at "
 echo PWD: $PWD
 
-root -l -b -q "jettrackcorrelation_analyzer.C(\"$1\",\"$2\",$3,$4,$5)"
+root -l -b -q "jettrackcorrelation_analyzer.C(\"$1\",\"$2\",$3,$4,$5,$6)"

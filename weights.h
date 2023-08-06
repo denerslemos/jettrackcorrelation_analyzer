@@ -13,7 +13,7 @@ vz: event Vz
 weighttree: pt hat weight
 leadjetpt: leading jet pT
 */
-float get_event_weight(int nevents, bool isMC, bool use_centrality, string system, int year, int energy, float vz, int mult, float weighttree, float leadjetpt, float extraquantity, bool is_embedded, bool is_multdep){
+float get_event_weight(float nevents, bool isMC, bool use_centrality, string system, int year, int energy, float vz, int mult, float weighttree, float leadjetpt, float extraquantity, bool is_embedded, bool is_multdep){
 
 	float vzweight = 1.0;
 	float multweight = 1.0;
@@ -55,7 +55,7 @@ float get_event_weight(int nevents, bool isMC, bool use_centrality, string syste
 	}
 
     if(isMC && !use_centrality && system == "pPb" && energy == 8160 && year == 2016){ // pPb data
-
+		/*
 		if(leadjetpt > 15.0 && leadjetpt <= 30.){evtweight = 1.0404701e-06 * 961104;}
 		else if(leadjetpt > 30. && leadjetpt <= 50.){evtweight = 7.7966624e-08 * 952110;}
 		else if(leadjetpt > 50. && leadjetpt <= 80.){evtweight = 1.0016052e-08 * 952554;}
@@ -67,6 +67,7 @@ float get_event_weight(int nevents, bool isMC, bool use_centrality, string syste
 		else if(leadjetpt > 370. && leadjetpt <= 460.){evtweight = 7.6612402e-13 * 958160;}
 		else if(leadjetpt > 460. && leadjetpt <= 540.){evtweight = 2.1341026e-13 * 981427;}
 		else if(leadjetpt > 540.){evtweight = 7.9191586e-14 * 1000000;}
+		*/
 		evtweight = (float) evtweight / nevents;
 		// Vz weighting
 		TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
