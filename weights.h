@@ -67,7 +67,6 @@ float get_event_weight(float nevents, bool isMC, bool use_centrality, string sys
 		else if(leadjetpt > 370. && leadjetpt <= 460.){evtweight = 7.6612402e-13 * 958160;}
 		else if(leadjetpt > 460. && leadjetpt <= 540.){evtweight = 2.1341026e-13 * 981427;}
 		else if(leadjetpt > 540.){evtweight = 7.9191586e-14 * 1000000;}
-		*/
 		evtweight = (float) evtweight / nevents;
 		// Vz weighting
 		TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
@@ -129,6 +128,7 @@ float get_event_weight(float nevents, bool isMC, bool use_centrality, string sys
 			}
 		}
 		multweight = 1./multweight;
+    	*/
     	}
 	totalweight = evtweight*multweight*vzweight*multefficiency*jetefficiency;
 	return totalweight;
@@ -147,14 +147,13 @@ float get_jetpT_weight(bool isMC, string system, int year, int energy, float jet
 
 	float jetptweight = 1.0;
 
-	// JetPtWeightFunction is derived from MC vs data jet pT spectra.
-/*
+	// JetPtWeightFunction is derived from MC vs data jet pT spectra for pp at 5.02 TeV
 	if(isMC && system == "pp" && energy == 5020 && year == 2017){
 		TF1 *JetPtWeightFunction = new TF1("JetPtWeightFunction", "pol3", 0.0, 500.0); //Derived from all jets above 120 GeV and JECv6
 	    JetPtWeightFunction->SetParameters(0.79572,0.0021861,-6.35407e-06,6.66435e-09);
 		jetptweight = JetPtWeightFunction->Eval(jetpt);
 	}
-*/
+
 	return jetptweight;
 
 }

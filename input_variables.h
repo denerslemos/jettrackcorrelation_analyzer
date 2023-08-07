@@ -38,6 +38,7 @@ const bool do_dijetstudies = true; // quantities for jet quenching searches
 
 //============= Jet information =========================== 
 
+const float pthatsafety = 10000000.0; // gen pT > pthatsafety*pthat is removed; high number means no removal at all
 const TString jet_collection = "ak4PFJetAnalyzer"; // jet collection in forest
 bool dojettrigger = false; // apply jet trigger
 TString jet_trigger = "HLT_PAAK4PFJet80_Eta5p1_v3"; // jet trigger in forest 
@@ -53,8 +54,8 @@ const TString JEU_file = "Summer16_23Sep2016HV4_DATA_Uncertainty_AK4PF.txt"; //J
 const TString JER_sys_file = "sys_resolution_Summer16_25nsV1_MC_SF_AK4PF.root"; //JEU file (future)
 const bool do_jeu_up = false; // for JES systematics
 const bool do_jeu_down = false; // for JES systematics
-const bool do_jer_up = false; // for JER systematics
-const bool do_jer_down = false; // for JER systematics
+const bool do_jer_up = true; // for JER systematics
+const bool do_jer_down = true; // for JER systematics
 const bool use_WTA = false; // use WTA or E-Scheme axis 
 const float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation only
 const float leading_pT_min = 100.0; //used for jet leading and subleading correlation and jet quenching analysis

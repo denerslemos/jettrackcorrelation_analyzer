@@ -208,7 +208,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 		//pthat (MC only)
 		if(do_pthatcut){if(pthat <= pthatmin || pthat > pthatmax) continue;} //pthat ranges
-		if(is_MC){if(gen_jtpt[0] > 3.*pthat) continue;} //safety to remove some high-pT jets from low pthat samples 
+		if(is_MC){if(gen_jtpt[0] > pthatsafety*pthat) continue;} //safety to remove some high-pT jets from low pthat samples 
 		Nevents->Fill(4);
 
 		//multiplicity or centrality

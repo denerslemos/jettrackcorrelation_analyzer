@@ -386,7 +386,6 @@ void correlation(std::vector<TVector3> jets, std::vector<double> jets_w, std::ve
 		}
 		double xinjet[3]={(double)injettrk, (double)multcentbin,(double)extrabin}; histo_injet->Fill(xinjet,jet_weight*event_weight);
 
-
 		// get rotation histograms 
 		if(do_rotation){
 			for(int c = 0; c < N_rot; c++){
