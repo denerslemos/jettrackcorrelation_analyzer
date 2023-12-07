@@ -1383,12 +1383,12 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double delta_phi_13_gen = deltaphi2PC(leadgenjet_phi,thirdgenjet_phi);
 							double delta_eta_13_gen = deltaeta(leadgenjet_eta,thirdgenjet_eta);
 							double x_3rdjet_13_gen[5] = {Xj_13_gen, delta_phi_13_gen, delta_eta_13_gen, (double)multcentbin, (double)extrabin};
-							if( thirdgenjet_pt >= 0 ) hist_gen_lead_reco_3rdjet->Fill(x_3rdjet_13_gen,event_weight);
+							if( thirdgenjet_pt >= 0 ) hist_gen_lead_gen_3rdjet->Fill(x_3rdjet_13_gen,event_weight);
 							double Xj_23_gen = xjvar(sublgenjet_pt,thirdgenjet_pt);						
 							double delta_phi_23_gen = deltaphi2PC(sublgenjet_phi,thirdgenjet_phi);						
 							double delta_eta_23_gen = deltaeta(sublgenjet_eta,thirdgenjet_eta);						
 							double x_3rdjet_23_gen[5] = {Xj_23_gen, delta_phi_23_gen, delta_eta_23_gen, (double)multcentbin, (double)extrabin};
-							if( thirdgenjet_pt >= 0 ) hist_gen_sublead_reco_3rdjet->Fill(x_3rdjet_23_gen,event_weight);
+							if( thirdgenjet_pt >= 0 ) hist_gen_sublead_gen_3rdjet->Fill(x_3rdjet_23_gen,event_weight);
 
 							// Fill leading and subleading jet QA histograms
 							double x_lead[5]={leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,(double) multcentbin,(double)extrabin}; 
