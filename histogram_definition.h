@@ -212,7 +212,6 @@ THnSparseD *Dphi_GEN_EP4_flat_trk_minus = new THnSparseD("Dphi_GEN_EP4_flat_trk_
 THnSparseD *Dphi_GEN_EP4_flat_trk_plus = new THnSparseD("Dphi_GEN_EP4_flat_trk_plus", "Dphi_GEN_EP4_flat_trk_plus", 4, bins_TRKEP, xmin_TRKEP, xmax_TRKEP);
 
 // until here it is fine
-
 // Jet histograms
 // Number of jets per event
 int	bins_NJETS[3]      =   {  30   ,   multbinsize-1    		 					 ,  extrabinsize-1};
@@ -235,7 +234,7 @@ double xmax_trkmaxjet[3]   =   {  1.0   ,   multiplicity_centrality_bins[multbin
 THnSparseD *jettrackmaxptinjethisto = new THnSparseD("jettrackmaxptinjethisto", "jettrackmaxptinjethisto", 3, bins_trkmaxjet, xmin_trkmaxjet, xmax_trkmaxjet);
 
 // UE histogram
-// Axis : 0 -> ..., 1 -> multiplicity bins, 2 -> extra dependence bins
+// Axis : 0 -> UE, 1 -> multiplicity bins, 2 -> extra dependence bins
 int	bins_UE[3]      =   {  1000  	,   multbinsize-1    							    ,  extrabinsize-1};
 double xmin_UE[3]   =   {  -1000.0   	,   multiplicity_centrality_bins[0]  			    ,  extra_bins[0]};
 double xmax_UE[3]   =   {  1000.0   ,   multiplicity_centrality_bins[multbinsize-1]   	,  extra_bins[extrabinsize-1]};
@@ -379,6 +378,18 @@ THnSparseD *hist_xjclos_removesome_weighted = new THnSparseD("hist_xjclos_remove
 
 
 // --------------------------------------------------------------------------------------------------------
+// 3rd jet studies
+// Axis : 0 -> XJ, 1 -> delta phi, 2 --> delta eta, 3 -> multiplicity, 4 -> extra dependency
+int	bins_3rdjet[5]   =      { nXjAjBins  , 32			, 40	, multbinsize-1		  	 					   ,  extrabinsize-1};
+double xmin_3rdjet[5]   =   { 0.0 		 , -TMath::Pi()	, -4.0	, multiplicity_centrality_bins[0]		   	   ,  extra_bins[0]};
+double xmax_3rdjet[5]   =   { 1.0  		 , TMath::Pi()  , 4.0	, multiplicity_centrality_bins[multbinsize-1]  ,  extra_bins[extrabinsize-1]};
+THnSparseD *hist_reco_lead_reco_3rdjet = new THnSparseD("hist_reco_lead_reco_3rdjet", "hist_reco_lead_reco_3rdjet", 5, bins_3rdjet, xmin_3rdjet, xmax_3rdjet);
+THnSparseD *hist_reco_sublead_reco_3rdjet = new THnSparseD("hist_reco_sublead_reco_3rdjet", "hist_reco_sublead_reco_3rdjet", 5, bins_3rdjet, xmin_3rdjet, xmax_3rdjet);
+THnSparseD *hist_ref_lead_reco_3rdjet = new THnSparseD("hist_ref_lead_reco_3rdjet", "hist_ref_lead_reco_3rdjet", 5, bins_3rdjet, xmin_3rdjet, xmax_3rdjet);
+THnSparseD *hist_ref_sublead_reco_3rdjet = new THnSparseD("hist_ref_sublead_reco_3rdjet", "hist_ref_sublead_reco_3rdjet", 5, bins_3rdjet, xmin_3rdjet, xmax_3rdjet);
+THnSparseD *hist_gen_lead_reco_3rdjet = new THnSparseD("hist_gen_lead_reco_3rdjet", "hist_gen_lead_reco_3rdjet", 5, bins_3rdjet, xmin_3rdjet, xmax_3rdjet);
+THnSparseD *hist_gen_sublead_reco_3rdjet = new THnSparseD("hist_gen_sublead_reco_3rdjet", "hist_gen_sublead_reco_3rdjet", 5, bins_3rdjet, xmin_3rdjet, xmax_3rdjet);
+
 // Quenching studies
 // Axis : 0 -> Xj, 1 -> Aj, 2 -> delta phi, 3 -> multiplicity , 4 -> jet pT average, 5 -> extra dependency
 int	bins_quenc[6]   =      { nXjAjBins   , nXjAjBins	  , nDphiBins		, multbinsize-1		  	 					  ,	 nPtaveBins  ,  extrabinsize-1};
@@ -1862,6 +1873,26 @@ hist_gen_gen_2pcorrelation_signal_subg0->GetAxis(4)->Set(bins_2pc[4],Extrabins);
 hist_gen_gen_2pcorrelation_signal_subcross->GetAxis(4)->Set(bins_2pc[4],Extrabins);
 hist_gen_gen_2pcorrelation_mixing->GetAxis(4)->Set(bins_2pc[4],Extrabins);
 
+// 3rd jet studies
+hist_reco_lead_reco_3rdjet->GetAxis(0)->Set(bins_3rdjet[0],XjBins);
+hist_reco_sublead_reco_3rdjet->GetAxis(0)->Set(bins_3rdjet[0],XjBins);
+hist_ref_lead_reco_3rdjet->GetAxis(0)->Set(bins_3rdjet[0],XjBins);
+hist_ref_sublead_reco_3rdjet->GetAxis(0)->Set(bins_3rdjet[0],XjBins);
+hist_gen_lead_reco_3rdjet->GetAxis(0)->Set(bins_3rdjet[0],XjBins);
+hist_gen_sublead_reco_3rdjet->GetAxis(0)->Set(bins_3rdjet[0],XjBins);
+hist_reco_lead_reco_3rdjet->GetAxis(3)->Set(bins_3rdjet[3],MultCentbins);
+hist_reco_sublead_reco_3rdjet->GetAxis(3)->Set(bins_3rdjet[3],MultCentbins);
+hist_ref_lead_reco_3rdjet->GetAxis(3)->Set(bins_3rdjet[3],MultCentbins);
+hist_ref_sublead_reco_3rdjet->GetAxis(3)->Set(bins_3rdjet[3],MultCentbins);
+hist_gen_lead_reco_3rdjet->GetAxis(3)->Set(bins_3rdjet[3],MultCentbins);
+hist_gen_sublead_reco_3rdjet->GetAxis(3)->Set(bins_3rdjet[3],MultCentbins);
+hist_reco_lead_reco_3rdjet->GetAxis(4)->Set(bins_3rdjet[4],Extrabins);
+hist_reco_sublead_reco_3rdjet->GetAxis(4)->Set(bins_3rdjet[4],Extrabins);
+hist_ref_lead_reco_3rdjet->GetAxis(4)->Set(bins_3rdjet[4],Extrabins);
+hist_ref_sublead_reco_3rdjet->GetAxis(4)->Set(bins_3rdjet[4],Extrabins);
+hist_gen_lead_reco_3rdjet->GetAxis(4)->Set(bins_3rdjet[4],Extrabins);
+hist_gen_sublead_reco_3rdjet->GetAxis(4)->Set(bins_3rdjet[4],Extrabins);
+
 //Sumw2 starts here!
 Nevents->Sumw2();
 Nev_recoreco->Sumw2();
@@ -2284,6 +2315,13 @@ hist_gen_gen_2pcorrelation_signal_subg0->Sumw2();
 hist_gen_gen_2pcorrelation_signal_subcross->Sumw2();
 hist_gen_gen_2pcorrelation_mixing->Sumw2();
 
+hist_reco_lead_reco_3rdjet->Sumw2();
+hist_reco_sublead_reco_3rdjet->Sumw2();
+hist_ref_lead_reco_3rdjet->Sumw2();
+hist_ref_sublead_reco_3rdjet->Sumw2();
+hist_gen_lead_reco_3rdjet->Sumw2();
+hist_gen_sublead_reco_3rdjet->Sumw2();
+
 }
 
 // write QA histograms
@@ -2662,6 +2700,8 @@ void w_dijet_hist(bool isMC){
 	hist_etaDijet_reco->Write();
 	hist_etaDijet_CM_reco->Write();
 	hist_yDijet_CM_reco->Write();
+	hist_reco_lead_reco_3rdjet->Write();
+	hist_reco_sublead_reco_3rdjet->Write();
 	if(isMC){
 		hist_gen_lead_gen_subl_quench_mid_mid->Write();
 		hist_gen_lead_gen_subl_quench_mid_fwd->Write();
@@ -2759,6 +2799,10 @@ void w_dijet_hist(bool isMC){
 		hist_etaDijet_gen->Write();
 		hist_etaDijet_CM_gen->Write();
 		hist_yDijet_CM_gen->Write();
+		hist_ref_lead_reco_3rdjet->Write();
+		hist_ref_sublead_reco_3rdjet->Write();
+		hist_gen_lead_reco_3rdjet->Write();
+		hist_gen_sublead_reco_3rdjet->Write();
 	}
 }
 
