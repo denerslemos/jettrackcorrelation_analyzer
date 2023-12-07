@@ -4,7 +4,7 @@
 import os.path
 import optparse
 
-outputfolder = "/eos/user/d/ddesouza/Dijet_histos"
+outputfolder = "/eos/user/d/ddesouza/Dijethistos"
 
 os.system("python Clean_pPb.py")
 

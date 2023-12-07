@@ -46,7 +46,7 @@ command_lines = '''universe   = vanilla
 getenv     = True
 executable = sub.sh
 +JobFlavour           = "'''+str(jobFlavour)+'''"
-requirements = (OpSysAndVer =?= "CentOS7")
+requirements = ((OpSysAndVer =?= "AlmaLinux9") && (CERNEnvironment =?= "qa"))
 RequestCpus = '''+str(nCpu)+'''
 '''
 
