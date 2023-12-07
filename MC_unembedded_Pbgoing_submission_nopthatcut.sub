@@ -2,71 +2,71 @@ universe   = vanilla
 getenv     = True
 executable = sub.sh
 +JobFlavour           = "workday"
-requirements = (OpSysAndVer =?= "CentOS7")
+requirements = ((OpSysAndVer =?= "AlmaLinux9") && (CERNEnvironment =?= "qa"))
 RequestCpus = 8
 
 log        = cond/pthat15_unemb_Pbgoing_nocut.log
 output     = cond/pthat15_unemb_Pbgoing_nocut.out
 error      = cond/pthat15_unemb_Pbgoing_nocut.err
-arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat15_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unemb_nocut_Pbp_15 1 15 8160 0.99999997
+arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat15_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unembedded/Unemb_nocut_Pbp_15 1 15 8160 0.99999997
 queue
 
 log        = cond/pthat30_unemb_Pbgoing_nocut.log
 output     = cond/pthat30_unemb_Pbgoing_nocut.out
 error      = cond/pthat30_unemb_Pbgoing_nocut.err
-arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat30_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unemb_nocut_Pbp_30 1 30 8160 0.074232802
+arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat30_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unembedded/Unemb_nocut_Pbp_30 1 30 8160 0.074232802
 queue
 
 log        = cond/pthat50_unemb_Pbgoing_nocut.log
 output     = cond/pthat50_unemb_Pbgoing_nocut.out
 error      = cond/pthat50_unemb_Pbgoing_nocut.err
-arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat50_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unemb_nocut_Pbp_50 1 50 8160 0.0095408304
+arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat50_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unembedded/Unemb_nocut_Pbp_50 1 50 8160 0.0095408304
 queue
 
 log        = cond/pthat80_unemb_Pbgoing_nocut.log
 output     = cond/pthat80_unemb_Pbgoing_nocut.out
 error      = cond/pthat80_unemb_Pbgoing_nocut.err
-arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat80_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unemb_nocut_Pbp_80 1 80 8160 0.0012977183
+arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat80_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unembedded/Unemb_nocut_Pbp_80 1 80 8160 0.0012977183
 queue
 
 log        = cond/pthat120_unemb_Pbgoing_nocut.log
 output     = cond/pthat120_unemb_Pbgoing_nocut.out
 error      = cond/pthat120_unemb_Pbgoing_nocut.err
-arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat120_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unemb_nocut_Pbp_120 1 120 8160 0.00021848571
+arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat120_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unembedded/Unemb_nocut_Pbp_120 1 120 8160 0.00021848571
 queue
 
 log        = cond/pthat170_unemb_Pbgoing_nocut.log
 output     = cond/pthat170_unemb_Pbgoing_nocut.out
 error      = cond/pthat170_unemb_Pbgoing_nocut.err
-arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat170_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unemb_nocut_Pbp_170 1 170 8160 4.0848861e-05
+arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat170_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unembedded/Unemb_nocut_Pbp_170 1 170 8160 4.0848861e-05
 queue
 
 log        = cond/pthat220_unemb_Pbgoing_nocut.log
 output     = cond/pthat220_unemb_Pbgoing_nocut.out
 error      = cond/pthat220_unemb_Pbgoing_nocut.err
-arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat220_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unemb_nocut_Pbp_220 1 220 8160 1.1474575e-05
+arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat220_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unembedded/Unemb_nocut_Pbp_220 1 220 8160 1.1474575e-05
 queue
 
 log        = cond/pthat280_unemb_Pbgoing_nocut.log
 output     = cond/pthat280_unemb_Pbgoing_nocut.out
 error      = cond/pthat280_unemb_Pbgoing_nocut.err
-arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat280_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unemb_nocut_Pbp_280 1 280 8160 3.3198812e-06
+arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat280_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unembedded/Unemb_nocut_Pbp_280 1 280 8160 3.3198812e-06
 queue
 
 log        = cond/pthat370_unemb_Pbgoing_nocut.log
 output     = cond/pthat370_unemb_Pbgoing_nocut.out
 error      = cond/pthat370_unemb_Pbgoing_nocut.err
-arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat370_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unemb_nocut_Pbp_370 1 370 8160 7.3406939e-07
+arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat370_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unembedded/Unemb_nocut_Pbp_370 1 370 8160 7.3406939e-07
 queue
 
 log        = cond/pthat460_unemb_Pbgoing_nocut.log
 output     = cond/pthat460_unemb_Pbgoing_nocut.out
 error      = cond/pthat460_unemb_Pbgoing_nocut.err
-arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat460_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unemb_nocut_Pbp_460 1 460 8160 2.0944659e-07
+arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat460_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unembedded/Unemb_nocut_Pbp_460 1 460 8160 2.0944659e-07
 queue
 
 log        = cond/pthat540_unemb_Pbgoing_nocut.log
 output     = cond/pthat540_unemb_Pbgoing_nocut.out
 error      = cond/pthat540_unemb_Pbgoing_nocut.err
-arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat540_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unemb_nocut_Pbp_540 1 540 8160 7.9191586e-08
+arguments = files_input/pPb_8160/MC_Unembedded/Pbgoing/MC_pthat540_Pbgoing_unembedded.txt /eos/user/d/ddesouza/JetResults/Unembedded/Unemb_nocut_Pbp_540 1 540 8160 7.9191586e-08
 queue

@@ -842,8 +842,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					double x_JES_ratio_reco_vs_ref_leading[6]={JES_ratio_reco_vs_ref_leading,refpt[leadrecojet_index],ref_eta_lead,(double)leadrecojet_flavor,(double)multcentbin,(double) extrabin}; 
 					double x_JES_ratio_reco_vs_ref_sleading[6]={JES_ratio_reco_vs_ref_subleading,refpt[sublrecojet_index],ref_eta_subl,(double)sublrecojet_flavor,(double)multcentbin,(double) extrabin}; 
 
- 	 			    double x_unf_lead[6]={leadrecojet_pt,refpt[leadrecojet_index], leadrecojet_eta, ref_eta_lead, (double)multcentbin,(double) extrabin}; 
-					double x_unf_subl[6]={sublrecojet_pt,refpt[sublrecojet_index], sublrecojet_eta, ref_eta_subl,(double)multcentbin,(double) extrabin}; 												 
+ 	 			    double x_unf_lead[6]={leadrecojet_pt, refpt[leadrecojet_index], leadrecojet_eta, ref_eta_lead, (double)multcentbin,(double) extrabin}; 
+					double x_unf_subl[6]={sublrecojet_pt, refpt[sublrecojet_index], sublrecojet_eta, ref_eta_subl,(double)multcentbin,(double) extrabin}; 												 
 
 					double avepT_reco = (leadrecojet_pt+sublrecojet_pt)/2.;
 					double avepT_ref = (refpt[leadrecojet_index]+refpt[sublrecojet_index])/2.;					 

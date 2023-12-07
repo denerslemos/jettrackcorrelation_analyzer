@@ -380,9 +380,9 @@ THnSparseD *hist_xjclos_removesome_weighted = new THnSparseD("hist_xjclos_remove
 // --------------------------------------------------------------------------------------------------------
 // 3rd jet studies
 // Axis : 0 -> XJ, 1 -> delta phi, 2 --> delta eta, 3 -> multiplicity, 4 -> extra dependency
-int	bins_3rdjet[5]   =      { nXjAjBins  , 32			, 40	, multbinsize-1		  	 					   ,  extrabinsize-1};
-double xmin_3rdjet[5]   =   { 0.0 		 , -TMath::Pi()	, -4.0	, multiplicity_centrality_bins[0]		   	   ,  extra_bins[0]};
-double xmax_3rdjet[5]   =   { 1.0  		 , TMath::Pi()  , 4.0	, multiplicity_centrality_bins[multbinsize-1]  ,  extra_bins[extrabinsize-1]};
+int	bins_3rdjet[5]   =      { nXjAjBins  , 32			    	, 40	, multbinsize-1		  	 					   ,  extrabinsize-1};
+double xmin_3rdjet[5]   =   { 0.0 		 , -TMath::Pi()/2.0		, -4.0	, multiplicity_centrality_bins[0]		   	   ,  extra_bins[0]};
+double xmax_3rdjet[5]   =   { 1.0  		 , 3.0*TMath::Pi()/2.0  , 4.0	, multiplicity_centrality_bins[multbinsize-1]  ,  extra_bins[extrabinsize-1]};
 THnSparseD *hist_reco_lead_reco_3rdjet = new THnSparseD("hist_reco_lead_reco_3rdjet", "hist_reco_lead_reco_3rdjet", 5, bins_3rdjet, xmin_3rdjet, xmax_3rdjet);
 THnSparseD *hist_reco_sublead_reco_3rdjet = new THnSparseD("hist_reco_sublead_reco_3rdjet", "hist_reco_sublead_reco_3rdjet", 5, bins_3rdjet, xmin_3rdjet, xmax_3rdjet);
 THnSparseD *hist_ref_lead_ref_3rdjet = new THnSparseD("hist_ref_lead_ref_3rdjet", "hist_ref_lead_ref_3rdjet", 5, bins_3rdjet, xmin_3rdjet, xmax_3rdjet);
