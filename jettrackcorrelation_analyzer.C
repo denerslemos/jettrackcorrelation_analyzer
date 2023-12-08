@@ -387,14 +387,14 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		} // End loop over tracks
 
 		// to find leading, subleading and third jets
-		float leadrecojet_pt=-999, leadrecojet_eta=-999, leadrecojet_phi=-999, leadrecojet_mass=-999, leadrecojet_flavor=-999;  // leading jet quantities
-		float sublrecojet_pt=-999, sublrecojet_eta=-999, sublrecojet_phi=-999, sublrecojet_mass=-999, sublrecojet_flavor=-999; // subleading jet quantities
-		float thirdrecojet_pt=-999, thirdrecojet_eta=-999, thirdrecojet_phi=-999, thirdrecojet_mass=-999, thirdrecojet_flavor=-999; // third jet quantities
-		float leadrefjet_pt=-999, leadrefjet_eta=-999, leadrefjet_phi=-999, leadrefjet_mass=-999, leadrefjet_flavor=-999; // leading jet ref quantities
-		float sublrefjet_pt=-999, sublrefjet_eta=-999, sublrefjet_phi=-999, sublrefjet_mass=-999, sublrefjet_flavor=-999; // subleading jet ref quantities
-		float thirdrefjet_pt=-999, thirdrefjet_eta=-999, thirdrefjet_phi=-999, thirdrefjet_mass=-999, thirdrefjet_flavor=-999; // third jet quantities
-		int leadrecojet_index=-999, sublrecojet_index=-999, thirdrecojet_index=-999; // jet reco index
-		int leadrefjet_index=-999, sublrefjet_index=-999, thirdrefjet_index=-999; // jet ref index
+		float leadrecojet_pt=-99, leadrecojet_eta=-99, leadrecojet_phi=-99, leadrecojet_mass=-99, leadrecojet_flavor=-99;  // leading jet quantities
+		float sublrecojet_pt=-99, sublrecojet_eta=-99, sublrecojet_phi=-99, sublrecojet_mass=-99, sublrecojet_flavor=-99; // subleading jet quantities
+		float thirdrecojet_pt=-99, thirdrecojet_eta=-99, thirdrecojet_phi=-99, thirdrecojet_mass=-99, thirdrecojet_flavor=-99; // third jet quantities
+		float leadrefjet_pt=-99, leadrefjet_eta=-99, leadrefjet_phi=-99, leadrefjet_mass=-99, leadrefjet_flavor=-99; // leading jet ref quantities
+		float sublrefjet_pt=-99, sublrefjet_eta=-99, sublrefjet_phi=-99, sublrefjet_mass=-99, sublrefjet_flavor=-99; // subleading jet ref quantities
+		float thirdrefjet_pt=-99, thirdrefjet_eta=-99, thirdrefjet_phi=-99, thirdrefjet_mass=-99, thirdrefjet_flavor=-99; // third jet quantities
+		int leadrecojet_index=-99, sublrecojet_index=-99, thirdrecojet_index=-99; // jet reco index
+		int leadrefjet_index=-99, sublrefjet_index=-99, thirdrefjet_index=-99; // jet ref index
 				
 		bool isjetincluded = false;
 		int njets = 0;
@@ -402,7 +402,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		int jetsize = (int)nref; // number of jets in an event
 		// Start loop over jets
 		for (int j = 0; j < jetsize; j++){
-
+		
+			if(jteta[j] < -5.0 || jteta[j] > 5.0) continue;
 			if(trackMax[j] < trackmaxpt) continue; // Can be use to remove jets from low pT tracks
 			if(trackMax[j]/rawpt[j] < 0.01)continue; // Cut for jets with only very low pT particles
 			if(trackMax[j]/rawpt[j] > 0.98)continue; // Cut for jets where all the pT is taken by one track
@@ -512,6 +513,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			}
 
 			if(is_MC){ 
+
+    	        if(jet_rawpt < 0) continue;
+ 	            if(jet_pt_corr < 0) continue;
+                if(ref_eta < -5.0 || ref_eta > 5.0) continue; // max jet eta
 
 				float ref_pt = refpt[j];
 				float ref_eta = refeta[j];
@@ -811,7 +816,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			}
 		}
 
-		if(isdijet){
+		if(isdijet && leadrecojet_pt > 0 && sublrecojet_pt > 0){
 			multiplicity_withdijets_weighted->Fill(mult,event_weight);
 			reco_mult_withdijets_weighted->Fill(recomult, event_weight);
 			multiplicity_withdijets_weighted_at1->Fill(multat1, event_weight);
@@ -824,7 +829,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double x2D_hiHFEta4Sum_dijet[2]={hfplusEta4+hfminusEta4,(double) mult}; hfhistEta4Sum_dijet_weighted->Fill(x2D_hiHFEta4Sum_dijet,event_weight);
 			}
 			
-			if(is_MC && leadrecojet_index > -1 && sublrecojet_index > -1 && refpt[leadrecojet_index] > 0 && refpt[sublrecojet_index] > 0){
+			if(is_MC && leadrecojet_index >= 0 && sublrecojet_index >= 0 && refpt[leadrecojet_index] > 0 && refpt[sublrecojet_index] > 0){
+
+					
 
 					// add new etas here!
 					double ref_eta_lead = refeta[leadrecojet_index] + boost;  // In pPb case, for the center-of-mass correction if needed
@@ -856,16 +863,17 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					bool delta_phi_reco_LSL = fabs(deltaphi(leadrecojet_phi, sublrecojet_phi)) > leading_subleading_deltaphi_min;
 					bool delta_phi_ref_LSL = fabs(deltaphi(leadrefjet_phi, sublrefjet_phi)) > leading_subleading_deltaphi_min;
 
-					if(delta_phi_reco_LSL && delta_phi_ref_LSL){
-						 hist_leadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_ref_leading,event_weight*lrefjet_weight*ljet_weight);
-						 hist_subleadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_ref_sleading,event_weight*slrefjet_weight*sljet_weight);			 
-						 hist_leadjetptclos_weighted->Fill(x_unf_lead,event_weight*lrefjet_weight*ljet_weight);
-						 hist_subljetptclos_weighted->Fill(x_unf_subl,event_weight*slrefjet_weight*sljet_weight);
-						 hist_averjetptclos_weighted->Fill(x_unf_aver,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);
-						 hist_xjclos_weighted->Fill(x_unf_xj,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);					
-					}
+				    hist_leadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_ref_leading,event_weight*lrefjet_weight*ljet_weight);
+					hist_subleadjes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_ref_sleading,event_weight*slrefjet_weight*sljet_weight);			 
+					hist_leadjetptclos_weighted->Fill(x_unf_lead,event_weight*lrefjet_weight*ljet_weight);
+					hist_subljetptclos_weighted->Fill(x_unf_subl,event_weight*slrefjet_weight*sljet_weight);
+					hist_averjetptclos_weighted->Fill(x_unf_aver,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);
+					hist_xjclos_weighted->Fill(x_unf_xj,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);					
 
-					if(delta_phi_reco_LSL && delta_phi_ref_LSL && leadrecojet_index==leadrefjet_index && sublrecojet_index==sublrefjet_index){
+					cout << "leading reco idx: " << leadrecojet_index << " leading ref idx: " << leadrefjet_index << endl;
+					cout << "subleading reco idx: " << sublrecojet_index << " subleading ref idx: " << sublrefjet_index << endl;
+					
+					if(leadrecojet_index==leadrefjet_index && sublrecojet_index==sublrefjet_index){
 						 match++;
 						 hist_leadjes_reco_weighted->Fill(x_JES_ratio_reco_vs_ref_leading,event_weight*lrefjet_weight*ljet_weight);
 						 hist_subleadjes_reco_weighted->Fill(x_JES_ratio_reco_vs_ref_sleading,event_weight*slrefjet_weight*sljet_weight);
@@ -1149,10 +1157,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			}
 
 			// Start loop over gen jets
-			float leadgenjet_pt=-999, leadgenjet_eta=-999, leadgenjet_phi=-999, leadgenjet_mass=-999, leadgenjet_flavor=-999; // leading jet quantities
-			float sublgenjet_pt=-999, sublgenjet_eta=-999, sublgenjet_phi=-999, sublgenjet_mass=-999, sublgenjet_flavor=-999; // subleading jet quantities
-			float thirdgenjet_pt=-999, thirdgenjet_eta=-999, thirdgenjet_phi=-999, thirdgenjet_mass=-999, thirdgenjet_flavor=-999; // third jet quantities
-			int leadgenjet_index=-999, sublgenjet_index=-999, thirdgenjet_index=-999; // jet indexes
+			float leadgenjet_pt=-99, leadgenjet_eta=-99, leadgenjet_phi=-99, leadgenjet_mass=-99, leadgenjet_flavor=-99; // leading jet quantities
+			float sublgenjet_pt=-99, sublgenjet_eta=-99, sublgenjet_phi=-99, sublgenjet_mass=-99, sublgenjet_flavor=-99; // subleading jet quantities
+			float thirdgenjet_pt=-99, thirdgenjet_eta=-99, thirdgenjet_phi=-99, thirdgenjet_mass=-99, thirdgenjet_flavor=-99; // third jet quantities
+			int leadgenjet_index=-99, sublgenjet_index=-99, thirdgenjet_index=-99; // jet indexes
 			
 			bool isgjetincluded = false;
 
