@@ -734,6 +734,15 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					}
 					
 				}
+				
+				
+				// Fill 3rd jet histograms
+				double Xj_13_reco = xjvar(leadrecojet_pt,thirdrecojet_pt);	
+				double delta_phi_13_reco = fabs(deltaphi(leadrecojet_phi,thirdrecojet_phi));
+				double Xj_23_reco = xjvar(sublrecojet_pt,thirdrecojet_pt);						
+				double delta_phi_23_reco = fabs(deltaphi(sublrecojet_phi,thirdrecojet_phi));						
+				double x_3rdjet[8] = {Xj_reco, delta_phi_reco, Xj_13_reco, delta_phi_13_reco, Xj_23_reco, delta_phi_23_reco, (double)multcentbin, (double)extrabin};
+				if( thirdrecojet_pt >= 0 ) hist_reco_3rdjet->Fill(x_3rdjet,event_weight);
 
 				// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
 				if(delta_phi_reco > leading_subleading_deltaphi_min){
@@ -744,18 +753,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						pass_Aj_or_Xj_reco_cut = true; // if we apply Xj or Aj cuts
 						isdijet = true;
 
-						// Fill 3rd jet histograms
-						double Xj_13_reco = xjvar(leadrecojet_pt,thirdrecojet_pt);	
-						double delta_phi_13_reco = deltaphi2PC(leadrecojet_phi,thirdrecojet_phi);
-						double delta_eta_13_reco = deltaeta(leadrecojet_eta,thirdrecojet_eta);
-						double x_3rdjet_13_reco[5] = {Xj_13_reco, delta_phi_13_reco, delta_eta_13_reco, (double)multcentbin, (double)extrabin};
-						if( thirdrecojet_pt >= 0 ) hist_reco_lead_reco_3rdjet->Fill(x_3rdjet_13_reco,event_weight);
-						double Xj_23_reco = xjvar(sublrecojet_pt,thirdrecojet_pt);						
-						double delta_phi_23_reco = deltaphi2PC(sublrecojet_phi,thirdrecojet_phi);						
-						double delta_eta_23_reco = deltaeta(sublrecojet_eta,thirdrecojet_eta);						
-						double x_3rdjet_23_reco[5] = {Xj_23_reco, delta_phi_23_reco, delta_eta_23_reco, (double)multcentbin, (double)extrabin};
-						if( thirdrecojet_pt >= 0 ) hist_reco_sublead_reco_3rdjet->Fill(x_3rdjet_23_reco,event_weight);
-							
 						// Fill leading and subleading jet QA histograms
 						double x_lead[5]={leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,(double) multcentbin,(double)extrabin}; 
 						hist_reco_leadjet->Fill(x_lead);
@@ -830,8 +827,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			}
 			
 			if(is_MC && leadrecojet_index >= 0 && sublrecojet_index >= 0 && refpt[leadrecojet_index] > 0 && refpt[sublrecojet_index] > 0){
-
-					
 
 					// add new etas here!
 					double ref_eta_lead = refeta[leadrefjet_index] + boost;  // In pPb case, for the center-of-mass correction if needed
@@ -1046,22 +1041,18 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						hist_yDijet_CM_ref->Fill(x_dijet_ref_CM_y,event_weight*lrefjet_weight*slrefjet_weight);
 					}
 				}
+				
+				// Fill 3rd jet histograms
+				double Xj_13_ref = xjvar(leadrefjet_pt,thirdrefjet_pt);	
+				double delta_phi_13_ref = fabs(deltaphi(leadrefjet_phi,thirdrefjet_phi));
+				double Xj_23_ref = xjvar(sublrefjet_pt,thirdrefjet_pt);						
+				double delta_phi_23_ref = fabs(deltaphi(sublrefjet_phi,thirdrefjet_phi));						
+				double x_3rdjetref[8] = {Xj_ref, delta_phi_ref, Xj_13_ref, delta_phi_13_ref, Xj_23_ref, delta_phi_23_ref, (double)multcentbin, (double)extrabin};
+				if( thirdrefjet_pt >= 0 ) hist_ref_3rdjet->Fill(x_3rdjetref,event_weight);				
+				
 				if(delta_phi_ref > leading_subleading_deltaphi_min){
 					if((Xj_ref >= xjmin && Xj_ref <= xjmax) && (Aj_ref >= Ajmin && Aj_ref <= Ajmax)){
 						isrefdijet=true;
-						
-						// Fill 3rd jet histograms
-						double Xj_13_ref = xjvar(leadrefjet_pt,thirdrefjet_pt);	
-						double delta_phi_13_ref = deltaphi2PC(leadrefjet_phi,thirdrefjet_phi);
-						double delta_eta_13_ref = deltaeta(leadrefjet_eta,thirdrefjet_eta);
-						double x_3rdjet_13_ref[5] = {Xj_13_ref, delta_phi_13_ref, delta_eta_13_ref, (double)multcentbin, (double)extrabin};
-						if( thirdrefjet_pt >= 0 ) hist_ref_lead_ref_3rdjet->Fill(x_3rdjet_13_ref,event_weight);
-						double Xj_23_ref = xjvar(sublrefjet_pt,thirdrefjet_pt);						
-						double delta_phi_23_ref = deltaphi2PC(sublrefjet_phi,thirdrefjet_phi);						
-						double delta_eta_23_ref = deltaeta(sublrefjet_eta,thirdrefjet_eta);						
-						double x_3rdjet_23_ref[5] = {Xj_23_ref, delta_phi_23_ref, delta_eta_23_ref, (double)multcentbin, (double)extrabin};
-						if( thirdrefjet_pt >= 0 ) hist_ref_sublead_ref_3rdjet->Fill(x_3rdjet_23_ref,event_weight);
-						
 						double x_ref_QA_L[5]={leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,(double)multcentbin,(double) extrabin}; 
 						hist_ref_leadjet_weighted->Fill(x_ref_QA_L,event_weight*lrefjet_weight);
 						double x_ref_QA_SL[5]={sublrefjet_pt,sublrefjet_eta,sublrefjet_phi,(double)multcentbin,(double) extrabin}; 
@@ -1378,6 +1369,14 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						}
 					}
 
+					// Fill 3rd jet histograms
+					double Xj_13_gen = xjvar(leadgenjet_pt,thirdgenjet_pt);	
+					double delta_phi_13_gen = fabs(deltaphi(leadgenjet_phi,thirdgenjet_phi));
+					double Xj_23_gen = xjvar(sublgenjet_pt,thirdgenjet_pt);						
+					double delta_phi_23_gen = fabs(deltaphi(sublgenjet_phi,thirdgenjet_phi));						
+					double x_3rdjetgen[8] = {Xj_gen, delta_phi_gen, Xj_13_gen, delta_phi_13_gen, Xj_23_gen, delta_phi_23_gen, (double)multcentbin, (double)extrabin};
+					if( thirdgenjet_pt >= 0 ) hist_gen_3rdjet->Fill(x_3rdjetgen,event_weight);	
+
 					// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
 					if(delta_phi_gen > leading_subleading_deltaphi_min){
 
@@ -1385,18 +1384,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 							pass_Aj_or_Xj_gen_cut = true; // if we apply Xj or Aj cuts
 							isgdijet = true;
-
-							// Fill 3rd jet histograms
-							double Xj_13_gen = xjvar(leadgenjet_pt,thirdgenjet_pt);	
-							double delta_phi_13_gen = deltaphi2PC(leadgenjet_phi,thirdgenjet_phi);
-							double delta_eta_13_gen = deltaeta(leadgenjet_eta,thirdgenjet_eta);
-							double x_3rdjet_13_gen[5] = {Xj_13_gen, delta_phi_13_gen, delta_eta_13_gen, (double)multcentbin, (double)extrabin};
-							if( thirdgenjet_pt >= 0 ) hist_gen_lead_gen_3rdjet->Fill(x_3rdjet_13_gen,event_weight);
-							double Xj_23_gen = xjvar(sublgenjet_pt,thirdgenjet_pt);						
-							double delta_phi_23_gen = deltaphi2PC(sublgenjet_phi,thirdgenjet_phi);						
-							double delta_eta_23_gen = deltaeta(sublgenjet_eta,thirdgenjet_eta);						
-							double x_3rdjet_23_gen[5] = {Xj_23_gen, delta_phi_23_gen, delta_eta_23_gen, (double)multcentbin, (double)extrabin};
-							if( thirdgenjet_pt >= 0 ) hist_gen_sublead_gen_3rdjet->Fill(x_3rdjet_23_gen,event_weight);
 
 							// Fill leading and subleading jet QA histograms
 							double x_lead[5]={leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,(double) multcentbin,(double)extrabin}; 
