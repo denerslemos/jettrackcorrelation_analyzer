@@ -834,9 +834,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					
 
 					// add new etas here!
-					double ref_eta_lead = refeta[leadrecojet_index] + boost;  // In pPb case, for the center-of-mass correction if needed
+					double ref_eta_lead = refeta[leadrefjet_index] + boost;  // In pPb case, for the center-of-mass correction if needed
 					if(colliding_system == "pPb" && is_pgoing && invert_pgoing)ref_eta_lead = -ref_eta_lead;
-					double ref_eta_subl = refeta[sublrecojet_index] + boost;  // In pPb case, for the center-of-mass correction if needed
+					double ref_eta_subl = refeta[sublrefjet_index] + boost;  // In pPb case, for the center-of-mass correction if needed
 					if(colliding_system == "pPb" && is_pgoing && invert_pgoing)ref_eta_subl = -ref_eta_subl;
 
                     double ljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadrecojet_pt, leadrecojet_eta);  // Jet weight (specially for MC)
@@ -844,10 +844,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
                     double lrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, ref_eta_lead, ref_eta_lead);  // Jet weight (specially for MC)
                     double slrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, ref_eta_lead, ref_eta_subl);  // Jet weight (specially for MC)
 			
-					double JES_ratio_reco_vs_ref_leading = leadrecojet_pt/refpt[leadrecojet_index];
-					double JES_ratio_reco_vs_ref_subleading = sublrecojet_pt/refpt[sublrecojet_index];
-					double x_JES_ratio_reco_vs_ref_leading[6]={JES_ratio_reco_vs_ref_leading,refpt[leadrecojet_index],ref_eta_lead,(double)leadrecojet_flavor,(double)multcentbin,(double) extrabin}; 
-					double x_JES_ratio_reco_vs_ref_sleading[6]={JES_ratio_reco_vs_ref_subleading,refpt[sublrecojet_index],ref_eta_subl,(double)sublrecojet_flavor,(double)multcentbin,(double) extrabin}; 
+					double JES_ratio_reco_vs_ref_leading = leadrecojet_pt/refpt[leadrefjet_index];
+					double JES_ratio_reco_vs_ref_subleading = sublrecojet_pt/refpt[sublrefjet_index];
+					double x_JES_ratio_reco_vs_ref_leading[6]={JES_ratio_reco_vs_ref_leading,refpt[leadrefjet_index],ref_eta_lead,(double)leadrecojet_flavor,(double)multcentbin,(double) extrabin}; 
+					double x_JES_ratio_reco_vs_ref_sleading[6]={JES_ratio_reco_vs_ref_subleading,refpt[sublrefjet_index],ref_eta_subl,(double)sublrecojet_flavor,(double)multcentbin,(double) extrabin}; 
 
  	 			    double x_unf_lead[6]={leadrecojet_pt, refpt[leadrecojet_index], leadrecojet_eta, ref_eta_lead, (double)multcentbin,(double) extrabin}; 
 					double x_unf_subl[6]={sublrecojet_pt, refpt[sublrecojet_index], sublrecojet_eta, ref_eta_subl,(double)multcentbin,(double) extrabin}; 												 
