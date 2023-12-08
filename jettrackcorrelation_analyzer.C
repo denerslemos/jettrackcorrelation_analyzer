@@ -516,7 +516,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
     	        if(jet_rawpt < 0) continue;
  	            if(jet_pt_corr < 0) continue;
-                if(ref_eta < -5.0 || ref_eta > 5.0) continue; // max jet eta
+                if(refeta[j] < -5.0 || refeta[j] > 5.0) continue; // max jet eta
 
 				float ref_pt = refpt[j];
 				float ref_eta = refeta[j];
