@@ -865,8 +865,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					hist_averjetptclos_weighted->Fill(x_unf_aver,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);
 					hist_xjclos_weighted->Fill(x_unf_xj,event_weight*lrefjet_weight*ljet_weight*slrefjet_weight*sljet_weight);					
 
-					cout << "leading reco idx: " << leadrecojet_index << " leading ref idx: " << leadrefjet_index << endl;
-					cout << "subleading reco idx: " << sublrecojet_index << " subleading ref idx: " << sublrefjet_index << endl;
+					//cout << "leading reco idx: " << leadrecojet_index << " leading ref idx: " << leadrefjet_index << endl;
+					//cout << "subleading reco idx: " << sublrecojet_index << " subleading ref idx: " << sublrefjet_index << endl;
 					
 					if(leadrecojet_index==leadrefjet_index && sublrecojet_index==sublrefjet_index){
 						 match++;
