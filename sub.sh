@@ -1,10 +1,9 @@
 #!/bin/bash
 
 echo "Setup CMSSW (Import ROOT version)"
-cd /afs/cern.ch/user/d/ddesouza/CMSSW_13_0_0/src
+cd /afs/cern.ch/work/d/ddesouza/UIC/pPbMultAna/CMSSW_13_0_5/src
 eval `scramv1 runtime -sh`
-cd /afs/cern.ch/work/d/ddesouza/UIC/JetAna/dijetquench/pgoing/jettrackcorrelation_analyzer
-mkdir -p cond
+cd /afs/cern.ch/work/d/ddesouza/UIC/pPbMultAna/CMSSW_13_0_5/src/dijetMult/pgoing
 echo "Submit skim jobs at "
 echo PWD: $PWD
 
