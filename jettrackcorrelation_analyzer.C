@@ -20,7 +20,7 @@ MCSim: 0 for data and > 0 for MC
 pthatmin: pthat min cut for MC only
 pthatmax: pthat max cut for MC only
 */
-void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int MCSim, float pthatmin, float pthatmax, float weight){
+void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int MCSim, float pthatmin, float pthatmax){
 
 	TApplication *a = new TApplication("a", 0, 0); // avoid issues with corrupted files
 
@@ -243,8 +243,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 		// event weight(s), this must be applied in all histograms
 		double event_weight = get_event_weight(nev,is_MC, use_centrality, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, vertexz, mult, weight, pthat, extra_variable, is_embedded, is_multdep); // get the event weight
-
-		event_weight = event_weight*(weight/nev);
 
 		// Fill vertex, pthat and multiplicity/centrality histograms
 		multiplicity->Fill(mult);
