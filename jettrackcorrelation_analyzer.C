@@ -740,7 +740,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double Xj_23_reco = xjvar(sublrecojet_pt,thirdrecojet_pt);						
 				double delta_phi_23_reco = fabs(deltaphi(sublrecojet_phi,thirdrecojet_phi));						
 				double x_3rdjet[8] = {Xj_reco, delta_phi_reco, Xj_13_reco, delta_phi_13_reco, Xj_23_reco, delta_phi_23_reco, (double)multcentbin, (double)extrabin};
-				if( thirdrecojet_pt >= 0 ) hist_reco_3rdjet->Fill(x_3rdjet,event_weight);
+				if( thirdrecojet_pt >= 0 && (leadmidrap && sublmidrap) ) hist_reco_3rdjet->Fill(x_3rdjet,event_weight);
 
 				// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
 				if(delta_phi_reco > leading_subleading_deltaphi_min){
@@ -1046,7 +1046,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double Xj_23_ref = xjvar(sublrefjet_pt,thirdrefjet_pt);						
 				double delta_phi_23_ref = fabs(deltaphi(sublrefjet_phi,thirdrefjet_phi));						
 				double x_3rdjetref[8] = {Xj_ref, delta_phi_ref, Xj_13_ref, delta_phi_13_ref, Xj_23_ref, delta_phi_23_ref, (double)multcentbin, (double)extrabin};
-				if( thirdrefjet_pt >= 0 ) hist_ref_3rdjet->Fill(x_3rdjetref,event_weight);				
+				if( thirdrefjet_pt >= 0  && (leadmidrap && sublmidrap) ) hist_ref_3rdjet->Fill(x_3rdjetref,event_weight);				
 				
 				if(delta_phi_ref > leading_subleading_deltaphi_min){
 					if((Xj_ref >= xjmin && Xj_ref <= xjmax) && (Aj_ref >= Ajmin && Aj_ref <= Ajmax)){
@@ -1373,7 +1373,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					double Xj_23_gen = xjvar(sublgenjet_pt,thirdgenjet_pt);						
 					double delta_phi_23_gen = fabs(deltaphi(sublgenjet_phi,thirdgenjet_phi));						
 					double x_3rdjetgen[8] = {Xj_gen, delta_phi_gen, Xj_13_gen, delta_phi_13_gen, Xj_23_gen, delta_phi_23_gen, (double)multcentbin, (double)extrabin};
-					if( thirdgenjet_pt >= 0 ) hist_gen_3rdjet->Fill(x_3rdjetgen,event_weight);	
+					if( thirdgenjet_pt >= 0  && (leadmidrap && sublmidrap) ) hist_gen_3rdjet->Fill(x_3rdjetgen,event_weight);	
 
 					// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
 					if(delta_phi_gen > leading_subleading_deltaphi_min){
