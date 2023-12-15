@@ -365,7 +365,7 @@ THnSparseD *hist_subleadjes_reco_weighted = new THnSparseD("hist_subleadjes_reco
 THnSparseD *hist_subleadjes_reco_fromB_weighted = new THnSparseD("hist_subleadjes_reco_fromB_weighted", "hist_subleadjes_reco_fromB_weighted", 6, bins_jes, xmin_jes, xmax_jes);
 
 // for jet closure/unfolding
-int    bins_jetptclos[6]   =   { 100  ,  100  , 80  , 80  , multbinsize-1                               , extrabinsize-1};
+int    bins_jetptclos[6]   =   { 500  ,  500  , 40  , 40  , multbinsize-1                               , extrabinsize-1};
 double xmin_jetptclos[6]   =   { 0    ,  0    , -4.0, -4.0, multiplicity_centrality_bins[0]             , extra_bins[0]};
 double xmax_jetptclos[6]   =   { 1000 ,  1000 , 4.0 , 4.0 , multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
 THnSparseD *hist_jetptclos_weighted = new THnSparseD("hist_jetptclos_weighted", "hist_jetptclos_weighted", 6, bins_jetptclos, xmin_jetptclos, xmax_jetptclos);
