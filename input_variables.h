@@ -38,7 +38,7 @@ const bool do_dijetstudies = true; // quantities for jet quenching searches
 
 //============= Jet information =========================== 
 
-const float pthatsafety = 3.0; // gen pT > pthatsafety*pthat is removed; high number means no removal at all
+const float pthatsafety = 2.0; // gen pT > pthatsafety*pthat is removed; high number means no removal at all
 const TString jet_collection = "ak4PFJetAnalyzer"; // jet collection in forest
 bool dojettrigger = false; // apply jet trigger
 TString jet_trigger = "HLT_PAAK4PFJet80_Eta5p1_v3"; // jet trigger in forest 
