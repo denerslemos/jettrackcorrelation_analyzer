@@ -4,6 +4,7 @@
 #include "histogram_definition.h" // define histograms
 #include "random_mixing.h" // random mixing function
 #include "uiclogo.h" // print UIC jets and start/stop time
+#include "unfolding.h" // print UIC jets and start/stop time
 #include "JetCorrector.h" // reader for JEC
 #include "JetUncertainty.h" // reader for JEU
 const double pPbRapidityBoost = 0.4654094531;
@@ -70,6 +71,11 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	if(!do_jer_up && do_jer_down) filejersys->GetObject("JERdown", resolution_histo);
 	TF1* JetSmear = new TF1("JetSmear","sqrt([0]*[0] + [1]*[1]/x + [2]*[2]/(x*x))",20,800);
 	JetSmear->SetParameters(4.25985e-02, 9.51054e-01, 0.0); // fitted from JER
+	
+	// Unfolding file and histograms
+	TFile *fileunf = TFile::Open(Form("aux_files/%s_%i/Unfolding/Unfolding.root",colliding_system.Data(),sNN_energy_GeV));
+   	TH2D *histo_unf_leading = (TH2D *)fileunf->Get("unfolding/hist_MC_leading_2D");
+   	TH2D *histo_unf_subleading = (TH2D *)fileunf->Get("unfolding/hist_MC_subleading_2D");
 
 	// Track or particle efficiency file
 	TFile *fileeff = TFile::Open(Form("aux_files/%s_%i/trk_eff_table/%s",colliding_system.Data(),sNN_energy_GeV,trk_eff_file.Data()));
@@ -587,10 +593,14 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					sublrecojet_eta_lab = -sublrecojet_eta_lab;
 				}
 
+				leadrecojet_pt = getUnfolding(histo_unf_leading,multcentbin,leadrecojet_pt);
+				sublrecojet_pt = getUnfolding(histo_unf_subleading,multcentbin,sublrecojet_pt);
+
 				double ljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadrecojet_pt, leadrecojet_eta);  // Jet weight (specially for MC)
  				double sljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublrecojet_pt, sublrecojet_eta);  // Jet weight (specially for MC)
 				
 				Nevents->Fill(8);
+				
 				
 				// Fill leading/subleading jet quenching quantities
 				double delta_phi_reco = fabs(deltaphi(leadrecojet_phi, sublrecojet_phi));
