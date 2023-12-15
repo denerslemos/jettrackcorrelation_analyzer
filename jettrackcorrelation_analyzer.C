@@ -1059,7 +1059,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double x_ref_QA_SL[5]={sublrefjet_pt,sublrefjet_eta,sublrefjet_phi,(double)multcentbin,(double) extrabin}; 
 						hist_ref_subljet_weighted->Fill(x_ref_QA_SL,event_weight*slrefjet_weight);
 						double x_ref_QA_3L[5]={thirdrefjet_pt,thirdrefjet_eta,thirdrefjet_phi,(double)multcentbin,(double) extrabin}; 
-						hist_ref_subljet_weighted->Fill(x_ref_QA_3L,event_weight);
+						hist_ref_thrdjet_weighted->Fill(x_ref_QA_3L,event_weight);
 					}
 				}
 			}
