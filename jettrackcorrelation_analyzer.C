@@ -593,9 +593,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					sublrecojet_eta_lab = -sublrecojet_eta_lab;
 				}
 
-				leadrecojet_pt = getUnfolding(histo_unf_leading,multcentbin,leadrecojet_pt);
-				sublrecojet_pt = getUnfolding(histo_unf_subleading,multcentbin,sublrecojet_pt);
-
 				double ljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadrecojet_pt, leadrecojet_eta);  // Jet weight (specially for MC)
  				double sljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublrecojet_pt, sublrecojet_eta);  // Jet weight (specially for MC)
 				
@@ -608,7 +605,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double Xj_reco = xjvar(leadrecojet_pt,sublrecojet_pt);
 				float ptdijet = 0.5*(leadrecojet_pt + sublrecojet_pt);
 				double ptdijetbin = (double) ptdijet;
-				double x_reco[6]={Xj_reco,Aj_reco,delta_phi_reco,(double)multcentbin,(double)ptdijetbin,(double)extrabin}; 
+				double x_reco[8]={Xj_reco,Aj_reco,delta_phi_reco,(double)multcentbin,(double)ptdijetbin,(double)extrabin,(double)leadrecojet_pt,(double)sublrecojet_pt}; 
 
 				// Psi 2
 				double Psi2_EP_flat_plus = (double) EP_Psi2_plus_flat;
@@ -917,7 +914,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double Xj_ref = xjvar(leadrefjet_pt,sublrefjet_pt);
 				float ptdijet = 0.5*(leadrefjet_pt + sublrefjet_pt);
 				double ptdijetbin = (double) ptdijet;
-				double x_ref[6]={Xj_ref,Aj_ref,delta_phi_ref,(double)multcentbin,(double)ptdijetbin,(double)extrabin};
+				double x_ref[8]={Xj_ref,Aj_ref,delta_phi_ref,(double)multcentbin,(double)ptdijetbin,(double)extrabin,(double)leadrefjet_pt,(double)sublrefjet_pt};
 
 				// Psi 2
 				double Psi2_EP_flat_plus = (double) EP_Psi2_plus_flat;
@@ -1248,7 +1245,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					double Xj_gen = xjvar(leadgenjet_pt,sublgenjet_pt);
 					double ptdijet = 0.5*(leadgenjet_pt + sublgenjet_pt);
 					double ptdijetbin = (double) ptdijet;
-					double x_gen[6]={Xj_gen,Aj_gen,delta_phi_gen,(double)multcentbin,(double)ptdijetbin,(double)extrabin}; 
+					double x_gen[8]={Xj_gen,Aj_gen,delta_phi_gen,(double)multcentbin,(double)ptdijetbin,(double)extrabin,(double)leadgenjet_pt,(double)sublgenjet_pt}; 
 
 					// Psi 2
 					double Psi2_EP_flat_plus = (double) EP_Psi2_plus_flat;
