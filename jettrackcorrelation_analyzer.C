@@ -771,7 +771,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							hist_leadjetunf_recosmear->Fill(lj_recosmear,event_weight);
 														
 							// subleading jet
-							int slj_reco_bin = histo_unf_subleading->GetXaxis()->FindBin(leadrecojet_pt);
+							int slj_reco_bin = histo_unf_subleading->GetXaxis()->FindBin(sublrecojet_pt);
 							TH1D* histo_slj_reco_temp = (TH1D*) histo_unf_subleading->ProjectionY("sljunfreco",slj_reco_bin,slj_reco_bin);
 							TRandom3 *rndm_slj_reco = new TRandom3(0);
 							double slj_reco_smeared = histo_slj_reco_temp->GetRandom(rndm_slj_reco);
@@ -1102,7 +1102,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							isrefdijet_midmid = true;
 						
 							// leading jet
-							int lj_gen_bin = histo_unf_leading->GetYaxis()->FindBin(leadgenjet_pt);
+							int lj_gen_bin = histo_unf_leading->GetYaxis()->FindBin(leadrefjet_pt);
 							TH1D* histo_lj_gen_temp = (TH1D*) histo_unf_leading->ProjectionX("ljunfgen",lj_gen_bin,lj_gen_bin);
 							TRandom3 *rndm_lj_gen = new TRandom3(0);
 							double lj_gen_smeared = histo_lj_gen_temp->GetRandom(rndm_lj_gen);
@@ -1111,7 +1111,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							hist_leadjetunf_gensmear->Fill(lj_gensmear,event_weight);
 														
 							// subleading jet
-							int slj_gen_bin = histo_unf_subleading->GetYaxis()->FindBin(leadgenjet_pt);
+							int slj_gen_bin = histo_unf_subleading->GetYaxis()->FindBin(sublrefjet_pt);
 							TH1D* histo_slj_gen_temp = (TH1D*) histo_unf_subleading->ProjectionX("sljunfgen",slj_gen_bin,slj_gen_bin);
 							TRandom3 *rndm_slj_gen = new TRandom3(0);
 							double slj_gen_smeared = histo_slj_gen_temp->GetRandom(rndm_slj_gen);
@@ -1125,7 +1125,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							hist_xjunf_gensmear_fromLSL->Fill(calc_xj_gensmear,event_weight);
 
 							// simple xj
-							int xj_gen_bin = histo_unf_xj->GetYaxis()->FindBin(Xj_gen);
+							int xj_gen_bin = histo_unf_xj->GetYaxis()->FindBin(Xj_ref);
 							TH1D* histo_xj_gen_temp = (TH1D*) histo_unf_xj->ProjectionX("xjunfgen",xj_gen_bin,xj_gen_bin);
 							TRandom3 *rndm_xj_gen = new TRandom3(0);
 							double xj_gen_smeared = histo_xj_gen_temp->GetRandom(rndm_xj_gen);
