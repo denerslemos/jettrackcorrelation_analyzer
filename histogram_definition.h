@@ -369,8 +369,8 @@ THnSparseD *hist_leadjes_reco_fromB_weighted = new THnSparseD("hist_leadjes_reco
 THnSparseD *hist_subleadjes_reco_weighted = new THnSparseD("hist_subleadjes_reco_weighted", "hist_subleadjes_reco_weighted", 6, bins_jes, xmin_jes, xmax_jes);
 THnSparseD *hist_subleadjes_reco_fromB_weighted = new THnSparseD("hist_subleadjes_reco_fromB_weighted", "hist_subleadjes_reco_fromB_weighted", 6, bins_jes, xmin_jes, xmax_jes);
 
-// for jet closure/unfolding
-int    bins_jetptclos[6]   =   { 500  ,  500  , 40  , 40  , multbinsize-1                               , extrabinsize-1};
+// for jet closure
+int    bins_jetptclos[6]   =   { 100  ,  100  , 40  , 40  , multbinsize-1                               , extrabinsize-1};
 double xmin_jetptclos[6]   =   { 0    ,  0    , -4.0, -4.0, multiplicity_centrality_bins[0]             , extra_bins[0]};
 double xmax_jetptclos[6]   =   { 1000 ,  1000 , 4.0 , 4.0 , multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
 THnSparseD *hist_jetptclos_weighted = new THnSparseD("hist_jetptclos_weighted", "hist_jetptclos_weighted", 6, bins_jetptclos, xmin_jetptclos, xmax_jetptclos);
@@ -390,6 +390,18 @@ double xmin_xjclos[8]   =   { 0   ,  0   , -4.0, -4.0, -4.0, -4.0, multiplicity_
 double xmax_xjclos[8]   =   { 1.0 ,  1.0 , 4.0 , 4.0 , 4.0 , 4.0 , multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
 THnSparseD *hist_xjclos_weighted = new THnSparseD("hist_xjclos_weighted", "hist_xjclos_weighted", 8, bins_xjclos, xmin_xjclos, xmax_xjclos);
 THnSparseD *hist_xjclos_removesome_weighted = new THnSparseD("hist_xjclos_removesome_weighted", "hist_xjclos_removesome_weighted", 8, bins_xjclos, xmin_xjclos, xmax_xjclos);
+
+// for jet unfolding
+int    bins_jetunf[4]   =   { 100  ,  100  , multbinsize-1                               , extrabinsize-1};
+double xmin_jetunf[4]   =   { 0    ,  0    , multiplicity_centrality_bins[0]             , extra_bins[0]};
+double xmax_jetunf[4]   =   { 1000 ,  1000 , multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
+THnSparseD *hist_leadjetunf_weighted = new THnSparseD("hist_leadjetunf_weighted", "hist_leadjetunf_weighted", 4, bins_jetunf, xmin_jetunf, xmax_jetunf);
+THnSparseD *hist_subljetunf_weighted = new THnSparseD("hist_subljetunf_weighted", "hist_subljetunf_weighted", 4, bins_jetunf, xmin_jetunf, xmax_jetunf);
+
+int    bins_xjunf[4]   =   { nXjAjBins  ,  nXjAjBins  , multbinsize-1                               , extrabinsize-1};
+double xmin_xjunf[4]   =   { 0    		,  0    	  , multiplicity_centrality_bins[0]             , extra_bins[0]};
+double xmax_xjunf[4]   =   { 1.0 		,  1.0 		  , multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
+THnSparseD *hist_xjunf_weighted = new THnSparseD("hist_xjunf_weighted", "hist_xjunf_weighted", 4, bins_xjunf, xmin_xjunf, xmax_xjunf);
 
 
 // --------------------------------------------------------------------------------------------------------
@@ -1917,6 +1929,13 @@ hist_reco_3rdjet->GetAxis(7)->Set(bins_3rdjet[7],Extrabins);
 hist_ref_3rdjet->GetAxis(7)->Set(bins_3rdjet[7],Extrabins);
 hist_gen_3rdjet->GetAxis(7)->Set(bins_3rdjet[7],Extrabins);
 
+hist_leadjetunf_weighted->GetAxis(2)->Set(bins_jetunf[2],MultCentbins);
+hist_leadjetunf_weighted->GetAxis(3)->Set(bins_jetunf[3],Extrabins);
+hist_subljetunf_weighted->GetAxis(2)->Set(bins_jetunf[2],MultCentbins);
+hist_subljetunf_weighted->GetAxis(3)->Set(bins_jetunf[3],Extrabins);
+hist_xjunf_weighted->GetAxis(2)->Set(bins_xjunf[2],MultCentbins);
+hist_xjunf_weighted->GetAxis(3)->Set(bins_xjunf[3],Extrabins);
+
 //Sumw2 starts here!
 Nevents->Sumw2();
 Nev_recoreco->Sumw2();
@@ -2105,6 +2124,9 @@ hist_subljetptclosremovesome_weighed->Sumw2();
 hist_averjetptclosremovesome_weighed->Sumw2();
 hist_xjclos_weighted->Sumw2();
 hist_xjclos_removesome_weighted->Sumw2();
+hist_leadjetunf_weighted->Sumw2();
+hist_subljetunf_weighted->Sumw2();
+hist_xjunf_weighted->Sumw2();
 hist_jet_from_reco_reco_sig->Sumw2();
 hist_jet_from_reco_gen_sig->Sumw2();
 hist_jet_from_gen_reco_sig->Sumw2();
@@ -2923,4 +2945,11 @@ void w_ep_hist(bool isMC){
 		Dphi_GEN_EP4_flat_trk_plus->Write();
 	}
 	
+}
+
+
+void w_unf_hist(){ 
+	hist_leadjetunf_weighted->Write();
+	hist_subljetunf_weighted->Write();
+	hist_xjunf_weighted->Write();
 }

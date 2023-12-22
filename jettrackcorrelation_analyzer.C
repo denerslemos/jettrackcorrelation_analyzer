@@ -441,7 +441,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double sigma_smear = extraResolution*JetSmear->Eval(jet_pt_corr); // some % worst --> from JetMET
 				double mu_smar = 1.0;
 				double smear = gRandom->Gaus(mu_smar,sigma_smear);
-				while( smear < 0 ){smear = gRandom->Gaus(mu_smar,sigma_smear);}
+				while( smear < 0 ){ smear = gRandom->Gaus(mu_smar,sigma_smear); }
 				jet_pt_corr = jet_pt_corr*smear;	
 					
 			}
@@ -570,6 +570,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		double xnjets[3]={(double) njets, (double) multcentbin, (double) extrabin}; 
 		NJets->Fill(xnjets,event_weight);
 		bool isdijet = false;
+		bool isdijet_midmid = false;
 		bool removethirdjet = false;
 
 		//dijets
@@ -597,8 +598,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
  				double sljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublrecojet_pt, sublrecojet_eta);  // Jet weight (specially for MC)
 				
 				Nevents->Fill(8);
-				
-				
+							
 				// Fill leading/subleading jet quenching quantities
 				double delta_phi_reco = fabs(deltaphi(leadrecojet_phi, sublrecojet_phi));
 				double Aj_reco = asymmetry(leadrecojet_pt,sublrecojet_pt);
@@ -758,6 +758,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						Nevents->Fill(9);
 						pass_Aj_or_Xj_reco_cut = true; // if we apply Xj or Aj cuts
 						isdijet = true;
+						if( leadmidrap && sublmidrap ) isdijet_midmid = true;
 
 						// Fill leading and subleading jet QA histograms
 						double x_lead[5]={leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,(double) multcentbin,(double)extrabin}; 
@@ -888,6 +889,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		}
 
 		bool isrefdijet = false;
+		bool isrefdijet_midmid = false;
 		bool removethirdjet_ref = false;
 
 		if(leadrefjet_pt > 0.0 && sublrefjet_pt > 0.0 && !removethirdjet_ref){
@@ -1060,7 +1062,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				
 				if(delta_phi_ref > leading_subleading_deltaphi_min){
 					if((Xj_ref >= xjmin && Xj_ref <= xjmax) && (Aj_ref >= Ajmin && Aj_ref <= Ajmax)){
-						isrefdijet=true;
+						isrefdijet = true;
+						if(leadmidrap && sublmidrap) isrefdijet_midmid = true;
 						double x_ref_QA_L[5]={leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,(double)multcentbin,(double) extrabin}; 
 						hist_ref_leadjet_weighted->Fill(x_ref_QA_L,event_weight*lrefjet_weight);
 						double x_ref_QA_SL[5]={sublrefjet_pt,sublrefjet_eta,sublrefjet_phi,(double)multcentbin,(double) extrabin}; 
@@ -1071,7 +1074,21 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				}
 			}
 		}
-		
+
+		//for unfolding
+		if(is_MC){
+			if(isdijet_midmid && isrefdijet_midmid){
+				double ptleading[4]={leadrecojet_pt,leadrefjet_pt,(double)multcentbin,(double) extrabin}; 
+				hist_leadjetunf_weighted->Fill(ptleading,event_weight);
+				double ptsubleading[4]={sublrecojet_pt,sublrefjet_pt,(double)multcentbin,(double) extrabin}; 
+				hist_subljetunf_weighted->Fill(ptsubleading,event_weight);
+				double Xj_variable_reco = xjvar(leadrecojet_pt,sublrecojet_pt);
+				double Xj_variable_ref = xjvar(leadrefjet_pt,sublrefjet_pt);
+				double xjvariable[4]={Xj_variable_reco,Xj_variable_ref,(double)multcentbin,(double) extrabin}; 
+				hist_xjunf_weighted->Fill(xjvariable,event_weight);
+			}
+		}
+			
 		// Measure correlations and filling mixing vectors
 		// Reco-Reco
 		// Inclusive jets
@@ -1591,6 +1608,14 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		w_2pc_hist(is_MC, do_mixing);
 	}
 
+	if(is_MC){
+	
+		MyFile->mkdir("Unfolding"); 
+		MyFile->cd("Unfolding"); 	
+		w_unf_hist();
+	
+	}
+
 	MyFile->Close();
 
 	cout << endl;
@@ -1603,7 +1628,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	cout << "Total running time: " << (double)(sec_end - sec_start) / CLOCKS_PER_SEC << " [s]" << endl;
 	cout << "========================================" << endl;
 
-	cout << "Match: " << match << "; and Mismatch: " << mismatch << endl;
+	//cout << "Match: " << match << "; and Mismatch: " << mismatch << endl;
 
 	print_stop(); // Print time, date and hour when it stops
 	return 0;
