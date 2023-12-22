@@ -403,6 +403,22 @@ double xmin_xjunf[4]   =   { 0    		,  0    	  , multiplicity_centrality_bins[0]
 double xmax_xjunf[4]   =   { 1.0 		,  1.0 		  , multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
 THnSparseD *hist_xjunf_weighted = new THnSparseD("hist_xjunf_weighted", "hist_xjunf_weighted", 4, bins_xjunf, xmin_xjunf, xmax_xjunf);
 
+// cross-check it
+int    bins_jetunf_smear[3]       =   { 100  , multbinsize-1                               , extrabinsize-1};
+double xmin_jetunf_smear[3]   	  =   { 0    , multiplicity_centrality_bins[0]             , extra_bins[0]};
+double xmax_jetunf_smear[3]   	  =   { 1000 , multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
+THnSparseD *hist_leadjetunf_gensmear = new THnSparseD("hist_leadjetunf_gensmear", "hist_leadjetunf_gensmear", 3, bins_jetunf_smear, xmin_jetunf_smear, xmax_jetunf_smear);
+THnSparseD *hist_leadjetunf_recosmear = new THnSparseD("hist_leadjetunf_recosmear", "hist_leadjetunf_recosmear", 3, bins_jetunf_smear, xmin_jetunf_smear, xmax_jetunf_smear);
+THnSparseD *hist_subljetunf_gensmear = new THnSparseD("hist_subljetunf_gensmear", "hist_subljetunf_gensmear", 3, bins_jetunf_smear, xmin_jetunf_smear, xmax_jetunf_smear);
+THnSparseD *hist_subljetunf_recosmear = new THnSparseD("hist_subljetunf_recosmear", "hist_subljetunf_recosmear", 3, bins_jetunf_smear, xmin_jetunf_smear, xmax_jetunf_smear);
+
+int    bins_xjunf_smear[3]   =   { nXjAjBins  , multbinsize-1                               , extrabinsize-1};
+double xmin_xjunf_smear[3]   =   { 0    	  , multiplicity_centrality_bins[0]             , extra_bins[0]};
+double xmax_xjunf_smear[3]   =   { 1.0 		  , multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
+THnSparseD *hist_xjunf_gensmear = new THnSparseD("hist_xjunf_gensmear", "hist_xjunf_gensmear", 3, bins_xjunf_smear, xmin_xjunf_smear, xmax_xjunf_smear);
+THnSparseD *hist_xjunf_recosmear = new THnSparseD("hist_xjunf_recosmear", "hist_xjunf_recosmear", 3, bins_xjunf_smear, xmin_xjunf_smear, xmax_xjunf_smear);
+THnSparseD *hist_xjunf_gensmear_fromLSL = new THnSparseD("hist_xjunf_gensmear_fromLSL", "hist_xjunf_gensmear_fromLSL", 3, bins_xjunf_smear, xmin_xjunf_smear, xmax_xjunf_smear);
+THnSparseD *hist_xjunf_recosmear_fromLSL = new THnSparseD("hist_xjunf_recosmear_fromLSL", "hist_xjunf_recosmear_fromLSL", 3, bins_xjunf_smear, xmin_xjunf_smear, xmax_xjunf_smear);
 
 // --------------------------------------------------------------------------------------------------------
 // 3rd jet studies
@@ -1936,6 +1952,26 @@ hist_subljetunf_weighted->GetAxis(3)->Set(bins_jetunf[3],Extrabins);
 hist_xjunf_weighted->GetAxis(2)->Set(bins_xjunf[2],MultCentbins);
 hist_xjunf_weighted->GetAxis(3)->Set(bins_xjunf[3],Extrabins);
 
+hist_leadjetunf_gensmear->GetAxis(1)->Set(bins_jetunf_smear[1],MultCentbins);
+hist_leadjetunf_recosmear->GetAxis(1)->Set(bins_jetunf_smear[1],MultCentbins);
+hist_subljetunf_gensmear->GetAxis(1)->Set(bins_jetunf_smear[1],MultCentbins);
+hist_subljetunf_recosmear->GetAxis(1)->Set(bins_jetunf_smear[1],MultCentbins);
+hist_leadjetunf_gensmear->GetAxis(2)->Set(bins_jetunf_smear[2],Extrabins);
+hist_leadjetunf_recosmear->GetAxis(2)->Set(bins_jetunf_smear[2],Extrabins);
+hist_subljetunf_gensmear->GetAxis(2)->Set(bins_jetunf_smear[2],Extrabins);
+hist_subljetunf_recosmear->GetAxis(2)->Set(bins_jetunf_smear[2],Extrabins);
+
+hist_xjunf_gensmear->GetAxis(1)->Set(bins_xjunf_smear[1],MultCentbins);
+hist_xjunf_recosmear->GetAxis(1)->Set(bins_xjunf_smear[1],MultCentbins);
+hist_xjunf_gensmear_fromLSL->GetAxis(1)->Set(bins_xjunf_smear[1],MultCentbins);
+hist_xjunf_recosmear_fromLSL->GetAxis(1)->Set(bins_xjunf_smear[1],MultCentbins);
+hist_xjunf_gensmear->GetAxis(2)->Set(bins_xjunf_smear[2],Extrabins);
+hist_xjunf_recosmear->GetAxis(2)->Set(bins_xjunf_smear[2],Extrabins);
+hist_xjunf_gensmear_fromLSL->GetAxis(2)->Set(bins_xjunf_smear[2],Extrabins);
+hist_xjunf_recosmear_fromLSL->GetAxis(2)->Set(bins_xjunf_smear[2],Extrabins);
+
+
+
 //Sumw2 starts here!
 Nevents->Sumw2();
 Nev_recoreco->Sumw2();
@@ -2127,6 +2163,14 @@ hist_xjclos_removesome_weighted->Sumw2();
 hist_leadjetunf_weighted->Sumw2();
 hist_subljetunf_weighted->Sumw2();
 hist_xjunf_weighted->Sumw2();
+hist_leadjetunf_gensmear->Sumw2();
+hist_leadjetunf_recosmear->Sumw2();
+hist_subljetunf_gensmear->Sumw2();
+hist_subljetunf_recosmear->Sumw2();
+hist_xjunf_gensmear->Sumw2();
+hist_xjunf_recosmear->Sumw2();
+hist_xjunf_gensmear_fromLSL->Sumw2();
+hist_xjunf_recosmear_fromLSL->Sumw2();
 hist_jet_from_reco_reco_sig->Sumw2();
 hist_jet_from_reco_gen_sig->Sumw2();
 hist_jet_from_gen_reco_sig->Sumw2();
@@ -2952,4 +2996,12 @@ void w_unf_hist(){
 	hist_leadjetunf_weighted->Write();
 	hist_subljetunf_weighted->Write();
 	hist_xjunf_weighted->Write();
+	hist_leadjetunf_gensmear->Write();
+	hist_leadjetunf_recosmear->Write();
+	hist_subljetunf_gensmear->Write();
+	hist_subljetunf_recosmear->Write();
+	hist_xjunf_gensmear->Write();
+	hist_xjunf_recosmear->Write();
+	hist_xjunf_gensmear_fromLSL->Write();
+	hist_xjunf_recosmear_fromLSL->Write();
 }
