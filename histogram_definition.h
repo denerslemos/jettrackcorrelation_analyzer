@@ -1949,13 +1949,23 @@ hist_reco_3rdjet->GetAxis(7)->Set(bins_3rdjet[7],Extrabins);
 hist_ref_3rdjet->GetAxis(7)->Set(bins_3rdjet[7],Extrabins);
 hist_gen_3rdjet->GetAxis(7)->Set(bins_3rdjet[7],Extrabins);
 
+hist_leadjetunf_weighted->GetAxis(0)->Set(bins_jetunf[0],PtLSLBins2);
+hist_leadjetunf_weighted->GetAxis(1)->Set(bins_jetunf[1],PtLSLBins2);
 hist_leadjetunf_weighted->GetAxis(2)->Set(bins_jetunf[2],MultCentbins);
 hist_leadjetunf_weighted->GetAxis(3)->Set(bins_jetunf[3],Extrabins);
+hist_subljetunf_weighted->GetAxis(0)->Set(bins_jetunf[0],PtLSLBins2);
+hist_subljetunf_weighted->GetAxis(1)->Set(bins_jetunf[1],PtLSLBins2);
 hist_subljetunf_weighted->GetAxis(2)->Set(bins_jetunf[2],MultCentbins);
 hist_subljetunf_weighted->GetAxis(3)->Set(bins_jetunf[3],Extrabins);
+hist_xjunf_weighted->GetAxis(0)->Set(bins_xjunf[0],XjBins);
+hist_xjunf_weighted->GetAxis(1)->Set(bins_xjunf[1],XjBins);
 hist_xjunf_weighted->GetAxis(2)->Set(bins_xjunf[2],MultCentbins);
 hist_xjunf_weighted->GetAxis(3)->Set(bins_xjunf[3],Extrabins);
 
+hist_leadjetunf_gensmear->GetAxis(0)->Set(bins_jetunf_smear[0],PtLSLBins2);
+hist_leadjetunf_recosmear->GetAxis(0)->Set(bins_jetunf_smear[0],PtLSLBins2);
+hist_subljetunf_gensmear->GetAxis(0)->Set(bins_jetunf_smear[0],PtLSLBins2);
+hist_subljetunf_recosmear->GetAxis(0)->Set(bins_jetunf_smear[0],PtLSLBins2);
 hist_leadjetunf_gensmear->GetAxis(1)->Set(bins_jetunf_smear[1],MultCentbins);
 hist_leadjetunf_recosmear->GetAxis(1)->Set(bins_jetunf_smear[1],MultCentbins);
 hist_subljetunf_gensmear->GetAxis(1)->Set(bins_jetunf_smear[1],MultCentbins);
@@ -1965,6 +1975,10 @@ hist_leadjetunf_recosmear->GetAxis(2)->Set(bins_jetunf_smear[2],Extrabins);
 hist_subljetunf_gensmear->GetAxis(2)->Set(bins_jetunf_smear[2],Extrabins);
 hist_subljetunf_recosmear->GetAxis(2)->Set(bins_jetunf_smear[2],Extrabins);
 
+hist_xjunf_gensmear->GetAxis(0)->Set(bins_xjunf_smear[0],XjBins);
+hist_xjunf_recosmear->GetAxis(0)->Set(bins_xjunf_smear[0],XjBins);
+hist_xjunf_gensmear_fromLSL->GetAxis(0)->Set(bins_xjunf_smear[0],XjBins);
+hist_xjunf_recosmear_fromLSL->GetAxis(0)->Set(bins_xjunf_smear[0],XjBins);
 hist_xjunf_gensmear->GetAxis(1)->Set(bins_xjunf_smear[1],MultCentbins);
 hist_xjunf_recosmear->GetAxis(1)->Set(bins_xjunf_smear[1],MultCentbins);
 hist_xjunf_gensmear_fromLSL->GetAxis(1)->Set(bins_xjunf_smear[1],MultCentbins);
