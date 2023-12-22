@@ -73,9 +73,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	
 	// Unfolding file and histograms (X -> Reco and Y -> Gen)
 	TFile *fileunf = TFile::Open(Form("aux_files/%s_%i/Unfolding/Unfoldingfile.root",colliding_system.Data(),sNN_energy_GeV));
-   	TH2D *histo_unf_leading = (TH2D *)fileunf->Get("unfolding/LeadingJet_response");
-   	TH2D *histo_unf_subleading = (TH2D *)fileunf->Get("unfolding/SubLeadingJet_response");
-   	TH2D *histo_unf_xj = (TH2D *)fileunf->Get("unfolding/XjJet_response");
+   	TH2D *histo_unf_leading = (TH2D *)fileunf->Get("LeadingJet_response");
+   	TH2D *histo_unf_subleading = (TH2D *)fileunf->Get("SubLeadingJet_response");
+   	TH2D *histo_unf_xj = (TH2D *)fileunf->Get("XjJet_response");
 
 	// Track or particle efficiency file
 	TFile *fileeff = TFile::Open(Form("aux_files/%s_%i/trk_eff_table/%s",colliding_system.Data(),sNN_energy_GeV,trk_eff_file.Data()));

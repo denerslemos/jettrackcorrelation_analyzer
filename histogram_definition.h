@@ -46,6 +46,10 @@ double XjBins3rd[nXjBins3rd+1] = {-1.0,0.0,0.1,0.2,0.3,0.4,0.45,0.5,0.55,0.6,0.6
 const int nDphiBins3rd = 31; // number of bins
 double DphiBins3rd[nDphiBins3rd+1] = {-1.0, 0.0, TMath::Pi()/5. ,TMath::Pi()/3., (3./7.)*TMath::Pi(), TMath::Pi()/2., (4./7.)*TMath::Pi(), (3./5.)*TMath::Pi(), 1.93731547,  1.98967535,  2.04203522,  2.0943951 , 2.14675498,  2.19911486,  2.25147474,  2.30383461,  2.35619449, 2.40855437,  2.46091425,  2.51327412,  2.565634,  2.61799388, 2.67035376,  2.72271363,  2.77507351,  2.82743339,  2.87979327, 2.93215314,  2.98451302,  3.0368729 ,  3.08923278,  TMath::Pi()};
 
+// leading and subleading jet pTs
+const int nPtLSLBins2 = 21; // number of bins
+double nPtLSLBins2[nPtLSLBins2+1] = {30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0, 120.0, 140.0, 160.0, 180.0, 200.0, 220.0, 240.0, 260.0, 280.0, 300.0, 350.0, 400.0, 500.0, 8160.0};
+
 
 // ============================ Event quantities ============================
 
@@ -392,9 +396,9 @@ THnSparseD *hist_xjclos_weighted = new THnSparseD("hist_xjclos_weighted", "hist_
 THnSparseD *hist_xjclos_removesome_weighted = new THnSparseD("hist_xjclos_removesome_weighted", "hist_xjclos_removesome_weighted", 8, bins_xjclos, xmin_xjclos, xmax_xjclos);
 
 // for jet unfolding
-int    bins_jetunf[4]   =   { 100  ,  100  , multbinsize-1                               , extrabinsize-1};
-double xmin_jetunf[4]   =   { 0    ,  0    , multiplicity_centrality_bins[0]             , extra_bins[0]};
-double xmax_jetunf[4]   =   { 1000 ,  1000 , multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
+int    bins_jetunf[4]   =   { nPtLSLBins2  	,  nPtLSLBins2   , multbinsize-1                               , extrabinsize-1};
+double xmin_jetunf[4]   =   { PtLSLBins2[0] ,  PtLSLBins2[0] , multiplicity_centrality_bins[0]             , extra_bins[0]};
+double xmax_jetunf[4]   =   { 8160.0 		,  8160.0 		 , multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
 THnSparseD *hist_leadjetunf_weighted = new THnSparseD("hist_leadjetunf_weighted", "hist_leadjetunf_weighted", 4, bins_jetunf, xmin_jetunf, xmax_jetunf);
 THnSparseD *hist_subljetunf_weighted = new THnSparseD("hist_subljetunf_weighted", "hist_subljetunf_weighted", 4, bins_jetunf, xmin_jetunf, xmax_jetunf);
 
@@ -404,9 +408,9 @@ double xmax_xjunf[4]   =   { 1.0 		,  1.0 		  , multiplicity_centrality_bins[mul
 THnSparseD *hist_xjunf_weighted = new THnSparseD("hist_xjunf_weighted", "hist_xjunf_weighted", 4, bins_xjunf, xmin_xjunf, xmax_xjunf);
 
 // cross-check it
-int    bins_jetunf_smear[3]       =   { 100  , multbinsize-1                               , extrabinsize-1};
-double xmin_jetunf_smear[3]   	  =   { 0    , multiplicity_centrality_bins[0]             , extra_bins[0]};
-double xmax_jetunf_smear[3]   	  =   { 1000 , multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
+int    bins_jetunf_smear[3]       =   { nPtLSLBins2   , multbinsize-1                               , extrabinsize-1};
+double xmin_jetunf_smear[3]   	  =   { PtLSLBins2[0] , multiplicity_centrality_bins[0]             , extra_bins[0]};
+double xmax_jetunf_smear[3]   	  =   { 8160.0 		  , multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
 THnSparseD *hist_leadjetunf_gensmear = new THnSparseD("hist_leadjetunf_gensmear", "hist_leadjetunf_gensmear", 3, bins_jetunf_smear, xmin_jetunf_smear, xmax_jetunf_smear);
 THnSparseD *hist_leadjetunf_recosmear = new THnSparseD("hist_leadjetunf_recosmear", "hist_leadjetunf_recosmear", 3, bins_jetunf_smear, xmin_jetunf_smear, xmax_jetunf_smear);
 THnSparseD *hist_subljetunf_gensmear = new THnSparseD("hist_subljetunf_gensmear", "hist_subljetunf_gensmear", 3, bins_jetunf_smear, xmin_jetunf_smear, xmax_jetunf_smear);
