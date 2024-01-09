@@ -1108,6 +1108,12 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double Xj_variable_swap = xjvar(leadpt,sublpt);
 				double xjvariableswap[4]={Xj_variable_reco,Xj_variable_swap,(double)multcentbin,(double) extrabin}; 
 				hist_xjunf_swap_weighted->Fill(xjvariableswap,event_weight);
+			
+				double ptleadingswap[4]={leadrecojet_pt, leadpt,(double)multcentbin,(double) extrabin}; 
+				hist_leadjetunf_swap_weighted->Fill(ptleadingswap,event_weight);
+				double ptsubleadingswap[4]={sublrecojet_pt,sublpt,(double)multcentbin,(double) extrabin}; 
+				hist_subljetunf_swap_weighted->Fill(ptsubleadingswap,event_weight);
+			
 				
 				auto *rndm2 = new TRandom2(0);
 				// Reco "unfolding"
