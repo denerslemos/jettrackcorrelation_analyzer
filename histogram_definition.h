@@ -30,9 +30,9 @@ const double minPtLSL = 20.0;  // minimum
 const double maxPtLSL = 1000.0; // maximum
 double PtLSLlogBinWidth = (TMath::Log(maxPtLSL+binnerShift) - TMath::Log(minPtLSL+binnerShift)) / nPtLSLBins; // binwidth
 // Xj and Aj bins
-const int nXjAjBins = 16; // number of bins
-double XjBins[nXjAjBins+1] = {0.0,0.1,0.2,0.3,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0};
-double AjBins[nXjAjBins+1] = {0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.7,0.8,0.9,1.0};
+const int nXjAjBins = 17; // number of bins
+double XjBins[nXjAjBins+1] = {0.0,0.1,0.2,0.3,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.5};
+double AjBins[nXjAjBins+1] = {0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.7,0.8,0.9,1.0,1.5};
 // less bins
 //const int nDphiBins = 18; // number of bins
 //double DphiBins[nDphiBins+1] = {0.0, TMath::Pi()/5. ,TMath::Pi()/3., (3./7.)*TMath::Pi(), TMath::Pi()/2., (4./7.)*TMath::Pi(), (3./5.)*TMath::Pi(), 1.98967535,  2.0943951 ,  2.19911486,  2.30383461, 2.40855437,  2.51327412,  2.61799388,  2.72271363,  2.82743339, 2.93215314,  3.0368729, TMath::Pi()};
@@ -47,8 +47,8 @@ const int nDphiBins3rd = 31; // number of bins
 double DphiBins3rd[nDphiBins3rd+1] = {-1.0, 0.0, TMath::Pi()/5. ,TMath::Pi()/3., (3./7.)*TMath::Pi(), TMath::Pi()/2., (4./7.)*TMath::Pi(), (3./5.)*TMath::Pi(), 1.93731547,  1.98967535,  2.04203522,  2.0943951 , 2.14675498,  2.19911486,  2.25147474,  2.30383461,  2.35619449, 2.40855437,  2.46091425,  2.51327412,  2.565634,  2.61799388, 2.67035376,  2.72271363,  2.77507351,  2.82743339,  2.87979327, 2.93215314,  2.98451302,  3.0368729 ,  3.08923278,  TMath::Pi()};
 
 // leading and subleading jet pTs
-const int nPtLSLBins2 = 21; // number of bins
-double PtLSLBins2[nPtLSLBins2+1] = {30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0, 120.0, 140.0, 160.0, 180.0, 200.0, 220.0, 240.0, 260.0, 280.0, 300.0, 350.0, 400.0, 500.0, 8160.0};
+const int nPtLSLBins2 = 23; // number of bins
+double PtLSLBins2[nPtLSLBins2+1] = {30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0, 120.0, 140.0, 160.0, 180.0, 200.0, 220.0, 240.0, 260.0, 280.0, 300.0, 350.0, 400.0, 500.0, 1000.0, 2000.0, 8160.0};
 
 
 // ============================ Event quantities ============================
@@ -401,11 +401,15 @@ double xmin_jetunf[4]   =   { PtLSLBins2[0] ,  PtLSLBins2[0] , multiplicity_cent
 double xmax_jetunf[4]   =   { 8160.0 		,  8160.0 		 , multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
 THnSparseD *hist_leadjetunf_weighted = new THnSparseD("hist_leadjetunf_weighted", "hist_leadjetunf_weighted", 4, bins_jetunf, xmin_jetunf, xmax_jetunf);
 THnSparseD *hist_subljetunf_weighted = new THnSparseD("hist_subljetunf_weighted", "hist_subljetunf_weighted", 4, bins_jetunf, xmin_jetunf, xmax_jetunf);
+THnSparseD *hist_leadjetunf_match_weighted = new THnSparseD("hist_leadjetunf_match_weighted", "hist_leadjetunf_match_weighted", 4, bins_jetunf, xmin_jetunf, xmax_jetunf);
+THnSparseD *hist_subljetunf_match_weighted = new THnSparseD("hist_subljetunf_match_weighted", "hist_subljetunf_match_weighted", 4, bins_jetunf, xmin_jetunf, xmax_jetunf);
 
 int    bins_xjunf[4]   =   { nXjAjBins  ,  nXjAjBins  , multbinsize-1                               , extrabinsize-1};
 double xmin_xjunf[4]   =   { 0    		,  0    	  , multiplicity_centrality_bins[0]             , extra_bins[0]};
 double xmax_xjunf[4]   =   { 1.0 		,  1.0 		  , multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
 THnSparseD *hist_xjunf_weighted = new THnSparseD("hist_xjunf_weighted", "hist_xjunf_weighted", 4, bins_xjunf, xmin_xjunf, xmax_xjunf);
+THnSparseD *hist_xjunf_match_weighted = new THnSparseD("hist_xjunf_match_weighted", "hist_xjunf_match_weighted", 4, bins_xjunf, xmin_xjunf, xmax_xjunf);
+THnSparseD *hist_xjunf_swap_weighted = new THnSparseD("hist_xjunf_swap_weighted", "hist_xjunf_swap_weighted", 4, bins_xjunf, xmin_xjunf, xmax_xjunf);
 
 // cross-check it
 int    bins_jetunf_smear[3]       =   { nPtLSLBins2   , multbinsize-1                               , extrabinsize-1};
@@ -1953,14 +1957,30 @@ hist_leadjetunf_weighted->GetAxis(0)->Set(bins_jetunf[0],PtLSLBins2);
 hist_leadjetunf_weighted->GetAxis(1)->Set(bins_jetunf[1],PtLSLBins2);
 hist_leadjetunf_weighted->GetAxis(2)->Set(bins_jetunf[2],MultCentbins);
 hist_leadjetunf_weighted->GetAxis(3)->Set(bins_jetunf[3],Extrabins);
+hist_leadjetunf_match_weighted->GetAxis(0)->Set(bins_jetunf[0],PtLSLBins2);
+hist_leadjetunf_match_weighted->GetAxis(1)->Set(bins_jetunf[1],PtLSLBins2);
+hist_leadjetunf_match_weighted->GetAxis(2)->Set(bins_jetunf[2],MultCentbins);
+hist_leadjetunf_match_weighted->GetAxis(3)->Set(bins_jetunf[3],Extrabins);
 hist_subljetunf_weighted->GetAxis(0)->Set(bins_jetunf[0],PtLSLBins2);
 hist_subljetunf_weighted->GetAxis(1)->Set(bins_jetunf[1],PtLSLBins2);
 hist_subljetunf_weighted->GetAxis(2)->Set(bins_jetunf[2],MultCentbins);
 hist_subljetunf_weighted->GetAxis(3)->Set(bins_jetunf[3],Extrabins);
+hist_subljetunf_match_weighted->GetAxis(0)->Set(bins_jetunf[0],PtLSLBins2);
+hist_subljetunf_match_weighted->GetAxis(1)->Set(bins_jetunf[1],PtLSLBins2);
+hist_subljetunf_match_weighted->GetAxis(2)->Set(bins_jetunf[2],MultCentbins);
+hist_subljetunf_match_weighted->GetAxis(3)->Set(bins_jetunf[3],Extrabins);
 hist_xjunf_weighted->GetAxis(0)->Set(bins_xjunf[0],XjBins);
 hist_xjunf_weighted->GetAxis(1)->Set(bins_xjunf[1],XjBins);
 hist_xjunf_weighted->GetAxis(2)->Set(bins_xjunf[2],MultCentbins);
 hist_xjunf_weighted->GetAxis(3)->Set(bins_xjunf[3],Extrabins);
+hist_xjunf_match_weighted->GetAxis(0)->Set(bins_xjunf[0],XjBins);
+hist_xjunf_match_weighted->GetAxis(1)->Set(bins_xjunf[1],XjBins);
+hist_xjunf_match_weighted->GetAxis(2)->Set(bins_xjunf[2],MultCentbins);
+hist_xjunf_match_weighted->GetAxis(3)->Set(bins_xjunf[3],Extrabins);
+hist_xjunf_swap_weighted->GetAxis(0)->Set(bins_xjunf[0],XjBins);
+hist_xjunf_swap_weighted->GetAxis(1)->Set(bins_xjunf[1],XjBins);
+hist_xjunf_swap_weighted->GetAxis(2)->Set(bins_xjunf[2],MultCentbins);
+hist_xjunf_swap_weighted->GetAxis(3)->Set(bins_xjunf[3],Extrabins);
 
 hist_leadjetunf_gensmear->GetAxis(0)->Set(bins_jetunf_smear[0],PtLSLBins2);
 hist_leadjetunf_recosmear->GetAxis(0)->Set(bins_jetunf_smear[0],PtLSLBins2);
@@ -2181,6 +2201,10 @@ hist_xjclos_removesome_weighted->Sumw2();
 hist_leadjetunf_weighted->Sumw2();
 hist_subljetunf_weighted->Sumw2();
 hist_xjunf_weighted->Sumw2();
+hist_leadjetunf_match_weighted->Sumw2();
+hist_subljetunf_match_weighted->Sumw2();
+hist_xjunf_match_weighted->Sumw2();
+hist_xjunf_swap_weighted->Sumw2();
 hist_leadjetunf_gensmear->Sumw2();
 hist_leadjetunf_recosmear->Sumw2();
 hist_subljetunf_gensmear->Sumw2();
@@ -3014,6 +3038,10 @@ void w_unf_hist(){
 	hist_leadjetunf_weighted->Write();
 	hist_subljetunf_weighted->Write();
 	hist_xjunf_weighted->Write();
+	hist_leadjetunf_match_weighted->Write();
+	hist_subljetunf_match_weighted->Write();
+	hist_xjunf_match_weighted->Write();
+	hist_xjunf_swap_weighted->Write();
 	hist_leadjetunf_gensmear->Write();
 	hist_leadjetunf_recosmear->Write();
 	hist_subljetunf_gensmear->Write();

@@ -574,7 +574,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		bool removethirdjet = false;
 
 		//dijets
-		if(leadrecojet_pt > 0 && sublrecojet_pt > 0 && !removethirdjet){
+		if(leadrecojet_pt > 0 && sublrecojet_pt > 0 && leadrecojet_index > -1 && sublrecojet_index > -1 && !removethirdjet){
 
 			Nevents->Fill(6);
 			
@@ -758,42 +758,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						Nevents->Fill(9);
 						pass_Aj_or_Xj_reco_cut = true; // if we apply Xj or Aj cuts
 						isdijet = true;
-						if( leadmidrap && sublmidrap ){
-							isdijet_midmid = true;
-
-							// leading jet
-							int lj_reco_bin = histo_unf_leading->GetXaxis()->FindBin(leadrecojet_pt);
-							TH1D* histo_lj_reco_temp = (TH1D*) histo_unf_leading->ProjectionY("ljunfreco",lj_reco_bin,lj_reco_bin);
-							TRandom3 *rndm_lj_reco = new TRandom3(0);
-							double lj_reco_smeared = histo_lj_reco_temp->GetRandom(rndm_lj_reco);
-							histo_lj_reco_temp->Reset("ICESM");
-							double lj_recosmear[3]={lj_reco_smeared,(double) multcentbin,(double)extrabin}; 
-							hist_leadjetunf_recosmear->Fill(lj_recosmear,event_weight);
-														
-							// subleading jet
-							int slj_reco_bin = histo_unf_subleading->GetXaxis()->FindBin(sublrecojet_pt);
-							TH1D* histo_slj_reco_temp = (TH1D*) histo_unf_subleading->ProjectionY("sljunfreco",slj_reco_bin,slj_reco_bin);
-							TRandom3 *rndm_slj_reco = new TRandom3(0);
-							double slj_reco_smeared = histo_slj_reco_temp->GetRandom(rndm_slj_reco);
-							histo_slj_reco_temp->Reset("ICESM");
-							double slj_recosmear[3]={slj_reco_smeared,(double) multcentbin,(double)extrabin}; 
-							hist_subljetunf_recosmear->Fill(slj_recosmear,event_weight);
-
-							// xj calculation
-							double Calc_XJ_reco_smeared = xjvar(lj_reco_smeared,slj_reco_smeared);
-							double calc_xj_recosmear[3]={Calc_XJ_reco_smeared,(double) multcentbin,(double)extrabin}; 
-							hist_xjunf_recosmear_fromLSL->Fill(calc_xj_recosmear,event_weight);
-
-							// simple xj
-							int xj_reco_bin = histo_unf_xj->GetXaxis()->FindBin(Xj_reco);
-							TH1D* histo_xj_reco_temp = (TH1D*) histo_unf_xj->ProjectionY("xjunfreco",xj_reco_bin,xj_reco_bin);
-							TRandom3 *rndm_xj_reco = new TRandom3(0);
-							double xj_reco_smeared = histo_xj_reco_temp->GetRandom(rndm_xj_reco);
-							histo_xj_reco_temp->Reset("ICESM");
-							double xj_recosmear[3]={xj_reco_smeared,(double) multcentbin,(double)extrabin}; 
-							hist_xjunf_recosmear->Fill(xj_recosmear,event_weight);
-
-						}
+						if( leadmidrap && sublmidrap ){ isdijet_midmid = true; }
 
 						// Fill leading and subleading jet QA histograms
 						double x_lead[5]={leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,(double) multcentbin,(double)extrabin}; 
@@ -927,7 +892,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		bool isrefdijet_midmid = false;
 		bool removethirdjet_ref = false;
 
-		if(leadrefjet_pt > 0.0 && sublrefjet_pt > 0.0 && !removethirdjet_ref){
+		if(leadrefjet_pt > 0.0 && sublrefjet_pt > 0.0 && leadrefjet_index > -1 && sublrefjet_index > -1&& !removethirdjet_ref){
 			//leading/subleading pT cuts
 			if(is_MC && leadrefjet_pt > leading_pT_min && sublrefjet_pt > subleading_pT_min){
 
@@ -1147,7 +1112,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 		//for unfolding
 		if(is_MC){
+		
 			if(isdijet_midmid && isrefdijet_midmid){
+			
 				double ptleading[4]={leadrecojet_pt,leadrefjet_pt,(double)multcentbin,(double) extrabin}; 
 				hist_leadjetunf_weighted->Fill(ptleading,event_weight);
 				double ptsubleading[4]={sublrecojet_pt,sublrefjet_pt,(double)multcentbin,(double) extrabin}; 
@@ -1156,6 +1123,50 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double Xj_variable_ref = xjvar(leadrefjet_pt,sublrefjet_pt);
 				double xjvariable[4]={Xj_variable_reco,Xj_variable_ref,(double)multcentbin,(double) extrabin}; 
 				hist_xjunf_weighted->Fill(xjvariable,event_weight);
+				
+				double ptleadingmatch[4]={leadrecojet_pt, refpt[leadrecojet_index],(double)multcentbin,(double) extrabin}; 
+				hist_leadjetunf_match_weighted->Fill(ptleadingmatch,event_weight);
+				double ptsubleadingmatch[4]={sublrecojet_pt,refpt[sublrecojet_index],(double)multcentbin,(double) extrabin}; 
+				hist_subljetunf_match_weighted->Fill(ptsubleadingmatch,event_weight);
+				double leadpt = refpt[leadrecojet_index];
+				double sublpt = refpt[sublrecojet_index];
+				double Xj_variable_match = xjvar(refpt[leadrecojet_index],refpt[sublrecojet_index]);
+				double xjvariablematch[4]={Xj_variable_reco,Xj_variable_match,(double)multcentbin,(double) extrabin}; 
+				hist_xjunf_match_weighted->Fill(xjvariablematch,event_weight);
+				if(sublpt > leadpt){
+					double leadpt_temp = sublpt;
+					double sublpt_temp = leadpt;
+					leadpt = leadpt_temp;
+					sublpt = sublpt_temp;
+				}
+				double Xj_variable_swap = xjvar(leadpt,sublpt);
+				double xjvariableswap[4]={Xj_variable_reco,Xj_variable_swap,(double)multcentbin,(double) extrabin}; 
+				hist_xjunf_swap_weighted->Fill(xjvariableswap,event_weight);
+				
+				auto *rndm2_reco = new TRandom2(0);
+				// leading jet
+				int lj_reco_bin = histo_unf_leading->GetXaxis()->FindBin(leadrecojet_pt);
+				TH1D* histo_lj_reco_temp = (TH1D*) histo_unf_leading->ProjectionY("ljunfreco",lj_reco_bin,lj_reco_bin);
+				double lj_reco_smeared = histo_lj_reco_temp->GetRandom(rndm2_reco);
+				double lj_recosmear[3]={lj_reco_smeared,(double) multcentbin,(double)extrabin}; 
+				hist_leadjetunf_recosmear->Fill(lj_recosmear,event_weight);													
+				// subleading jet
+				int slj_reco_bin = histo_unf_subleading->GetXaxis()->FindBin(sublrecojet_pt);
+				TH1D* histo_slj_reco_temp = (TH1D*) histo_unf_subleading->ProjectionY("sljunfreco",slj_reco_bin,slj_reco_bin);
+				double slj_reco_smeared = histo_slj_reco_temp->GetRandom(rndm2_reco);
+				double slj_recosmear[3]={slj_reco_smeared,(double) multcentbin,(double)extrabin}; 
+				hist_subljetunf_recosmear->Fill(slj_recosmear,event_weight);
+				// xj calculation
+				double Calc_XJ_reco_smeared = xjvar(lj_reco_smeared,slj_reco_smeared);
+				double calc_xj_recosmear[3]={Calc_XJ_reco_smeared,(double) multcentbin,(double)extrabin}; 
+				hist_xjunf_recosmear_fromLSL->Fill(calc_xj_recosmear,event_weight);
+				// simple xj
+				int xj_reco_bin = histo_unf_xj->GetXaxis()->FindBin(Xj_reco);
+				TH1D* histo_xj_reco_temp = (TH1D*) histo_unf_xj->ProjectionY("xjunfreco",xj_reco_bin,xj_reco_bin);
+				double xj_reco_smeared = histo_xj_reco_temp->GetRandom(rndm2_reco);
+				double xj_recosmear[3]={xj_reco_smeared,(double) multcentbin,(double)extrabin}; 
+				hist_xjunf_recosmear->Fill(xj_recosmear,event_weight);
+			
 			}
 		}
 			
@@ -1307,7 +1318,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			bool removethirdjet_gen = false;
 			
 			//leading/subleading jets
-			if(leadgenjet_pt > 0.0 && sublgenjet_pt > 0.0 && !removethirdjet_gen){
+			if(leadgenjet_pt > 0.0 && sublgenjet_pt > 0.0 && leadgenjet_index > -1 && sublgenjet_index > -1 && !removethirdjet_gen){
 
 				//leading/subleading pT cuts
 				if(leadgenjet_pt > leading_pT_min && sublgenjet_pt > subleading_pT_min){ 
