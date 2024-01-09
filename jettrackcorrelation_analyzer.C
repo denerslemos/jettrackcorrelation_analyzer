@@ -1128,7 +1128,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double calc_xj_recosmear[3]={Calc_XJ_reco_smeared,(double) multcentbin,(double)extrabin}; 
 				hist_xjunf_recosmear_fromLSL->Fill(calc_xj_recosmear,event_weight);
 				// simple xj
-				int xj_reco_bin = histo_unf_xj->GetXaxis()->FindBin(Xj_reco);
+				int xj_reco_bin = histo_unf_xj->GetXaxis()->FindBin(Xj_variable_reco);
 				TH1D* histo_xj_reco_temp = (TH1D*) histo_unf_xj->ProjectionY("xjunfreco",xj_reco_bin,xj_reco_bin);
 				double xj_reco_smeared = histo_xj_reco_temp->GetRandom(rndm2);
 				double xj_recosmear[3]={xj_reco_smeared,(double) multcentbin,(double)extrabin}; 
