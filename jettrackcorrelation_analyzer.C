@@ -768,7 +768,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						if( leadmidrap && sublmidrap ){ 
 						
 							isdijet_midmid = true; 
-/*
+
 							double ptleading[4]={leadrecojet_pt,leadrefjet_pt,(double)multcentbin,(double) extrabin}; 
 							hist_leadjetunf_weighted->Fill(ptleading,event_weight);
 							double ptsubleading[4]={sublrecojet_pt,sublrefjet_pt,(double)multcentbin,(double) extrabin}; 
@@ -793,7 +793,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double Xj_variable_match = xjvar(refpt[leadrecojet_index],refpt[sublrecojet_index]);
 							double xjvariablematch[4]={Xj_variable_reco,Xj_variable_match,(double)multcentbin,(double) extrabin}; 
 							hist_xjunf_match_weighted->Fill(xjvariablematch,event_weight);
-							if(sublpt > leadpt){
+							while(sublpt > leadpt){
 								double leadpt_temp = sublpt;
 								double sublpt_temp = leadpt;
 								leadpt = leadpt_temp;
@@ -823,7 +823,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							TH1D* histo_slj_reco_temp = (TH1D*) histo_unf_subleading->ProjectionY("sljunfreco",slj_reco_bin,slj_reco_bin);
 							double slj_reco_smeared = histo_slj_reco_temp->GetRandom(rndm2);
 							
-							if(slj_reco_smeared > lj_reco_smeared){
+							while(slj_reco_smeared > lj_reco_smeared){
 								double lj_reco_smeared_temp = slj_reco_smeared;
 								double slj_reco_smeared_temp = lj_reco_smeared;
 								lj_reco_smeared = lj_reco_smeared_temp;
@@ -858,7 +858,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							TH1D* histo_slj_gen_temp = (TH1D*) histo_unf_subleading->ProjectionX("sljunfgen",slj_gen_bin,slj_gen_bin);
 							double slj_gen_smeared = histo_slj_gen_temp->GetRandom(rndm2);
 
-							if(slj_gen_smeared > lj_gen_smeared){
+							while(slj_gen_smeared > lj_gen_smeared){
 								double lj_gen_smeared_temp = slj_gen_smeared;
 								double slj_gen_smeared_temp = lj_gen_smeared;
 								lj_gen_smeared = lj_gen_smeared_temp;
@@ -893,7 +893,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							TH1D* histo_slj_reco_incl_temp = (TH1D*) histo_unf_inclusive->ProjectionY("inclsljunfreco",slj_reco_bin_inclusive,slj_reco_bin_inclusive);
 							double slj_reco_smeared_incl = histo_slj_reco_incl_temp->GetRandom(rndm2);
 
-							if(slj_reco_smeared_incl > lj_reco_smeared_incl){
+							while(slj_reco_smeared_incl > lj_reco_smeared_incl){
 								double lj_reco_smeared_incl_temp = slj_reco_smeared_incl;
 								double slj_reco_smeared_incl_temp = lj_reco_smeared_incl;
 								lj_reco_smeared_incl = lj_reco_smeared_incl_temp;
@@ -920,7 +920,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							TH1D* histo_slj_gen_incl_temp = (TH1D*) histo_unf_inclusive->ProjectionX("inclsljunfgen",slj_gen_bin_inclusive,slj_gen_bin_inclusive);
 							double slj_gen_smeared_incl = histo_slj_gen_incl_temp->GetRandom(rndm2);
 
-							if(slj_gen_smeared_incl > lj_gen_smeared_incl){
+							while(slj_gen_smeared_incl > lj_gen_smeared_incl){
 								double lj_gen_smeared_incl_temp = slj_gen_smeared_incl;
 								double slj_gen_smeared_incl_temp = lj_gen_smeared_incl;
 								lj_gen_smeared_incl = lj_gen_smeared_incl_temp;
@@ -937,7 +937,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double Calc_XJ_gen_smeared_incl = xjvar(lj_gen_smeared_incl,slj_gen_smeared_incl);
 							double calc_xj_gensmear_incl[3]={Calc_XJ_gen_smeared_incl,(double) multcentbin,(double)extrabin}; 
 							hist_xjunf_gensmear_fromLSL_InclJet->Fill(calc_xj_gensmear,event_weight);
-*/
 							
 						}
 
@@ -1257,7 +1256,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			}
 		}
 		
-		
+		/*
 		//for unfolding
 		if(is_MC){
 		
@@ -1434,7 +1433,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			
 			}
 		}
-			
+		*/	
 		// Measure correlations and filling mixing vectors
 		// Reco-Reco
 		// Inclusive jets
