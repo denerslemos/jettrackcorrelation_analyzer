@@ -76,6 +76,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
    	TH2D *histo_unf_leading = (TH2D *)fileunf->Get("LeadingJet_response");
    	TH2D *histo_unf_subleading = (TH2D *)fileunf->Get("SubLeadingJet_response");
    	TH2D *histo_unf_xj = (TH2D *)fileunf->Get("XjJet_response");
+	THnSparse *histo_unf_4D = (THnSparse *)fileunf->Get("Jet4DUnf_response");
 
 	// Track or particle efficiency file
 	TFile *fileeff = TFile::Open(Form("aux_files/%s_%i/trk_eff_table/%s",colliding_system.Data(),sNN_energy_GeV,trk_eff_file.Data()));
@@ -214,7 +215,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 		//pthat (MC only)
 		if(do_pthatcut){if(pthat <= pthatmin || pthat > pthatmax) continue;} //pthat ranges
-		if(is_MC){if(gen_jtpt[0] > pthatsafety*pthat) continue;} //safety to remove some high-pT jets from low pthat samples 
+		if(is_MC){if(gen_jtpt[0] > pthatsafety*pthat || refpt[0] > pthatsafety*pthat) continue;} //safety to remove some high-pT jets from low pthat samples 
 		Nevents->Fill(4);
 
 		//multiplicity or centrality
@@ -411,7 +412,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			if(trackMax[j] < trackmaxpt) continue; // Can be use to remove jets from low pT tracks
 			if(trackMax[j]/rawpt[j] < 0.01)continue; // Cut for jets with only very low pT particles
 			if(trackMax[j]/rawpt[j] > 0.98)continue; // Cut for jets where all the pT is taken by one track
-
+			
 			// Define jet kinematics
 			float jet_rawpt = rawpt[j];
 			float jet_eta = jteta[j];
@@ -445,6 +446,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				jet_pt_corr = jet_pt_corr*smear;	
 					
 			}
+
+            if(jet_pt_corr > 1000.0) continue; // remove very high energetic jets
 
 			// Apply JEU for systematics in data!
 			JEU.SetJetPT(jet_pt_corr);
@@ -547,6 +550,11 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				hist_jes_reco_fromB_weighted->Fill(x_JES_ratio_reco_vs_reffromB,event_weight*refjet_weight*jet_weight);
 				double x_JES_ratio_reco_vs_ref[6]={JES_ratio_reco_vs_ref,ref_pt,ref_eta_lab,(double)refpartonfromB,(double)multcentbin,(double) extrabin}; 
 				hist_jes_reco_weighted->Fill(x_JES_ratio_reco_vs_ref,event_weight*refjet_weight*jet_weight);
+				
+				if(jet_eta > jet_eta_min_cut && jet_eta < jet_eta_max_cut){
+					double ptmatch[4]={jet_pt_corr, ref_pt,(double)multcentbin,(double) extrabin}; 
+					hist_jetunf_weighted->Fill(ptmatch,event_weight);
+				}
 				
 			} // End if over ref (MC)
 
@@ -774,9 +782,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double ptsubleadingmatch[4]={sublrecojet_pt,refpt[sublrecojet_index],(double)multcentbin,(double) extrabin}; 
 							hist_subljetunf_match_weighted->Fill(ptsubleadingmatch,event_weight);
 
-							double pt4D[4]={leadrecojet_pt,leadrefjet_pt,sublrecojet_pt,sublrefjet_pt,(double)multcentbin,(double) extrabin}; 
+							double pt4D[6]={leadrecojet_pt,leadrefjet_pt,sublrecojet_pt,sublrefjet_pt,(double)multcentbin,(double) extrabin}; 
 							hist_jetunf_weighted_4D->Fill(pt4D,event_weight);
-							double pt4D_match[4]={leadrecojet_pt,refpt[leadrecojet_index],sublrecojet_pt,refpt[sublrecojet_index],(double)multcentbin,(double) extrabin}; 
+							double pt4D_match[6]={leadrecojet_pt,refpt[leadrecojet_index],sublrecojet_pt,refpt[sublrecojet_index],(double)multcentbin,(double) extrabin}; 
 							hist_jetunf_match_weighted_4D->Fill(pt4D_match,event_weight);
 
 							double leadpt = refpt[leadrecojet_index];
@@ -799,11 +807,11 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double ptsubleadingswap[4]={sublrecojet_pt,sublpt,(double)multcentbin,(double) extrabin}; 
 							hist_subljetunf_swap_weighted->Fill(ptsubleadingswap,event_weight);
 				
-							double pt4D_swap[4]={leadrecojet_pt,leadpt,sublrecojet_pt,sublpt,(double)multcentbin,(double) extrabin}; 
+							double pt4D_swap[6]={leadrecojet_pt,leadpt,sublrecojet_pt,sublpt,(double)multcentbin,(double) extrabin}; 
 							hist_jetunf_swap_weighted_4D->Fill(pt4D_swap,event_weight);
 
 
-							auto *rndm2 = new TRandom2(0);
+							auto *rndm2 = new TRandom3(0);
 							// Reco "unfolding"
 							// leading jet
 							int lj_reco_bin = histo_unf_leading->GetXaxis()->FindBin(leadrecojet_pt);
@@ -815,10 +823,20 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							int slj_reco_bin = histo_unf_subleading->GetXaxis()->FindBin(sublrecojet_pt);
 							TH1D* histo_slj_reco_temp = (TH1D*) histo_unf_subleading->ProjectionY("sljunfreco",slj_reco_bin,slj_reco_bin);
 							double slj_reco_smeared = histo_slj_reco_temp->GetRandom(rndm2);
+							/*
+							if(slj_reco_smeared > lj_reco_smeared){
+							        for(int iflipp = 0; iflipp < 1000000; iflipp++){
+							                slj_reco_smeared = histo_slj_reco_temp->GetRandom(rndm2);
+							                if(slj_reco_smeared <= lj_reco_smeared){break;}
+							                if(iflipp == (1000000-1)) cout << "always greater" << endl;
+							        }
+							}
+							*/
 							double slj_recosmear[3]={slj_reco_smeared,(double) multcentbin,(double)extrabin}; 
 							hist_subljetunf_recosmear->Fill(slj_recosmear,event_weight);
 							// xj calculation
 							double Calc_XJ_reco_smeared = xjvar(lj_reco_smeared,slj_reco_smeared);
+                            if(Calc_XJ_reco_smeared >= 1.0) Calc_XJ_reco_smeared = 1.0 / Calc_XJ_reco_smeared;
 							double calc_xj_recosmear[3]={Calc_XJ_reco_smeared,(double) multcentbin,(double)extrabin}; 
 							hist_xjunf_recosmear_fromLSL->Fill(calc_xj_recosmear,event_weight);
 							// simple xj
@@ -827,6 +845,27 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double xj_reco_smeared = histo_xj_reco_temp->GetRandom(rndm2);
 							double xj_recosmear[3]={xj_reco_smeared,(double) multcentbin,(double)extrabin}; 
 							hist_xjunf_recosmear->Fill(xj_recosmear,event_weight);
+
+							// from 4D
+							int lj_reco4D_bin = histo_unf_4D->GetAxis(0)->FindBin(leadrecojet_pt);
+							int slj_reco4D_bin =  histo_unf_4D->GetAxis(2)->FindBin(sublrecojet_pt);
+							THnSparse* histo_unf_4D_clonetemp = (THnSparse*) histo_unf_4D->Clone(Form("histo_recoclone_4D_%i",i));
+							histo_unf_4D_clonetemp->GetAxis(0)->SetRange(lj_reco4D_bin,lj_reco4D_bin);
+							histo_unf_4D_clonetemp->GetAxis(2)->SetRange(slj_reco4D_bin,slj_reco4D_bin);
+							TH1D* histo_lj4D_reco_temp = (TH1D*) histo_unf_4D_clonetemp->Projection(1);
+							TH1D* histo_slj4D_reco_temp = (TH1D*) histo_unf_4D_clonetemp->Projection(3);
+							histo_unf_4D_clonetemp->Reset("ICESM");
+
+                            double lj_reco_smeared4D = histo_lj4D_reco_temp->GetRandom(rndm2);
+                            double lj_recosmear4D[3]={lj_reco_smeared4D,(double) multcentbin,(double)extrabin};
+                            hist_leadjetunf_recosmear_4D->Fill(lj_recosmear4D,event_weight);
+							double slj_reco_smeared4D = histo_slj4D_reco_temp->GetRandom(rndm2);
+                            double slj_recosmear4D[3]={slj_reco_smeared4D,(double) multcentbin,(double)extrabin};
+                            hist_subljetunf_recosmear_4D->Fill(slj_recosmear4D,event_weight);
+
+                            double Calc_XJ_reco_smeared4D = xjvar(lj_reco_smeared4D,slj_reco_smeared4D);
+                            double calc_xj_recosmear4D[3]={Calc_XJ_reco_smeared4D,(double) multcentbin,(double)extrabin};
+                            hist_xjunf_recosmear_fromLSL_4D->Fill(calc_xj_recosmear4D,event_weight);
 				
 							// Gen smearing
 							// leading jet
@@ -840,11 +879,21 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							int slj_gen_bin = histo_unf_subleading->GetYaxis()->FindBin(sublrefjet_pt);
 							TH1D* histo_slj_gen_temp = (TH1D*) histo_unf_subleading->ProjectionX("sljunfgen",slj_gen_bin,slj_gen_bin);
 							double slj_gen_smeared = histo_slj_gen_temp->GetRandom(rndm2);
+							/*
+							if(slj_gen_smeared > lj_gen_smeared){
+								for(int iflip = 0; iflip < 1000000; iflip++){
+									slj_gen_smeared = histo_slj_gen_temp->GetRandom(rndm2);
+									if(slj_gen_smeared <= lj_gen_smeared){break;}
+									if(iflip == (1000000-1)) cout << "always greater" << endl;
+								}
+							}
+							*/
 							double slj_gensmear[3]={slj_gen_smeared,(double) multcentbin,(double)extrabin}; 
 							hist_subljetunf_gensmear->Fill(slj_gensmear,event_weight);
 
 							// xj calculation
 							double Calc_XJ_gen_smeared = xjvar(lj_gen_smeared,slj_gen_smeared);
+							if(Calc_XJ_gen_smeared >= 1.0) Calc_XJ_gen_smeared = 1.0 / Calc_XJ_gen_smeared;
 							double calc_xj_gensmear[3]={Calc_XJ_gen_smeared,(double) multcentbin,(double)extrabin}; 
 							hist_xjunf_gensmear_fromLSL->Fill(calc_xj_gensmear,event_weight);
 
@@ -854,7 +903,30 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double xj_gen_smeared = histo_xj_gen_temp->GetRandom(rndm2);
 							double xj_gensmear[3]={xj_gen_smeared,(double) multcentbin,(double)extrabin}; 
 							hist_xjunf_gensmear->Fill(xj_gensmear,event_weight);						
+
+                            // from 4D
+							int lj_gen4D_bin = histo_unf_4D->GetAxis(1)->FindBin(leadrefjet_pt);
+							int slj_gen4D_bin =  histo_unf_4D->GetAxis(3)->FindBin(sublrefjet_pt);
+							THnSparse* histo_unf_4D_gen_clonetemp = (THnSparse*) histo_unf_4D->Clone(Form("histo_genclone_4D_%i",i));
+							histo_unf_4D_gen_clonetemp->GetAxis(1)->SetRange(lj_gen4D_bin,lj_gen4D_bin);
+							histo_unf_4D_gen_clonetemp->GetAxis(3)->SetRange(slj_gen4D_bin,slj_gen4D_bin);
+							TH1D* histo_lj4D_gen_temp = (TH1D*) histo_unf_4D_gen_clonetemp->Projection(0);
+							TH1D* histo_slj4D_gen_temp = (TH1D*) histo_unf_4D_gen_clonetemp->Projection(2);
+							histo_unf_4D_gen_clonetemp->Reset("ICESM");
+
+							double lj_gen_smeared4D = histo_lj4D_gen_temp->GetRandom(rndm2);
+							double lj_gensmear4D[3]={lj_gen_smeared4D,(double) multcentbin,(double)extrabin};
+							hist_leadjetunf_gensmear_4D->Fill(lj_gensmear4D,event_weight);
+
+							double slj_gen_smeared4D = histo_slj4D_gen_temp->GetRandom(rndm2);
+							double slj_gensmear4D[3]={slj_gen_smeared4D,(double) multcentbin,(double)extrabin};
+							hist_subljetunf_gensmear_4D->Fill(slj_gensmear4D,event_weight);
+
+							double Calc_XJ_gen_smeared4D = xjvar(lj_gen_smeared4D,slj_gen_smeared4D);
+							double calc_xj_gensmear4D[3]={Calc_XJ_gen_smeared4D,(double) multcentbin,(double)extrabin};
+							hist_xjunf_gensmear_fromLSL_4D->Fill(calc_xj_gensmear4D,event_weight);
 							
+							// reserved for correction with 1D tables
 							
 						}
 

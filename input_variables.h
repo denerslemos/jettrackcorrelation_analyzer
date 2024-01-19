@@ -38,8 +38,8 @@ const bool do_dijetstudies = true; // quantities for jet quenching searches
 
 //============= Jet information =========================== 
 
-const float pthatsafety = 4.0; // gen pT > pthatsafety*pthat is removed; high number means no removal at all
-const TString jet_collection = "ak4PFJetAnalyzer"; // jet collection in forest
+const float pthatsafety = 3.0; // gen pT > pthatsafety*pthat is removed; high number means no removal at all
+const TString jet_collection = "akCs4PFJetAnalyzer"; // jet collection in forest
 bool dojettrigger = false; // apply jet trigger
 TString jet_trigger = "HLT_PAAK4PFJet80_Eta5p1_v3"; // jet trigger in forest 
 const float JetR = 0.4;
@@ -48,7 +48,7 @@ const float jet_pt_min_cut = 60.0; // jet min pT cut
 const float jet_pt_max_cut = 8160.0; // jet max pT cut 
 const float jet_eta_min_cut = -1.0; // jet min eta cut 
 const float jet_eta_max_cut = 1.0; // jet max eta cut 
-const TString JEC_file = "Autumn16_HI_pPb_pgoing_Embedded_MC_L2Relative_AK4PF.txt"; //JEC file
+const TString JEC_file = "Autumn16_HI_pPb_Pbgoing_Embedded_MC_L2Relative_AK4PF.txt"; //JEC file
 const TString JEC_file_data = "Summer16_23Sep2016HV4_DATA_L2L3Residual_AK4PF.txt"; //JEC file for data
 const TString JEU_file = "Summer16_23Sep2016HV4_DATA_Uncertainty_AK4PF.txt"; //JEU file (future)
 const TString JER_sys_file = "sys_resolution_Summer16_25nsV1_MC_SF_AK4PF.root"; //JEU file (future)
