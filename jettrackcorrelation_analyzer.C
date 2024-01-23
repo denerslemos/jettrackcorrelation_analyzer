@@ -1216,17 +1216,17 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if(is_MC){
 		
 			if(isrefdijet_midmid){
-							float pt1 = rawpt[leadrefjet_index];
-							float eta1 = jteta[leadrefjet_index];
-							float phi1 = jtphi[leadrefjet_index];
+							double pt1 = (double) rawpt[leadrefjet_index];
+							double eta1 = (double) jteta[leadrefjet_index];
+							double phi1 = (double) jtphi[leadrefjet_index];
 							JEC.SetJetPT(pt1); 
 							JEC.SetJetEta(eta1); 
 							JEC.SetJetPhi(phi1);
 							pt1 = JEC.GetCorrectedPT();
 							
-							float pt2 = rawpt[sublrefjet_index];
-							float eta2 = jteta[sublrefjet_index];
-							float phi2 = jtphi[sublrefjet_index];
+							double pt2 = (double) rawpt[sublrefjet_index];
+							double eta2 = (double) jteta[sublrefjet_index];
+							double phi2 = (double)  jtphi[sublrefjet_index];
 							JEC.SetJetPT(pt2); 
 							JEC.SetJetEta(eta2); 
 							JEC.SetJetPhi(phi2);
@@ -1249,8 +1249,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double pt4D_match[6]={pt1,leadrefjet_pt,sublrecojet_pt,sublrefjet_pt,(double)multcentbin,(double) extrabin}; 
 							hist_jetunf_match_weighted_4D->Fill(pt4D_match,event_weight);					
 
-							double leadpt = pt1;
-							double sublpt = pt2;
+							double leadpt = (double) pt1;
+							double sublpt = (double) pt2;
 							double Xj_variable_match = xjvar(leadpt,sublpt);
 							double xjvariablematch[4]={Xj_variable_match,Xj_variable_ref,(double)multcentbin,(double) extrabin}; 
 							hist_xjunf_match_weighted->Fill(xjvariablematch,event_weight);
