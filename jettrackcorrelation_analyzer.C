@@ -766,7 +766,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						if( leadmidrap && sublmidrap ){ 
 						
 							isdijet_midmid = true; 
-/*
+							/*
 							double ptleading[4]={leadrecojet_pt,leadrefjet_pt,(double)multcentbin,(double) extrabin}; 
 							hist_leadjetunf_weighted->Fill(ptleading,event_weight);
 							double ptsubleading[4]={sublrecojet_pt,sublrefjet_pt,(double)multcentbin,(double) extrabin}; 
@@ -808,7 +808,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				
 							double pt4D_swap[6]={leadrecojet_pt,leadpt,sublrecojet_pt,sublpt,(double)multcentbin,(double) extrabin}; 
 							hist_jetunf_swap_weighted_4D->Fill(pt4D_swap,event_weight);
-
+							*/
 
 							auto *rndm2 = new TRandom3(0);
 							// Reco "unfolding"
@@ -892,7 +892,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double xj_gen_smeared = histo_xj_gen_temp->GetRandom(rndm2);
 							double xj_gensmear[3]={xj_gen_smeared,(double) multcentbin,(double)extrabin}; 
 							hist_xjunf_gensmear->Fill(xj_gensmear,event_weight);
-							*/	
+								
 
 						}
 
