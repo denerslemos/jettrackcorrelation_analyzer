@@ -1255,6 +1255,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double xjvariablematch[4]={Xj_variable_match,Xj_variable_ref,(double)multcentbin,(double) extrabin}; 
 							hist_xjunf_match_weighted->Fill(xjvariablematch,event_weight);
 							if(sublpt > leadpt){
+								cout << "sublpt > leadpt" << endl;
 								double leadpt_temp = sublpt;
 								double sublpt_temp = leadpt;
 								leadpt = leadpt_temp;
