@@ -1138,50 +1138,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double pt4D_swap[6]={leadpt, leadrefjet_pt, sublpt, sublrefjet_pt,(double)multcentbin,(double) extrabin}; 
 							hist_jetunf_swap_weighted_4D->Fill(pt4D_swap,event_weight);
 							
-							/*
-							double ptleading[4]={leadrecojet_pt,leadrefjet_pt,(double)multcentbin,(double) extrabin}; 
-							hist_leadjetunf_weighted->Fill(ptleading,event_weight);
-							double ptsubleading[4]={sublrecojet_pt,sublrefjet_pt,(double)multcentbin,(double) extrabin}; 
-							hist_subljetunf_weighted->Fill(ptsubleading,event_weight);
-							double Xj_variable_reco = xjvar(leadrecojet_pt,sublrecojet_pt);
-							double Xj_variable_ref = xjvar(leadrefjet_pt,sublrefjet_pt);
-							double xjvariable[4]={Xj_variable_reco,Xj_variable_ref,(double)multcentbin,(double) extrabin}; 
-							hist_xjunf_weighted->Fill(xjvariable,event_weight);
-
-							double ptleadingmatch[4]={leadrecojet_pt, refpt[leadrecojet_index],(double)multcentbin,(double) extrabin}; 
-							hist_leadjetunf_match_weighted->Fill(ptleadingmatch,event_weight);
-							double ptsubleadingmatch[4]={sublrecojet_pt,refpt[sublrecojet_index],(double)multcentbin,(double) extrabin}; 
-							hist_subljetunf_match_weighted->Fill(ptsubleadingmatch,event_weight);
-
-							double pt4D[6]={leadrecojet_pt,leadrefjet_pt,sublrecojet_pt,sublrefjet_pt,(double)multcentbin,(double) extrabin}; 
-							hist_jetunf_weighted_4D->Fill(pt4D,event_weight);
-							double pt4D_match[6]={leadrecojet_pt,refpt[leadrecojet_index],sublrecojet_pt,refpt[sublrecojet_index],(double)multcentbin,(double) extrabin}; 
-							hist_jetunf_match_weighted_4D->Fill(pt4D_match,event_weight);
-
-							double leadpt = refpt[leadrecojet_index];
-							double sublpt = refpt[sublrecojet_index];
-							double Xj_variable_match = xjvar(refpt[leadrecojet_index],refpt[sublrecojet_index]);
-							double xjvariablematch[4]={Xj_variable_reco,Xj_variable_match,(double)multcentbin,(double) extrabin}; 
-							hist_xjunf_match_weighted->Fill(xjvariablematch,event_weight);
-							while(sublpt > leadpt){
-								double leadpt_temp = sublpt;
-								double sublpt_temp = leadpt;
-								leadpt = leadpt_temp;
-								sublpt = sublpt_temp;
-							}
-							double Xj_variable_swap = xjvar(leadpt,sublpt);
-							double xjvariableswap[4]={Xj_variable_reco,Xj_variable_swap,(double)multcentbin,(double) extrabin}; 
-							hist_xjunf_swap_weighted->Fill(xjvariableswap,event_weight);
-			
-							double ptleadingswap[4]={leadrecojet_pt, leadpt,(double)multcentbin,(double) extrabin}; 
-							hist_leadjetunf_swap_weighted->Fill(ptleadingswap,event_weight);
-							double ptsubleadingswap[4]={sublrecojet_pt,sublpt,(double)multcentbin,(double) extrabin}; 
-							hist_subljetunf_swap_weighted->Fill(ptsubleadingswap,event_weight);
-				
-							double pt4D_swap[6]={leadrecojet_pt,leadpt,sublrecojet_pt,sublpt,(double)multcentbin,(double) extrabin}; 
-							hist_jetunf_swap_weighted_4D->Fill(pt4D_swap,event_weight);
-
-						
 							auto *rndm2 = new TRandom3(0);
 							// Reco "unfolding"
 							// leading jet
@@ -1193,22 +1149,14 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							TH1D* histo_slj_reco_temp = (TH1D*) histo_unf_subleading->ProjectionY("sljunfreco",slj_reco_bin,slj_reco_bin);
 							double slj_reco_smeared = histo_slj_reco_temp->GetRandom(rndm2);
 							/*
-							while(slj_reco_smeared > lj_reco_smeared){
+							if(slj_reco_smeared > lj_reco_smeared){
 								double lj_reco_smeared_temp = slj_reco_smeared;
 								double slj_reco_smeared_temp = lj_reco_smeared;
 								lj_reco_smeared = lj_reco_smeared_temp;
 								slj_reco_smeared = slj_reco_smeared_temp;
-								int lj_reco_bin2 = histo_unf_leading->GetXaxis()->FindBin(lj_reco_smeared);
-								int slj_reco_bin2 = histo_unf_subleading->GetXaxis()->FindBin(slj_reco_smeared);
-								TH1D* histo_lj_reco_temp2 = (TH1D*) histo_unf_leading->ProjectionY("ljunfreco2",lj_reco_bin2,lj_reco_bin2);
-								TH1D* histo_slj_reco_temp2 = (TH1D*) histo_unf_subleading->ProjectionY("sljunfreco2",slj_reco_bin2,slj_reco_bin2);
-								lj_reco_smeared = histo_lj_reco_temp2->GetRandom(rndm2);
-								slj_reco_smeared = histo_slj_reco_temp2->GetRandom(rndm2);
 							}
-							
-							
-							
-							
+							*/
+														
 							double lj_recosmear[3]={lj_reco_smeared,(double) multcentbin,(double)extrabin}; 
 							hist_leadjetunf_recosmear->Fill(lj_recosmear,event_weight);													
 
@@ -1236,19 +1184,14 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							int slj_gen_bin = histo_unf_subleading->GetYaxis()->FindBin(sublrefjet_pt);
 							TH1D* histo_slj_gen_temp = (TH1D*) histo_unf_subleading->ProjectionX("sljunfgen",slj_gen_bin,slj_gen_bin);
 							double slj_gen_smeared = histo_slj_gen_temp->GetRandom(rndm2);
-
+							/*
 							while(slj_gen_smeared > lj_gen_smeared){
 								double lj_gen_smeared_temp = slj_gen_smeared;
 								double slj_gen_smeared_temp = lj_gen_smeared;
 								lj_gen_smeared = lj_gen_smeared_temp;
 								slj_gen_smeared = slj_gen_smeared_temp;
-								int lj_gen_bin2 = histo_unf_leading->GetYaxis()->FindBin(lj_gen_smeared);
-								int slj_gen_bin2 = histo_unf_subleading->GetYaxis()->FindBin(slj_gen_smeared);
-								TH1D* histo_lj_gen_temp2 = (TH1D*) histo_unf_leading->ProjectionX("ljunfgen2",lj_gen_bin2,lj_gen_bin2);
-								TH1D* histo_slj_gen_temp2 = (TH1D*) histo_unf_subleading->ProjectionX("sljunfgen2",slj_gen_bin2,slj_gen_bin2);
-								lj_gen_smeared = histo_lj_gen_temp2->GetRandom(rndm2);
-								slj_gen_smeared = histo_slj_gen_temp2->GetRandom(rndm2);
 							}
+							*/
 
 							double lj_gensmear[3]={lj_gen_smeared,(double) multcentbin,(double)extrabin}; 
 							hist_leadjetunf_gensmear->Fill(lj_gensmear,event_weight);
@@ -1266,8 +1209,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double xj_gen_smeared = histo_xj_gen_temp->GetRandom(rndm2);
 							double xj_gensmear[3]={xj_gen_smeared,(double) multcentbin,(double)extrabin}; 
 							hist_xjunf_gensmear->Fill(xj_gensmear,event_weight);
-							
-							*/
 		
 		}
 
