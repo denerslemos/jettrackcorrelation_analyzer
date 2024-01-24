@@ -399,8 +399,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		float leadrefjet_pt=-99, leadrefjet_eta=-99, leadrefjet_phi=-99, leadrefjet_mass=-99, leadrefjet_flavor=-99; // leading jet ref quantities
 		float sublrefjet_pt=-99, sublrefjet_eta=-99, sublrefjet_phi=-99, sublrefjet_mass=-99, sublrefjet_flavor=-99; // subleading jet ref quantities
 		float thirdrefjet_pt=-99, thirdrefjet_eta=-99, thirdrefjet_phi=-99, thirdrefjet_mass=-99, thirdrefjet_flavor=-99; // third jet quantities
-		int leadrecojet_index=-99, sublrecojet_index=-99, thirdrecojet_index=-99; // jet reco index
-		int leadrefjet_index=-99, sublrefjet_index=-99, thirdrefjet_index=-99; // jet ref index
+		int leadrecojet_index=100, sublrecojet_index=100, thirdrecojet_index=100; // jet reco index
+		int leadrefjet_index=100, sublrefjet_index=100, thirdrefjet_index=100; // jet ref index
 				
 		bool isjetincluded = false;
 		int njets = 0;
@@ -525,8 +525,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				float ref_phi = refphi[j];
 				float ref_mass = refmass[j];
 
-    	        if(jet_rawpt < 0.0) continue;
- 	            if(jet_pt_corr < 0.0) continue;
+    	        		if(jet_rawpt < 0.0) continue;
+ 	            		if(jet_pt_corr < 0.0) continue;
 
 				int jet_index_ref = (int) j;
 
@@ -757,10 +757,17 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 				// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
 				if(delta_phi_reco > leading_subleading_deltaphi_min){
-				
-					if((Xj_reco >= xjmin && Xj_reco <= xjmax) && (Aj_reco >= Ajmin && Aj_reco <= Ajmax)){
+					if(fabs(deltaphi(refphi[leadrecojet_index],refphi[sublrecojet_index])) <= leading_subleading_deltaphi_min){
+					cout << "---------------------------------------" << endl;
+					cout << endl;
+                                	cout << "reco: " << leadrecojet_pt << "   " << sublrecojet_pt << endl;
+                                        cout << "index: " << leadrecojet_index << "    " << sublrecojet_index << endl;
+                                	cout << "gen: " << refpt[leadrecojet_index] << "    " << refpt[sublrecojet_index] << endl;
+					cout << "index: " << leadrefjet_index << "    " << sublrefjet_index << endl;
+					cout << "---------------------------------------" << endl;
+					cout << endl;}
 
-					if(fabs(deltaphi(leadrefjet_phi,sublrefjet_phi)) <= leading_subleading_deltaphi_min) cout << "buggy in ref/reco" << endl;
+					if((Xj_reco >= xjmin && Xj_reco <= xjmax) && (Aj_reco >= Ajmin && Aj_reco <= Ajmax)){
 
 						Nevents->Fill(9);
 						pass_Aj_or_Xj_reco_cut = true; // if we apply Xj or Aj cuts
