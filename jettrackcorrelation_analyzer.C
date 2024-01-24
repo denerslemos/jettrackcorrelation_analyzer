@@ -757,6 +757,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 				// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
 				if(delta_phi_reco > leading_subleading_deltaphi_min){
+				
+					if(fabs(deltaphi(leadrefjet_phi,sublrefjet_phi)) <= leading_subleading_deltaphi_min) cout << "buggy in ref/reco" << endl;
 
 					if((Xj_reco >= xjmin && Xj_reco <= xjmax) && (Aj_reco >= Ajmin && Aj_reco <= Ajmax)){
 
