@@ -223,7 +223,7 @@ phi2: phi of second object
 float deltaphi(float phi1, float phi2){
 	if(phi1 < -3.0*TMath::Pi() || phi2 < -3.0*TMath::Pi()) return 999.9;
 	float deltaPhi = ( phi1 - phi2 );
-    	while( deltaPhi >  TMath::Pi() ){deltaPhi  += -2*TMath::Pi();}
+	while( deltaPhi >  TMath::Pi() ){deltaPhi  += -2*TMath::Pi();}
    	while( deltaPhi < -TMath::Pi() ){deltaPhi  +=  2*TMath::Pi();}
 	return deltaPhi;
 }
@@ -235,7 +235,7 @@ phi1: phi of first object
 phi2: phi of second object
 */
 float deltaphi2PC(float phi1, float phi2){    
-        if(phi1 < -3.0*TMath::Pi() || phi2 < -3.0*TMath::Pi()) return 999.9;	
+	if(phi1 < -3.0*TMath::Pi() || phi2 < -3.0*TMath::Pi()) return 999.9;	
 	float deltaPhi = (phi1 - phi2);
 	while( deltaPhi >  1.5*TMath::Pi() ) deltaPhi += -2.*TMath::Pi();
 	while( deltaPhi < -0.5*TMath::Pi() ) deltaPhi +=  2.*TMath::Pi();
@@ -335,7 +335,7 @@ quant: variable
 int find_my_bin(std::vector<double> quant_vec, double quant){
 	int bin = -999;
 	for(int ii = 0; ii < quant_vec.size()-1; ii++) {if(quant >= quant_vec[ii] && quant < quant_vec[ii+1]){bin = ii;} }
-    	return bin;
+	return bin;
 }
 
 /*
