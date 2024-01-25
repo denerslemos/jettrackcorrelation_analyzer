@@ -1078,7 +1078,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			}
 		}
 
-		if( isrefdijet_midmid ){
+		if( isdijet_midmid ){
 
 							double pt1 = (double) rawpt[leadrefjet_index];
 							double eta1 = (double) jteta[leadrefjet_index];
@@ -1095,10 +1095,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							JEC.SetJetEta(eta2); 
 							JEC.SetJetPhi(phi2);
 							pt2 = JEC.GetCorrectedPT();
-							
-							// if(pt1 <= leading_pT_min) continue;
-							// if(pt2 <= subleading_pT_min) continue;
-							if(fabs(deltaphi(phi1, phi2)) <= leading_subleading_deltaphi_min) cout << "different phi?" << endl;
 
 							double ptleading[4]={leadrecojet_pt,leadrefjet_pt,(double)multcentbin,(double) extrabin}; 
 							hist_leadjetunf_weighted->Fill(ptleading,event_weight);
@@ -1120,9 +1116,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							hist_jetunf_match_weighted_4D->Fill(pt4D_match,event_weight);					
 							double pt4D_matchsym[6]={pt2,leadrefjet_pt,pt1,sublrefjet_pt,(double)multcentbin,(double) extrabin}; 
 							hist_jetunf_match_weighted_sym_4D->Fill(pt4D,event_weight);
-							hist_jetunf_match_weighted_sym_4D->Fill(pt4D_matchsym,event_weight);
+							//hist_jetunf_match_weighted_sym_4D->Fill(pt4D_matchsym,event_weight);
 							hist_jetunf_match_weighted_symhalf_4D->Fill(pt4D,event_weight*0.5);
-							hist_jetunf_match_weighted_symhalf_4D->Fill(pt4D_matchsym,event_weight*0.5);
+							//hist_jetunf_match_weighted_symhalf_4D->Fill(pt4D_matchsym,event_weight*0.5);
 
 							double leadpt = (double) pt1;
 							double sublpt = (double) pt2;
@@ -1165,10 +1161,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							}
 														
 							double lj_recosmear[3]={lj_reco_smeared,(double) multcentbin,(double)extrabin}; 
-							if(lj_reco_smeared > leading_pT_min && slj_reco_smeared > subleading_pT_min) hist_leadjetunf_recosmear->Fill(lj_recosmear,event_weight);													
-
+							hist_leadjetunf_recosmear->Fill(lj_recosmear,event_weight);													
 							double slj_recosmear[3]={slj_reco_smeared,(double) multcentbin,(double)extrabin}; 
-							if(lj_reco_smeared > leading_pT_min && slj_reco_smeared > subleading_pT_min) hist_subljetunf_recosmear->Fill(slj_recosmear,event_weight);
+							hist_subljetunf_recosmear->Fill(slj_recosmear,event_weight);
 
 							// xj calculation
 							double Calc_XJ_reco_smeared = xjvar(lj_reco_smeared,slj_reco_smeared);
