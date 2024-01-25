@@ -74,10 +74,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	// Unfolding file and histograms (X -> Reco and Y -> Gen)
 	TFile *fileunf = TFile::Open(Form("aux_files/%s_%i/Unfolding/Unfoldingfile.root",colliding_system.Data(),sNN_energy_GeV));
    	//TH2D *histo_unf_inclusive = (TH2D *)fileunf->Get("InclusiveJets_response");
-   	TH2D *histo_unf_leading = (TH2D *)fileunf->Get("LeadingJet_response");
-   	TH2D *histo_unf_subleading = (TH2D *)fileunf->Get("SubLeadingJet_response");
-   	TH2D *histo_unf_xj = (TH2D *)fileunf->Get("XjJet_response");
-	THnSparse *histo_unf_4D = (THnSparse *)fileunf->Get("Jet4DUnf_response");
+   	TH2D *histo_unf_leading = (TH2D *)fileunf->Get("LeadingJet_match_response");
+   	TH2D *histo_unf_subleading = (TH2D *)fileunf->Get("SubLeadingJet_match_response");
+   	TH2D *histo_unf_xj = (TH2D *)fileunf->Get("XjJet_match_response");
+	THnSparse *histo_unf_4D = (THnSparse *)fileunf->Get("Jet4DUnf_match_response");
 
 	// Track or particle efficiency file
 	TFile *fileeff = TFile::Open(Form("aux_files/%s_%i/trk_eff_table/%s",colliding_system.Data(),sNN_energy_GeV,trk_eff_file.Data()));
@@ -1148,14 +1148,12 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							int slj_reco_bin = histo_unf_subleading->GetXaxis()->FindBin(sublrecojet_pt);
 							TH1D* histo_slj_reco_temp = (TH1D*) histo_unf_subleading->ProjectionY("sljunfreco",slj_reco_bin,slj_reco_bin);
 							double slj_reco_smeared = histo_slj_reco_temp->GetRandom(rndm2);
-							/*
 							if(slj_reco_smeared > lj_reco_smeared){
 								double lj_reco_smeared_temp = slj_reco_smeared;
 								double slj_reco_smeared_temp = lj_reco_smeared;
 								lj_reco_smeared = lj_reco_smeared_temp;
 								slj_reco_smeared = slj_reco_smeared_temp;
 							}
-							*/
 														
 							double lj_recosmear[3]={lj_reco_smeared,(double) multcentbin,(double)extrabin}; 
 							hist_leadjetunf_recosmear->Fill(lj_recosmear,event_weight);													
@@ -1184,14 +1182,12 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							int slj_gen_bin = histo_unf_subleading->GetYaxis()->FindBin(sublrefjet_pt);
 							TH1D* histo_slj_gen_temp = (TH1D*) histo_unf_subleading->ProjectionX("sljunfgen",slj_gen_bin,slj_gen_bin);
 							double slj_gen_smeared = histo_slj_gen_temp->GetRandom(rndm2);
-							/*
 							while(slj_gen_smeared > lj_gen_smeared){
 								double lj_gen_smeared_temp = slj_gen_smeared;
 								double slj_gen_smeared_temp = lj_gen_smeared;
 								lj_gen_smeared = lj_gen_smeared_temp;
 								slj_gen_smeared = slj_gen_smeared_temp;
 							}
-							*/
 
 							double lj_gensmear[3]={lj_gen_smeared,(double) multcentbin,(double)extrabin}; 
 							hist_leadjetunf_gensmear->Fill(lj_gensmear,event_weight);
