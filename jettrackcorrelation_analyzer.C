@@ -1078,7 +1078,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			}
 		}
 
-		if( isdijet_midmid && isrefdijet_midmid){
+		if( isdijet_midmid && isrefdijet_midmid ){
 
 							double pt1 = (double) rawpt[leadrefjet_index];
 							double eta1 = (double) jteta[leadrefjet_index];
@@ -1095,6 +1095,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							JEC.SetJetEta(eta2); 
 							JEC.SetJetPhi(phi2);
 							pt2 = JEC.GetCorrectedPT();
+							
+							if(pt1 <= leading_pT_min) continue;
+							if(pt2 <= subleading_pT_min) continue;
 
 							double ptleading[4]={leadrecojet_pt,leadrefjet_pt,(double)multcentbin,(double) extrabin}; 
 							hist_leadjetunf_weighted->Fill(ptleading,event_weight);
@@ -1169,7 +1172,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							// xj calculation
 							double Calc_XJ_reco_smeared = xjvar(lj_reco_smeared,slj_reco_smeared);
 							double calc_xj_recosmear[3]={Calc_XJ_reco_smeared,(double) multcentbin,(double)extrabin}; 
-							if(lj_reco_smeared > leading_pT_min && slj_reco_smeared > subleading_pT_min) hist_xjunf_recosmear_fromLSL->Fill(calc_xj_recosmear,event_weight);
+							hist_xjunf_recosmear_fromLSL->Fill(calc_xj_recosmear,event_weight);
 							// simple xj
 							int xj_reco_bin = histo_unf_xj->GetXaxis()->FindBin(Xj_variable_reco);
 							TH1D* histo_xj_reco_temp = (TH1D*) histo_unf_xj->ProjectionY("xjunfreco",xj_reco_bin,xj_reco_bin);
@@ -1195,14 +1198,14 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							}
 
 							double lj_gensmear[3]={lj_gen_smeared,(double) multcentbin,(double)extrabin}; 
-							if(lj_gen_smeared > leading_pT_min && slj_gen_smeared > subleading_pT_min) hist_leadjetunf_gensmear->Fill(lj_gensmear,event_weight);
+							hist_leadjetunf_gensmear->Fill(lj_gensmear,event_weight);
 							double slj_gensmear[3]={slj_gen_smeared,(double) multcentbin,(double)extrabin}; 
-							if(lj_gen_smeared > leading_pT_min && slj_gen_smeared > subleading_pT_min) hist_subljetunf_gensmear->Fill(slj_gensmear,event_weight);
+							hist_subljetunf_gensmear->Fill(slj_gensmear,event_weight);
 
 							// xj calculation
 							double Calc_XJ_gen_smeared = xjvar(lj_gen_smeared,slj_gen_smeared);
 							double calc_xj_gensmear[3]={Calc_XJ_gen_smeared,(double) multcentbin,(double)extrabin}; 
-							if(lj_gen_smeared > leading_pT_min && slj_gen_smeared > subleading_pT_min) hist_xjunf_gensmear_fromLSL->Fill(calc_xj_gensmear,event_weight);
+							hist_xjunf_gensmear_fromLSL->Fill(calc_xj_gensmear,event_weight);
 
 							// simple xj
 							int xj_gen_bin = histo_unf_xj->GetYaxis()->FindBin(Xj_variable_ref);
