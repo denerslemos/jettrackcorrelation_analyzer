@@ -1114,6 +1114,11 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							hist_jetunf_weighted_4D->Fill(pt4D,event_weight);
 							double pt4D_match[6]={pt1,leadrefjet_pt,pt2,sublrefjet_pt,(double)multcentbin,(double) extrabin}; 
 							hist_jetunf_match_weighted_4D->Fill(pt4D_match,event_weight);					
+							double pt4D_matchsym[6]={pt2,leadrefjet_pt,pt1,sublrefjet_pt,(double)multcentbin,(double) extrabin}; 
+							hist_jetunf_match_weighted_sym_4D->Fill(pt4D,event_weight);
+							hist_jetunf_match_weighted_sym_4D->Fill(pt4D_matchsym,event_weight);
+							hist_jetunf_match_weighted_symhalf_4D->Fill(pt4D,event_weight*0.5);
+							hist_jetunf_match_weighted_symhalf_4D->Fill(pt4D_matchsym,event_weight*0.5);
 
 							double leadpt = (double) pt1;
 							double sublpt = (double) pt2;
@@ -1156,15 +1161,15 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							}
 														
 							double lj_recosmear[3]={lj_reco_smeared,(double) multcentbin,(double)extrabin}; 
-							hist_leadjetunf_recosmear->Fill(lj_recosmear,event_weight);													
+							if(lj_reco_smeared > leading_pT_min && slj_reco_smeared > subleading_pT_min) hist_leadjetunf_recosmear->Fill(lj_recosmear,event_weight);													
 
 							double slj_recosmear[3]={slj_reco_smeared,(double) multcentbin,(double)extrabin}; 
-							hist_subljetunf_recosmear->Fill(slj_recosmear,event_weight);
+							if(lj_reco_smeared > leading_pT_min && slj_reco_smeared > subleading_pT_min) hist_subljetunf_recosmear->Fill(slj_recosmear,event_weight);
 
 							// xj calculation
 							double Calc_XJ_reco_smeared = xjvar(lj_reco_smeared,slj_reco_smeared);
 							double calc_xj_recosmear[3]={Calc_XJ_reco_smeared,(double) multcentbin,(double)extrabin}; 
-							hist_xjunf_recosmear_fromLSL->Fill(calc_xj_recosmear,event_weight);
+							if(lj_reco_smeared > leading_pT_min && slj_reco_smeared > subleading_pT_min) hist_xjunf_recosmear_fromLSL->Fill(calc_xj_recosmear,event_weight);
 							// simple xj
 							int xj_reco_bin = histo_unf_xj->GetXaxis()->FindBin(Xj_variable_reco);
 							TH1D* histo_xj_reco_temp = (TH1D*) histo_unf_xj->ProjectionY("xjunfreco",xj_reco_bin,xj_reco_bin);
@@ -1182,7 +1187,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							int slj_gen_bin = histo_unf_subleading->GetYaxis()->FindBin(sublrefjet_pt);
 							TH1D* histo_slj_gen_temp = (TH1D*) histo_unf_subleading->ProjectionX("sljunfgen",slj_gen_bin,slj_gen_bin);
 							double slj_gen_smeared = histo_slj_gen_temp->GetRandom(rndm2);
-							while(slj_gen_smeared > lj_gen_smeared){
+							if(slj_gen_smeared > lj_gen_smeared){
 								double lj_gen_smeared_temp = slj_gen_smeared;
 								double slj_gen_smeared_temp = lj_gen_smeared;
 								lj_gen_smeared = lj_gen_smeared_temp;
@@ -1190,14 +1195,14 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							}
 
 							double lj_gensmear[3]={lj_gen_smeared,(double) multcentbin,(double)extrabin}; 
-							hist_leadjetunf_gensmear->Fill(lj_gensmear,event_weight);
+							if(lj_gen_smeared > leading_pT_min && slj_gen_smeared > subleading_pT_min) hist_leadjetunf_gensmear->Fill(lj_gensmear,event_weight);
 							double slj_gensmear[3]={slj_gen_smeared,(double) multcentbin,(double)extrabin}; 
-							hist_subljetunf_gensmear->Fill(slj_gensmear,event_weight);
+							if(lj_gen_smeared > leading_pT_min && slj_gen_smeared > subleading_pT_min) hist_subljetunf_gensmear->Fill(slj_gensmear,event_weight);
 
 							// xj calculation
 							double Calc_XJ_gen_smeared = xjvar(lj_gen_smeared,slj_gen_smeared);
 							double calc_xj_gensmear[3]={Calc_XJ_gen_smeared,(double) multcentbin,(double)extrabin}; 
-							hist_xjunf_gensmear_fromLSL->Fill(calc_xj_gensmear,event_weight);
+							if(lj_gen_smeared > leading_pT_min && slj_gen_smeared > subleading_pT_min) hist_xjunf_gensmear_fromLSL->Fill(calc_xj_gensmear,event_weight);
 
 							// simple xj
 							int xj_gen_bin = histo_unf_xj->GetYaxis()->FindBin(Xj_variable_ref);
