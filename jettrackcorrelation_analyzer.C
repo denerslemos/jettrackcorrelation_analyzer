@@ -580,7 +580,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		bool removethirdjet = false;
 
 		//dijets
-		if(leadrecojet_pt > 0 && sublrecojet_pt > 0 && leadrecojet_index > -1 && sublrecojet_index > -1 && !removethirdjet){
+		if(leadrecojet_pt > 0 && sublrecojet_pt > 0 && !removethirdjet){
 
 			Nevents->Fill(6);
 			
@@ -894,7 +894,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		bool isrefdijet_midmid = false;
 		bool removethirdjet_ref = false;
 
-		if(leadrefjet_pt > 0.0 && sublrefjet_pt > 0.0 && leadrefjet_index > -1 && sublrefjet_index > -1 && !removethirdjet_ref){
+		if(leadrefjet_pt > 0.0 && sublrefjet_pt > 0.0 && !removethirdjet_ref){
 			//leading/subleading pT cuts
 			if(is_MC && leadrefjet_pt > leading_pT_min && sublrefjet_pt > subleading_pT_min){
 
@@ -1078,7 +1078,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			}
 		}
 
-		if( isdijet_midmid && isrefdijet_midmid ){
+		if( isrefdijet_midmid ){
 
 							double pt1 = (double) rawpt[leadrefjet_index];
 							double eta1 = (double) jteta[leadrefjet_index];
@@ -1096,8 +1096,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							JEC.SetJetPhi(phi2);
 							pt2 = JEC.GetCorrectedPT();
 							
-							if(pt1 <= leading_pT_min) continue;
-							if(pt2 <= subleading_pT_min) continue;
+							// if(pt1 <= leading_pT_min) continue;
+							// if(pt2 <= subleading_pT_min) continue;
+							if(fabs(deltaphi(phi1, phi2)) <= leading_subleading_deltaphi_min) cout << "different phi?" << endl;
 
 							double ptleading[4]={leadrecojet_pt,leadrefjet_pt,(double)multcentbin,(double) extrabin}; 
 							hist_leadjetunf_weighted->Fill(ptleading,event_weight);
@@ -1365,7 +1366,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			bool removethirdjet_gen = false;
 			
 			//leading/subleading jets
-			if(leadgenjet_pt > 0.0 && sublgenjet_pt > 0.0 && leadgenjet_index > -1 && sublgenjet_index > -1 && !removethirdjet_gen){
+			if(leadgenjet_pt > 0.0 && sublgenjet_pt > 0.0 && !removethirdjet_gen){
 
 				//leading/subleading pT cuts
 				if(leadgenjet_pt > leading_pT_min && sublgenjet_pt > subleading_pT_min){ 
