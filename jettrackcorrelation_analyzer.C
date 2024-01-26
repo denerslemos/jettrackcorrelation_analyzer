@@ -1102,13 +1102,14 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							if(leadrefjet_pt < 20.0) continue;
 							if(sublrefjet_pt < 10.0) continue;
 
+							double Xj_variable_reco = xjvar(leadrecojet_pt,sublrecojet_pt);
+							double Xj_variable_ref = xjvar(leadrefjet_pt,sublrefjet_pt);
+
 							if(isdijet_midmid){
 								double ptleading[4]={leadrecojet_pt,leadrefjet_pt,(double)multcentbin,(double) extrabin}; 
 								hist_leadjetunf_weighted->Fill(ptleading,event_weight);
 								double ptsubleading[4]={sublrecojet_pt,sublrefjet_pt,(double)multcentbin,(double) extrabin}; 
 								hist_subljetunf_weighted->Fill(ptsubleading,event_weight);
-								double Xj_variable_reco = xjvar(leadrecojet_pt,sublrecojet_pt);
-								double Xj_variable_ref = xjvar(leadrefjet_pt,sublrefjet_pt);
 								double xjvariable[4]={Xj_variable_reco,Xj_variable_ref,(double)multcentbin,(double) extrabin}; 
 								hist_xjunf_weighted->Fill(xjvariable,event_weight);
 								double pt4D[6]={leadrecojet_pt,leadrefjet_pt,sublrecojet_pt,sublrefjet_pt,(double)multcentbin,(double) extrabin}; 
