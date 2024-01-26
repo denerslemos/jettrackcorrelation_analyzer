@@ -1077,7 +1077,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				}
 			}
 		}
-
+		
+		/*
 		if( leadrefjet_pt > 0.0 && sublrefjet_pt > 0.0 ){
 
 							double pt1 = (double) rawpt[leadrefjet_index];
@@ -1156,7 +1157,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							}
 		}
 							
-							/*	
+							
 							auto *rndm2 = new TRandom3(0);
 							// Reco "unfolding"
 							// leading jet
