@@ -1129,12 +1129,13 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 								//hist_jetunf_match_weighted_sym_4D->Fill(pt4D_matchsym,event_weight);
 								//hist_jetunf_match_weighted_symhalf_4D->Fill(pt4D,event_weight*0.5);
 								//hist_jetunf_match_weighted_symhalf_4D->Fill(pt4D_matchsym,event_weight*0.5);
+								double Xj_variable_match = xjvar(pt1,pt2);
+								double xjvariablematch[4]={Xj_variable_match,Xj_variable_ref,(double)multcentbin,(double) extrabin}; 
+								hist_xjunf_match_weighted->Fill(xjvariablematch,event_weight);
 							}
+							
 							double leadpt = (double) pt1;
 							double sublpt = (double) pt2;
-							double Xj_variable_match = xjvar(leadpt,sublpt);
-							double xjvariablematch[4]={Xj_variable_match,Xj_variable_ref,(double)multcentbin,(double) extrabin}; 
-							hist_xjunf_match_weighted->Fill(xjvariablematch,event_weight);
 							if(sublpt > leadpt){
 								double leadpt_temp = sublpt;
 								double sublpt_temp = leadpt;
@@ -1152,7 +1153,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 								double pt4D_swap[6]={leadpt, leadrefjet_pt, sublpt, sublrefjet_pt,(double)multcentbin,(double) extrabin}; 
 								hist_jetunf_swap_weighted_4D->Fill(pt4D_swap,event_weight);
 							}
-							
 		}
 							
 							/*	
