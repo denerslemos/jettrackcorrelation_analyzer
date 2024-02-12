@@ -68,6 +68,17 @@ TH1I *Nev_gengen = new TH1I("Nev_gengen", "Nev_gengen", 1, 0, 1);
 TH1I *Nev_gengen_lead = new TH1I("Nev_gengen_lead", "Nev_gengen_lead", 1, 0, 1);
 TH1I *Nev_gengen_subl = new TH1I("Nev_gengen_subl", "Nev_gengen_subl", 1, 0, 1);
 
+TH1I *Nev_alljetfromalltrk = new TH1I("Nev_alljetfromalltrk", "Nev_alljetfromalltrk", 2, 0, 2);
+TH1I *Nev_jetwithlowpttrk = new TH1I("Nev_jetwithlowpttrk", "Nev_jetwithlowpttrk", 2, 0, 2);
+TH1I *Nev_jetfromonetrk = new TH1I("Nev_jetfromonetrk", "Nev_jetfromonetrk", 2, 0, 2);
+TH1I *Nev_jetsfrombothlowpttrkandonetrk = new TH1I("Nev_jetsfrombothlowpttrkandonetrk", "Nev_jetsfrombothlowpttrkandonetrk", 2, 0, 2);
+
+TH1I *Nev_jetwithlowpttrk_lead = new TH1I("Nev_jetwithlowpttrk_lead", "Nev_jetwithlowpttrk_lead", 2, 0, 2);
+TH1I *Nev_jetwithlowpttrk_sublead = new TH1I("Nev_jetwithlowpttrk_sublead", "Nev_jetwithlowpttrk_sublead", 2, 0, 2);
+TH1I *Nev_jetfromonetrk_lead = new TH1I("Nev_jetfromonetrk_lead", "Nev_jetfromonetrk_lead", 2, 0, 2);
+TH1I *Nev_jetfromonetrk_sublead = new TH1I("Nev_jetfromonetrk_sublead", "Nev_jetfromonetrk_sublead", 2, 0, 2);
+
+
 // Multiplicities
 TH1D *multiplicity = new TH1D("multiplicity", "multiplicity", 80, 0.0, 400.0);
 TH1D *multiplicity_weighted = new TH1D("multiplicity_weighted", "multiplicity_weighted", 80, 0.0, 400.0);

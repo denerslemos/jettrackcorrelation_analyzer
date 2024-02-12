@@ -404,6 +404,11 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				
 		bool isjetincluded = false;
 		int njets = 0;
+		bool jetwithlowpttrk = false;
+		bool jetfromonetrk = false;
+		bool alljetfromalltrk = false;
+		std::vector<int> jetwithlowpttrk_index; 
+		std::vector<int> jetfromonetrk_index; 
 	
 		int jetsize = (int)nref; // number of jets in an event
 		// Start loop over jets
@@ -411,8 +416,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		
 			if(fabs(jteta[j]) > 5.3) continue;
 			if(trackMax[j] < trackmaxpt) continue; // Can be use to remove jets from low pT tracks
-			if(trackMax[j]/rawpt[j] < 0.01)continue; // Cut for jets with only very low pT particles
-			if(trackMax[j]/rawpt[j] > 0.98)continue; // Cut for jets where all the pT is taken by one track
+			if(trackMax[j]/rawpt[j] < 0.01){ jetwitlowpttrk = true; jetwithlowpttrk_index.push_back(j);} //continue; } // Cut for jets with only very low pT particles
+			if(trackMax[j]/rawpt[j] > 0.98){ jetfromonetrk = true; jetfromonetrk_index.push_back(j); } //continue; }// Cut for jets where all the pT is taken by one track
+			alljetfromalltrk = true;
 			
 			// Define jet kinematics
 			float jet_rawpt = rawpt[j];
@@ -559,6 +565,23 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 		} // End loop over jets
 
+	
+		// for cross-check in the trackmax/rawpt
+		if(jetwitlowpttrk) Nev_jetwithlowpttrk->Fill(1);
+		if(jetfromonetrk) Nev_jetfromonetrk->Fill(1);
+		if(jetwitlowpttrk && jetfromonetrk) Nev_jetsfrombothlowpttrkandonetrk->Fill(1);
+		if(alljetfromalltrk) Nev_alljetfromalltrk->Fill(1);
+
+		for (int jj = 0; jj < jetfromonetrk_index.size(); jj++){ 
+			if( (jetfromonetrk_index[jj] == leadrecojet_index) ) {Nev_jetfromonetrk_lead->Fill(1); break;}
+			if( (jetfromonetrk_index[jj] == sublrecojet_index) ) {Nev_jetfromonetrk_sublead->Fill(1); break;}
+		}
+		
+		for (int jjj = 0; jjj < jetwithlowpttrk_index.size(); jjj++){ 
+			if( (jetwithlowpttrk_index[jjj] == leadrecojet_index) ) {Nev_jetwithlowpttrk_lead->Fill(1); break;}
+			if( (jetwithlowpttrk_index[jjj] == sublrecojet_index) ) {Nev_jetwithlowpttrk_sublead->Fill(1); break;}
+		}
+		
 		if(isjetincluded){
 			multiplicity_withonejet_weighted->Fill(mult,event_weight);
 			reco_mult_withonejet_weighted->Fill(recomult, event_weight);
