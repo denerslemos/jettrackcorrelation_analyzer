@@ -869,19 +869,19 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			}
 
 			// for cross-check in the trackmax/rawpt
-			if(jetwithlowpttrk) Nev_jetwithlowpttrk->Fill(1);
-			if(jetfromonetrk) Nev_jetfromonetrk->Fill(1);
-			if(jetwithlowpttrk && jetfromonetrk) Nev_jetsfrombothlowpttrkandonetrk->Fill(1);
-			if(alljetfromalltrk) Nev_alljetfromalltrk->Fill(1);
+			if(jetwithlowpttrk) Nev_jetwithlowpttrk->Fill(1.0, (double) mult);
+			if(jetfromonetrk) Nev_jetfromonetrk->Fill(1.0, (double) mult);
+			if(jetwithlowpttrk && jetfromonetrk) Nev_jetsfrombothlowpttrkandonetrk->Fill(1.0, (double) mult);
+			if(alljetfromalltrk) Nev_alljetfromalltrk->Fill(1.0, (double) mult);
 
 			for (int jj = 0; jj < jetfromonetrk_index.size(); jj++){ 
-				if( jetfromonetrk_index[jj] == leadrecojet_index ) {Nev_jetfromonetrk_lead->Fill(1); break;}
-				if( jetfromonetrk_index[jj] == sublrecojet_index ) {Nev_jetfromonetrk_sublead->Fill(1); break;}
+				if( jetfromonetrk_index[jj] == leadrecojet_index ) {Nev_jetfromonetrk_lead->Fill(1.0, (double) mult); break;}
+				if( jetfromonetrk_index[jj] == sublrecojet_index ) {Nev_jetfromonetrk_sublead->Fill(1.0, (double) mult); break;}
 			}
 		
 			for (int jjj = 0; jjj < jetwithlowpttrk_index.size(); jjj++){ 
-				if( jetwithlowpttrk_index[jjj] == leadrecojet_index ) {Nev_jetwithlowpttrk_lead->Fill(1); break;}
-				if( jetwithlowpttrk_index[jjj] == sublrecojet_index ) {Nev_jetwithlowpttrk_sublead->Fill(1); break;}
+				if( jetwithlowpttrk_index[jjj] == leadrecojet_index ) {Nev_jetwithlowpttrk_lead->Fill(1.0, (double) mult); break;}
+				if( jetwithlowpttrk_index[jjj] == sublrecojet_index ) {Nev_jetwithlowpttrk_sublead->Fill(1.0, (double) mult); break;}
 			}
 			
 			if(is_MC && leadrecojet_index >= 0 && sublrecojet_index >= 0 && refpt[leadrecojet_index] > 0 && refpt[sublrecojet_index] > 0){
