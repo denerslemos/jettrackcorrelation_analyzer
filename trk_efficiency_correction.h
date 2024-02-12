@@ -22,10 +22,6 @@ double getTrkCorrWeight(TFile *trkeff_file, bool use_centrality, string system, 
     TH2 *eff_factor = nullptr; 
     trkeff_file->GetObject("rTotalEff3D_0", eff_factor);  // eff / (1 - fake rate)
     double eff = eff_factor->GetBinContent( eff_factor->GetXaxis()->FindBin(eta),eff_factor->GetYaxis()->FindBin(pT) );
-    if(eff >= 0.9999 || eff <= 0.0001) eff = 1;
-    // possible factors
-    // factor = (1. - fak ) * ( 1. - sec ) / eff  / (1. + mul ); //complete correction
-    // factor = (1. - fak ) / eff;
     factor = (1. / eff); //only efficiency
   }
 

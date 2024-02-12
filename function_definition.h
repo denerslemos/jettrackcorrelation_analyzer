@@ -67,6 +67,74 @@ int get_Ntrkoff(TString col_sys, int col_energy, int yearofdatataking, int size,
 }
 
 /*
+Find Ntrk offline -> updated for all systems (and easy to update for future systems)
+The Ntrk offline is a definition with specific cuts (we should not change it). The track systematics must be applied using the input_variables.h!
+--> Arguments
+trkeff_file: efficiency file
+use_centrality: centrality or multiplicity
+mult: multiplicity or centrality bun
+col_sys: colliding system
+col_energy:  colliding energy
+yearofdatataking: year of data-taking
+size: track collection size per event
+eta: track eta
+pt: track pT
+phi: track phi
+charge: track charge
+hp: track high purity workflow
+pterr: track pT uncertainty
+dcaxy: track DCA in the transverse plane
+dcaxyerr: track DCA in the transverse plane uncertainty
+dcaz: track DCA in the longitudinal plane
+dcazerr: track DCA in the longitudinal plane uncertainty
+chi2: track chi2 of reconstruction
+ndof: track number of degrees of freedom reconstruction
+nlayer: track number of layers with measurements
+nhits: track number of hits with measurements
+algo: track MVA algorith step
+mva: track MVA algorith value [-1,1]
+*/
+double get_Ntrkcorr(TFile *trkeff_file, bool use_centrality, int mult, TString col_sys, int col_energy, int yearofdatataking, int size, float *eta, float *pt, float *phi, int *charge, bool *hp, float *pterr, float *dcaxy, float *dcaxyerr,  float *dcaz, float *dcazerr, float* chi2, unsigned char* ndof, unsigned char* nlayer, unsigned char* nhits, int* algo, float* mva){
+	double Ntrk_off = 0.0;
+	for(int ii=0; ii<size; ii++){ 
+		int NDF = (int) ndof[ii];
+		int NLayer = (int) nlayer[ii];
+		int NHits = (int) nhits[ii];	
+		if(fabs(eta[ii]) > 2.4) continue; 
+		if(fabs(charge[ii]) == 0)continue;
+		if(hp[ii] == false) continue;
+		if(fabs(pterr[ii]/pt[ii]) >= 0.1) continue;
+		if(fabs(dcaxy[ii]/dcaxyerr[ii]) >= 3.0) continue;
+		if(fabs(dcaz[ii]/dcazerr[ii]) >= 3.0) continue;
+		double calomatching = ((pfEcal[ii]+pfHcal[ii])/cosh(eta[ii]))/pt[ii];
+		
+		if(col_sys=="pPb" && col_energy==8160 && yearofdatataking==2016){if(pt[ii] <= 0.4) continue;}
+		
+		if(col_sys=="pp" && yearofdatataking==2017){if(pt[ii] <= 0.5) continue;}
+		
+		if(col_sys=="XeXe" && col_energy==5440 && yearofdatataking==2017){
+			if(pt[ii] <= 0.5) continue; 
+			if((chi2[ii]/NDF)/NLayer >= 0.15) continue;
+		 	if(NHits < 11) continue;
+		 	if(pt[ii] > 20.0){if(calomatching<=0.5)continue;} //is this applicable in pp or pPb?
+		}
+		
+		if(col_sys=="PbPb" && col_energy==5020 && yearofdatataking==2018){
+			if(pt[ii] <= 0.5) continue; 
+			if((chi2[ii]/NDF)/NLayer >= 0.18) continue;
+		 	if(NHits < 11) continue;
+		 	if(pt[ii] > 20.0){if(calomatching<=0.5)continue;} //is this applicable in pp or pPb?
+			if(algo[ii]==6 && mva[ii]<0.98) continue;
+		}
+		
+		Ntrk_off = Ntrk_off + getTrkCorrWeight(trkeff_file, use_centrality, col_sys.Data(), yearofdatataking, col_energy, mult, pt[ii], eta[ii], phi[ii]);
+
+	}
+	
+	return Ntrk_off;
+}
+
+/*
 Find Ntrk offline for pT >= 1-> updated for all systems (and easy to update for future systems)
 The Ntrk offline is a definition with specific cuts (we should not change it). The track systematics must be applied using the input_variables.h!
 --> Arguments

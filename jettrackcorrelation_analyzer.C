@@ -226,6 +226,11 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		int recomult = get_simple_mult_reco(colliding_system, sNN_energy_GeV, year_of_datataking, trksize, trketa, trkpt, trkcharge); // reco multiplicity (only pt and eta cuts)
 		int genmult;
 		if(is_MC) genmult = get_simple_mult_gen(colliding_system, sNN_energy_GeV, year_of_datataking, (int) gen_trkpt->size(), gen_trketa, gen_trkpt, gen_trkchg); // gen multiplicity (only pt and eta cuts)
+
+		multiplicity_nocut->Fill((double) mult);
+		double mult_corr = get_Ntrkcorr(fileeff, use_centrality, mult, colliding_system, sNN_energy_GeV, year_of_datataking, trksize, trketa, trkpt, trkphi, trkcharge, highpur, trkpterr, trkdcaxy, trkdcaxyerr, trkdcaz, trkdcazerr, trkchi2, trkndof, trknlayer, trknhits, trkalgo, trkmva);
+		multiplicity_corrected->Fill((double) mult_corr);
+		
 		if(mult < multiplicity_centrality_bins[0] || mult > multiplicity_centrality_bins[multiplicity_centrality_bins.size()-1])continue; //centrality of multiplicity range
 		double multcentbin = (double) mult;
 		Nevents->Fill(5);

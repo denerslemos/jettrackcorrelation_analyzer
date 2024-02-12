@@ -93,6 +93,10 @@ TH1D *multiplicity_bkwmid_weighted = new TH1D("multiplicity_bkwmid_weighted", "m
 TH1D *multiplicity_bkwfwd_weighted = new TH1D("multiplicity_bkwfwd_weighted", "multiplicity_bkwfwd_weighted", 80, 0.0, 400.0);
 TH1D *multiplicity_bkwbkw_weighted = new TH1D("multiplicity_bkwbkw_weighted", "multiplicity_bkwbkw_weighted", 80, 0.0, 400.0);
 
+TH1D *multiplicity_nocut = new TH1D("multiplicity_nocut", "multiplicity_nocut", 500, 0.0, 500.0);
+TH1D *multiplicity_corrected = new TH1D("multiplicity_corrected", "multiplicity_corrected", 500, 0.0, 500.0);
+
+
 TH1D *multiplicity_weighted_at1 = new TH1D("multiplicity_weighted_at1", "multiplicity_weighted_at1", 80, 0.0, 400.0);
 TH1D *multiplicity_withonejet_weighted_at1 = new TH1D("multiplicity_withonejet_weighted_at1", "multiplicity_withonejet_weighted_at1", 80, 0.0, 400.0);
 TH1D *multiplicity_withdijets_weighted_at1 = new TH1D("multiplicity_withdijets_weighted_at1", "multiplicity_withdijets_weighted_at1", 80, 0.0, 400.0);
@@ -2169,6 +2173,8 @@ multiplicity_bkwbkw_weighted->Sumw2();
 multiplicity_weighted_at1->Sumw2();
 multiplicity_withonejet_weighted_at1->Sumw2();
 multiplicity_withdijets_weighted_at1->Sumw2();
+multiplicity_nocut->Sumw2();
+multiplicity_corrected->Sumw2();
 reco_mult->Sumw2();
 reco_mult_weighted->Sumw2();
 reco_mult_withonejet_weighted->Sumw2();
@@ -2648,6 +2654,8 @@ void w_QA_hist(bool isMC){
 	reco_mult_weighted->Write();
 	reco_mult_withonejet_weighted->Write();
 	reco_mult_withdijets_weighted->Write();
+	multiplicity_nocut->Write();
+	multiplicity_corrected->Write();
  	multiplicity->Write();
 	multiplicity_weighted->Write();
 	multiplicity_withonejet_weighted->Write();
