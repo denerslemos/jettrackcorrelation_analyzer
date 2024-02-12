@@ -41,8 +41,8 @@ const int nDphiBins = 30; // number of bins
 double DphiBins[nDphiBins+1] = {0.0, TMath::Pi()/5. ,TMath::Pi()/3., (3./7.)*TMath::Pi(), TMath::Pi()/2., (4./7.)*TMath::Pi(), (3./5.)*TMath::Pi(), 1.93731547,  1.98967535,  2.04203522,  2.0943951 , 2.14675498,  2.19911486,  2.25147474,  2.30383461,  2.35619449, 2.40855437,  2.46091425,  2.51327412,  2.565634,  2.61799388, 2.67035376,  2.72271363,  2.77507351,  2.82743339,  2.87979327, 2.93215314,  2.98451302,  3.0368729 ,  3.08923278,  TMath::Pi()};
 
 // for 3rd jet studies
-const int nXjBins3rd = 17; // number of bins
-double XjBins3rd[nXjBins3rd+1] = {-1.0,0.0,0.1,0.2,0.3,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0};
+const int nXjBins3rd = 21; // number of bins
+double XjBins3rd[nXjBins3rd+1] = {-1.0,0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0};
 const int nDphiBins3rd = 31; // number of bins
 double DphiBins3rd[nDphiBins3rd+1] = {-1.0, 0.0, TMath::Pi()/5. ,TMath::Pi()/3., (3./7.)*TMath::Pi(), TMath::Pi()/2., (4./7.)*TMath::Pi(), (3./5.)*TMath::Pi(), 1.93731547,  1.98967535,  2.04203522,  2.0943951 , 2.14675498,  2.19911486,  2.25147474,  2.30383461,  2.35619449, 2.40855437,  2.46091425,  2.51327412,  2.565634,  2.61799388, 2.67035376,  2.72271363,  2.77507351,  2.82743339,  2.87979327, 2.93215314,  2.98451302,  3.0368729 ,  3.08923278,  TMath::Pi()};
 
@@ -68,14 +68,14 @@ TH1I *Nev_gengen = new TH1I("Nev_gengen", "Nev_gengen", 1, 0, 1);
 TH1I *Nev_gengen_lead = new TH1I("Nev_gengen_lead", "Nev_gengen_lead", 1, 0, 1);
 TH1I *Nev_gengen_subl = new TH1I("Nev_gengen_subl", "Nev_gengen_subl", 1, 0, 1);
 
-TH2D *Nev_alljetfromalltrk = new TH2D("Nev_alljetfromalltrk", "Nev_alljetfromalltrk", 2, 0.0, 2.0, 80, 0, 400);
-TH2D *Nev_jetwithlowpttrk = new TH2D("Nev_jetwithlowpttrk", "Nev_jetwithlowpttrk", 2, 0.0, 2.0, 80, 0, 400);
-TH2D *Nev_jetfromonetrk = new TH2D("Nev_jetfromonetrk", "Nev_jetfromonetrk", 2, 0.0, 2.0, 80, 0, 400);
-TH2D *Nev_jetsfrombothlowpttrkandonetrk = new TH2D("Nev_jetsfrombothlowpttrkandonetrk", "Nev_jetsfrombothlowpttrkandonetrk", 2, 0.0, 2.0, 80, 0, 400);
-TH2D *Nev_jetwithlowpttrk_lead = new TH2D("Nev_jetwithlowpttrk_lead", "Nev_jetwithlowpttrk_lead", 2, 0.0, 2.0, 80, 0, 400);
-TH2D *Nev_jetwithlowpttrk_sublead = new TH2D("Nev_jetwithlowpttrk_sublead", "Nev_jetwithlowpttrk_sublead", 2, 0.0, 2.0, 80, 0, 400);
-TH2D *Nev_jetfromonetrk_lead = new TH2D("Nev_jetfromonetrk_lead", "Nev_jetfromonetrk_lead", 2, 0.0, 2.0, 80, 0, 400);
-TH2D *Nev_jetfromonetrk_sublead = new TH2D("Nev_jetfromonetrk_sublead", "Nev_jetfromonetrk_sublead", 2, 0.0, 2.0, 80, 0, 400);
+TH1D *Nev_alljetfromalltrk = new TH1D("Nev_alljetfromalltrk", "Nev_alljetfromalltrk", 80, 0, 400);
+TH1D *Nev_jetwithlowpttrk = new TH1D("Nev_jetwithlowpttrk", "Nev_jetwithlowpttrk", 80, 0, 400);
+TH1D *Nev_jetfromonetrk = new TH1D("Nev_jetfromonetrk", "Nev_jetfromonetrk", 80, 0, 400);
+TH1D *Nev_jetsfrombothlowpttrkandonetrk = new TH1D("Nev_jetsfrombothlowpttrkandonetrk", "Nev_jetsfrombothlowpttrkandonetrk", 80, 0, 400);
+TH1D *Nev_jetwithlowpttrk_lead = new TH1D("Nev_jetwithlowpttrk_lead", "Nev_jetwithlowpttrk_lead", 80, 0, 400);
+TH1D *Nev_jetwithlowpttrk_sublead = new TH1D("Nev_jetwithlowpttrk_sublead", "Nev_jetwithlowpttrk_sublead", 80, 0, 400);
+TH1D *Nev_jetfromonetrk_lead = new TH1D("Nev_jetfromonetrk_lead", "Nev_jetfromonetrk_lead", 80, 0, 400);
+TH1D *Nev_jetfromonetrk_sublead = new TH1D("Nev_jetfromonetrk_sublead", "Nev_jetfromonetrk_sublead", 80, 0, 400);
 
 
 // Multiplicities
