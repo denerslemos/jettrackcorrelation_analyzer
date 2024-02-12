@@ -571,7 +571,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 		} // End loop over jets
 
-	
+/*	
 		// for cross-check in the trackmax/rawpt
 		if(jetwithlowpttrk) Nev_jetwithlowpttrk->Fill(1);
 		if(jetfromonetrk) Nev_jetfromonetrk->Fill(1);
@@ -587,7 +587,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			if( jetwithlowpttrk_index[jjj] == leadrecojet_index ) {Nev_jetwithlowpttrk_lead->Fill(1); break;}
 			if( jetwithlowpttrk_index[jjj] == sublrecojet_index ) {Nev_jetwithlowpttrk_sublead->Fill(1); break;}
 		}
-		
+*/		
 		if(isjetincluded){
 			multiplicity_withonejet_weighted->Fill(mult,event_weight);
 			reco_mult_withonejet_weighted->Fill(recomult, event_weight);
@@ -866,6 +866,22 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double x3D_hiZDC_dijet[3]={zdcplus,zdcminus,(double) mult}; zdchist_dijet_weighted->Fill(x3D_hiZDC_dijet,event_weight);
 				double x2D_hiHFSum_dijet[2]={hfplus+hfminus,(double) mult}; hfhistSum_dijet_weighted->Fill(x2D_hiHFSum_dijet,event_weight);
 				double x2D_hiHFEta4Sum_dijet[2]={hfplusEta4+hfminusEta4,(double) mult}; hfhistEta4Sum_dijet_weighted->Fill(x2D_hiHFEta4Sum_dijet,event_weight);
+			}
+
+			// for cross-check in the trackmax/rawpt
+			if(jetwithlowpttrk) Nev_jetwithlowpttrk->Fill(1);
+			if(jetfromonetrk) Nev_jetfromonetrk->Fill(1);
+			if(jetwithlowpttrk && jetfromonetrk) Nev_jetsfrombothlowpttrkandonetrk->Fill(1);
+			if(alljetfromalltrk) Nev_alljetfromalltrk->Fill(1);
+
+			for (int jj = 0; jj < jetfromonetrk_index.size(); jj++){ 
+				if( jetfromonetrk_index[jj] == leadrecojet_index ) {Nev_jetfromonetrk_lead->Fill(1); break;}
+				if( jetfromonetrk_index[jj] == sublrecojet_index ) {Nev_jetfromonetrk_sublead->Fill(1); break;}
+			}
+		
+			for (int jjj = 0; jjj < jetwithlowpttrk_index.size(); jjj++){ 
+				if( jetwithlowpttrk_index[jjj] == leadrecojet_index ) {Nev_jetwithlowpttrk_lead->Fill(1); break;}
+				if( jetwithlowpttrk_index[jjj] == sublrecojet_index ) {Nev_jetwithlowpttrk_sublead->Fill(1); break;}
 			}
 			
 			if(is_MC && leadrecojet_index >= 0 && sublrecojet_index >= 0 && refpt[leadrecojet_index] > 0 && refpt[sublrecojet_index] > 0){
