@@ -30,9 +30,9 @@ const double minPtLSL = 20.0;  // minimum
 const double maxPtLSL = 1000.0; // maximum
 double PtLSLlogBinWidth = (TMath::Log(maxPtLSL+binnerShift) - TMath::Log(minPtLSL+binnerShift)) / nPtLSLBins; // binwidth
 // Xj and Aj bins
-const int nXjAjBins = 21; // number of bins
-double XjBins[nXjAjBins+1] = {0.0,0.1,0.2,0.3,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.1,1.2,1.3,1.4,1.5};
-double AjBins[nXjAjBins+1] = {0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5};
+const int nXjAjBins = 25; // number of bins
+double XjBins[nXjAjBins+1] = {0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.1,1.2,1.3,1.4,1.5};
+double AjBins[nXjAjBins+1] = {0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.1,1.2,1.3,1.4,1.5};
 // less bins
 //const int nDphiBins = 18; // number of bins
 //double DphiBins[nDphiBins+1] = {0.0, TMath::Pi()/5. ,TMath::Pi()/3., (3./7.)*TMath::Pi(), TMath::Pi()/2., (4./7.)*TMath::Pi(), (3./5.)*TMath::Pi(), 1.98967535,  2.0943951 ,  2.19911486,  2.30383461, 2.40855437,  2.51327412,  2.61799388,  2.72271363,  2.82743339, 2.93215314,  3.0368729, TMath::Pi()};
