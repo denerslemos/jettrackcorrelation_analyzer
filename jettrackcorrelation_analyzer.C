@@ -416,9 +416,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		
 			if(fabs(jteta[j]) > 5.3) continue;
 			if(trackMax[j] < trackmaxpt) continue; // Can be use to remove jets from low pT tracks
-			//if(trackMax[j]/rawpt[j] < 0.01){ jetwithlowpttrk = true; jetwithlowpttrk_index.push_back(j);} //continue; } // Cut for jets with only very low pT particles
-			//if(trackMax[j]/rawpt[j] > 0.98){ jetfromonetrk = true; jetfromonetrk_index.push_back(j); } //continue; }// Cut for jets where all the pT is taken by one track
-			//alljetfromalltrk = true;
 			
 			// Define jet kinematics
 			float jet_rawpt = rawpt[j];
@@ -492,10 +489,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			hist_reco_jet_corr->Fill(x_reco_jet_corr);
 			hist_reco_jet_corr_weighted->Fill(x_reco_jet_corr,event_weight*jet_weight);
 
-			if(jet_pt_corr > 50.0){
+			if(jet_pt_corr > subleading_pT_min){
 				if(trackMax[j]/rawpt[j] < 0.01){ jetwithlowpttrk = true; jetwithlowpttrk_index.push_back(j);} //continue; } // Cut for jets with only very low pT particles
-                        	if(trackMax[j]/rawpt[j] > 0.98){ jetfromonetrk = true; jetfromonetrk_index.push_back(j); } //continue; }// Cut for jets where all the pT is taken by one track
-                        	alljetfromalltrk = true;
+                if(trackMax[j]/rawpt[j] > 0.98){ jetfromonetrk = true; jetfromonetrk_index.push_back(j); } //continue; }// Cut for jets where all the pT is taken by one track
+                alljetfromalltrk = true;
 			}
 
 			if((jet_pt_corr > jet_pt_min_cut && jet_pt_corr < jet_pt_max_cut) && (jet_eta > jet_eta_min_cut && jet_eta < jet_eta_max_cut)){ // Jet pT and eta cut		
@@ -537,7 +534,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				float ref_phi = refphi[j];
 				float ref_mass = refmass[j];
 
-    	            if(jet_rawpt < 0.0) continue;
+    	        if(jet_rawpt < 0.0) continue;
  	            if(jet_pt_corr < 0.0) continue;
 
 				int jet_index_ref = (int) j;
@@ -571,23 +568,19 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 		} // End loop over jets
 
-/*	
-		// for cross-check in the trackmax/rawpt
-		if(jetwithlowpttrk) Nev_jetwithlowpttrk->Fill(1);
-		if(jetfromonetrk) Nev_jetfromonetrk->Fill(1);
-		if(jetwithlowpttrk && jetfromonetrk) Nev_jetsfrombothlowpttrkandonetrk->Fill(1);
-		if(alljetfromalltrk) Nev_alljetfromalltrk->Fill(1);
-
+		bool remove_undesiredevents = false;
 		for (int jj = 0; jj < jetfromonetrk_index.size(); jj++){ 
-			if( jetfromonetrk_index[jj] == leadrecojet_index ) {Nev_jetfromonetrk_lead->Fill(1); break;}
-			if( jetfromonetrk_index[jj] == sublrecojet_index ) {Nev_jetfromonetrk_sublead->Fill(1); break;}
+			if( jetfromonetrk_index[jj] == leadrecojet_index ) {remove_undesiredevents = true; break;}
+			if( jetfromonetrk_index[jj] == sublrecojet_index ) {remove_undesiredevents = true; break;}
 		}
 		
 		for (int jjj = 0; jjj < jetwithlowpttrk_index.size(); jjj++){ 
-			if( jetwithlowpttrk_index[jjj] == leadrecojet_index ) {Nev_jetwithlowpttrk_lead->Fill(1); break;}
-			if( jetwithlowpttrk_index[jjj] == sublrecojet_index ) {Nev_jetwithlowpttrk_sublead->Fill(1); break;}
+			if( jetwithlowpttrk_index[jjj] == leadrecojet_index ) {remove_undesiredevents = true; break;}
+			if( jetwithlowpttrk_index[jjj] == sublrecojet_index ) {remove_undesiredevents = true; break;}
 		}
-*/		
+		
+		if(remove_undesiredevents) continue;
+		
 		if(isjetincluded){
 			multiplicity_withonejet_weighted->Fill(mult,event_weight);
 			reco_mult_withonejet_weighted->Fill(recomult, event_weight);
@@ -869,19 +862,19 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			}
 
 			// for cross-check in the trackmax/rawpt
-			if(jetwithlowpttrk) Nev_jetwithlowpttrk->Fill(1.0, (double) mult);
-			if(jetfromonetrk) Nev_jetfromonetrk->Fill(1.0, (double) mult);
-			if(jetwithlowpttrk && jetfromonetrk) Nev_jetsfrombothlowpttrkandonetrk->Fill(1.0, (double) mult);
-			if(alljetfromalltrk) Nev_alljetfromalltrk->Fill(1.0, (double) mult);
+			if(jetwithlowpttrk) Nev_jetwithlowpttrk->Fill((double) mult);
+			if(jetfromonetrk) Nev_jetfromonetrk->Fill((double) mult);
+			if(jetwithlowpttrk && jetfromonetrk) Nev_jetsfrombothlowpttrkandonetrk->Fill((double) mult);
+			if(alljetfromalltrk) Nev_alljetfromalltrk->Fill((double) mult);
 
 			for (int jj = 0; jj < jetfromonetrk_index.size(); jj++){ 
-				if( jetfromonetrk_index[jj] == leadrecojet_index ) {Nev_jetfromonetrk_lead->Fill(1.0, (double) mult); break;}
-				if( jetfromonetrk_index[jj] == sublrecojet_index ) {Nev_jetfromonetrk_sublead->Fill(1.0, (double) mult); break;}
+				if( jetfromonetrk_index[jj] == leadrecojet_index ) {Nev_jetfromonetrk_lead->Fill((double) mult); break;}
+				if( jetfromonetrk_index[jj] == sublrecojet_index ) {Nev_jetfromonetrk_sublead->Fill((double) mult); break;}
 			}
 		
 			for (int jjj = 0; jjj < jetwithlowpttrk_index.size(); jjj++){ 
-				if( jetwithlowpttrk_index[jjj] == leadrecojet_index ) {Nev_jetwithlowpttrk_lead->Fill(1.0, (double) mult); break;}
-				if( jetwithlowpttrk_index[jjj] == sublrecojet_index ) {Nev_jetwithlowpttrk_sublead->Fill(1.0, (double) mult); break;}
+				if( jetwithlowpttrk_index[jjj] == leadrecojet_index ) {Nev_jetwithlowpttrk_lead->Fill((double) mult); break;}
+				if( jetwithlowpttrk_index[jjj] == sublrecojet_index ) {Nev_jetwithlowpttrk_sublead->Fill((double) mult); break;}
 			}
 			
 			if(is_MC && leadrecojet_index >= 0 && sublrecojet_index >= 0 && refpt[leadrecojet_index] > 0 && refpt[sublrecojet_index] > 0){
