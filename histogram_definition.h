@@ -484,7 +484,7 @@ THnSparseD *hist_reco_3rdjet = new THnSparseD("hist_reco_3rdjet", "hist_reco_3rd
 THnSparseD *hist_ref_3rdjet = new THnSparseD("hist_ref_3rdjet", "hist_ref_3rdjet", 8, bins_3rdjet, xmin_3rdjet, xmax_3rdjet);
 THnSparseD *hist_gen_3rdjet = new THnSparseD("hist_gen_3rdjet", "hist_gen_3rdjet", 8, bins_3rdjet, xmin_3rdjet, xmax_3rdjet);
 
-int	bins_3rdjetpt[8]   	=     { nPtLSLBins2   , nPtLSLBins2		, nPtLSLBins2	, nPtLSLBins2	, 10	, 10  , 10  , multbinsize-1};
+int	bins_3rdjetpt[8]   	=     { nPtLSLBins2   , nPtLSLBins2		, nPtLSLBins2	, nPtLSLBins2	, 20	, 20  , 20  , multbinsize-1};
 double xmin_3rdjetpt[8]   =   { PtLSLBins2[0] , PtLSLBins2[0]	, PtLSLBins2[0]	, PtLSLBins2[0] , 0.0	, 0.0 , 0.0 , multiplicity_centrality_bins[0]};
 double xmax_3rdjetpt[8]   =   { 8160.0 		  , 8160.0  	    , 8160.0		, 8160.0 	 	, 1.0 	, 1.0 , 1.0 , multiplicity_centrality_bins[multbinsize-1]};
 THnSparseD *hist_reco_3rdjet_pt = new THnSparseD("hist_reco_3rdjet_pt", "hist_reco_3rdjet_pt", 8, bins_3rdjetpt, xmin_3rdjetpt, xmax_3rdjetpt);
