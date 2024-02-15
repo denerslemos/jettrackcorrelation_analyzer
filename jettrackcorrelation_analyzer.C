@@ -791,7 +791,15 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						Nevents->Fill(9);
 						pass_Aj_or_Xj_reco_cut = true; // if we apply Xj or Aj cuts
 						isdijet = true;
-						if( leadmidrap && sublmidrap ){ isdijet_midmid = true; }
+						if( leadmidrap && sublmidrap ){ 
+							isdijet_midmid = true; 
+							double ptaveragelsl = 0.5*(leadrecojet_pt+sublrecojet_pt);
+							double alphapt = thirdrecojet_pt / ptaveragelsl;
+							double ratio31 = thirdrecojet_pt / leadrecojet_pt;
+							double ratio32 = thirdrecojet_pt / sublrecojet_pt;
+							double x_ptcheck[8]={leadrecojet_pt, sublrecojet_pt, thirdrecojet_pt, ptaveragelsl, ratio31, ratio32, alphapt,(double) multcentbin};
+							if(thirdrecojet_pt > 0) hist_reco_3rdjet_pt->Fill(x_ptcheck,event_weight); 	
+						}
 
 						// Fill leading and subleading jet QA histograms
 						double x_lead[5]={leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,(double) multcentbin,(double)extrabin}; 
@@ -1116,7 +1124,15 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double x_ref_QA_3L[5]={thirdrefjet_pt,thirdrefjet_eta,thirdrefjet_phi,(double)multcentbin,(double) extrabin}; 
 						hist_ref_thrdjet_weighted->Fill(x_ref_QA_3L,event_weight);
 
-						if(leadmidrap && sublmidrap){ isrefdijet_midmid = true;	}
+						if(leadmidrap && sublmidrap){ 
+							isrefdijet_midmid = true;	
+							double ptaveragelslref = 0.5*(leadrefjet_pt+sublrefjet_pt);
+							double alphaptref = thirdrefjet_pt / ptaveragelsl;
+							double ratio31ref = thirdrefjet_pt / leadrefjet_pt;
+							double ratio32ref = thirdrefjet_pt / sublrefjet_pt;
+							double x_ptcheckref[8]={leadrefjet_pt, sublrefjet_pt, thirdrefjet_pt, ptaveragelslref, ratio31ref, ratio32ref, alphaptref,(double) multcentbin};
+							if(thirdrefjet_pt > 0) hist_ref_3rdjet_pt->Fill(x_ptcheckref,event_weight);	 
+						}
 					}
 				}
 			}
@@ -1594,6 +1610,15 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 							pass_Aj_or_Xj_gen_cut = true; // if we apply Xj or Aj cuts
 							isgdijet = true;
+
+							if( leadmidrap && sublmidrap ){
+								double ptaveragelslgen = 0.5*(leadgenjet_pt+sublgenjet_pt);
+								double alphaptgen = thirdgenjet_pt / ptaveragelsl;
+								double ratio31gen = thirdgenjet_pt / leadgenjet_pt;
+								double ratio32gen = thirdgenjet_pt / sublgenjet_pt;
+								double x_ptcheckgen[8]={leadgenjet_pt, sublgenjet_pt, thirdgenjet_pt, ptaveragelslgen, ratio31gen, ratio32gen, alphaptgen,(double) multcentbin};
+								if(thirdgenjet_pt > 0) hist_gen_3rdjet_pt->Fill(x_ptcheckgen,event_weight);	 
+							}
 
 							// Fill leading and subleading jet QA histograms
 							double x_lead[5]={leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,(double) multcentbin,(double)extrabin}; 
