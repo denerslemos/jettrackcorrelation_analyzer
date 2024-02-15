@@ -95,7 +95,7 @@ TH1D *multiplicity_bkwbkw_weighted = new TH1D("multiplicity_bkwbkw_weighted", "m
 
 TH1D *multiplicity_nocut = new TH1D("multiplicity_nocut", "multiplicity_nocut", 500, 0.0, 500.0);
 TH1D *multiplicity_corrected = new TH1D("multiplicity_corrected", "multiplicity_corrected", 500, 0.0, 500.0);
-TH2D *multiplicity2D = new TH1D("multiplicity2D", "multiplicity2D", 500, 0.0, 500.0, 500, 0.0, 500.0);
+TH2D *multiplicity2D = new TH2D("multiplicity2D", "multiplicity2D", 500, 0.0, 500.0, 500, 0.0, 500.0);
 
 
 TH1D *multiplicity_weighted_at1 = new TH1D("multiplicity_weighted_at1", "multiplicity_weighted_at1", 80, 0.0, 400.0);

@@ -1127,7 +1127,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						if(leadmidrap && sublmidrap){ 
 							isrefdijet_midmid = true;	
 							double ptaveragelslref = 0.5*(leadrefjet_pt+sublrefjet_pt);
-							double alphaptref = thirdrefjet_pt / ptaveragelsl;
+							double alphaptref = thirdrefjet_pt / ptaveragelslref;
 							double ratio31ref = thirdrefjet_pt / leadrefjet_pt;
 							double ratio32ref = thirdrefjet_pt / sublrefjet_pt;
 							double x_ptcheckref[8]={leadrefjet_pt, sublrefjet_pt, thirdrefjet_pt, ptaveragelslref, ratio31ref, ratio32ref, alphaptref,(double) multcentbin};
@@ -1613,7 +1613,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 							if( leadmidrap && sublmidrap ){
 								double ptaveragelslgen = 0.5*(leadgenjet_pt+sublgenjet_pt);
-								double alphaptgen = thirdgenjet_pt / ptaveragelsl;
+								double alphaptgen = thirdgenjet_pt / ptaveragelslgen;
 								double ratio31gen = thirdgenjet_pt / leadgenjet_pt;
 								double ratio32gen = thirdgenjet_pt / sublgenjet_pt;
 								double x_ptcheckgen[8]={leadgenjet_pt, sublgenjet_pt, thirdgenjet_pt, ptaveragelslgen, ratio31gen, ratio32gen, alphaptgen,(double) multcentbin};
