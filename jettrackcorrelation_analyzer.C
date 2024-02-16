@@ -1438,7 +1438,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			bool isgdijet = false;
 			bool removethirdjet_gen = false;
 			
-			if(thirdrefjet_pt > 0.0) removethirdjet_ref = true; 
+			if(thirdgenjet_pt > 0.0) removethirdjet_gen = true; 
 			
 			//leading/subleading jets
 			if(leadgenjet_pt > 0.0 && sublgenjet_pt > 0.0 && !removethirdjet_gen){
