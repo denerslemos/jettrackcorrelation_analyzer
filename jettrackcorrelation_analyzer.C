@@ -585,7 +585,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			if( jetwithlowpttrk_index[jjj] == sublrecojet_index ) {remove_undesiredevents = true; break;}
 		}
 		
-		if(remove_undesiredevents) continue;
+		//if(remove_undesiredevents) continue;
 		
 		if(isjetincluded){
 			multiplicity_withonejet_weighted->Fill(mult,event_weight);
@@ -606,6 +606,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		bool isdijet = false;
 		bool isdijet_midmid = false;
 		bool removethirdjet = false;
+		
+		if(thirdrecojet_pt > 0.0) removethirdjet = true; 
 
 		//dijets
 		if(leadrecojet_pt > 0 && sublrecojet_pt > 0 && !removethirdjet){
@@ -945,6 +947,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		bool isrefdijet = false;
 		bool isrefdijet_midmid = false;
 		bool removethirdjet_ref = false;
+		
+		if(thirdrefjet_pt > 0.0) removethirdjet_ref = true; 
 
 		if(leadrefjet_pt > 0.0 && sublrefjet_pt > 0.0 && !removethirdjet_ref){
 			//leading/subleading pT cuts
@@ -1433,6 +1437,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			if(isgjetincluded){gen_mult_withonejet_weighted->Fill(genmult, event_weight);}
 			bool isgdijet = false;
 			bool removethirdjet_gen = false;
+			
+			if(thirdrefjet_pt > 0.0) removethirdjet_ref = true; 
 			
 			//leading/subleading jets
 			if(leadgenjet_pt > 0.0 && sublgenjet_pt > 0.0 && !removethirdjet_gen){
