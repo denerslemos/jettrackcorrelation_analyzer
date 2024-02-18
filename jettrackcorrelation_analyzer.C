@@ -421,6 +421,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		for (int j = 0; j < jetsize; j++){
 		
 			if(fabs(jteta[j]) > 5.3) continue;
+            //if(trackMax[j]/rawpt[j] < 0.01) continue;
+            //if(trackMax[j]/rawpt[j] > 0.98) continue;
 			if(trackMax[j] < trackmaxpt) continue; // Can be use to remove jets from low pT tracks
 			
 			// Define jet kinematics
@@ -485,7 +487,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			double jet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, jet_pt_corr, jet_eta); // Jet weight (specially for MC)
 
 			double x_trkmaxjet[3]={trackMax[j]/rawpt[j],(double) multcentbin,(double) extrabin}; 
-			if(trackMax[j]/rawpt[j]>=0) jettrackmaxptinjethisto->Fill(x_trkmaxjet,event_weight*jet_weight);
+			if(trackMax[j]/rawpt[j] >= 0) jettrackmaxptinjethisto->Fill(x_trkmaxjet,event_weight*jet_weight);
+			if(trackMax[j]/rawpt[j] >  0) jettrackmaxptinjethisto_no0->Fill(x_trkmaxjet,event_weight*jet_weight);
 
 			// Fill reco jet QA histograms
 			double x_reco_jet[5]={jet_rawpt,jet_eta,jet_phi,(double) multcentbin,(double) extrabin}; 
