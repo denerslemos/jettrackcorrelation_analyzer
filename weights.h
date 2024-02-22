@@ -55,11 +55,12 @@ float get_event_weight(float nevents, bool isMC, bool use_centrality, string sys
 	}
 
     if(isMC && !use_centrality && system == "pPb" && energy == 8160 && year == 2016){ // pPb data
+    
 		if(leadjetpt > 15.0 && leadjetpt <= 30.){evtweight = 1.0404701e-06 * 961104;}
 		else if(leadjetpt > 30. && leadjetpt <= 50.){evtweight = 7.7966624e-08 * 952110;}
 		else if(leadjetpt > 50. && leadjetpt <= 80.){evtweight = 1.0016052e-08 * 952554;}
 		else if(leadjetpt > 80. && leadjetpt <= 120.){evtweight = 1.3018269e-09 * 996844;}
-		else if(leadjetpt >= 120.&& leadjetpt <= 170.){evtweight = 2.2648493e-10 * 964681;}
+		else if(leadjetpt > 120.&& leadjetpt <= 170.){evtweight = 2.2648493e-10 * 964681;}
 		else if(leadjetpt > 170. && leadjetpt <= 220.){evtweight = 4.0879112e-11 * 999260;}
 		else if(leadjetpt > 220. && leadjetpt <= 280.){evtweight = 1.1898939e-11 * 964336;}
 		else if(leadjetpt > 280. && leadjetpt <= 370.){evtweight = 3.3364433e-12 * 995036;}
@@ -67,13 +68,13 @@ float get_event_weight(float nevents, bool isMC, bool use_centrality, string sys
 		else if(leadjetpt > 460. && leadjetpt <= 540.){evtweight = 2.1341026e-13 * 981427;}
 		else if(leadjetpt > 540.){evtweight = 7.9191586e-14 * 1000000;}
 		evtweight = (float) evtweight/nevents;
-
-		/*	
+		
 		// Vz weighting
 		TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
 		VzWeightFunction->SetParameters(0.856516,-0.0159813,0.00436628,-0.00012862,2.61129e-05,-4.16965e-07,1.73711e-08,-3.11953e-09,6.24993e-10);
 		vzweight = VzWeightFunction->Eval(vz);
 		vzweight = 1./vzweight;
+		/*
 		// multiplicity weight
 		// PYTHIA+EPOS
 		if(is_embedded && is_multdep){

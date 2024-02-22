@@ -38,7 +38,6 @@ const bool do_dijetstudies = true; // quantities for jet quenching searches
 
 //============= Jet information =========================== 
 
-const float pthatsafety = 10000000.0; // gen pT > pthatsafety*pthat is removed; high number means no removal at all
 const TString jet_collection = "akCs4PFJetAnalyzer"; // jet collection in forest
 bool dojettrigger = false; // apply jet trigger
 TString jet_trigger = "HLT_PAAK4PFJet80_Eta5p1_v3"; // jet trigger in forest 
@@ -61,9 +60,24 @@ const float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for je
 const float leading_pT_min = 100.0; //used for jet leading and subleading correlation and jet quenching analysis
 const float subleading_pT_min = 50.0; //used for jet leading and subleading correlation and jet quenching analysis
 const bool do_thirdjet_removal = false; // remove third jet
-const int thirdjet_removal_method = 0; // remove third jet methods --> 0: same as HIN-19-013 (third jet pT > 0.5 * subleading jet pt for all events); 1: remove third jet pT > 0.5 * subleading jet pt for dijet events only; 2: remove third jet pT > 0.5 * subleading jet pt when subleading and third jets are close in phase space;
 const float dijetetamax = 3.0; // maximum dijet eta
 const float trackmaxpt = 0.0; // maximum track pT inside of a jet
+/*
+Methods:
+0 --> remove only trackmax/rawpt == 0
+1 --> remove entire event if matches
+2 --> use standardcut
+*/
+const int trackmaxoverrawpt_method = 0; 
+/*
+Methods:
+0 --> do no apply 3rd jet removal; 
+1 --> remove if pT3rdjet > thirdjet_removal_cut;
+2 --> remove if pT3rdjet > thirdjet_removal_cut * pTsubleadingjet
+3 --> remove if pT3rdjet > thirdjet_removal_cut * pTaverage
+*/
+const int thirdjet_removal_method = 0; 
+const float thirdjet_removal_cut = 0.0; // this cut will be applied depending on the method above 
 
 //pseudorapidity regions for jet-track leading and subleading correlations
 const TString fwdbkw_jettrk_option = "mid_mid"; // midrapidity + midrapidity
