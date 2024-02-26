@@ -1390,7 +1390,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			float leadgenjet_pt=-99, leadgenjet_eta=-99, leadgenjet_phi=-99, leadgenjet_mass=-99, leadgenjet_flavor=-99; // leading jet quantities
 			float sublgenjet_pt=-99, sublgenjet_eta=-99, sublgenjet_phi=-99, sublgenjet_mass=-99, sublgenjet_flavor=-99; // subleading jet quantities
 			float thirdgenjet_pt=-99, thirdgenjet_eta=-99, thirdgenjet_phi=-99, thirdgenjet_mass=-99, thirdgenjet_flavor=-99; // third jet quantities
-			int leadgenjet_index=100, sublgenjet_index=100, thirdgenjet_index=100; // jet indexes
+			int leadgenjet_index=1000, sublgenjet_index=1000, thirdgenjet_index=1000; // jet indexes
 			
 			bool isgjetincluded = false;
 
