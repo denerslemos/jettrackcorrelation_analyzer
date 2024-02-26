@@ -403,8 +403,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		float leadrefjet_pt=-99, leadrefjet_eta=-99, leadrefjet_phi=-99, leadrefjet_mass=-99, leadrefjet_flavor=-99; // leading jet ref quantities
 		float sublrefjet_pt=-99, sublrefjet_eta=-99, sublrefjet_phi=-99, sublrefjet_mass=-99, sublrefjet_flavor=-99; // subleading jet ref quantities
 		float thirdrefjet_pt=-99, thirdrefjet_eta=-99, thirdrefjet_phi=-99, thirdrefjet_mass=-99, thirdrefjet_flavor=-99; // third jet quantities
-		int leadrecojet_index=100, sublrecojet_index=100, thirdrecojet_index=100; // jet reco index
-		int leadrefjet_index=100, sublrefjet_index=100, thirdrefjet_index=100; // jet ref index
+		int leadrecojet_index=1000, sublrecojet_index=1000, thirdrecojet_index=1000; // jet reco index
+		int leadrefjet_index=1000, sublrefjet_index=1000, thirdrefjet_index=1000; // jet ref index
 				
 		bool isjetincluded = false;
 		int njets = 0;
@@ -548,6 +548,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
     	        if(jet_rawpt < 0.0) continue;
  	            if(jet_pt_corr < 0.0) continue;
+ 	            if(fabs(ref_eta) > 5.1) continue;
 
 				int jet_index_ref = (int) j;
 
@@ -900,7 +901,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				if( jetwithlowpttrk_index[jjj] == sublrecojet_index ) {Nev_jetwithlowpttrk_sublead->Fill((double) mult); break;}
 			}
 			
-			if(is_MC && leadrecojet_index >= 0 && sublrecojet_index >= 0 && refpt[leadrecojet_index] > 0 && refpt[sublrecojet_index] > 0){
+			if(is_MC && leadrecojet_index >= 0 && leadrecojet_index < 999 && sublrecojet_index >= 0 && sublrecojet_index < 999 && refpt[leadrecojet_index] > 0.0 && refpt[sublrecojet_index] > 0.0){
 
 					// add new etas here!
 					double ref_eta_lead = refeta[leadrefjet_index] + boost;  // In pPb case, for the center-of-mass correction if needed
