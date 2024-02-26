@@ -258,12 +258,13 @@ double xmax_trkmax[3]   =   {  100.0 ,   multiplicity_centrality_bins[multbinsiz
 THnSparseD *trackmaxptinjethisto = new THnSparseD("trackmaxptinjethisto", "trackmaxptinjethisto", 3, bins_trkmax, xmin_trkmax, xmax_trkmax);
 
 // trackmax/rawjet histogram
-// Axis : 0 -> max track pt in a jet, 1 -> multiplicity bins, 2 -> extra dependence bins
-int	bins_trkmaxjet[3]      =   {  5000  ,   multbinsize-1    							    ,  extrabinsize-1};
-double xmin_trkmaxjet[3]   =   {  0.0   ,   multiplicity_centrality_bins[0]  			    ,  extra_bins[0]};
-double xmax_trkmaxjet[3]   =   {  1.0   ,   multiplicity_centrality_bins[multbinsize-1]   ,  extra_bins[extrabinsize-1]};
+// Axis : 0 -> max track pt in a jet over raw pT, 1 -> raw pT, 2 -> multiplicity bins
+int	bins_trkmaxjet[3]      =   {  500   , 100  , multbinsize-1};
+double xmin_trkmaxjet[3]   =   {  0.0   , 0    , multiplicity_centrality_bins[0]};
+double xmax_trkmaxjet[3]   =   {  1.0   , 1000 , multiplicity_centrality_bins[multbinsize-1]};
 THnSparseD *jettrackmaxptinjethisto = new THnSparseD("jettrackmaxptinjethisto", "jettrackmaxptinjethisto", 3, bins_trkmaxjet, xmin_trkmaxjet, xmax_trkmaxjet);
 THnSparseD *jettrackmaxptinjethisto_no0 = new THnSparseD("jettrackmaxptinjethisto_no0", "jettrackmaxptinjethisto_no0", 3, bins_trkmaxjet, xmin_trkmaxjet, xmax_trkmaxjet);
+THnSparseD *jettrackmaxptinjethisto_ref = new THnSparseD("jettrackmaxptinjethisto_ref", "jettrackmaxptinjethisto_ref", 3, bins_trkmaxjet, xmin_trkmaxjet, xmax_trkmaxjet);
 
 // UE histogram
 // Axis : 0 -> UE, 1 -> multiplicity bins, 2 -> extra dependence bins
@@ -1405,8 +1406,9 @@ Dphi_GEN_EP4_flat_trk_minus->GetAxis(2)->Set(bins_TRKEP[2],MultCentbins);
 Dphi_GEN_EP4_flat_trk_plus->GetAxis(2)->Set(bins_TRKEP[2],MultCentbins);
 NJets->GetAxis(1)->Set(bins_NJETS[1],MultCentbins);
 trackmaxptinjethisto->GetAxis(1)->Set(bins_trkmax[1],MultCentbins);
-jettrackmaxptinjethisto->GetAxis(1)->Set(bins_trkmaxjet[1],MultCentbins);
-jettrackmaxptinjethisto_no0->GetAxis(1)->Set(bins_trkmaxjet[1],MultCentbins);
+jettrackmaxptinjethisto->GetAxis(2)->Set(bins_trkmaxjet[2],MultCentbins);
+jettrackmaxptinjethisto_no0->GetAxis(2)->Set(bins_trkmaxjet[2],MultCentbins);
+jettrackmaxptinjethisto_ref->GetAxis(2)->Set(bins_trkmaxjet[2],MultCentbins);
 histo_jetUE->GetAxis(1)->Set(bins_UE[1],MultCentbins);
 histo_jetAverageRho->GetAxis(1)->Set(bins_UE[1],MultCentbins);
 histo_jetcheckcorrection->GetAxis(1)->Set(bins_UE[1],MultCentbins);
@@ -1780,8 +1782,6 @@ Dphi_GEN_EP4_flat_trk_minus->GetAxis(3)->Set(bins_TRKEP[3],Extrabins);
 Dphi_GEN_EP4_flat_trk_plus->GetAxis(3)->Set(bins_TRKEP[3],Extrabins);
 NJets->GetAxis(2)->Set(bins_NJETS[2],Extrabins);
 trackmaxptinjethisto->GetAxis(2)->Set(bins_trkmax[2],Extrabins);
-jettrackmaxptinjethisto->GetAxis(2)->Set(bins_trkmaxjet[2],Extrabins);
-jettrackmaxptinjethisto_no0->GetAxis(2)->Set(bins_trkmaxjet[2],Extrabins);
 histo_jetUE->GetAxis(2)->Set(bins_UE[2],Extrabins);
 histo_jetAverageRho->GetAxis(2)->Set(bins_UE[2],Extrabins);
 histo_jetcheckcorrection->GetAxis(2)->Set(bins_UE[2],Extrabins);
@@ -2291,6 +2291,7 @@ NJets->Sumw2();
 trackmaxptinjethisto->Sumw2();
 jettrackmaxptinjethisto->Sumw2();
 jettrackmaxptinjethisto_no0->Sumw2();
+jettrackmaxptinjethisto_ref->Sumw2();
 histo_jetUE->Sumw2();
 histo_jetAverageRho->Sumw2();
 histo_jetcheckcorrection->Sumw2();
@@ -2745,6 +2746,7 @@ void w_QA_hist(bool isMC){
 	trackmaxptinjethisto->Write();
 	jettrackmaxptinjethisto->Write();
 	jettrackmaxptinjethisto_no0->Write();
+	if(isMC)jettrackmaxptinjethisto_ref->Write();
 	histo_jetUE->Write();
 	histo_jetAverageRho->Write();
 	histo_jetcheckcorrection->Write();

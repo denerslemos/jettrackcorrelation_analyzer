@@ -68,7 +68,7 @@ Methods:
 1 --> remove entire event if matches
 2 --> use standardcut
 */
-const int trackmaxoverrawpt_method = 0; 
+const int trackmaxoverrawpt_method = 2; 
 /*
 Methods:
 0 --> do no apply 3rd jet removal; 
