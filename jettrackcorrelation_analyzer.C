@@ -642,6 +642,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
  				double sljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublrecojet_pt, sublrecojet_eta);  // Jet weight (specially for MC)
 				
 				Nevents->Fill(8);
+				
+				dijets_EMCons_reco->Fill(leadrecojet_pt - (sublrecojet_pt + thirdrecojet_pt), event_weight);
 							
 				// Fill leading/subleading jet quenching quantities
 				double delta_phi_reco = fabs(deltaphi(leadrecojet_phi, sublrecojet_phi));
@@ -1130,6 +1132,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				
 				if(delta_phi_ref > leading_subleading_deltaphi_min){
 					if((Xj_ref >= xjmin && Xj_ref <= xjmax) && (Aj_ref >= Ajmin && Aj_ref <= Ajmax)){
+
+						dijets_EMCons_ref->Fill(leadrefjet_pt - (sublrefjet_pt + thirdrefjet_pt), event_weight);
+
 						isrefdijet = true;
 						double x_ref_QA_L[5]={leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,(double)multcentbin,(double) extrabin}; 
 						hist_ref_leadjet_weighted->Fill(x_ref_QA_L,event_weight*lrefjet_weight);
@@ -1638,6 +1643,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 								double x_ptcheckgen[8]={leadgenjet_pt, sublgenjet_pt, thirdgenjet_pt, ptaveragelslgen, ratio31gen, ratio32gen, alphaptgen,(double) multcentbin};
 								if(thirdgenjet_pt > 0) hist_gen_3rdjet_pt->Fill(x_ptcheckgen,event_weight);	 
 							}
+							
+							dijets_EMCons_gen->Fill(leadgenjet_pt - (sublgenjet_pt + thirdgenjet_pt), event_weight);
 
 							// Fill leading and subleading jet QA histograms
 							double x_lead[5]={leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,(double) multcentbin,(double)extrabin}; 
