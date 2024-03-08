@@ -115,6 +115,10 @@ TH1D *dijets_EMCons_reco = new TH1D("dijets_EMCons_reco", "dijets_EMCons_reco", 
 TH1D *dijets_EMCons_ref = new TH1D("dijets_EMCons_ref", "dijets_EMCons_ref", 4000, -200.0, 200.0);
 TH1D *dijets_EMCons_gen = new TH1D("dijets_EMCons_gen", "dijets_EMCons_gen", 4000, -200.0, 200.0);
 
+TH1D *dijets_EMCons_reco_P = new TH1D("dijets_EMCons_reco_P", "dijets_EMCons_reco_P", 4000, -200.0, 200.0);
+TH1D *dijets_EMCons_ref_P = new TH1D("dijets_EMCons_ref_P", "dijets_EMCons_ref_P", 4000, -200.0, 200.0);
+TH1D *dijets_EMCons_gen_P = new TH1D("dijets_EMCons_gen_P", "dijets_EMCons_gen_P", 4000, -200.0, 200.0);
+
 
 // Hadron Forward (HF) Calorimeter information
 // Axis : 0 -> HF+, 1 -> HF-, 2 -> multbin
@@ -2222,6 +2226,9 @@ gen_mult_withdijets_weighted->Sumw2();
 dijets_EMCons_reco->Sumw2();
 dijets_EMCons_ref->Sumw2();
 dijets_EMCons_gen->Sumw2();
+dijets_EMCons_reco_P->Sumw2();
+dijets_EMCons_ref_P->Sumw2();
+dijets_EMCons_gen_P->Sumw2();
 hfhist->Sumw2();
 hfhist_weighted->Sumw2();
 hfhistEta4->Sumw2();
@@ -2696,9 +2703,12 @@ void w_QA_hist(bool isMC){
 		pthathist->Write(); 
 		pthathist_weighted->Write();
 		dijets_EMCons_ref->Write();
+		dijets_EMCons_ref_P->Write();
 		dijets_EMCons_gen->Write();
+		dijets_EMCons_gen_P->Write();
 	}
 	dijets_EMCons_reco->Write();
+	dijets_EMCons_reco_P->Write();
 	reco_mult->Write();
 	reco_mult_weighted->Write();
 	reco_mult_withonejet_weighted->Write();
