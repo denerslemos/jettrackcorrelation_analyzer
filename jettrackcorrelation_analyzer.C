@@ -800,28 +800,37 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 					if((Xj_reco >= xjmin && Xj_reco <= xjmax) && (Aj_reco >= Ajmin && Aj_reco <= Ajmax)){
 
-						TVector3 GoodLeadingJets_reco_3vec;
-						GoodLeadingJets_reco_3vec.SetPtEtaPhi(leadrecojet_pt, leadrecojet_eta_lab, leadrecojet_phi);
-						double reco_lead_mag = sqrt(GoodLeadingJets_reco_3vec.Px()*GoodLeadingJets_reco_3vec.Px() + GoodLeadingJets_reco_3vec.Py()*GoodLeadingJets_reco_3vec.Py() + GoodLeadingJets_reco_3vec.Pz()*GoodLeadingJets_reco_3vec.Pz());
-						TVector3 GoodSubLeadingJets_reco_3vec;
-						GoodSubLeadingJets_reco_3vec.SetPtEtaPhi(sublrecojet_pt, sublrecojet_eta_lab, sublrecojet_phi);
-						double reco_subl_mag = sqrt(GoodSubLeadingJets_reco_3vec.Px()*GoodSubLeadingJets_reco_3vec.Px() + GoodSubLeadingJets_reco_3vec.Py()*GoodSubLeadingJets_reco_3vec.Py() + GoodSubLeadingJets_reco_3vec.Pz()*GoodSubLeadingJets_reco_3vec.Pz());
-						TVector3 GoodTrdLeadingJets_reco_3vec;
-						GoodTrdLeadingJets_reco_3vec.SetPtEtaPhi(thirdrecojet_pt, thirdrecojet_eta, thirdrecojet_phi);
-						double reco_thrd_mag = sqrt(GoodTrdLeadingJets_reco_3vec.Px()*GoodTrdLeadingJets_reco_3vec.Px() + GoodTrdLeadingJets_reco_3vec.Py()*GoodTrdLeadingJets_reco_3vec.Py() + GoodTrdLeadingJets_reco_3vec.Pz()*GoodTrdLeadingJets_reco_3vec.Pz());
-						TVector3 GoodProjLeadingJets_reco_3vec = GoodLeadingJets_reco_3vec - GoodSubLeadingJets_reco_3vec;
-
+						ROOT::Math::PtEtaPhiMVector GoodLeadingJets_reco_3vec(leadrecojet_pt,leadrecojet_eta_lab,leadrecojet_phi,leadrecojet_mass);
+						double reco_lead_mag =  GoodLeadingJets_reco_3vec.P();
+						ROOT::Math::PtEtaPhiMVector GoodSubLeadingJets_reco_3vec(sublrecojet_pt, sublrecojet_eta_lab, sublrecojet_phi, subrecojet_mass);
+						double reco_subl_mag = GoodSubLeadingJets_reco_3vec.P();
+						ROOT::Math::PtEtaPhiMVector GoodTrdLeadingJets_reco_3vec(thirdrecojet_pt, thirdrecojet_eta, thirdrecojet_phi, thirdrecojet_mass);
+						double reco_thrd_mag = GoodTrdLeadingJets_reco_3vec.P();
+						ROOT::Math::PtEtaPhiMVector GoodProjLeadingJets_reco_3vec = GoodLeadingJets_reco_3vec - GoodSubLeadingJets_reco_3vec;
 
 						dijets_EMCons_reco_P->Fill((reco_lead_mag - (reco_subl_mag + reco_thrd_mag)), event_weight);
 						dijets_EMCons_reco->Fill(leadrecojet_pt - (sublrecojet_pt + thirdrecojet_pt), event_weight);
-						/*				
-						cout << "difference in |p| 3 vector" << (reco_lead_mag - (reco_subl_mag + reco_thrd_mag)) << endl;	
-						cout << "difference in pT" << leadrecojet_pt - (sublrecojet_pt + thirdrecojet_pt) << endl;	
-						cout << "Leading (Px, Py, Pz): (" << GoodLeadingJets_reco_3vec.Px() << " , " << GoodLeadingJets_reco_3vec.Py() << " , " << GoodLeadingJets_reco_3vec.Pz() << ") GeV"<< endl;	
-						cout << "Subleading (Px, Py, Pz): (" << GoodSubLeadingJets_reco_3vec.Px() << " , " << GoodSubLeadingJets_reco_3vec.Py() << " , " << GoodSubLeadingJets_reco_3vec.Pz() << ") GeV"<< endl;	
-						cout << "Third (Px, Py, Pz): (" << GoodTrdLeadingJets_reco_3vec.Px() << " , " << GoodTrdLeadingJets_reco_3vec.Py() << " , " << GoodTrdLeadingJets_reco_3vec.Pz() << ") GeV"<< endl;	
-						cout << "Projected (Px, Py, Pz): (" << GoodProjLeadingJets_reco_3vec.Px() << " , " << GoodProjLeadingJets_reco_3vec.Py() << " , " << GoodProjLeadingJets_reco_3vec.Pz() << ") GeV"<< endl;	
-						*/		
+
+                        if(thirdrecojet_pt < 0){ cout << "2-jet event" << endl;
+                        }else if( thirdrecojet_pt >= 0.2*0.5*(leadrecojet_pt+sublrecojet_pt) && thirdrecojet_pt >= 0) {
+                              cout << " ========================== third jet events ======================" << endl;
+                              cout << "difference in |p| 3 vector: " << (reco_lead_mag - (reco_subl_mag + reco_thrd_mag)) << endl;
+							  cout << "difference in pT: " << leadrecojet_pt - (sublrecojet_pt + thirdrecojet_pt) << endl;
+                              cout << "Leading (Px, Py, Pz): (" << GoodLeadingJets_reco_3vec.Px() << " , " << GoodLeadingJets_reco_3vec.Py() << " , " << GoodLeadingJets_reco_3vec.Pz() << ") GeV"<< endl;
+                              cout << "Subleading (Px, Py, Pz): (" << GoodSubLeadingJets_reco_3vec.Px() << " , " << GoodSubLeadingJets_reco_3vec.Py() << " , " << GoodSubLeadingJets_reco_3vec.Pz() << ") GeV"<< endl;
+                              cout << "Third (Px, Py, Pz): (" << GoodTrdLeadingJets_reco_3vec.Px() << " , " << GoodTrdLeadingJets_reco_3vec.Py() << " , " << GoodTrdLeadingJets_reco_3vec.Pz() << ") GeV"<< endl;
+                              cout << "Projected (Px, Py, Pz): (" << GoodProjLeadingJets_reco_3vec.Px() << " , " << GoodProjLeadingJets_reco_3vec.Py() << " , " << GoodProjLeadingJets_reco_3vec.Pz() << ") GeV"<< endl;
+                              cout << " ============================================================ " << endl;
+                       }else if( thirdrecojet_pt < 0.2*0.5*(leadrecojet_pt+sublrecojet_pt) && thirdrecojet_pt >= 0 ) {
+                              cout << " ========================== Good events ======================" << endl;
+                              cout << "difference in |p| 3 vector: " << (reco_lead_mag - (reco_subl_mag + reco_thrd_mag)) << endl;
+                              cout << "difference in pT: " << leadrecojet_pt - (sublrecojet_pt + thirdrecojet_pt) << endl;
+                              cout << "Leading (Px, Py, Pz): (" << GoodLeadingJets_reco_3vec.Px() << " , " << GoodLeadingJets_reco_3vec.Py() << " , " << GoodLeadingJets_reco_3vec.Pz() << ") GeV"<< endl;
+                              cout << "Subleading (Px, Py, Pz): (" << GoodSubLeadingJets_reco_3vec.Px() << " , " << GoodSubLeadingJets_reco_3vec.Py() << " , " << GoodSubLeadingJets_reco_3vec.Pz() << ") GeV"<< endl;
+                              cout << "Third (Px, Py, Pz): (" << GoodTrdLeadingJets_reco_3vec.Px() << " , " << GoodTrdLeadingJets_reco_3vec.Py() << " , " << GoodTrdLeadingJets_reco_3vec.Pz() << ") GeV"<< endl;
+                              cout << "Projected (Px, Py, Pz): (" << GoodProjLeadingJets_reco_3vec.Px() << " , " << GoodProjLeadingJets_reco_3vec.Py() << " , " << GoodProjLeadingJets_reco_3vec.Pz() << ") GeV"<< endl;
+                              cout << " ============================================================ " << endl;
+                       }
 
 						Nevents->Fill(9);
 						pass_Aj_or_Xj_reco_cut = true; // if we apply Xj or Aj cuts
@@ -1156,27 +1165,16 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				if(delta_phi_ref > leading_subleading_deltaphi_min){
 					if((Xj_ref >= xjmin && Xj_ref <= xjmax) && (Aj_ref >= Ajmin && Aj_ref <= Ajmax)){
 					
-						TVector3 GoodLeadingJets_ref_3vec;
-						GoodLeadingJets_ref_3vec.SetPtEtaPhi(leadrefjet_pt, leadrefjet_eta_lab, leadrefjet_phi);
+						ROOT::Math::PtEtaPhiMVector GoodLeadingJets_ref_3vec(leadrefjet_pt,leadrefjet_eta_lab,leadrefjet_phi,leadrefjet_mass);
 						double ref_lead_mag = sqrt(GoodLeadingJets_ref_3vec.Px()*GoodLeadingJets_ref_3vec.Px() + GoodLeadingJets_ref_3vec.Py()*GoodLeadingJets_ref_3vec.Py() + GoodLeadingJets_ref_3vec.Pz()*GoodLeadingJets_ref_3vec.Pz());
-						TVector3 GoodSubLeadingJets_ref_3vec;
-						GoodSubLeadingJets_ref_3vec.SetPtEtaPhi(sublrefjet_pt, sublrefjet_eta_lab, sublrefjet_phi);
+						ROOT::Math::PtEtaPhiMVector GoodSubLeadingJets_ref_3vec(sublrefjet_pt, sublrefjet_eta_lab, sublrefjet_phi, subrefjet_mass);
 						double ref_subl_mag = sqrt(GoodSubLeadingJets_ref_3vec.Px()*GoodSubLeadingJets_ref_3vec.Px() + GoodSubLeadingJets_ref_3vec.Py()*GoodSubLeadingJets_ref_3vec.Py() + GoodSubLeadingJets_ref_3vec.Pz()*GoodSubLeadingJets_ref_3vec.Pz());
-						TVector3 GoodTrdLeadingJets_ref_3vec;
-						GoodTrdLeadingJets_ref_3vec.SetPtEtaPhi(thirdrefjet_pt, thirdrefjet_eta, thirdrefjet_phi);
+						ROOT::Math::PtEtaPhiMVector GoodTrdLeadingJets_ref_3vec(thirdrefjet_pt, thirdrefjet_eta, thirdrefjet_phi, thirdrefjet_mass);
 						double ref_thrd_mag = sqrt(GoodTrdLeadingJets_ref_3vec.Px()*GoodTrdLeadingJets_ref_3vec.Px() + GoodTrdLeadingJets_ref_3vec.Py()*GoodTrdLeadingJets_ref_3vec.Py() + GoodTrdLeadingJets_ref_3vec.Pz()*GoodTrdLeadingJets_ref_3vec.Pz());
-						TVector3 GoodProjLeadingJets_ref_3vec = GoodLeadingJets_ref_3vec - GoodSubLeadingJets_ref_3vec;
+						ROOT::Math::PtEtaPhiMVector GoodProjLeadingJets_ref_3vec = GoodLeadingJets_ref_3vec - GoodSubLeadingJets_ref_3vec;
 
 						dijets_EMCons_ref_P->Fill((ref_lead_mag - (ref_subl_mag + ref_thrd_mag)), event_weight);
 						dijets_EMCons_ref->Fill(leadrefjet_pt - (sublrefjet_pt + thirdrefjet_pt), event_weight);
-						/*				
-						cout << "difference in |p| 3 vector" << (ref_lead_mag - (ref_subl_mag + ref_thrd_mag)) << endl;	
-						cout << "difference in pT" << leadrefjet_pt - (sublrefjet_pt + thirdrefjet_pt) << endl;	
-						cout << "Leading (Px, Py, Pz): (" << GoodLeadingJets_ref_3vec.Px() << " , " << GoodLeadingJets_ref_3vec.Py() << " , " << GoodLeadingJets_ref_3vec.Pz() << ") GeV"<< endl;	
-						cout << "Subleading (Px, Py, Pz): (" << GoodSubLeadingJets_ref_3vec.Px() << " , " << GoodSubLeadingJets_ref_3vec.Py() << " , " << GoodSubLeadingJets_ref_3vec.Pz() << ") GeV"<< endl;	
-						cout << "Third (Px, Py, Pz): (" << GoodTrdLeadingJets_ref_3vec.Px() << " , " << GoodTrdLeadingJets_ref_3vec.Py() << " , " << GoodTrdLeadingJets_ref_3vec.Pz() << ") GeV"<< endl;	
-						cout << "Projected (Px, Py, Pz): (" << GoodProjLeadingJets_ref_3vec.Px() << " , " << GoodProjLeadingJets_ref_3vec.Py() << " , " << GoodProjLeadingJets_ref_3vec.Pz() << ") GeV"<< endl;	
-						*/	
 
 						isrefdijet = true;
 						double x_ref_QA_L[5]={leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,(double)multcentbin,(double) extrabin}; 
@@ -1674,27 +1672,16 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					if(delta_phi_gen > leading_subleading_deltaphi_min){
 						if((Xj_gen >= xjmin && Xj_gen < xjmax) && (Aj_gen >= Ajmin && Aj_gen < Ajmax)){
 						
-							TVector3 GoodLeadingJets_gen_3vec;
-							GoodLeadingJets_gen_3vec.SetPtEtaPhi(leadgenjet_pt, leadgenjet_eta_lab, leadgenjet_phi);
-							double gen_lead_mag = sqrt(GoodLeadingJets_gen_3vec.Px()*GoodLeadingJets_gen_3vec.Px() + GoodLeadingJets_gen_3vec.Py()*GoodLeadingJets_gen_3vec.Py() + GoodLeadingJets_gen_3vec.Pz()*GoodLeadingJets_gen_3vec.Pz());
-							TVector3 GoodSubLeadingJets_gen_3vec;
-							GoodSubLeadingJets_gen_3vec.SetPtEtaPhi(sublgenjet_pt, sublgenjet_eta_lab, sublgenjet_phi);
-							double gen_subl_mag = sqrt(GoodSubLeadingJets_gen_3vec.Px()*GoodSubLeadingJets_gen_3vec.Px() + GoodSubLeadingJets_gen_3vec.Py()*GoodSubLeadingJets_gen_3vec.Py() + GoodSubLeadingJets_gen_3vec.Pz()*GoodSubLeadingJets_gen_3vec.Pz());
-							TVector3 GoodTrdLeadingJets_gen_3vec;
-							GoodTrdLeadingJets_gen_3vec.SetPtEtaPhi(thirdgenjet_pt, thirdgenjet_eta, thirdgenjet_phi);
-							double gen_thrd_mag = sqrt(GoodTrdLeadingJets_gen_3vec.Px()*GoodTrdLeadingJets_gen_3vec.Px() + GoodTrdLeadingJets_gen_3vec.Py()*GoodTrdLeadingJets_gen_3vec.Py() + GoodTrdLeadingJets_gen_3vec.Pz()*GoodTrdLeadingJets_gen_3vec.Pz());
-							TVector3 GoodProjLeadingJets_gen_3vec = GoodLeadingJets_gen_3vec - GoodSubLeadingJets_gen_3vec;
+							ROOT::Math::PtEtaPhiMVector GoodLeadingJets_gen_3vec(leadgenjet_pt,leadgenjet_eta_lab,leadgenjet_phi,leadgenjet_mass);
+							double gen_lead_mag = GoodLeadingJets_gen_3vec.P(); 
+							ROOT::Math::PtEtaPhiMVector GoodSubLeadingJets_gen_3vec(sublgenjet_pt, sublgenjet_eta_lab, sublgenjet_phi, subgenjet_mass);
+							double gen_subl_mag = GoodSubLeadingJets_gen_3vec.P();
+							ROOT::Math::PtEtaPhiMVector GoodTrdLeadingJets_gen_3vec(thirdgenjet_pt, thirdgenjet_eta, thirdgenjet_phi, thirdgenjet_mass);
+							double gen_thrd_mag = GoodTrdLeadingJets_gen_3vec.P();
+							ROOT::Math::PtEtaPhiMVector GoodProjLeadingJets_gen_3vec = GoodLeadingJets_gen_3vec - GoodSubLeadingJets_gen_3vec;
 
 							dijets_EMCons_gen_P->Fill((gen_lead_mag - (gen_subl_mag + gen_thrd_mag)), event_weight);
 							dijets_EMCons_gen->Fill(leadgenjet_pt - (sublgenjet_pt + thirdgenjet_pt), event_weight);
-							/*				
-							cout << "difference in |p| 3 vector" << (gen_lead_mag - (gen_subl_mag + gen_thrd_mag)) << endl;	
-							cout << "difference in pT" << leadgenjet_pt - (sublgenjet_pt + thirdgenjet_pt) << endl;	
-							cout << "Leading (Px, Py, Pz): (" << GoodLeadingJets_gen_3vec.Px() << " , " << GoodLeadingJets_gen_3vec.Py() << " , " << GoodLeadingJets_gen_3vec.Pz() << ") GeV"<< endl;	
-							cout << "Subleading (Px, Py, Pz): (" << GoodSubLeadingJets_gen_3vec.Px() << " , " << GoodSubLeadingJets_gen_3vec.Py() << " , " << GoodSubLeadingJets_gen_3vec.Pz() << ") GeV"<< endl;	
-							cout << "Third (Px, Py, Pz): (" << GoodTrdLeadingJets_gen_3vec.Px() << " , " << GoodTrdLeadingJets_gen_3vec.Py() << " , " << GoodTrdLeadingJets_gen_3vec.Pz() << ") GeV"<< endl;	
-							cout << "Projected (Px, Py, Pz): (" << GoodProjLeadingJets_gen_3vec.Px() << " , " << GoodProjLeadingJets_gen_3vec.Py() << " , " << GoodProjLeadingJets_gen_3vec.Pz() << ") GeV"<< endl;	
-							*/	
 
 							pass_Aj_or_Xj_gen_cut = true; // if we apply Xj or Aj cuts
 							isgdijet = true;
