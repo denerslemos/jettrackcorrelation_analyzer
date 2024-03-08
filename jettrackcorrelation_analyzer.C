@@ -615,8 +615,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		
 		if(thirdjet_removal_method == 1){ if(thirdrecojet_pt > thirdjet_removal_cut) removethirdjet = true; }
 		if(thirdjet_removal_method == 2){ if(thirdrecojet_pt > thirdjet_removal_cut * sublrecojet_pt) removethirdjet = true; }
-		if(thirdjet_removal_method == 3){ if(thirdrecojet_pt > thirdjet_removal_cut * 0.5 * (leadrecojet_pt + sublrecojet_pt)) removethirdjet = true; }
-
+		if(thirdjet_removal_method == 3){ if(thirdrecojet_pt > thirdjet_removal_cut * 0.5 * (leadrecojet_pt + sublrecojet_pt) && fabs(deltaphi(thirdrecojet_phi, sublrecojet_phi)) < TMath::Pi()/8.0) removethirdjet = true; }
+		if(thirdjet_removal_method == 4){ if((leadrecojet_pt - (sublrecojet_pt + thirdrecojet_pt)) < thirdjet_removal_cut) removethirdjet = true; }
+		
 		//dijets
 		if(leadrecojet_pt > 0 && sublrecojet_pt > 0 && !removethirdjet){
 
@@ -642,8 +643,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
  				double sljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublrecojet_pt, sublrecojet_eta);  // Jet weight (specially for MC)
 				
 				Nevents->Fill(8);
-				
-				
 							
 				// Fill leading/subleading jet quenching quantities
 				double delta_phi_reco = fabs(deltaphi(leadrecojet_phi, sublrecojet_phi));
@@ -806,13 +805,13 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double reco_subl_mag = GoodSubLeadingJets_reco_3vec.P();
 						ROOT::Math::PtEtaPhiMVector GoodTrdLeadingJets_reco_3vec(thirdrecojet_pt, thirdrecojet_eta, thirdrecojet_phi, thirdrecojet_mass);
 						double reco_thrd_mag = GoodTrdLeadingJets_reco_3vec.P();
-						ROOT::Math::PtEtaPhiMVector GoodProjLeadingJets_reco_3vec = GoodLeadingJets_reco_3vec - GoodSubLeadingJets_reco_3vec;
+						ROOT::Math::PtEtaPhiMVector GoodProjLeadingJets_reco_3vec = -(GoodLeadingJets_reco_3vec + GoodSubLeadingJets_reco_3vec);
 
 						dijets_EMCons_reco_P->Fill((reco_lead_mag - (reco_subl_mag + reco_thrd_mag)), event_weight);
 						dijets_EMCons_reco->Fill(leadrecojet_pt - (sublrecojet_pt + thirdrecojet_pt), event_weight);
-
-                        if(thirdrecojet_pt < 0){ cout << "2-jet event" << endl;
-                        }else if( thirdrecojet_pt >= 0.2*0.5*(leadrecojet_pt+sublrecojet_pt) && thirdrecojet_pt >= 0) {
+						/*
+                         if(thirdrecojet_pt < 0){ cout << "2-jet event" << endl;
+                         }else if( thirdrecojet_pt >= 0.2*0.5*(leadrecojet_pt+sublrecojet_pt) && thirdrecojet_pt >= 0) {
                               cout << " ========================== third jet events ======================" << endl;
                               cout << "difference in |p| 3 vector: " << (reco_lead_mag - (reco_subl_mag + reco_thrd_mag)) << endl;
 							  cout << "difference in pT: " << leadrecojet_pt - (sublrecojet_pt + thirdrecojet_pt) << endl;
@@ -821,7 +820,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
                               cout << "Third (Px, Py, Pz): (" << GoodTrdLeadingJets_reco_3vec.Px() << " , " << GoodTrdLeadingJets_reco_3vec.Py() << " , " << GoodTrdLeadingJets_reco_3vec.Pz() << ") GeV"<< endl;
                               cout << "Projected (Px, Py, Pz): (" << GoodProjLeadingJets_reco_3vec.Px() << " , " << GoodProjLeadingJets_reco_3vec.Py() << " , " << GoodProjLeadingJets_reco_3vec.Pz() << ") GeV"<< endl;
                               cout << " ============================================================ " << endl;
-                       }else if( thirdrecojet_pt < 0.2*0.5*(leadrecojet_pt+sublrecojet_pt) && thirdrecojet_pt >= 0 ) {
+                        }else if( thirdrecojet_pt < 0.2*0.5*(leadrecojet_pt+sublrecojet_pt) && thirdrecojet_pt >= 0 ) {
                               cout << " ========================== Good events ======================" << endl;
                               cout << "difference in |p| 3 vector: " << (reco_lead_mag - (reco_subl_mag + reco_thrd_mag)) << endl;
                               cout << "difference in pT: " << leadrecojet_pt - (sublrecojet_pt + thirdrecojet_pt) << endl;
@@ -830,8 +829,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
                               cout << "Third (Px, Py, Pz): (" << GoodTrdLeadingJets_reco_3vec.Px() << " , " << GoodTrdLeadingJets_reco_3vec.Py() << " , " << GoodTrdLeadingJets_reco_3vec.Pz() << ") GeV"<< endl;
                               cout << "Projected (Px, Py, Pz): (" << GoodProjLeadingJets_reco_3vec.Px() << " , " << GoodProjLeadingJets_reco_3vec.Py() << " , " << GoodProjLeadingJets_reco_3vec.Pz() << ") GeV"<< endl;
                               cout << " ============================================================ " << endl;
-                       }
-
+                        }
+						*/
 						Nevents->Fill(9);
 						pass_Aj_or_Xj_reco_cut = true; // if we apply Xj or Aj cuts
 						isdijet = true;
@@ -992,8 +991,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		
 		if(thirdjet_removal_method == 1){ if(thirdrefjet_pt > thirdjet_removal_cut) removethirdjet_ref = true; }
 		if(thirdjet_removal_method == 2){ if(thirdrefjet_pt > thirdjet_removal_cut * sublrefjet_pt) removethirdjet_ref = true; }
-		if(thirdjet_removal_method == 3){ if(thirdrefjet_pt > thirdjet_removal_cut * 0.5 * (leadrefjet_pt + sublrefjet_pt)) removethirdjet_ref = true; }
-
+		if(thirdjet_removal_method == 3){ if(thirdrefjet_pt > thirdjet_removal_cut * 0.5 * (leadrefjet_pt + sublrefjet_pt)  && fabs(deltaphi(thirdrefjet_phi, sublrefjet_phi)) < TMath::Pi()/8.0) removethirdjet_ref = true; }
+		if(thirdjet_removal_method == 4){ if((leadrefjet_pt - (sublrefjet_pt + thirdrefjet_pt)) < thirdjet_removal_cut) removethirdjet_ref = true; }
+		
 		if(leadrefjet_pt > 0.0 && sublrefjet_pt > 0.0 && !removethirdjet_ref){
 			//leading/subleading pT cuts
 			if(is_MC && leadrefjet_pt > leading_pT_min && sublrefjet_pt > subleading_pT_min){
@@ -1171,7 +1171,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double ref_subl_mag = sqrt(GoodSubLeadingJets_ref_3vec.Px()*GoodSubLeadingJets_ref_3vec.Px() + GoodSubLeadingJets_ref_3vec.Py()*GoodSubLeadingJets_ref_3vec.Py() + GoodSubLeadingJets_ref_3vec.Pz()*GoodSubLeadingJets_ref_3vec.Pz());
 						ROOT::Math::PtEtaPhiMVector GoodTrdLeadingJets_ref_3vec(thirdrefjet_pt, thirdrefjet_eta, thirdrefjet_phi, thirdrefjet_mass);
 						double ref_thrd_mag = sqrt(GoodTrdLeadingJets_ref_3vec.Px()*GoodTrdLeadingJets_ref_3vec.Px() + GoodTrdLeadingJets_ref_3vec.Py()*GoodTrdLeadingJets_ref_3vec.Py() + GoodTrdLeadingJets_ref_3vec.Pz()*GoodTrdLeadingJets_ref_3vec.Pz());
-						ROOT::Math::PtEtaPhiMVector GoodProjLeadingJets_ref_3vec = GoodLeadingJets_ref_3vec - GoodSubLeadingJets_ref_3vec;
+						ROOT::Math::PtEtaPhiMVector GoodProjLeadingJets_ref_3vec = -(GoodLeadingJets_ref_3vec + GoodSubLeadingJets_ref_3vec);
 
 						dijets_EMCons_ref_P->Fill((ref_lead_mag - (ref_subl_mag + ref_thrd_mag)), event_weight);
 						dijets_EMCons_ref->Fill(leadrefjet_pt - (sublrefjet_pt + thirdrefjet_pt), event_weight);
@@ -1497,11 +1497,11 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			
 			if(thirdjet_removal_method == 1){ if(thirdgenjet_pt > thirdjet_removal_cut) removethirdjet_gen = true; }
 			if(thirdjet_removal_method == 2){ if(thirdgenjet_pt > thirdjet_removal_cut * sublgenjet_pt) removethirdjet_gen = true; }
-			if(thirdjet_removal_method == 3){ if(thirdgenjet_pt > thirdjet_removal_cut * 0.5 * (leadgenjet_pt + sublgenjet_pt)) removethirdjet_gen = true; }
-			
+			if(thirdjet_removal_method == 3){ if(thirdgenjet_pt > thirdjet_removal_cut * 0.5 * (leadgenjet_pt + sublgenjet_pt) && fabs(deltaphi(thirdgenjet_phi, sublgenjet_phi)) < TMath::Pi()/8.0) removethirdjet_gen = true; }
+			if(thirdjet_removal_method == 4){ if((leadgenjet_pt - (sublgenjet_pt + thirdgenjet_pt)) < thirdjet_removal_cut) removethirdjet_gen = true; }		
+				
 			//leading/subleading jets
 			if(leadgenjet_pt > 0.0 && sublgenjet_pt > 0.0 && !removethirdjet_gen){
-
 				//leading/subleading pT cuts
 				if(leadgenjet_pt > leading_pT_min && sublgenjet_pt > subleading_pT_min){ 
 
@@ -1678,7 +1678,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double gen_subl_mag = GoodSubLeadingJets_gen_3vec.P();
 							ROOT::Math::PtEtaPhiMVector GoodTrdLeadingJets_gen_3vec(thirdgenjet_pt, thirdgenjet_eta, thirdgenjet_phi, thirdgenjet_mass);
 							double gen_thrd_mag = GoodTrdLeadingJets_gen_3vec.P();
-							ROOT::Math::PtEtaPhiMVector GoodProjLeadingJets_gen_3vec = GoodLeadingJets_gen_3vec - GoodSubLeadingJets_gen_3vec;
+							ROOT::Math::PtEtaPhiMVector GoodProjLeadingJets_gen_3vec = -(GoodLeadingJets_gen_3vec + GoodSubLeadingJets_gen_3vec);
 
 							dijets_EMCons_gen_P->Fill((gen_lead_mag - (gen_subl_mag + gen_thrd_mag)), event_weight);
 							dijets_EMCons_gen->Fill(leadgenjet_pt - (sublgenjet_pt + thirdgenjet_pt), event_weight);
