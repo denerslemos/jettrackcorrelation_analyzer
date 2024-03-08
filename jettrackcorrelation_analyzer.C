@@ -802,7 +802,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 						ROOT::Math::PtEtaPhiMVector GoodLeadingJets_reco_3vec(leadrecojet_pt,leadrecojet_eta_lab,leadrecojet_phi,leadrecojet_mass);
 						double reco_lead_mag =  GoodLeadingJets_reco_3vec.P();
-						ROOT::Math::PtEtaPhiMVector GoodSubLeadingJets_reco_3vec(sublrecojet_pt, sublrecojet_eta_lab, sublrecojet_phi, subrecojet_mass);
+						ROOT::Math::PtEtaPhiMVector GoodSubLeadingJets_reco_3vec(sublrecojet_pt, sublrecojet_eta_lab, sublrecojet_phi, sublrecojet_mass);
 						double reco_subl_mag = GoodSubLeadingJets_reco_3vec.P();
 						ROOT::Math::PtEtaPhiMVector GoodTrdLeadingJets_reco_3vec(thirdrecojet_pt, thirdrecojet_eta, thirdrecojet_phi, thirdrecojet_mass);
 						double reco_thrd_mag = GoodTrdLeadingJets_reco_3vec.P();
@@ -1167,7 +1167,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					
 						ROOT::Math::PtEtaPhiMVector GoodLeadingJets_ref_3vec(leadrefjet_pt,leadrefjet_eta_lab,leadrefjet_phi,leadrefjet_mass);
 						double ref_lead_mag = sqrt(GoodLeadingJets_ref_3vec.Px()*GoodLeadingJets_ref_3vec.Px() + GoodLeadingJets_ref_3vec.Py()*GoodLeadingJets_ref_3vec.Py() + GoodLeadingJets_ref_3vec.Pz()*GoodLeadingJets_ref_3vec.Pz());
-						ROOT::Math::PtEtaPhiMVector GoodSubLeadingJets_ref_3vec(sublrefjet_pt, sublrefjet_eta_lab, sublrefjet_phi, subrefjet_mass);
+						ROOT::Math::PtEtaPhiMVector GoodSubLeadingJets_ref_3vec(sublrefjet_pt, sublrefjet_eta_lab, sublrefjet_phi, sublrefjet_mass);
 						double ref_subl_mag = sqrt(GoodSubLeadingJets_ref_3vec.Px()*GoodSubLeadingJets_ref_3vec.Px() + GoodSubLeadingJets_ref_3vec.Py()*GoodSubLeadingJets_ref_3vec.Py() + GoodSubLeadingJets_ref_3vec.Pz()*GoodSubLeadingJets_ref_3vec.Pz());
 						ROOT::Math::PtEtaPhiMVector GoodTrdLeadingJets_ref_3vec(thirdrefjet_pt, thirdrefjet_eta, thirdrefjet_phi, thirdrefjet_mass);
 						double ref_thrd_mag = sqrt(GoodTrdLeadingJets_ref_3vec.Px()*GoodTrdLeadingJets_ref_3vec.Px() + GoodTrdLeadingJets_ref_3vec.Py()*GoodTrdLeadingJets_ref_3vec.Py() + GoodTrdLeadingJets_ref_3vec.Pz()*GoodTrdLeadingJets_ref_3vec.Pz());
@@ -1674,7 +1674,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						
 							ROOT::Math::PtEtaPhiMVector GoodLeadingJets_gen_3vec(leadgenjet_pt,leadgenjet_eta_lab,leadgenjet_phi,leadgenjet_mass);
 							double gen_lead_mag = GoodLeadingJets_gen_3vec.P(); 
-							ROOT::Math::PtEtaPhiMVector GoodSubLeadingJets_gen_3vec(sublgenjet_pt, sublgenjet_eta_lab, sublgenjet_phi, subgenjet_mass);
+							ROOT::Math::PtEtaPhiMVector GoodSubLeadingJets_gen_3vec(sublgenjet_pt, sublgenjet_eta_lab, sublgenjet_phi, sublgenjet_mass);
 							double gen_subl_mag = GoodSubLeadingJets_gen_3vec.P();
 							ROOT::Math::PtEtaPhiMVector GoodTrdLeadingJets_gen_3vec(thirdgenjet_pt, thirdgenjet_eta, thirdgenjet_phi, thirdgenjet_mass);
 							double gen_thrd_mag = GoodTrdLeadingJets_gen_3vec.P();
