@@ -111,13 +111,36 @@ TH1D *gen_mult_weighted = new TH1D("gen_mult_weighted", "gen_mult_weighted", 80,
 TH1D *gen_mult_withonejet_weighted = new TH1D("gen_mult_withonejet_weighted", "gen_mult_withonejet_weighted", 80, 0.0, 400.0);
 TH1D *gen_mult_withdijets_weighted = new TH1D("gen_mult_withdijets_weighted", "gen_mult_withdijets_weighted", 80, 0.0, 400.0);
 
-TH1D *dijets_EMCons_reco = new TH1D("dijets_EMCons_reco", "dijets_EMCons_reco", 4000, -200.0, 200.0);
-TH1D *dijets_EMCons_ref = new TH1D("dijets_EMCons_ref", "dijets_EMCons_ref", 4000, -200.0, 200.0);
-TH1D *dijets_EMCons_gen = new TH1D("dijets_EMCons_gen", "dijets_EMCons_gen", 4000, -200.0, 200.0);
+TH1D *dijets_EMCons_reco = new TH1D("dijets_EMCons_reco", "dijets_EMCons_reco", 4000, -2000.0, 2000.0);
+TH1D *dijets_EMCons_ref = new TH1D("dijets_EMCons_ref", "dijets_EMCons_ref", 4000, -2000.0, 2000.0);
+TH1D *dijets_EMCons_gen = new TH1D("dijets_EMCons_gen", "dijets_EMCons_gen", 4000, -2000.0, 2000.0);
 
 TH1D *dijets_EMCons_reco_P = new TH1D("dijets_EMCons_reco_P", "dijets_EMCons_reco_P", 4000, -200.0, 200.0);
 TH1D *dijets_EMCons_ref_P = new TH1D("dijets_EMCons_ref_P", "dijets_EMCons_ref_P", 4000, -200.0, 200.0);
 TH1D *dijets_EMCons_gen_P = new TH1D("dijets_EMCons_gen_P", "dijets_EMCons_gen_P", 4000, -200.0, 200.0);
+
+// Jet Delta's
+// Axis : 0 -> delta phi, 1 -> delta eta, 2 -> multiplicity
+int	bins_jetjet[3]      =   { 100 	     , 500  , multbinsize-1};
+double xmin_jetjet[3]   =   { 0.0		 , -5.0 , multiplicity_centrality_bins[0]};
+double xmax_jetjet[3]   =   { TMath::Pi(), 5.0  , multiplicity_centrality_bins[multbinsize-1]};
+THnSparseD *jet2jet3_Dphi_Deta_reco = new THnSparseD("jet2jet3_Dphi_Deta_reco", "jet2jet3_Dphi_Deta_reco", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
+THnSparseD *jet2jet3_Dphi_Deta_ref = new THnSparseD("jet2jet3_Dphi_Deta_ref", "jet2jet3_Dphi_Deta_ref", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
+THnSparseD *jet2jet3_Dphi_Deta_gen = new THnSparseD("jet2jet3_Dphi_Deta_gen", "jet2jet3_Dphi_Deta_gen", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
+THnSparseD *jet1jet3_Dphi_Deta_reco = new THnSparseD("jet1jet3_Dphi_Deta_reco", "jet1jet3_Dphi_Deta_reco", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
+THnSparseD *jet1jet3_Dphi_Deta_ref = new THnSparseD("jet1jet3_Dphi_Deta_ref", "jet1jet3_Dphi_Deta_ref", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
+THnSparseD *jet1jet3_Dphi_Deta_gen = new THnSparseD("jet1jet3_Dphi_Deta_gen", "jet1jet3_Dphi_Deta_gen", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
+
+// Axis : 0 -> delta p, 1 -> multiplicity
+int	bins_jetjetpts[2]      =   { 5000 	  ,  multbinsize-1};
+double xmin_jetjetpts[2]   =   { -2500.0  ,  multiplicity_centrality_bins[0]};
+double xmax_jetjetpts[2]   =   { 2500.0   ,  multiplicity_centrality_bins[multbinsize-1]};
+THnSparseD *jet1jet3_Px_reco = new THnSparseD("jet1jet3_Px_reco", "jet1jet3_Px_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jet1jet3_Py_reco = new THnSparseD("jet1jet3_Py_reco", "jet1jet3_Py_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jet1jet3_Pz_reco = new THnSparseD("jet1jet3_Pz_reco", "jet1jet3_Pz_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jet2jet3_Px_reco = new THnSparseD("jet2jet3_Px_reco", "jet2jet3_Px_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jet2jet3_Py_reco = new THnSparseD("jet2jet3_Py_reco", "jet2jet3_Py_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jet2jet3_Pz_reco = new THnSparseD("jet2jet3_Pz_reco", "jet2jet3_Pz_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
 
 
 // Hadron Forward (HF) Calorimeter information
