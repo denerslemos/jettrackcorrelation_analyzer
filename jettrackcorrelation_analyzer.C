@@ -244,9 +244,51 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			float hfminusE4_temp = hfminusEta4;
 			float zdcplus_temp = zdcplus;
 			float zdcminus_temp = zdcminus;
+			double EP_Mult2_plus_temp = EP_Mult2_plus;
+			double EP_Mult2_minus_temp = EP_Mult2_minus;
+			double EP_Qx2_plus_temp = EP_Qx2_plus;
+			double EP_Qx2_minus_temp = EP_Qx2_minus;
+			double EP_Qy2_plus_temp = EP_Qy2_plus;
+			double EP_Qy2_minus_temp = EP_Qy2_minus;
+			double EP_Psi2_plus_flat_temp = EP_Psi2_plus_flat;
+			double EP_Psi2_minus_flat_temp = EP_Psi2_minus_flat;
+			double EP_Mult3_plus_temp = EP_Mult3_plus;
+			double EP_Mult3_minus_temp = EP_Mult3_minus;
+			double EP_Qx3_plus_temp = EP_Qx3_plus;
+			double EP_Qx3_minus_temp = EP_Qx3_minus;
+			double EP_Qy3_plus_temp = EP_Qy3_plus;
+			double EP_Qy3_minus_temp = EP_Qy3_minus;
+			double EP_Psi3_plus_flat_temp = EP_Psi3_plus_flat;
+			double EP_Psi3_minus_flat_temp = EP_Psi3_minus_flat;
+			double EP_Mult4_plus_temp = EP_Mult4_plus;
+			double EP_Mult4_minus_temp = EP_Mult4_minus;
+			double EP_Qx4_plus_temp = EP_Qx4_plus;
+			double EP_Qx4_minus_temp = EP_Qx4_minus;
+			double EP_Qy4_plus_temp = EP_Qy4_plus;
+			double EP_Qy4_minus_temp = EP_Qy4_minus;
+			double EP_Psi4_plus_flat_temp = EP_Psi4_plus_flat;
+			double EP_Psi4_minus_flat_temp = EP_Psi4_minus_flat;
+			
 			hfplus = hfminus_temp; hfminus = hfplus_temp;
 			hfplusEta4 = hfminusE4_temp; hfminusEta4 = hfplusE4_temp;
 			zdcplus = zdcminus_temp; zdcminus = zdcplus_temp;
+
+			//EP2
+			EP_Mult2_plus = EP_Mult2_minus_temp; EP_Mult2_minus = EP_Mult2_plus_temp;
+			EP_Qx2_plus = EP_Qx2_minus_temp; EP_Qx2_minus = EP_Qx2_plus_temp;
+			EP_Qy2_plus = EP_Qy2_minus_temp; EP_Qy2_minus = EP_Qy2_plus_temp;
+			EP_Psi2_plus_flat = EP_Psi2_minus_flat_temp; EP_Psi2_minus_flat = EP_Psi2_plus_flat_temp;
+			//EP3
+			EP_Mult3_plus = EP_Mult3_minus_temp; EP_Mult3_minus = EP_Mult3_plus_temp;
+			EP_Qx3_plus = EP_Qx3_minus_temp; EP_Qx3_minus = EP_Qx3_plus_temp;
+			EP_Qy3_plus = EP_Qy3_minus_temp; EP_Qy3_minus = EP_Qy3_plus_temp;
+			EP_Psi3_plus_flat = EP_Psi3_minus_flat_temp; EP_Psi3_minus_flat = EP_Psi3_plus_flat_temp;
+			//EP4
+			EP_Mult4_plus = EP_Mult4_minus_temp; EP_Mult4_minus = EP_Mult4_plus_temp;
+			EP_Qx4_plus = EP_Qx4_minus_temp; EP_Qx4_minus = EP_Qx4_plus_temp;
+			EP_Qy4_plus = EP_Qy4_minus_temp; EP_Qy4_minus = EP_Qy4_plus_temp;
+			EP_Psi4_plus_flat = EP_Psi4_minus_flat_temp; EP_Psi4_minus_flat = EP_Psi4_plus_flat_temp;
+						
 		} 
 
 		//  add extra dependency
@@ -397,12 +439,12 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		} // End loop over tracks
 
 		// to find leading, subleading and third jets
-		float leadrecojet_pt=-99, leadrecojet_eta=-99, leadrecojet_phi=-99, leadrecojet_mass=-99, leadrecojet_flavor=-99;  // leading jet quantities
-		float sublrecojet_pt=-99, sublrecojet_eta=-99, sublrecojet_phi=-99, sublrecojet_mass=-99, sublrecojet_flavor=-99; // subleading jet quantities
-		float thirdrecojet_pt=-99, thirdrecojet_eta=-99, thirdrecojet_phi=-99, thirdrecojet_mass=-99, thirdrecojet_flavor=-99; // third jet quantities
-		float leadrefjet_pt=-99, leadrefjet_eta=-99, leadrefjet_phi=-99, leadrefjet_mass=-99, leadrefjet_flavor=-99; // leading jet ref quantities
-		float sublrefjet_pt=-99, sublrefjet_eta=-99, sublrefjet_phi=-99, sublrefjet_mass=-99, sublrefjet_flavor=-99; // subleading jet ref quantities
-		float thirdrefjet_pt=-99, thirdrefjet_eta=-99, thirdrefjet_phi=-99, thirdrefjet_mass=-99, thirdrefjet_flavor=-99; // third jet quantities
+		float leadrecojet_pt=-999999999.9, leadrecojet_eta=-999999999.9, leadrecojet_phi=-999999999.9, leadrecojet_mass=-999999999.9, leadrecojet_flavor=-999999999.9;  // leading jet quantities
+		float sublrecojet_pt=-999999999.9, sublrecojet_eta=-999999999.9, sublrecojet_phi=-999999999.9, sublrecojet_mass=-999999999.9, sublrecojet_flavor=-999999999.9; // subleading jet quantities
+		float thirdrecojet_pt=-999999999.9, thirdrecojet_eta=-999999999.9, thirdrecojet_phi=-999999999.9, thirdrecojet_mass=-999999999.9, thirdrecojet_flavor=-999999999.9; // third jet quantities
+		float leadrefjet_pt=-999999999.9, leadrefjet_eta=-999999999.9, leadrefjet_phi=-999999999.9, leadrefjet_mass=-999999999.9, leadrefjet_flavor=-999999999.9; // leading jet ref quantities
+		float sublrefjet_pt=-999999999.9, sublrefjet_eta=-999999999.9, sublrefjet_phi=-999999999.9, sublrefjet_mass=-999999999.9, sublrefjet_flavor=-999999999.9; // subleading jet ref quantities
+		float thirdrefjet_pt=-999999999.9, thirdrefjet_eta=-999999999.9, thirdrefjet_phi=-999999999.9, thirdrefjet_mass=-999999999.9, thirdrefjet_flavor=-999999999.9; // third jet quantities
 		int leadrecojet_index=1000, sublrecojet_index=1000, thirdrecojet_index=1000; // jet reco index
 		int leadrefjet_index=1000, sublrefjet_index=1000, thirdrefjet_index=1000; // jet ref index
 				
@@ -1433,9 +1475,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			}
 
 			// Start loop over gen jets
-			float leadgenjet_pt=-99, leadgenjet_eta=-99, leadgenjet_phi=-99, leadgenjet_mass=-99, leadgenjet_flavor=-99; // leading jet quantities
-			float sublgenjet_pt=-99, sublgenjet_eta=-99, sublgenjet_phi=-99, sublgenjet_mass=-99, sublgenjet_flavor=-99; // subleading jet quantities
-			float thirdgenjet_pt=-99, thirdgenjet_eta=-99, thirdgenjet_phi=-99, thirdgenjet_mass=-99, thirdgenjet_flavor=-99; // third jet quantities
+			float leadgenjet_pt=-999999999.9, leadgenjet_eta=-999999999.9, leadgenjet_phi=-999999999.9, leadgenjet_mass=-999999999.9, leadgenjet_flavor=-999999999.9; // leading jet quantities
+			float sublgenjet_pt=-999999999.9, sublgenjet_eta=-999999999.9, sublgenjet_phi=-999999999.9, sublgenjet_mass=-999999999.9, sublgenjet_flavor=-999999999.9; // subleading jet quantities
+			float thirdgenjet_pt=-999999999.9, thirdgenjet_eta=-999999999.9, thirdgenjet_phi=-999999999.9, thirdgenjet_mass=-999999999.9, thirdgenjet_flavor=-999999999.9; // third jet quantities
 			int leadgenjet_index=1000, sublgenjet_index=1000, thirdgenjet_index=1000; // jet indexes
 			
 			bool isgjetincluded = false;
