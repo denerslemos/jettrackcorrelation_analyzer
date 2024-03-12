@@ -59,7 +59,6 @@ const bool use_WTA = false; // use WTA or E-Scheme axis
 const float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation only
 const float leading_pT_min = 100.0; //used for jet leading and subleading correlation and jet quenching analysis
 const float subleading_pT_min = 50.0; //used for jet leading and subleading correlation and jet quenching analysis
-const bool do_thirdjet_removal = false; // remove third jet
 const float dijetetamax = 3.0; // maximum dijet eta
 const float trackmaxpt = 0.0; // maximum track pT inside of a jet
 /*
@@ -78,6 +77,8 @@ Methods:
 */
 const int thirdjet_removal_method = 0; 
 const float thirdjet_removal_cut = 0.0; // this cut will be applied depending on the method above 
+
+const bool do_fourjet_removal = false; // remove four jet event
 
 //pseudorapidity regions for jet-track leading and subleading correlations
 const TString fwdbkw_jettrk_option = "mid_mid"; // midrapidity + midrapidity

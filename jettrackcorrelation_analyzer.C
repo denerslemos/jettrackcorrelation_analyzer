@@ -43,6 +43,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	TString jet_axis; if(use_WTA){jet_axis = "WTA";}else{jet_axis = "ESC";}
 	jet_axis += Form("_tor%i_",trackmaxoverrawpt_method);
 	jet_axis += Form("3rdm%i_c%.1f_",thirdjet_removal_method,thirdjet_removal_cut);
+	if(do_fourjet_removal) jet_axis += "rem4thjet_";
 	TString smear;
 	if(do_jeu_down && !do_jeu_up){smear += "_jeudown_";}else if(!do_jeu_down && do_jeu_up){smear += "_jeuup_";}
 	if(do_jer_down && !do_jer_up){smear += "_jerdown_";}else if(!do_jer_down && do_jer_up){smear += "_jerup_";}
@@ -447,6 +448,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		float thirdrefjet_pt=-999999999.9, thirdrefjet_eta=-999999999.9, thirdrefjet_phi=-999999999.9, thirdrefjet_mass=-999999999.9, thirdrefjet_flavor=-999999999.9; // third jet quantities
 		int leadrecojet_index=1000, sublrecojet_index=1000, thirdrecojet_index=1000; // jet reco index
 		int leadrefjet_index=1000, sublrefjet_index=1000, thirdrefjet_index=1000; // jet ref index
+		float fourthrecojet_pt=-999999999.9, fourthrefjet_pt=-999999999.9; 
 				
 		bool isjetincluded = false;
 		int njets = 0;
@@ -528,7 +530,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			int jet_index = (int) j;
 
 			//leading and subleading
-			find_leading_subleading_third(jet_pt_corr,jet_eta,jet_phi,jet_mass,jet_flavor,jet_index,leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,leadrecojet_mass,leadrecojet_flavor,leadrecojet_index,sublrecojet_pt,sublrecojet_eta,sublrecojet_phi,sublrecojet_mass,sublrecojet_flavor,sublrecojet_index,thirdrecojet_pt,thirdrecojet_eta,thirdrecojet_phi,thirdrecojet_mass,thirdrecojet_flavor,thirdrecojet_index); // Find leading and subleading jets
+			find_leading_subleading_third(jet_pt_corr,jet_eta,jet_phi,jet_mass,jet_flavor,jet_index,leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,leadrecojet_mass,leadrecojet_flavor,leadrecojet_index,sublrecojet_pt,sublrecojet_eta,sublrecojet_phi,sublrecojet_mass,sublrecojet_flavor,sublrecojet_index,thirdrecojet_pt,thirdrecojet_eta,thirdrecojet_phi,thirdrecojet_mass,thirdrecojet_flavor,thirdrecojet_index,fourthrecojet_pt); // Find leading and subleading jets
 
 			jet_eta = jet_eta + boost; // In pPb case, for the center-of-mass correction if needed
 			if(colliding_system == "pPb" && is_pgoing && invert_pgoing)jet_eta = -jet_eta;
@@ -594,7 +596,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 				int jet_index_ref = (int) j;
 
-				find_leading_subleading_third(ref_pt,ref_eta,ref_phi,ref_mass,jet_flavor,jet_index_ref,leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,leadrefjet_mass,leadrefjet_flavor,leadrefjet_index,sublrefjet_pt,sublrefjet_eta,sublrefjet_phi,sublrefjet_mass,sublrefjet_flavor,sublrefjet_index,thirdrefjet_pt,thirdrefjet_eta,thirdrefjet_phi,thirdrefjet_mass,thirdrefjet_flavor,thirdrefjet_index); // Find leading and subleading ref jets
+				find_leading_subleading_third(ref_pt,ref_eta,ref_phi,ref_mass,jet_flavor,jet_index_ref,leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,leadrefjet_mass,leadrefjet_flavor,leadrefjet_index,sublrefjet_pt,sublrefjet_eta,sublrefjet_phi,sublrefjet_mass,sublrefjet_flavor,sublrefjet_index,thirdrefjet_pt,thirdrefjet_eta,thirdrefjet_phi,thirdrefjet_mass,thirdrefjet_flavor,thirdrefjet_index,fourthrefjet_pt); // Find leading and subleading ref jets
 				
 				float ref_eta_lab = ref_eta;
 				ref_eta = ref_eta + boost;  // In pPb case, for the center-of-mass correction if needed
@@ -654,13 +656,16 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		bool isdijet = false;
 		bool isdijet_midmid = false;
 		bool removethirdjet = false;
-		
+
 		if(thirdjet_removal_method == 1){ if(thirdrecojet_pt > thirdjet_removal_cut) removethirdjet = true; }
 		if(thirdjet_removal_method == 2){ if(thirdrecojet_pt > thirdjet_removal_cut * sublrecojet_pt) removethirdjet = true; }
 		if(thirdjet_removal_method == 3){ if(thirdrecojet_pt > thirdjet_removal_cut * 0.5 * (leadrecojet_pt + sublrecojet_pt)) removethirdjet = true; }
+
+		bool removefourjet = false;
+		if(do_fourjet_removal){ if(fourthrecojet_pt > 0) removefourjet = true; } 
 		
 		//dijets
-		if(leadrecojet_pt > 0 && sublrecojet_pt > 0 && !removethirdjet){
+		if(leadrecojet_pt > 0 && sublrecojet_pt > 0 && !removethirdjet && !removefourjet){
 
 			Nevents->Fill(6);
 			
@@ -1041,8 +1046,11 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if(thirdjet_removal_method == 1){ if(thirdrefjet_pt > thirdjet_removal_cut) removethirdjet_ref = true; }
 		if(thirdjet_removal_method == 2){ if(thirdrefjet_pt > thirdjet_removal_cut * sublrefjet_pt) removethirdjet_ref = true; }
 		if(thirdjet_removal_method == 3){ if(thirdrefjet_pt > thirdjet_removal_cut * 0.5 * (leadrefjet_pt + sublrefjet_pt)) removethirdjet_ref = true; }
+
+		bool removefourjet_ref = false;
+		if(do_fourjet_removal){ if(fourthrefjet_pt > 0) removefourjet_ref = true; } 
 		
-		if(leadrefjet_pt > 0.0 && sublrefjet_pt > 0.0 && !removethirdjet_ref){
+		if(leadrefjet_pt > 0.0 && sublrefjet_pt > 0.0 && !removethirdjet_ref && !removefourjet_ref){
 			//leading/subleading pT cuts
 			if(is_MC && leadrefjet_pt > leading_pT_min && sublrefjet_pt > subleading_pT_min){
 
@@ -1514,6 +1522,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			float sublgenjet_pt=-999999999.9, sublgenjet_eta=-999999999.9, sublgenjet_phi=-999999999.9, sublgenjet_mass=-999999999.9, sublgenjet_flavor=-999999999.9; // subleading jet quantities
 			float thirdgenjet_pt=-999999999.9, thirdgenjet_eta=-999999999.9, thirdgenjet_phi=-999999999.9, thirdgenjet_mass=-999999999.9, thirdgenjet_flavor=-999999999.9; // third jet quantities
 			int leadgenjet_index=1000, sublgenjet_index=1000, thirdgenjet_index=1000; // jet indexes
+			float fourthgenjet_pt=-999999999.9;
 			
 			bool isgjetincluded = false;
 
@@ -1528,7 +1537,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				float gjet_flavor = 0.0;
 				
 				int jet_index_gen = (int) j;
-				find_leading_subleading_third(gjet_pt,gjet_eta,gjet_phi,gjet_mass,gjet_flavor,jet_index_gen,leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,leadgenjet_mass,leadgenjet_flavor,leadgenjet_index,sublgenjet_pt,sublgenjet_eta,sublgenjet_phi,sublgenjet_mass,sublgenjet_flavor,sublgenjet_index,thirdgenjet_pt,thirdgenjet_eta,thirdgenjet_phi,thirdgenjet_mass,thirdgenjet_flavor,thirdgenjet_index); // Find leading and subleading jets
+				find_leading_subleading_third(gjet_pt,gjet_eta,gjet_phi,gjet_mass,gjet_flavor,jet_index_gen,leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,leadgenjet_mass,leadgenjet_flavor,leadgenjet_index,sublgenjet_pt,sublgenjet_eta,sublgenjet_phi,sublgenjet_mass,sublgenjet_flavor,sublgenjet_index,thirdgenjet_pt,thirdgenjet_eta,thirdgenjet_phi,thirdgenjet_mass,thirdgenjet_flavor,thirdgenjet_index, fourthgenjet_pt); // Find leading and subleading jets
 				gjet_eta = gjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 				if(colliding_system == "pPb" && is_pgoing && invert_pgoing){gjet_eta = -gjet_eta;}
 
@@ -1575,9 +1584,12 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			if(thirdjet_removal_method == 1){ if(thirdgenjet_pt > thirdjet_removal_cut) removethirdjet_gen = true; }
 			if(thirdjet_removal_method == 2){ if(thirdgenjet_pt > thirdjet_removal_cut * sublgenjet_pt) removethirdjet_gen = true; }
 			if(thirdjet_removal_method == 3){ if(thirdgenjet_pt > thirdjet_removal_cut * 0.5 * (leadgenjet_pt + sublgenjet_pt)) removethirdjet_gen = true; }
+
+			bool removefourjet_gen = false;
+			if(do_fourjet_removal){ if(fourthgenjet_pt > 0) removefourjet_gen = true; } 
 				
 			//leading/subleading jets
-			if(leadgenjet_pt > 0.0 && sublgenjet_pt > 0.0 && !removethirdjet_gen){
+			if(leadgenjet_pt > 0.0 && sublgenjet_pt > 0.0 && !removethirdjet_gen && !removefourjet_gen){
 				//leading/subleading pT cuts
 				if(leadgenjet_pt > leading_pT_min && sublgenjet_pt > subleading_pT_min){ 
 

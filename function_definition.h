@@ -351,7 +351,7 @@ thrdmass: third jet Mass
 thrdflavor: third jet flavour
 thrdindex: third jet index in the loop
 */
-void find_leading_subleading_third(float pt, float eta, float phi, float mass, float flavor, int jetindex, float &leadpt, float &leadeta, float &leadphi, float &leadmass, float &leadflavor, int &leadindex, float &sublpt, float &subleta, float &sublphi, float &sublmass, float &sublflavor, int &sublindex, float &thrdpt, float &thrdeta, float &thrdphi, float &thrdmass, float &thrdflavor, int &thrdindex){
+void find_leading_subleading_third(float pt, float eta, float phi, float mass, float flavor, int jetindex, float &leadpt, float &leadeta, float &leadphi, float &leadmass, float &leadflavor, int &leadindex, float &sublpt, float &subleta, float &sublphi, float &sublmass, float &sublflavor, int &sublindex, float &thrdpt, float &thrdeta, float &thrdphi, float &thrdmass, float &thrdflavor, int &thrdindex, float &fourpt){
     if( pt > leadpt ) {
         thrdpt = sublpt; 
         thrdeta = subleta;
@@ -391,7 +391,7 @@ void find_leading_subleading_third(float pt, float eta, float phi, float mass, f
         thrdmass = mass;
         thrdflavor = flavor;
         thrdindex = jetindex;
-    }
+    } else if ( pt > fourpt ) { fourpt = pt ;}
 }
 
 /*
