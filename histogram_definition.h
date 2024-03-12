@@ -116,35 +116,23 @@ TH1D *gen_mult_withdijets_weighted = new TH1D("gen_mult_withdijets_weighted", "g
 int	bins_jetjet[3]      =   { 100 	     , 250  , 80};
 double xmin_jetjet[3]   =   { 0.0		 , -5.0 , 0.0};
 double xmax_jetjet[3]   =   { TMath::Pi(), 5.0  , 400.0};
-THnSparseD *jet2jet3_Dphi_Deta_reco = new THnSparseD("jet2jet3_Dphi_Deta_reco", "jet2jet3_Dphi_Deta_reco", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
-THnSparseD *jet2jet3_Dphi_Deta_ref = new THnSparseD("jet2jet3_Dphi_Deta_ref", "jet2jet3_Dphi_Deta_ref", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
-THnSparseD *jet2jet3_Dphi_Deta_gen = new THnSparseD("jet2jet3_Dphi_Deta_gen", "jet2jet3_Dphi_Deta_gen", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
-THnSparseD *jet1jet3_Dphi_Deta_reco = new THnSparseD("jet1jet3_Dphi_Deta_reco", "jet1jet3_Dphi_Deta_reco", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
-THnSparseD *jet1jet3_Dphi_Deta_ref = new THnSparseD("jet1jet3_Dphi_Deta_ref", "jet1jet3_Dphi_Deta_ref", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
-THnSparseD *jet1jet3_Dphi_Deta_gen = new THnSparseD("jet1jet3_Dphi_Deta_gen", "jet1jet3_Dphi_Deta_gen", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
+THnSparseD *jetjet_Dphi_Deta_reco = new THnSparseD("jetjet_Dphi_Deta_reco", "jetjet_Dphi_Deta_reco", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
+THnSparseD *jetjet_Dphi_Deta_ref = new THnSparseD("jetjet_Dphi_Deta_ref", "jetjet_Dphi_Deta_ref", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
+THnSparseD *jetjet_Dphi_Deta_gen = new THnSparseD("jetjet_Dphi_Deta_gen", "jetjet_Dphi_Deta_gen", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
 
 // Axis : 0 -> delta p, 1 -> multiplicity
 int	bins_jetjetpts[2]      =   { 5000 	  ,  80};
 double xmin_jetjetpts[2]   =   { -2500.0  ,  0.0};
 double xmax_jetjetpts[2]   =   { 2500.0   ,  400.0};
-THnSparseD *jet1jet3_Px_reco = new THnSparseD("jet1jet3_Px_reco", "jet1jet3_Px_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
-THnSparseD *jet1jet3_Py_reco = new THnSparseD("jet1jet3_Py_reco", "jet1jet3_Py_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
-THnSparseD *jet1jet3_Pz_reco = new THnSparseD("jet1jet3_Pz_reco", "jet1jet3_Pz_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
-THnSparseD *jet2jet3_Px_reco = new THnSparseD("jet2jet3_Px_reco", "jet2jet3_Px_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
-THnSparseD *jet2jet3_Py_reco = new THnSparseD("jet2jet3_Py_reco", "jet2jet3_Py_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
-THnSparseD *jet2jet3_Pz_reco = new THnSparseD("jet2jet3_Pz_reco", "jet2jet3_Pz_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
-THnSparseD *jet1jet3_Px_ref = new THnSparseD("jet1jet3_Px_ref", "jet1jet3_Px_ref", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
-THnSparseD *jet1jet3_Py_ref = new THnSparseD("jet1jet3_Py_ref", "jet1jet3_Py_ref", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
-THnSparseD *jet1jet3_Pz_ref = new THnSparseD("jet1jet3_Pz_ref", "jet1jet3_Pz_ref", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
-THnSparseD *jet2jet3_Px_ref = new THnSparseD("jet2jet3_Px_ref", "jet2jet3_Px_ref", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
-THnSparseD *jet2jet3_Py_ref = new THnSparseD("jet2jet3_Py_ref", "jet2jet3_Py_ref", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
-THnSparseD *jet2jet3_Pz_ref = new THnSparseD("jet2jet3_Pz_ref", "jet2jet3_Pz_ref", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
-THnSparseD *jet1jet3_Px_gen = new THnSparseD("jet1jet3_Px_gen", "jet1jet3_Px_gen", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
-THnSparseD *jet1jet3_Py_gen = new THnSparseD("jet1jet3_Py_gen", "jet1jet3_Py_gen", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
-THnSparseD *jet1jet3_Pz_gen = new THnSparseD("jet1jet3_Pz_gen", "jet1jet3_Pz_gen", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
-THnSparseD *jet2jet3_Px_gen = new THnSparseD("jet2jet3_Px_gen", "jet2jet3_Px_gen", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
-THnSparseD *jet2jet3_Py_gen = new THnSparseD("jet2jet3_Py_gen", "jet2jet3_Py_gen", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
-THnSparseD *jet2jet3_Pz_gen = new THnSparseD("jet2jet3_Pz_gen", "jet2jet3_Pz_gen", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jetjet_Px_reco = new THnSparseD("jetjet_Px_reco", "jetjet_Px_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jetjet_Py_reco = new THnSparseD("jetjet_Py_reco", "jetjet_Py_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jetjet_Pz_reco = new THnSparseD("jetjet_Pz_reco", "jetjet_Pz_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jetjet_Px_ref = new THnSparseD("jetjet_Px_ref", "jetjet_Px_ref", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jetjet_Py_ref = new THnSparseD("jetjet_Py_ref", "jetjet_Py_ref", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jetjet_Pz_ref = new THnSparseD("jetjet_Pz_ref", "jetjet_Pz_ref", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jetjet_Px_gen = new THnSparseD("jetjet_Px_gen", "jetjet_Px_gen", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jetjet_Py_gen = new THnSparseD("jetjet_Py_gen", "jetjet_Py_gen", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jetjet_Pz_gen = new THnSparseD("jetjet_Pz_gen", "jetjet_Pz_gen", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
 
 // Hadron Forward (HF) Calorimeter information
 // Axis : 0 -> HF+, 1 -> HF-, 2 -> multbin
@@ -373,17 +361,20 @@ THnSparseD *hist_reco_leadjet_weighted = new THnSparseD("hist_reco_leadjet_weigh
 THnSparseD *hist_reco_subljet = new THnSparseD("hist_reco_subljet", "hist_reco_subljet", 5, bins_jet, xmin_jet, xmax_jet);
 THnSparseD *hist_reco_subljet_weighted = new THnSparseD("hist_reco_subljet_weighted", "hist_reco_subljet_weighted", 5, bins_jet, xmin_jet, xmax_jet);
 THnSparseD *hist_reco_thrdjet_weighted = new THnSparseD("hist_reco_thrdjet_weighted", "hist_reco_thrdjet_weighted", 5, bins_jet, xmin_jet, xmax_jet);
+THnSparseD *hist_reco_thrdproj_weighted = new THnSparseD("hist_reco_thrdproj_weighted", "hist_reco_thrdproj_weighted", 5, bins_jet, xmin_jet, xmax_jet);
 // --> Gen
 THnSparseD *hist_gen_leadjet = new THnSparseD("hist_gen_leadjet", "hist_gen_leadjet", 5, bins_jet, xmin_jet, xmax_jet);
 THnSparseD *hist_gen_leadjet_weighted = new THnSparseD("hist_gen_leadjet_weighted", "hist_gen_leadjet_weighted", 5, bins_jet, xmin_jet, xmax_jet);
 THnSparseD *hist_gen_subljet = new THnSparseD("hist_gen_subljet", "hist_gen_subljet", 5, bins_jet, xmin_jet, xmax_jet);
 THnSparseD *hist_gen_subljet_weighted = new THnSparseD("hist_gen_subljet_weighted", "hist_gen_subljet_weighted", 5, bins_jet, xmin_jet, xmax_jet);
 THnSparseD *hist_gen_thrdjet_weighted = new THnSparseD("hist_gen_thrdjet_weighted", "hist_gen_thrdjet_weighted", 5, bins_jet, xmin_jet, xmax_jet);
+THnSparseD *hist_gen_thrdproj_weighted = new THnSparseD("hist_gen_thrdproj_weighted", "hist_gen_thrdproj_weighted", 5, bins_jet, xmin_jet, xmax_jet);
 // --> Ref
 THnSparseD *hist_ref_jet_weighted = new THnSparseD("hist_ref_jet_weighted", "hist_ref_jet_weighted", 5, bins_jet, xmin_jet, xmax_jet);
 THnSparseD *hist_ref_leadjet_weighted = new THnSparseD("hist_ref_leadjet_weighted", "hist_ref_leadjet_weighted", 5, bins_jet, xmin_jet, xmax_jet);
 THnSparseD *hist_ref_subljet_weighted = new THnSparseD("hist_ref_subljet_weighted", "hist_ref_subljet_weighted", 5, bins_jet, xmin_jet, xmax_jet);
 THnSparseD *hist_ref_thrdjet_weighted = new THnSparseD("hist_ref_thrdjet_weighted", "hist_ref_thrdjet_weighted", 5, bins_jet, xmin_jet, xmax_jet);
+THnSparseD *hist_ref_thrdproj_weighted = new THnSparseD("hist_ref_thrdproj_weighted", "hist_ref_thrdproj_weighted", 5, bins_jet, xmin_jet, xmax_jet);
 
 // Jets from Correlations
 // Inclusive
@@ -1503,6 +1494,9 @@ hist_ref_subljet_weighted->GetAxis(3)->Set(bins_jet[3],MultCentbins);
 hist_reco_thrdjet_weighted->GetAxis(3)->Set(bins_jet[3],MultCentbins);
 hist_gen_thrdjet_weighted->GetAxis(3)->Set(bins_jet[3],MultCentbins);
 hist_ref_thrdjet_weighted->GetAxis(3)->Set(bins_jet[3],MultCentbins);
+hist_reco_thrdproj_weighted->GetAxis(3)->Set(bins_jet[3],MultCentbins);
+hist_gen_thrdproj_weighted->GetAxis(3)->Set(bins_jet[3],MultCentbins);
+hist_ref_thrdproj_weighted->GetAxis(3)->Set(bins_jet[3],MultCentbins);
 hist_jet_from_reco_reco_sig->GetAxis(3)->Set(bins_jet[3],MultCentbins);
 hist_jet_from_reco_gen_sig->GetAxis(3)->Set(bins_jet[3],MultCentbins);
 hist_jet_from_gen_reco_sig->GetAxis(3)->Set(bins_jet[3],MultCentbins);
@@ -1876,6 +1870,9 @@ hist_ref_subljet_weighted->GetAxis(4)->Set(bins_jet[4],Extrabins);
 hist_reco_thrdjet_weighted->GetAxis(4)->Set(bins_jet[4],Extrabins);
 hist_gen_thrdjet_weighted->GetAxis(4)->Set(bins_jet[4],Extrabins);
 hist_ref_thrdjet_weighted->GetAxis(4)->Set(bins_jet[4],Extrabins);
+hist_reco_thrdproj_weighted->GetAxis(4)->Set(bins_jet[4],Extrabins);
+hist_gen_thrdproj_weighted->GetAxis(4)->Set(bins_jet[4],Extrabins);
+hist_ref_thrdproj_weighted->GetAxis(4)->Set(bins_jet[4],Extrabins);
 hist_jet_from_reco_reco_sig->GetAxis(4)->Set(bins_jet[4],Extrabins);
 hist_jet_from_reco_gen_sig->GetAxis(4)->Set(bins_jet[4],Extrabins);
 hist_jet_from_gen_reco_sig->GetAxis(4)->Set(bins_jet[4],Extrabins);
@@ -2386,6 +2383,9 @@ hist_ref_subljet_weighted->Sumw2();
 hist_reco_thrdjet_weighted->Sumw2();
 hist_gen_thrdjet_weighted->Sumw2();
 hist_ref_thrdjet_weighted->Sumw2();
+hist_reco_thrdproj_weighted->Sumw2();
+hist_gen_thrdproj_weighted->Sumw2();
+hist_ref_thrdproj_weighted->Sumw2();
 hist_jes_reco_weighted->Sumw2();
 hist_jes_reco_fromB_weighted->Sumw2();
 hist_leadjes_reco_weighted->Sumw2();
@@ -2684,30 +2684,18 @@ hist_reco_3rdjet_pt->Sumw2();
 hist_ref_3rdjet_pt->Sumw2();
 hist_gen_3rdjet_pt->Sumw2();
 
-jet2jet3_Dphi_Deta_reco->Sumw2();
-jet2jet3_Dphi_Deta_ref->Sumw2();
-jet2jet3_Dphi_Deta_gen->Sumw2();
-jet1jet3_Dphi_Deta_reco->Sumw2();
-jet1jet3_Dphi_Deta_ref->Sumw2();
-jet1jet3_Dphi_Deta_gen->Sumw2();
-jet1jet3_Px_reco->Sumw2();
-jet1jet3_Py_reco->Sumw2();
-jet1jet3_Pz_reco->Sumw2();
-jet2jet3_Px_reco->Sumw2();
-jet2jet3_Py_reco->Sumw2();
-jet2jet3_Pz_reco->Sumw2();
-jet1jet3_Px_ref->Sumw2();
-jet1jet3_Py_ref->Sumw2();
-jet1jet3_Pz_ref->Sumw2();
-jet2jet3_Px_ref->Sumw2();
-jet2jet3_Py_ref->Sumw2();
-jet2jet3_Pz_ref->Sumw2();
-jet1jet3_Px_gen->Sumw2();
-jet1jet3_Py_gen->Sumw2();
-jet1jet3_Pz_gen->Sumw2();
-jet2jet3_Px_gen->Sumw2();
-jet2jet3_Py_gen->Sumw2();
-jet2jet3_Pz_gen->Sumw2();
+jetjet_Dphi_Deta_reco->Sumw2();
+jetjet_Dphi_Deta_ref->Sumw2();
+jetjet_Dphi_Deta_gen->Sumw2();
+jetjet_Px_reco->Sumw2();
+jetjet_Py_reco->Sumw2();
+jetjet_Pz_reco->Sumw2();
+jetjet_Px_ref->Sumw2();
+jetjet_Py_ref->Sumw2();
+jetjet_Pz_ref->Sumw2();
+jetjet_Px_gen->Sumw2();
+jetjet_Py_gen->Sumw2();
+jetjet_Pz_gen->Sumw2();
 
 }
 
@@ -2821,6 +2809,7 @@ void w_QA_hist(bool isMC){
 	hist_reco_subljet->Write();
 	hist_reco_subljet_weighted->Write();
 	hist_reco_thrdjet_weighted->Write();
+	hist_reco_thrdproj_weighted->Write();
 	if(isMC){
 		hist_jes_reco_weighted->Write();
 		hist_jes_reco_fromB_weighted->Write();
@@ -2844,38 +2833,17 @@ void w_QA_hist(bool isMC){
 		hist_gen_subljet->Write();
 		hist_gen_subljet_weighted->Write();
 		hist_gen_thrdjet_weighted->Write();
+		hist_gen_thrdproj_weighted->Write();
 		hist_ref_jet_weighted->Write();
 		hist_ref_leadjet_weighted->Write();
 		hist_ref_subljet_weighted->Write();
 		hist_ref_thrdjet_weighted->Write();
+		hist_ref_thrdproj_weighted->Write();
 	}
 	
-	jet2jet3_Dphi_Deta_reco->Write();
-	if(isMC) jet2jet3_Dphi_Deta_ref->Write();
-	if(isMC) jet2jet3_Dphi_Deta_gen->Write();
-	jet1jet3_Dphi_Deta_reco->Write();
-	if(isMC) jet1jet3_Dphi_Deta_ref->Write();
-	if(isMC) jet1jet3_Dphi_Deta_gen->Write();
-	jet1jet3_Px_reco->Write();
-	jet1jet3_Py_reco->Write();
-	jet1jet3_Pz_reco->Write();
-	jet2jet3_Px_reco->Write();
-	jet2jet3_Py_reco->Write();
-	jet2jet3_Pz_reco->Write();
-	if(isMC) {
-		jet1jet3_Px_ref->Write();
-		jet1jet3_Py_ref->Write();
-		jet1jet3_Pz_ref->Write();
-		jet2jet3_Px_ref->Write();
-		jet2jet3_Py_ref->Write();
-		jet2jet3_Pz_ref->Write();
-		jet1jet3_Px_gen->Write();
-		jet1jet3_Py_gen->Write();
-		jet1jet3_Pz_gen->Write();
-		jet2jet3_Px_gen->Write();
-		jet2jet3_Py_gen->Write();
-		jet2jet3_Pz_gen->Write();
-	}	
+	jetjet_Dphi_Deta_reco->Write();	if(isMC) { jetjet_Dphi_Deta_ref->Write(); jetjet_Dphi_Deta_gen->Write();}
+	jetjet_Px_reco->Write(); jetjet_Py_reco->Write(); jetjet_Pz_reco->Write();
+	if(isMC) { jetjet_Px_ref->Write(); jetjet_Py_ref->Write(); jetjet_Pz_ref->Write(); jetjet_Px_gen->Write(); jetjet_Py_gen->Write();	jetjet_Pz_gen->Write(); }	
 	
 }
 

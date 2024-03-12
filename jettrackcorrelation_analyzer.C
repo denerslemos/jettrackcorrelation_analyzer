@@ -727,9 +727,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				bool sublfwdrap = (sublrecojet_eta > jet_fwd_eta_min_cut && sublrecojet_eta < jet_fwd_eta_max_cut);
 				bool leadbkwrap = (leadrecojet_eta > jet_bkw_eta_min_cut && leadrecojet_eta < jet_bkw_eta_max_cut);
 				bool sublbkwrap = (sublrecojet_eta > jet_bkw_eta_min_cut && sublrecojet_eta < jet_bkw_eta_max_cut);
-				bool Thrdjetrem = thirdrecojet_pt < 0.2 * 0.5 * (leadrecojet_pt + sublrecojet_pt);
 				if(do_dijetstudies){
-					if(leadmidrap && sublmidrap && Thrdjetrem){
+					if(leadmidrap && sublmidrap){
 						hist_reco_lead_reco_subl_quench_mid_mid->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_plus_mid_mid->Fill(x_reco_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_minus_mid_mid->Fill(x_reco_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
@@ -849,6 +848,36 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						GoodTrdLeadingJets_reco_3vec.SetPtEtaPhi(thirdrecojet_pt, thirdrecojet_eta, thirdrecojet_phi);
 						TVector3 GoodProjLeadingJets_reco_3vec = -(GoodLeadingJets_reco_3vec + GoodSubLeadingJets_reco_3vec);
 						
+						if(thirdrecojet_pt > 0){
+							double delphi_3rdProj = fabs(deltaphi(GoodTrdLeadingJets_reco_3vec.Phi(),GoodProjLeadingJets_reco_3vec.Phi()));
+							double deleta_3rdProj = deltaeta(GoodTrdLeadingJets_reco_3vec.Eta(),GoodProjLeadingJets_reco_3vec.Eta());
+							double delPx_3rdProj = deltaeta(GoodTrdLeadingJets_reco_3vec.Px(),GoodProjLeadingJets_reco_3vec.Px());
+							double delPy_3rdProj = deltaeta(GoodTrdLeadingJets_reco_3vec.Py(),GoodProjLeadingJets_reco_3vec.Py());
+							double delPz_3rdProj = deltaeta(GoodTrdLeadingJets_reco_3vec.Pz(),GoodProjLeadingJets_reco_3vec.Pz());
+							double xjetproj[3] = {delphi_3rdProj, deleta_3rdProj, (double)multcentbin};
+							double xjetprojPx[2] = {delPx_3rdProj, (double)multcentbin};
+							double xjetprojPy[2] = {delPy_3rdProj, (double)multcentbin};
+							double xjetprojPz[2] = {delPz_3rdProj, (double)multcentbin};
+							jetjet_Dphi_Deta_reco->Fill(xjetproj,event_weight);
+							jetjet_Px_reco->Fill(xjetprojPx,event_weight);
+							jetjet_Py_reco->Fill(xjetprojPy,event_weight);
+							jetjet_Pz_reco->Fill(xjetprojPz,event_weight);
+						}else{
+							double delphi_3rdProj = fabs(deltaphi(0.0,GoodProjLeadingJets_reco_3vec.Phi()));
+							double deleta_3rdProj = deltaeta(0.0,GoodProjLeadingJets_reco_3vec.Eta());
+							double delPx_3rdProj = deltaeta(0.0,GoodProjLeadingJets_reco_3vec.Px());
+							double delPy_3rdProj = deltaeta(0.0,GoodProjLeadingJets_reco_3vec.Py());
+							double delPz_3rdProj = deltaeta(0.0,GoodProjLeadingJets_reco_3vec.Pz());
+							double xjetproj[3] = {delphi_3rdProj, deleta_3rdProj, (double)multcentbin};
+							double xjetprojPx[2] = {delPx_3rdProj, (double)multcentbin};
+							double xjetprojPy[2] = {delPy_3rdProj, (double)multcentbin};
+							double xjetprojPz[2] = {delPz_3rdProj, (double)multcentbin};
+							jetjet_Dphi_Deta_reco->Fill(xjetproj,event_weight);
+							jetjet_Px_reco->Fill(xjetprojPx,event_weight);
+							jetjet_Py_reco->Fill(xjetprojPy,event_weight);
+							jetjet_Pz_reco->Fill(xjetprojPz,event_weight);
+						}
+						
 						Nevents->Fill(9);
 						pass_Aj_or_Xj_reco_cut = true; // if we apply Xj or Aj cuts
 						isdijet = true;
@@ -871,6 +900,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						hist_reco_subljet_weighted->Fill(x_sublead,event_weight*sljet_weight);
 						double x_3rdlead[5]={thirdrecojet_pt,thirdrecojet_eta,thirdrecojet_phi,(double) multcentbin,(double)extrabin}; 
 						hist_reco_thrdjet_weighted->Fill(x_3rdlead,event_weight);
+						double x_3rdproj[5]={GoodProjLeadingJets_reco_3vec.Pt(),GoodProjLeadingJets_reco_3vec.Eta(),GoodProjLeadingJets_reco_3vec.Phi(),(double) multcentbin,(double)extrabin}; 
+						hist_reco_thrdproj_weighted->Fill(x_3rdproj,event_weight);
 						
 						bool usethisjets = false;
 						if(leadmidrap && sublmidrap){multiplicity_midmid_weighted->Fill(mult,event_weight); if(fwdbkw_jettrk_option == "mid_mid"){usethisjets = true;}}
@@ -1190,6 +1221,36 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						GoodTrdLeadingJets_ref_3vec.SetPtEtaPhi(thirdrefjet_pt, thirdrefjet_eta, thirdrefjet_phi);
 						TVector3 GoodProjLeadingJets_ref_3vec = -(GoodLeadingJets_ref_3vec + GoodSubLeadingJets_ref_3vec);
 
+						if(thirdrefjet_pt > 0){
+							double delphi_3rdProj = fabs(deltaphi(GoodTrdLeadingJets_ref_3vec.Phi(),GoodProjLeadingJets_ref_3vec.Phi()));
+							double deleta_3rdProj = deltaeta(GoodTrdLeadingJets_ref_3vec.Eta(),GoodProjLeadingJets_ref_3vec.Eta());
+							double delPx_3rdProj = deltaeta(GoodTrdLeadingJets_ref_3vec.Px(),GoodProjLeadingJets_ref_3vec.Px());
+							double delPy_3rdProj = deltaeta(GoodTrdLeadingJets_ref_3vec.Py(),GoodProjLeadingJets_ref_3vec.Py());
+							double delPz_3rdProj = deltaeta(GoodTrdLeadingJets_ref_3vec.Pz(),GoodProjLeadingJets_ref_3vec.Pz());
+							double xjetproj[3] = {delphi_3rdProj, deleta_3rdProj, (double)multcentbin};
+							double xjetprojPx[2] = {delPx_3rdProj, (double)multcentbin};
+							double xjetprojPy[2] = {delPy_3rdProj, (double)multcentbin};
+							double xjetprojPz[2] = {delPz_3rdProj, (double)multcentbin};
+							jetjet_Dphi_Deta_ref->Fill(xjetproj,event_weight);
+							jetjet_Px_ref->Fill(xjetprojPx,event_weight);
+							jetjet_Py_ref->Fill(xjetprojPy,event_weight);
+							jetjet_Pz_ref->Fill(xjetprojPz,event_weight);
+						}else{
+							double delphi_3rdProj = fabs(deltaphi(0.0,GoodProjLeadingJets_ref_3vec.Phi()));
+							double deleta_3rdProj = deltaeta(0.0,GoodProjLeadingJets_ref_3vec.Eta());
+							double delPx_3rdProj = deltaeta(0.0,GoodProjLeadingJets_ref_3vec.Px());
+							double delPy_3rdProj = deltaeta(0.0,GoodProjLeadingJets_ref_3vec.Py());
+							double delPz_3rdProj = deltaeta(0.0,GoodProjLeadingJets_ref_3vec.Pz());
+							double xjetproj[3] = {delphi_3rdProj, deleta_3rdProj, (double)multcentbin};
+							double xjetprojPx[2] = {delPx_3rdProj, (double)multcentbin};
+							double xjetprojPy[2] = {delPy_3rdProj, (double)multcentbin};
+							double xjetprojPz[2] = {delPz_3rdProj, (double)multcentbin};
+							jetjet_Dphi_Deta_ref->Fill(xjetproj,event_weight);
+							jetjet_Px_ref->Fill(xjetprojPx,event_weight);
+							jetjet_Py_ref->Fill(xjetprojPy,event_weight);
+							jetjet_Pz_ref->Fill(xjetprojPz,event_weight);
+						}
+
 						isrefdijet = true;
 						double x_ref_QA_L[5]={leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,(double)multcentbin,(double) extrabin}; 
 						hist_ref_leadjet_weighted->Fill(x_ref_QA_L,event_weight*lrefjet_weight);
@@ -1197,7 +1258,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						hist_ref_subljet_weighted->Fill(x_ref_QA_SL,event_weight*slrefjet_weight);
 						double x_ref_QA_3L[5]={thirdrefjet_pt,thirdrefjet_eta,thirdrefjet_phi,(double)multcentbin,(double) extrabin}; 
 						hist_ref_thrdjet_weighted->Fill(x_ref_QA_3L,event_weight);
-
+						double x_ref_QA_3LProj[5]={GoodProjLeadingJets_ref_3vec.Pt(),GoodProjLeadingJets_ref_3vec.Eta(),GoodProjLeadingJets_ref_3vec.Phi(),(double) multcentbin,(double)extrabin}; 
+						hist_ref_thrdproj_weighted->Fill(x_ref_QA_3LProj,event_weight);
+						
 						if(leadmidrap && sublmidrap){ 
 							isrefdijet_midmid = true;	
 							double ptaveragelslref = 0.5*(leadrefjet_pt+sublrefjet_pt);
@@ -1692,6 +1755,37 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							TVector3 GoodTrdLeadingJets_gen_3vec;
 							GoodTrdLeadingJets_gen_3vec.SetPtEtaPhi(thirdgenjet_pt, thirdgenjet_eta, thirdgenjet_phi);
 							TVector3 GoodProjLeadingJets_gen_3vec = -(GoodLeadingJets_gen_3vec + GoodSubLeadingJets_gen_3vec);
+
+							if(thirdgenjet_pt > 0){
+								double delphi_3rdProj = fabs(deltaphi(GoodTrdLeadingJets_gen_3vec.Phi(),GoodProjLeadingJets_gen_3vec.Phi()));
+								double deleta_3rdProj = deltaeta(GoodTrdLeadingJets_gen_3vec.Eta(),GoodProjLeadingJets_gen_3vec.Eta());
+								double delPx_3rdProj = deltaeta(GoodTrdLeadingJets_gen_3vec.Px(),GoodProjLeadingJets_gen_3vec.Px());
+								double delPy_3rdProj = deltaeta(GoodTrdLeadingJets_gen_3vec.Py(),GoodProjLeadingJets_gen_3vec.Py());
+								double delPz_3rdProj = deltaeta(GoodTrdLeadingJets_gen_3vec.Pz(),GoodProjLeadingJets_gen_3vec.Pz());
+								double xjetproj[3] = {delphi_3rdProj, deleta_3rdProj, (double)multcentbin};
+								double xjetprojPx[2] = {delPx_3rdProj, (double)multcentbin};
+								double xjetprojPy[2] = {delPy_3rdProj, (double)multcentbin};
+								double xjetprojPz[2] = {delPz_3rdProj, (double)multcentbin};
+								jetjet_Dphi_Deta_gen->Fill(xjetproj,event_weight);
+								jetjet_Px_gen->Fill(xjetprojPx,event_weight);
+								jetjet_Py_gen->Fill(xjetprojPy,event_weight);
+								jetjet_Pz_gen->Fill(xjetprojPz,event_weight);
+							}else{
+								double delphi_3rdProj = fabs(deltaphi(0.0,GoodProjLeadingJets_gen_3vec.Phi()));
+								double deleta_3rdProj = deltaeta(0.0,GoodProjLeadingJets_gen_3vec.Eta());
+								double delPx_3rdProj = deltaeta(0.0,GoodProjLeadingJets_gen_3vec.Px());
+								double delPy_3rdProj = deltaeta(0.0,GoodProjLeadingJets_gen_3vec.Py());
+								double delPz_3rdProj = deltaeta(0.0,GoodProjLeadingJets_gen_3vec.Pz());
+								double xjetproj[3] = {delphi_3rdProj, deleta_3rdProj, (double)multcentbin};
+								double xjetprojPx[2] = {delPx_3rdProj, (double)multcentbin};
+								double xjetprojPy[2] = {delPy_3rdProj, (double)multcentbin};
+								double xjetprojPz[2] = {delPz_3rdProj, (double)multcentbin};
+								jetjet_Dphi_Deta_gen->Fill(xjetproj,event_weight);
+								jetjet_Px_gen->Fill(xjetprojPx,event_weight);
+								jetjet_Py_gen->Fill(xjetprojPy,event_weight);
+								jetjet_Pz_gen->Fill(xjetprojPz,event_weight);
+							}
+						
 							
 							pass_Aj_or_Xj_gen_cut = true; // if we apply Xj or Aj cuts
 							isgdijet = true;
@@ -1714,7 +1808,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							hist_gen_subljet_weighted->Fill(x_sublead,event_weight*sljet_weight);
 							double x_3rdlead[5]={thirdgenjet_pt,thirdgenjet_eta,thirdgenjet_phi,(double) multcentbin,(double)extrabin}; 
 							hist_gen_thrdjet_weighted->Fill(x_3rdlead,event_weight);
-							
+							double x_3rdproj[5]={GoodProjLeadingJets_gen_3vec.Pt(),GoodProjLeadingJets_gen_3vec.Eta(),GoodProjLeadingJets_gen_3vec.Phi(),(double) multcentbin,(double)extrabin}; 
+							hist_gen_thrdproj_weighted->Fill(x_3rdproj,event_weight);	
+													
 							bool usethisjets = false;
 							if(fwdbkw_jettrk_option == "mid_mid"){ if(leadmidrap && sublmidrap) usethisjets = true; }
 							if(fwdbkw_jettrk_option == "mid_fwd"){ if(leadmidrap && sublfwdrap) usethisjets = true; }
