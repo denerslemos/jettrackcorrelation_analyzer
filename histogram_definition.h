@@ -111,19 +111,11 @@ TH1D *gen_mult_weighted = new TH1D("gen_mult_weighted", "gen_mult_weighted", 80,
 TH1D *gen_mult_withonejet_weighted = new TH1D("gen_mult_withonejet_weighted", "gen_mult_withonejet_weighted", 80, 0.0, 400.0);
 TH1D *gen_mult_withdijets_weighted = new TH1D("gen_mult_withdijets_weighted", "gen_mult_withdijets_weighted", 80, 0.0, 400.0);
 
-TH1D *dijets_EMCons_reco = new TH1D("dijets_EMCons_reco", "dijets_EMCons_reco", 4000, -2000.0, 2000.0);
-TH1D *dijets_EMCons_ref = new TH1D("dijets_EMCons_ref", "dijets_EMCons_ref", 4000, -2000.0, 2000.0);
-TH1D *dijets_EMCons_gen = new TH1D("dijets_EMCons_gen", "dijets_EMCons_gen", 4000, -2000.0, 2000.0);
-
-TH1D *dijets_EMCons_reco_P = new TH1D("dijets_EMCons_reco_P", "dijets_EMCons_reco_P", 4000, -200.0, 200.0);
-TH1D *dijets_EMCons_ref_P = new TH1D("dijets_EMCons_ref_P", "dijets_EMCons_ref_P", 4000, -200.0, 200.0);
-TH1D *dijets_EMCons_gen_P = new TH1D("dijets_EMCons_gen_P", "dijets_EMCons_gen_P", 4000, -200.0, 200.0);
-
 // Jet Delta's
 // Axis : 0 -> delta phi, 1 -> delta eta, 2 -> multiplicity
-int	bins_jetjet[3]      =   { 100 	     , 500  , multbinsize-1};
-double xmin_jetjet[3]   =   { 0.0		 , -5.0 , multiplicity_centrality_bins[0]};
-double xmax_jetjet[3]   =   { TMath::Pi(), 5.0  , multiplicity_centrality_bins[multbinsize-1]};
+int	bins_jetjet[3]      =   { 100 	     , 250  , 80};
+double xmin_jetjet[3]   =   { 0.0		 , -5.0 , 0.0};
+double xmax_jetjet[3]   =   { TMath::Pi(), 5.0  , 400.0};
 THnSparseD *jet2jet3_Dphi_Deta_reco = new THnSparseD("jet2jet3_Dphi_Deta_reco", "jet2jet3_Dphi_Deta_reco", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
 THnSparseD *jet2jet3_Dphi_Deta_ref = new THnSparseD("jet2jet3_Dphi_Deta_ref", "jet2jet3_Dphi_Deta_ref", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
 THnSparseD *jet2jet3_Dphi_Deta_gen = new THnSparseD("jet2jet3_Dphi_Deta_gen", "jet2jet3_Dphi_Deta_gen", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
@@ -132,16 +124,27 @@ THnSparseD *jet1jet3_Dphi_Deta_ref = new THnSparseD("jet1jet3_Dphi_Deta_ref", "j
 THnSparseD *jet1jet3_Dphi_Deta_gen = new THnSparseD("jet1jet3_Dphi_Deta_gen", "jet1jet3_Dphi_Deta_gen", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
 
 // Axis : 0 -> delta p, 1 -> multiplicity
-int	bins_jetjetpts[2]      =   { 5000 	  ,  multbinsize-1};
-double xmin_jetjetpts[2]   =   { -2500.0  ,  multiplicity_centrality_bins[0]};
-double xmax_jetjetpts[2]   =   { 2500.0   ,  multiplicity_centrality_bins[multbinsize-1]};
+int	bins_jetjetpts[2]      =   { 5000 	  ,  80};
+double xmin_jetjetpts[2]   =   { -2500.0  ,  0.0};
+double xmax_jetjetpts[2]   =   { 2500.0   ,  400.0};
 THnSparseD *jet1jet3_Px_reco = new THnSparseD("jet1jet3_Px_reco", "jet1jet3_Px_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
 THnSparseD *jet1jet3_Py_reco = new THnSparseD("jet1jet3_Py_reco", "jet1jet3_Py_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
 THnSparseD *jet1jet3_Pz_reco = new THnSparseD("jet1jet3_Pz_reco", "jet1jet3_Pz_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
 THnSparseD *jet2jet3_Px_reco = new THnSparseD("jet2jet3_Px_reco", "jet2jet3_Px_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
 THnSparseD *jet2jet3_Py_reco = new THnSparseD("jet2jet3_Py_reco", "jet2jet3_Py_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
 THnSparseD *jet2jet3_Pz_reco = new THnSparseD("jet2jet3_Pz_reco", "jet2jet3_Pz_reco", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
-
+THnSparseD *jet1jet3_Px_ref = new THnSparseD("jet1jet3_Px_ref", "jet1jet3_Px_ref", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jet1jet3_Py_ref = new THnSparseD("jet1jet3_Py_ref", "jet1jet3_Py_ref", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jet1jet3_Pz_ref = new THnSparseD("jet1jet3_Pz_ref", "jet1jet3_Pz_ref", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jet2jet3_Px_ref = new THnSparseD("jet2jet3_Px_ref", "jet2jet3_Px_ref", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jet2jet3_Py_ref = new THnSparseD("jet2jet3_Py_ref", "jet2jet3_Py_ref", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jet2jet3_Pz_ref = new THnSparseD("jet2jet3_Pz_ref", "jet2jet3_Pz_ref", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jet1jet3_Px_gen = new THnSparseD("jet1jet3_Px_gen", "jet1jet3_Px_gen", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jet1jet3_Py_gen = new THnSparseD("jet1jet3_Py_gen", "jet1jet3_Py_gen", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jet1jet3_Pz_gen = new THnSparseD("jet1jet3_Pz_gen", "jet1jet3_Pz_gen", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jet2jet3_Px_gen = new THnSparseD("jet2jet3_Px_gen", "jet2jet3_Px_gen", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jet2jet3_Py_gen = new THnSparseD("jet2jet3_Py_gen", "jet2jet3_Py_gen", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
+THnSparseD *jet2jet3_Pz_gen = new THnSparseD("jet2jet3_Pz_gen", "jet2jet3_Pz_gen", 2, bins_jetjetpts, xmin_jetjetpts, xmax_jetjetpts);
 
 // Hadron Forward (HF) Calorimeter information
 // Axis : 0 -> HF+, 1 -> HF-, 2 -> multbin
@@ -2246,12 +2249,6 @@ gen_mult->Sumw2();
 gen_mult_weighted->Sumw2();
 gen_mult_withonejet_weighted->Sumw2();
 gen_mult_withdijets_weighted->Sumw2();
-dijets_EMCons_reco->Sumw2();
-dijets_EMCons_ref->Sumw2();
-dijets_EMCons_gen->Sumw2();
-dijets_EMCons_reco_P->Sumw2();
-dijets_EMCons_ref_P->Sumw2();
-dijets_EMCons_gen_P->Sumw2();
 hfhist->Sumw2();
 hfhist_weighted->Sumw2();
 hfhistEta4->Sumw2();
@@ -2687,6 +2684,31 @@ hist_reco_3rdjet_pt->Sumw2();
 hist_ref_3rdjet_pt->Sumw2();
 hist_gen_3rdjet_pt->Sumw2();
 
+jet2jet3_Dphi_Deta_reco->Sumw2();
+jet2jet3_Dphi_Deta_ref->Sumw2();
+jet2jet3_Dphi_Deta_gen->Sumw2();
+jet1jet3_Dphi_Deta_reco->Sumw2();
+jet1jet3_Dphi_Deta_ref->Sumw2();
+jet1jet3_Dphi_Deta_gen->Sumw2();
+jet1jet3_Px_reco->Sumw2();
+jet1jet3_Py_reco->Sumw2();
+jet1jet3_Pz_reco->Sumw2();
+jet2jet3_Px_reco->Sumw2();
+jet2jet3_Py_reco->Sumw2();
+jet2jet3_Pz_reco->Sumw2();
+jet1jet3_Px_ref->Sumw2();
+jet1jet3_Py_ref->Sumw2();
+jet1jet3_Pz_ref->Sumw2();
+jet2jet3_Px_ref->Sumw2();
+jet2jet3_Py_ref->Sumw2();
+jet2jet3_Pz_ref->Sumw2();
+jet1jet3_Px_gen->Sumw2();
+jet1jet3_Py_gen->Sumw2();
+jet1jet3_Pz_gen->Sumw2();
+jet2jet3_Px_gen->Sumw2();
+jet2jet3_Py_gen->Sumw2();
+jet2jet3_Pz_gen->Sumw2();
+
 }
 
 // write QA histograms
@@ -2725,13 +2747,7 @@ void w_QA_hist(bool isMC){
 		gen_mult_withdijets_weighted->Write();
 		pthathist->Write(); 
 		pthathist_weighted->Write();
-		dijets_EMCons_ref->Write();
-		dijets_EMCons_ref_P->Write();
-		dijets_EMCons_gen->Write();
-		dijets_EMCons_gen_P->Write();
 	}
-	dijets_EMCons_reco->Write();
-	dijets_EMCons_reco_P->Write();
 	reco_mult->Write();
 	reco_mult_weighted->Write();
 	reco_mult_withonejet_weighted->Write();
@@ -2833,6 +2849,34 @@ void w_QA_hist(bool isMC){
 		hist_ref_subljet_weighted->Write();
 		hist_ref_thrdjet_weighted->Write();
 	}
+	
+	jet2jet3_Dphi_Deta_reco->Write();
+	if(isMC) jet2jet3_Dphi_Deta_ref->Write();
+	if(isMC) jet2jet3_Dphi_Deta_gen->Write();
+	jet1jet3_Dphi_Deta_reco->Write();
+	if(isMC) jet1jet3_Dphi_Deta_ref->Write();
+	if(isMC) jet1jet3_Dphi_Deta_gen->Write();
+	jet1jet3_Px_reco->Write();
+	jet1jet3_Py_reco->Write();
+	jet1jet3_Pz_reco->Write();
+	jet2jet3_Px_reco->Write();
+	jet2jet3_Py_reco->Write();
+	jet2jet3_Pz_reco->Write();
+	if(isMC) {
+		jet1jet3_Px_ref->Write();
+		jet1jet3_Py_ref->Write();
+		jet1jet3_Pz_ref->Write();
+		jet2jet3_Px_ref->Write();
+		jet2jet3_Py_ref->Write();
+		jet2jet3_Pz_ref->Write();
+		jet1jet3_Px_gen->Write();
+		jet1jet3_Py_gen->Write();
+		jet1jet3_Pz_gen->Write();
+		jet2jet3_Px_gen->Write();
+		jet2jet3_Py_gen->Write();
+		jet2jet3_Pz_gen->Write();
+	}	
+	
 }
 
 // Reco-Reco correlation histograms

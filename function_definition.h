@@ -291,8 +291,8 @@ phi2: phi of second object
 float deltaphi(float phi1, float phi2){
 	if(phi1 < -3.0*TMath::Pi() || phi2 < -3.0*TMath::Pi()) return 999.9;
 	float deltaPhi = ( phi1 - phi2 );
-	while( deltaPhi >  TMath::Pi() ){deltaPhi  += -2*TMath::Pi();}
-   	while( deltaPhi < -TMath::Pi() ){deltaPhi  +=  2*TMath::Pi();}
+	if( deltaPhi >  TMath::Pi() ) deltaPhi  += -2*TMath::Pi(); 
+   	if( deltaPhi < -TMath::Pi() ) deltaPhi  +=  2*TMath::Pi();
 	return deltaPhi;
 }
 
@@ -305,8 +305,8 @@ phi2: phi of second object
 float deltaphi2PC(float phi1, float phi2){    
 	if(phi1 < -3.0*TMath::Pi() || phi2 < -3.0*TMath::Pi()) return 999.9;	
 	float deltaPhi = (phi1 - phi2);
-	while( deltaPhi >  1.5*TMath::Pi() ) deltaPhi += -2.*TMath::Pi();
-	while( deltaPhi < -0.5*TMath::Pi() ) deltaPhi +=  2.*TMath::Pi();
+	if( deltaPhi >  1.5*TMath::Pi() ) deltaPhi += -2.*TMath::Pi();
+	if( deltaPhi < -0.5*TMath::Pi() ) deltaPhi +=  2.*TMath::Pi();
 	return deltaPhi;
 }
 
