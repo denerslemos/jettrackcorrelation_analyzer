@@ -662,10 +662,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if(thirdjet_removal_method == 3){ if(thirdrecojet_pt > thirdjet_removal_cut * 0.5 * (leadrecojet_pt + sublrecojet_pt)) removethirdjet = true; }
 
 		bool removefourjet = false;
-		if(do_fourjet_removal){ if(fourthrecojet_pt > 0) removefourjet = true; } 
-		
+		if(do_fourjet_removal){ if(fourthrecojet_pt > 0.0) removefourjet = true; } 
+
 		//dijets
-		if(leadrecojet_pt > 0 && sublrecojet_pt > 0 && !removethirdjet && !removefourjet){
+		if(leadrecojet_pt > 0.0 && sublrecojet_pt > 0.0 && !removethirdjet && !removefourjet){
 
 			Nevents->Fill(6);
 			
@@ -734,6 +734,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				bool sublbkwrap = (sublrecojet_eta > jet_bkw_eta_min_cut && sublrecojet_eta < jet_bkw_eta_max_cut);
 				if(do_dijetstudies){
 					if(leadmidrap && sublmidrap){
+						if(delta_phi_reco > leading_subleading_deltaphi_min) cout << "LPT: " << leadrecojet_pt << " GeV; SLPT: " << sublrecojet_pt <<  " GeV; 3LPT: " << thirdrecojet_pt << " GeV; 4LPT: " << fourthrecojet_pt << endl;
 						hist_reco_lead_reco_subl_quench_mid_mid->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_plus_mid_mid->Fill(x_reco_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_minus_mid_mid->Fill(x_reco_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
@@ -852,35 +853,26 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						TVector3 GoodTrdLeadingJets_reco_3vec;
 						GoodTrdLeadingJets_reco_3vec.SetPtEtaPhi(thirdrecojet_pt, thirdrecojet_eta, thirdrecojet_phi);
 						TVector3 GoodProjLeadingJets_reco_3vec = -(GoodLeadingJets_reco_3vec + GoodSubLeadingJets_reco_3vec);
+						TVector3 GoodProjLeadingJets_reco_3vec_diff = (GoodLeadingJets_reco_3vec - GoodSubLeadingJets_reco_3vec);
 						
 						if(thirdrecojet_pt > 0){
 							double delphi_3rdProj = fabs(deltaphi(GoodTrdLeadingJets_reco_3vec.Phi(),GoodProjLeadingJets_reco_3vec.Phi()));
 							double deleta_3rdProj = deltaeta(GoodTrdLeadingJets_reco_3vec.Eta(),GoodProjLeadingJets_reco_3vec.Eta());
-							double delPx_3rdProj = deltaeta(GoodTrdLeadingJets_reco_3vec.Px(),GoodProjLeadingJets_reco_3vec.Px());
-							double delPy_3rdProj = deltaeta(GoodTrdLeadingJets_reco_3vec.Py(),GoodProjLeadingJets_reco_3vec.Py());
-							double delPz_3rdProj = deltaeta(GoodTrdLeadingJets_reco_3vec.Pz(),GoodProjLeadingJets_reco_3vec.Pz());
 							double xjetproj[3] = {delphi_3rdProj, deleta_3rdProj, (double)multcentbin};
-							double xjetprojPx[2] = {delPx_3rdProj, (double)multcentbin};
-							double xjetprojPy[2] = {delPy_3rdProj, (double)multcentbin};
-							double xjetprojPz[2] = {delPz_3rdProj, (double)multcentbin};
 							jetjet_Dphi_Deta_reco->Fill(xjetproj,event_weight);
-							jetjet_Px_reco->Fill(xjetprojPx,event_weight);
-							jetjet_Py_reco->Fill(xjetprojPy,event_weight);
-							jetjet_Pz_reco->Fill(xjetprojPz,event_weight);
+							double delphi_3rdProjdiff = fabs(deltaphi(GoodTrdLeadingJets_reco_3vec.Phi(),GoodProjLeadingJets_reco_3vec_diff.Phi()));
+							double deleta_3rdProjdiff = deltaeta(GoodTrdLeadingJets_reco_3vec.Eta(),GoodProjLeadingJets_reco_3vec_diff.Eta());
+							double xjetprojdiff[3] = {delphi_3rdProjdiff, deleta_3rdProjdiff, (double)multcentbin};
+							jetjet_Dphi_Deta_reco_diff->Fill(xjetprojdiff,event_weight);
 						}else{
 							double delphi_3rdProj = fabs(deltaphi(0.0,GoodProjLeadingJets_reco_3vec.Phi()));
 							double deleta_3rdProj = deltaeta(0.0,GoodProjLeadingJets_reco_3vec.Eta());
-							double delPx_3rdProj = deltaeta(0.0,GoodProjLeadingJets_reco_3vec.Px());
-							double delPy_3rdProj = deltaeta(0.0,GoodProjLeadingJets_reco_3vec.Py());
-							double delPz_3rdProj = deltaeta(0.0,GoodProjLeadingJets_reco_3vec.Pz());
 							double xjetproj[3] = {delphi_3rdProj, deleta_3rdProj, (double)multcentbin};
-							double xjetprojPx[2] = {delPx_3rdProj, (double)multcentbin};
-							double xjetprojPy[2] = {delPy_3rdProj, (double)multcentbin};
-							double xjetprojPz[2] = {delPz_3rdProj, (double)multcentbin};
 							jetjet_Dphi_Deta_reco->Fill(xjetproj,event_weight);
-							jetjet_Px_reco->Fill(xjetprojPx,event_weight);
-							jetjet_Py_reco->Fill(xjetprojPy,event_weight);
-							jetjet_Pz_reco->Fill(xjetprojPz,event_weight);
+							double delphi_3rdProjdiff = fabs(deltaphi(0.0,GoodProjLeadingJets_reco_3vec_diff.Phi()));
+							double deleta_3rdProjdiff = deltaeta(0.0,GoodProjLeadingJets_reco_3vec_diff.Eta());
+							double xjetprojdiff[3] = {delphi_3rdProjdiff, deleta_3rdProjdiff, (double)multcentbin};
+							jetjet_Dphi_Deta_reco_diff->Fill(xjetprojdiff,event_weight);
 						}
 						
 						Nevents->Fill(9);
@@ -907,6 +899,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						hist_reco_thrdjet_weighted->Fill(x_3rdlead,event_weight);
 						double x_3rdproj[5]={GoodProjLeadingJets_reco_3vec.Pt(),GoodProjLeadingJets_reco_3vec.Eta(),GoodProjLeadingJets_reco_3vec.Phi(),(double) multcentbin,(double)extrabin}; 
 						hist_reco_thrdproj_weighted->Fill(x_3rdproj,event_weight);
+						double x_3rdprojdiff[5]={GoodProjLeadingJets_reco_3vec_diff.Pt(),GoodProjLeadingJets_reco_3vec_diff.Eta(),GoodProjLeadingJets_reco_3vec_diff.Phi(),(double) multcentbin,(double)extrabin}; 
+						hist_reco_thrdproj_weighted->Fill(x_3rdprojdiff,event_weight);
 						
 						bool usethisjets = false;
 						if(leadmidrap && sublmidrap){multiplicity_midmid_weighted->Fill(mult,event_weight); if(fwdbkw_jettrk_option == "mid_mid"){usethisjets = true;}}
@@ -1048,7 +1042,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if(thirdjet_removal_method == 3){ if(thirdrefjet_pt > thirdjet_removal_cut * 0.5 * (leadrefjet_pt + sublrefjet_pt)) removethirdjet_ref = true; }
 
 		bool removefourjet_ref = false;
-		if(do_fourjet_removal){ if(fourthrefjet_pt > 0) removefourjet_ref = true; } 
+		if(do_fourjet_removal){ if(fourthrefjet_pt > 0.0) removefourjet_ref = true; } 
 		
 		if(leadrefjet_pt > 0.0 && sublrefjet_pt > 0.0 && !removethirdjet_ref && !removefourjet_ref){
 			//leading/subleading pT cuts
@@ -1228,36 +1222,28 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						TVector3 GoodTrdLeadingJets_ref_3vec;
 						GoodTrdLeadingJets_ref_3vec.SetPtEtaPhi(thirdrefjet_pt, thirdrefjet_eta, thirdrefjet_phi);
 						TVector3 GoodProjLeadingJets_ref_3vec = -(GoodLeadingJets_ref_3vec + GoodSubLeadingJets_ref_3vec);
+						TVector3 GoodProjLeadingJets_ref_3vec_diff = (GoodLeadingJets_ref_3vec - GoodSubLeadingJets_ref_3vec);
 
 						if(thirdrefjet_pt > 0){
 							double delphi_3rdProj = fabs(deltaphi(GoodTrdLeadingJets_ref_3vec.Phi(),GoodProjLeadingJets_ref_3vec.Phi()));
 							double deleta_3rdProj = deltaeta(GoodTrdLeadingJets_ref_3vec.Eta(),GoodProjLeadingJets_ref_3vec.Eta());
-							double delPx_3rdProj = deltaeta(GoodTrdLeadingJets_ref_3vec.Px(),GoodProjLeadingJets_ref_3vec.Px());
-							double delPy_3rdProj = deltaeta(GoodTrdLeadingJets_ref_3vec.Py(),GoodProjLeadingJets_ref_3vec.Py());
-							double delPz_3rdProj = deltaeta(GoodTrdLeadingJets_ref_3vec.Pz(),GoodProjLeadingJets_ref_3vec.Pz());
 							double xjetproj[3] = {delphi_3rdProj, deleta_3rdProj, (double)multcentbin};
-							double xjetprojPx[2] = {delPx_3rdProj, (double)multcentbin};
-							double xjetprojPy[2] = {delPy_3rdProj, (double)multcentbin};
-							double xjetprojPz[2] = {delPz_3rdProj, (double)multcentbin};
 							jetjet_Dphi_Deta_ref->Fill(xjetproj,event_weight);
-							jetjet_Px_ref->Fill(xjetprojPx,event_weight);
-							jetjet_Py_ref->Fill(xjetprojPy,event_weight);
-							jetjet_Pz_ref->Fill(xjetprojPz,event_weight);
+							double delphi_3rdProjdiff = fabs(deltaphi(GoodTrdLeadingJets_ref_3vec.Phi(),GoodProjLeadingJets_ref_3vec_diff.Phi()));
+							double deleta_3rdProjdiff = deltaeta(GoodTrdLeadingJets_ref_3vec.Eta(),GoodProjLeadingJets_ref_3vec_diff.Eta());
+							double xjetprojdiff[3] = {delphi_3rdProjdiff, deleta_3rdProjdiff, (double)multcentbin};
+							jetjet_Dphi_Deta_ref_diff->Fill(xjetprojdiff,event_weight);
 						}else{
 							double delphi_3rdProj = fabs(deltaphi(0.0,GoodProjLeadingJets_ref_3vec.Phi()));
 							double deleta_3rdProj = deltaeta(0.0,GoodProjLeadingJets_ref_3vec.Eta());
-							double delPx_3rdProj = deltaeta(0.0,GoodProjLeadingJets_ref_3vec.Px());
-							double delPy_3rdProj = deltaeta(0.0,GoodProjLeadingJets_ref_3vec.Py());
-							double delPz_3rdProj = deltaeta(0.0,GoodProjLeadingJets_ref_3vec.Pz());
 							double xjetproj[3] = {delphi_3rdProj, deleta_3rdProj, (double)multcentbin};
-							double xjetprojPx[2] = {delPx_3rdProj, (double)multcentbin};
-							double xjetprojPy[2] = {delPy_3rdProj, (double)multcentbin};
-							double xjetprojPz[2] = {delPz_3rdProj, (double)multcentbin};
 							jetjet_Dphi_Deta_ref->Fill(xjetproj,event_weight);
-							jetjet_Px_ref->Fill(xjetprojPx,event_weight);
-							jetjet_Py_ref->Fill(xjetprojPy,event_weight);
-							jetjet_Pz_ref->Fill(xjetprojPz,event_weight);
+							double delphi_3rdProjdiff = fabs(deltaphi(0.0,GoodProjLeadingJets_ref_3vec_diff.Phi()));
+							double deleta_3rdProjdiff = deltaeta(0.0,GoodProjLeadingJets_ref_3vec_diff.Eta());
+							double xjetprojdiff[3] = {delphi_3rdProjdiff, deleta_3rdProjdiff, (double)multcentbin};
+							jetjet_Dphi_Deta_ref_diff->Fill(xjetprojdiff,event_weight);
 						}
+
 
 						isrefdijet = true;
 						double x_ref_QA_L[5]={leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,(double)multcentbin,(double) extrabin}; 
@@ -1586,7 +1572,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			if(thirdjet_removal_method == 3){ if(thirdgenjet_pt > thirdjet_removal_cut * 0.5 * (leadgenjet_pt + sublgenjet_pt)) removethirdjet_gen = true; }
 
 			bool removefourjet_gen = false;
-			if(do_fourjet_removal){ if(fourthgenjet_pt > 0) removefourjet_gen = true; } 
+			if(do_fourjet_removal){ if(fourthgenjet_pt > 0.0) removefourjet_gen = true; } 
 				
 			//leading/subleading jets
 			if(leadgenjet_pt > 0.0 && sublgenjet_pt > 0.0 && !removethirdjet_gen && !removefourjet_gen){
@@ -1767,37 +1753,27 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							TVector3 GoodTrdLeadingJets_gen_3vec;
 							GoodTrdLeadingJets_gen_3vec.SetPtEtaPhi(thirdgenjet_pt, thirdgenjet_eta, thirdgenjet_phi);
 							TVector3 GoodProjLeadingJets_gen_3vec = -(GoodLeadingJets_gen_3vec + GoodSubLeadingJets_gen_3vec);
+							TVector3 GoodProjLeadingJets_gen_3vec_diff = (GoodLeadingJets_gen_3vec - GoodSubLeadingJets_gen_3vec);
 
 							if(thirdgenjet_pt > 0){
 								double delphi_3rdProj = fabs(deltaphi(GoodTrdLeadingJets_gen_3vec.Phi(),GoodProjLeadingJets_gen_3vec.Phi()));
 								double deleta_3rdProj = deltaeta(GoodTrdLeadingJets_gen_3vec.Eta(),GoodProjLeadingJets_gen_3vec.Eta());
-								double delPx_3rdProj = deltaeta(GoodTrdLeadingJets_gen_3vec.Px(),GoodProjLeadingJets_gen_3vec.Px());
-								double delPy_3rdProj = deltaeta(GoodTrdLeadingJets_gen_3vec.Py(),GoodProjLeadingJets_gen_3vec.Py());
-								double delPz_3rdProj = deltaeta(GoodTrdLeadingJets_gen_3vec.Pz(),GoodProjLeadingJets_gen_3vec.Pz());
 								double xjetproj[3] = {delphi_3rdProj, deleta_3rdProj, (double)multcentbin};
-								double xjetprojPx[2] = {delPx_3rdProj, (double)multcentbin};
-								double xjetprojPy[2] = {delPy_3rdProj, (double)multcentbin};
-								double xjetprojPz[2] = {delPz_3rdProj, (double)multcentbin};
 								jetjet_Dphi_Deta_gen->Fill(xjetproj,event_weight);
-								jetjet_Px_gen->Fill(xjetprojPx,event_weight);
-								jetjet_Py_gen->Fill(xjetprojPy,event_weight);
-								jetjet_Pz_gen->Fill(xjetprojPz,event_weight);
+								double delphi_3rdProjdiff = fabs(deltaphi(GoodTrdLeadingJets_gen_3vec.Phi(),GoodProjLeadingJets_gen_3vec_diff.Phi()));
+								double deleta_3rdProjdiff = deltaeta(GoodTrdLeadingJets_gen_3vec.Eta(),GoodProjLeadingJets_gen_3vec_diff.Eta());
+								double xjetprojdiff[3] = {delphi_3rdProjdiff, deleta_3rdProjdiff, (double)multcentbin};
+								jetjet_Dphi_Deta_gen_diff->Fill(xjetprojdiff,event_weight);
 							}else{
 								double delphi_3rdProj = fabs(deltaphi(0.0,GoodProjLeadingJets_gen_3vec.Phi()));
 								double deleta_3rdProj = deltaeta(0.0,GoodProjLeadingJets_gen_3vec.Eta());
-								double delPx_3rdProj = deltaeta(0.0,GoodProjLeadingJets_gen_3vec.Px());
-								double delPy_3rdProj = deltaeta(0.0,GoodProjLeadingJets_gen_3vec.Py());
-								double delPz_3rdProj = deltaeta(0.0,GoodProjLeadingJets_gen_3vec.Pz());
 								double xjetproj[3] = {delphi_3rdProj, deleta_3rdProj, (double)multcentbin};
-								double xjetprojPx[2] = {delPx_3rdProj, (double)multcentbin};
-								double xjetprojPy[2] = {delPy_3rdProj, (double)multcentbin};
-								double xjetprojPz[2] = {delPz_3rdProj, (double)multcentbin};
 								jetjet_Dphi_Deta_gen->Fill(xjetproj,event_weight);
-								jetjet_Px_gen->Fill(xjetprojPx,event_weight);
-								jetjet_Py_gen->Fill(xjetprojPy,event_weight);
-								jetjet_Pz_gen->Fill(xjetprojPz,event_weight);
+								double delphi_3rdProjdiff = fabs(deltaphi(0.0,GoodProjLeadingJets_gen_3vec_diff.Phi()));
+								double deleta_3rdProjdiff = deltaeta(0.0,GoodProjLeadingJets_gen_3vec_diff.Eta());
+								double xjetprojdiff[3] = {delphi_3rdProjdiff, deleta_3rdProjdiff, (double)multcentbin};
+								jetjet_Dphi_Deta_gen_diff->Fill(xjetprojdiff,event_weight);
 							}
-						
 							
 							pass_Aj_or_Xj_gen_cut = true; // if we apply Xj or Aj cuts
 							isgdijet = true;
