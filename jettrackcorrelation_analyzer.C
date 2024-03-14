@@ -886,6 +886,14 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double ratio32 = thirdrecojet_pt / sublrecojet_pt;
 							double x_ptcheck[8]={leadrecojet_pt, sublrecojet_pt, thirdrecojet_pt, ptaveragelsl, ratio31, ratio32, alphapt,(double) multcentbin};
 							if(thirdrecojet_pt > 0) hist_reco_3rdjet_pt->Fill(x_ptcheck,event_weight); 	
+							
+							if(leadrecojet_pt > 0.0 && sublrecojet_pt > 0.0) { double xDpt12[2] = { fabs(deltaeta(leadrecojet_pt,sublrecojet_pt)), (double)multcentbin}; jet1jet2_Dpt_reco->Fill(xDpt12,event_weight); }
+							if(leadrecojet_pt > 0.0 && thirdrecojet_pt > 0.0) { double xDpt13[2] = { fabs(deltaeta(leadrecojet_pt,thirdrecojet_pt)), (double)multcentbin}; jet1jet3_Dpt_reco->Fill(xDpt13,event_weight); }
+							if(leadrecojet_pt > 0.0 && fourthrecojet_pt > 0.0) { double xDpt14[2] = { fabs(deltaeta(leadrecojet_pt,fourthrecojet_pt)), (double)multcentbin}; jet1jet4_Dpt_reco->Fill(xDpt14,event_weight); }
+							if(sublrecojet_pt > 0.0 && thirdrecojet_pt > 0.0) { double xDpt23[2] = { fabs(deltaeta(sublrecojet_pt,thirdrecojet_pt)), (double)multcentbin}; jet2jet3_Dpt_reco->Fill(xDpt23,event_weight); }
+							if(sublrecojet_pt > 0.0 && fourthrecojet_pt > 0.0) { double xDpt24[2] = { fabs(deltaeta(sublrecojet_pt,fourthrecojet_pt)), (double)multcentbin}; jet2jet4_Dpt_reco->Fill(xDpt24,event_weight); }
+							if(thirdrecojet_pt > 0.0 && fourthrecojet_pt > 0.0) { double xDpt34[2] = { fabs(deltaeta(thirdrecojet_pt,fourthrecojet_pt)), (double)multcentbin}; jet3jet4_Dpt_reco->Fill(xDpt34,event_weight); }
+
 						}
 
 						// Fill leading and subleading jet QA histograms
@@ -900,7 +908,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double x_3rdproj[5]={GoodProjLeadingJets_reco_3vec.Pt(),GoodProjLeadingJets_reco_3vec.Eta(),GoodProjLeadingJets_reco_3vec.Phi(),(double) multcentbin,(double)extrabin}; 
 						hist_reco_thrdproj_weighted->Fill(x_3rdproj,event_weight);
 						double x_3rdprojdiff[5]={GoodProjLeadingJets_reco_3vec_diff.Pt(),GoodProjLeadingJets_reco_3vec_diff.Eta(),GoodProjLeadingJets_reco_3vec_diff.Phi(),(double) multcentbin,(double)extrabin}; 
-						hist_reco_thrdproj_weighted->Fill(x_3rdprojdiff,event_weight);
+						hist_reco_thrdprojdiff_weighted->Fill(x_3rdprojdiff,event_weight);
 						
 						bool usethisjets = false;
 						if(leadmidrap && sublmidrap){multiplicity_midmid_weighted->Fill(mult,event_weight); if(fwdbkw_jettrk_option == "mid_mid"){usethisjets = true;}}
@@ -1254,7 +1262,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						hist_ref_thrdjet_weighted->Fill(x_ref_QA_3L,event_weight);
 						double x_ref_QA_3LProj[5]={GoodProjLeadingJets_ref_3vec.Pt(),GoodProjLeadingJets_ref_3vec.Eta(),GoodProjLeadingJets_ref_3vec.Phi(),(double) multcentbin,(double)extrabin}; 
 						hist_ref_thrdproj_weighted->Fill(x_ref_QA_3LProj,event_weight);
-						
+						double x_ref_QA_3LProjDiff[5]={GoodProjLeadingJets_ref_3vec_diff.Pt(),GoodProjLeadingJets_ref_3vec_diff.Eta(),GoodProjLeadingJets_ref_3vec_diff.Phi(),(double) multcentbin,(double)extrabin}; 
+						hist_ref_thrdprojdiff_weighted->Fill(x_ref_QA_3LProjDiff,event_weight);	
+
 						if(leadmidrap && sublmidrap){ 
 							isrefdijet_midmid = true;	
 							double ptaveragelslref = 0.5*(leadrefjet_pt+sublrefjet_pt);
@@ -1263,6 +1273,15 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double ratio32ref = thirdrefjet_pt / sublrefjet_pt;
 							double x_ptcheckref[8]={leadrefjet_pt, sublrefjet_pt, thirdrefjet_pt, ptaveragelslref, ratio31ref, ratio32ref, alphaptref,(double) multcentbin};
 							if(thirdrefjet_pt > 0) hist_ref_3rdjet_pt->Fill(x_ptcheckref,event_weight);	 
+							
+							if(leadrefjet_pt > 0.0 && sublrefjet_pt > 0.0) { double xDpt12[2] = { fabs(deltaeta(leadrefjet_pt,sublrefjet_pt)), (double)multcentbin}; jet1jet2_Dpt_ref->Fill(xDpt12,event_weight); }
+							if(leadrefjet_pt > 0.0 && thirdrefjet_pt > 0.0) { double xDpt13[2] = { fabs(deltaeta(leadrefjet_pt,thirdrefjet_pt)), (double)multcentbin}; jet1jet3_Dpt_ref->Fill(xDpt13,event_weight); }
+							if(leadrefjet_pt > 0.0 && fourthrefjet_pt > 0.0) { double xDpt14[2] = { fabs(deltaeta(leadrefjet_pt,fourthrefjet_pt)), (double)multcentbin}; jet1jet4_Dpt_ref->Fill(xDpt14,event_weight); }
+							if(sublrefjet_pt > 0.0 && thirdrefjet_pt > 0.0) { double xDpt23[2] = { fabs(deltaeta(sublrefjet_pt,thirdrefjet_pt)), (double)multcentbin}; jet2jet3_Dpt_ref->Fill(xDpt23,event_weight); }
+							if(sublrefjet_pt > 0.0 && fourthrefjet_pt > 0.0) { double xDpt24[2] = { fabs(deltaeta(sublrefjet_pt,fourthrefjet_pt)), (double)multcentbin}; jet2jet4_Dpt_ref->Fill(xDpt24,event_weight); }
+							if(thirdrefjet_pt > 0.0 && fourthrefjet_pt > 0.0) { double xDpt34[2] = { fabs(deltaeta(thirdrefjet_pt,fourthrefjet_pt)), (double)multcentbin}; jet3jet4_Dpt_ref->Fill(xDpt34,event_weight); }
+
+							
 						}
 					}
 				}
@@ -1779,6 +1798,14 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							isgdijet = true;
 
 							if( leadmidrap && sublmidrap ){
+								
+								if(leadgenjet_pt > 0.0 && sublgenjet_pt > 0.0) { double xDpt12[2] = { fabs(deltaeta(leadgenjet_pt,sublgenjet_pt)), (double)multcentbin}; jet1jet2_Dpt_gen->Fill(xDpt12,event_weight); }
+								if(leadgenjet_pt > 0.0 && thirdgenjet_pt > 0.0) { double xDpt13[2] = { fabs(deltaeta(leadgenjet_pt,thirdgenjet_pt)), (double)multcentbin}; jet1jet3_Dpt_gen->Fill(xDpt13,event_weight); }
+								if(leadgenjet_pt > 0.0 && fourthgenjet_pt > 0.0) { double xDpt14[2] = { fabs(deltaeta(leadgenjet_pt,fourthgenjet_pt)), (double)multcentbin}; jet1jet4_Dpt_gen->Fill(xDpt14,event_weight); }
+								if(sublgenjet_pt > 0.0 && thirdgenjet_pt > 0.0) { double xDpt23[2] = { fabs(deltaeta(sublgenjet_pt,thirdgenjet_pt)), (double)multcentbin}; jet2jet3_Dpt_gen->Fill(xDpt23,event_weight); }
+								if(sublgenjet_pt > 0.0 && fourthgenjet_pt > 0.0) { double xDpt24[2] = { fabs(deltaeta(sublgenjet_pt,fourthgenjet_pt)), (double)multcentbin}; jet2jet4_Dpt_gen->Fill(xDpt24,event_weight); }
+								if(thirdgenjet_pt > 0.0 && fourthgenjet_pt > 0.0) { double xDpt34[2] = { fabs(deltaeta(thirdgenjet_pt,fourthgenjet_pt)), (double)multcentbin}; jet3jet4_Dpt_gen->Fill(xDpt34,event_weight); }
+													
 								double ptaveragelslgen = 0.5*(leadgenjet_pt+sublgenjet_pt);
 								double alphaptgen = thirdgenjet_pt / ptaveragelslgen;
 								double ratio31gen = thirdgenjet_pt / leadgenjet_pt;
@@ -1798,6 +1825,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							hist_gen_thrdjet_weighted->Fill(x_3rdlead,event_weight);
 							double x_3rdproj[5]={GoodProjLeadingJets_gen_3vec.Pt(),GoodProjLeadingJets_gen_3vec.Eta(),GoodProjLeadingJets_gen_3vec.Phi(),(double) multcentbin,(double)extrabin}; 
 							hist_gen_thrdproj_weighted->Fill(x_3rdproj,event_weight);	
+							double x_3rdprojdiff[5]={GoodProjLeadingJets_gen_3vec_diff.Pt(),GoodProjLeadingJets_gen_3vec_diff.Eta(),GoodProjLeadingJets_gen_3vec_diff.Phi(),(double) multcentbin,(double)extrabin}; 
+							hist_gen_thrdprojdiff_weighted->Fill(x_3rdprojdiff,event_weight);	
 													
 							bool usethisjets = false;
 							if(fwdbkw_jettrk_option == "mid_mid"){ if(leadmidrap && sublmidrap) usethisjets = true; }
