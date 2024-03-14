@@ -734,7 +734,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				bool sublbkwrap = (sublrecojet_eta > jet_bkw_eta_min_cut && sublrecojet_eta < jet_bkw_eta_max_cut);
 				if(do_dijetstudies){
 					if(leadmidrap && sublmidrap){
-						if(delta_phi_reco > leading_subleading_deltaphi_min) cout << "LPT: " << leadrecojet_pt << " GeV; SLPT: " << sublrecojet_pt <<  " GeV; 3LPT: " << thirdrecojet_pt << " GeV; 4LPT: " << fourthrecojet_pt << endl;
+//						if(delta_phi_reco > leading_subleading_deltaphi_min) cout << "LPT: " << leadrecojet_pt << " GeV; SLPT: " << sublrecojet_pt <<  " GeV; 3LPT: " << thirdrecojet_pt << " GeV; 4LPT: " << fourthrecojet_pt << endl;
 						hist_reco_lead_reco_subl_quench_mid_mid->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_plus_mid_mid->Fill(x_reco_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_minus_mid_mid->Fill(x_reco_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
