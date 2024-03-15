@@ -43,7 +43,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	TString jet_axis; if(use_WTA){jet_axis = "WTA";}else{jet_axis = "ESC";}
 	jet_axis += Form("_tor%i_",trackmaxoverrawpt_method);
 	jet_axis += Form("3rdm%i_c%.1f_",thirdjet_removal_method,thirdjet_removal_cut);
-	if(do_fourjet_removal) jet_axis += "rem4thjet_";
+	jet_axis += Form("rem4thjet%i_",do_fourjet_removal);
 	TString smear;
 	if(do_jeu_down && !do_jeu_up){smear += "_jeudown_";}else if(!do_jeu_down && do_jeu_up){smear += "_jeuup_";}
 	if(do_jer_down && !do_jer_up){smear += "_jerdown_";}else if(!do_jer_down && do_jer_up){smear += "_jerup_";}
@@ -662,7 +662,11 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if(thirdjet_removal_method == 3){ if(thirdrecojet_pt > thirdjet_removal_cut * 0.5 * (leadrecojet_pt + sublrecojet_pt)) removethirdjet = true; }
 
 		bool removefourjet = false;
-		if(do_fourjet_removal){ if(fourthrecojet_pt > 0.0) removefourjet = true; } 
+		if(do_fourjet_removal == 1 && fourthrecojet_pt > 0.0){ if( fourthrecojet_pt+thirdrecojet_pt > sublrecojet_pt ) removefourjet = true; } 
+		if(do_fourjet_removal == 2 && fourthrecojet_pt > 0.0){ if( fourthrecojet_pt+thirdrecojet_pt > subleading_pT_min ) removefourjet = true; } 
+		if(do_fourjet_removal == 3 && fourthrecojet_pt > 0.0){ if( fabs(fourthrecojet_pt-thirdrecojet_pt) > 10.0 ) removefourjet = true; } 
+		if(do_fourjet_removal == 4 && fourthrecojet_pt > 0.0){ if( fabs(fourthrecojet_pt-thirdrecojet_pt) > 25.0 ) removefourjet = true; } 
+		if(do_fourjet_removal == 5 && fourthrecojet_pt > 0.0){ if( fabs(fourthrecojet_pt-thirdrecojet_pt) > subleading_pT_min ) removefourjet = true; } 
 
 		//dijets
 		if(leadrecojet_pt > 0.0 && sublrecojet_pt > 0.0 && !removethirdjet && !removefourjet){
@@ -689,7 +693,18 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
  				double sljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublrecojet_pt, sublrecojet_eta);  // Jet weight (specially for MC)
 				
 				Nevents->Fill(8);
-							
+
+				TVector3 GoodLeadingJets_reco_3vec;
+				GoodLeadingJets_reco_3vec.SetPtEtaPhi(leadrecojet_pt,leadrecojet_eta_lab,leadrecojet_phi);
+				TVector3 GoodSubLeadingJets_reco_3vec;
+				GoodSubLeadingJets_reco_3vec.SetPtEtaPhi(sublrecojet_pt, sublrecojet_eta_lab, sublrecojet_phi);
+				TVector3 GoodTrdLeadingJets_reco_3vec;
+				GoodTrdLeadingJets_reco_3vec.SetPtEtaPhi(thirdrecojet_pt, thirdrecojet_eta, thirdrecojet_phi);
+				TVector3 GoodProjLeadingJets_reco_3vec = -(GoodLeadingJets_reco_3vec + GoodSubLeadingJets_reco_3vec);
+				TVector3 GoodProjLeadingJets_reco_3vec_diff = (GoodLeadingJets_reco_3vec - GoodSubLeadingJets_reco_3vec);
+				bool remove_3rdjetevent = false;
+				if(thirdrecojet_pt > 0 && thirdjet_removal_method == 4 && (fabs(deltaphi(GoodTrdLeadingJets_reco_3vec.Phi(),GoodProjLeadingJets_reco_3vec.Phi())) < thirdjet_removal_cut)) remove_3rdjetevent = true;
+
 				// Fill leading/subleading jet quenching quantities
 				double delta_phi_reco = fabs(deltaphi(leadrecojet_phi, sublrecojet_phi));
 				double Aj_reco = asymmetry(leadrecojet_pt,sublrecojet_pt);
@@ -733,64 +748,64 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				bool leadbkwrap = (leadrecojet_eta > jet_bkw_eta_min_cut && leadrecojet_eta < jet_bkw_eta_max_cut);
 				bool sublbkwrap = (sublrecojet_eta > jet_bkw_eta_min_cut && sublrecojet_eta < jet_bkw_eta_max_cut);
 				if(do_dijetstudies){
-					if(leadmidrap && sublmidrap){
-//						if(delta_phi_reco > leading_subleading_deltaphi_min) cout << "LPT: " << leadrecojet_pt << " GeV; SLPT: " << sublrecojet_pt <<  " GeV; 3LPT: " << thirdrecojet_pt << " GeV; 4LPT: " << fourthrecojet_pt << endl;
+					if(leadmidrap && sublmidrap && !remove_3rdjetevent){
+//						if(delta_phi_reco > leading_subleading_deltaphi_min) {cout << endl; cout << "1PT: " << leadrecojet_pt << " GeV; 2PT: " << sublrecojet_pt <<  " GeV; 3PT: " << thirdrecojet_pt << " GeV; 4PT: " << fourthrecojet_pt << endl; cout << endl; }
 						hist_reco_lead_reco_subl_quench_mid_mid->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_plus_mid_mid->Fill(x_reco_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_minus_mid_mid->Fill(x_reco_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_sublEP_quench_plus_mid_mid->Fill(x_reco_subl_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_sublEP_quench_minus_mid_mid->Fill(x_reco_subl_EP_minus,event_weight*ljet_weight*sljet_weight);
 					}
-					if(leadmidrap && sublfwdrap){
+					if(leadmidrap && sublfwdrap && !remove_3rdjetevent){
 						hist_reco_lead_reco_subl_quench_mid_fwd->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_plus_mid_fwd->Fill(x_reco_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_minus_mid_fwd->Fill(x_reco_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_sublEP_quench_plus_mid_fwd->Fill(x_reco_subl_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_sublEP_quench_minus_mid_fwd->Fill(x_reco_subl_EP_minus,event_weight*ljet_weight*sljet_weight);
 					}
-					if(leadmidrap && sublbkwrap){
+					if(leadmidrap && sublbkwrap && !remove_3rdjetevent){
 						hist_reco_lead_reco_subl_quench_mid_bkw->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_plus_mid_bkw->Fill(x_reco_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_minus_mid_bkw->Fill(x_reco_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_sublEP_quench_plus_mid_bkw->Fill(x_reco_subl_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_sublEP_quench_minus_mid_bkw->Fill(x_reco_subl_EP_minus,event_weight*ljet_weight*sljet_weight);
 					}
-					if(leadfwdrap && sublmidrap){
+					if(leadfwdrap && sublmidrap && !remove_3rdjetevent){
 						hist_reco_lead_reco_subl_quench_fwd_mid->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_plus_fwd_mid->Fill(x_reco_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_minus_fwd_mid->Fill(x_reco_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_sublEP_quench_plus_fwd_mid->Fill(x_reco_subl_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_sublEP_quench_minus_fwd_mid->Fill(x_reco_subl_EP_minus,event_weight*ljet_weight*sljet_weight);
 					}
-					if(leadbkwrap && sublmidrap){
+					if(leadbkwrap && sublmidrap && !remove_3rdjetevent){
 						hist_reco_lead_reco_subl_quench_bkw_mid->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_plus_bkw_mid->Fill(x_reco_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_minus_bkw_mid->Fill(x_reco_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_sublEP_quench_plus_bkw_mid->Fill(x_reco_subl_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_sublEP_quench_minus_bkw_mid->Fill(x_reco_subl_EP_minus,event_weight*ljet_weight*sljet_weight);
 					}
-					if(leadfwdrap && sublfwdrap){
+					if(leadfwdrap && sublfwdrap && !remove_3rdjetevent){
 						hist_reco_lead_reco_subl_quench_fwd_fwd->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_plus_fwd_fwd->Fill(x_reco_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_minus_fwd_fwd->Fill(x_reco_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_sublEP_quench_plus_fwd_fwd->Fill(x_reco_subl_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_sublEP_quench_minus_fwd_fwd->Fill(x_reco_subl_EP_minus,event_weight*ljet_weight*sljet_weight);
 					}
-					if(leadfwdrap && sublbkwrap){
+					if(leadfwdrap && sublbkwrap && !remove_3rdjetevent){
 						hist_reco_lead_reco_subl_quench_fwd_bkw->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_plus_fwd_bkw->Fill(x_reco_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_minus_fwd_bkw->Fill(x_reco_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_sublEP_quench_plus_fwd_bkw->Fill(x_reco_subl_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_sublEP_quench_minus_fwd_bkw->Fill(x_reco_subl_EP_minus,event_weight*ljet_weight*sljet_weight);
 					}
-					if(leadbkwrap && sublfwdrap){
+					if(leadbkwrap && sublfwdrap && !remove_3rdjetevent){
 						hist_reco_lead_reco_subl_quench_bkw_fwd->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_plus_bkw_fwd->Fill(x_reco_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_minus_bkw_fwd->Fill(x_reco_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_sublEP_quench_plus_bkw_fwd->Fill(x_reco_subl_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_sublEP_quench_minus_bkw_fwd->Fill(x_reco_subl_EP_minus,event_weight*ljet_weight*sljet_weight);
 					}
-					if(leadbkwrap && sublbkwrap){
+					if(leadbkwrap && sublbkwrap && !remove_3rdjetevent){
 						hist_reco_lead_reco_subl_quench_bkw_bkw->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_plus_bkw_bkw->Fill(x_reco_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_minus_bkw_bkw->Fill(x_reco_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
@@ -846,15 +861,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 					if((Xj_reco >= xjmin && Xj_reco <= xjmax) && (Aj_reco >= Ajmin && Aj_reco <= Ajmax)){
 
-						TVector3 GoodLeadingJets_reco_3vec;
-						GoodLeadingJets_reco_3vec.SetPtEtaPhi(leadrecojet_pt,leadrecojet_eta_lab,leadrecojet_phi);
-						TVector3 GoodSubLeadingJets_reco_3vec;
-						GoodSubLeadingJets_reco_3vec.SetPtEtaPhi(sublrecojet_pt, sublrecojet_eta_lab, sublrecojet_phi);
-						TVector3 GoodTrdLeadingJets_reco_3vec;
-						GoodTrdLeadingJets_reco_3vec.SetPtEtaPhi(thirdrecojet_pt, thirdrecojet_eta, thirdrecojet_phi);
-						TVector3 GoodProjLeadingJets_reco_3vec = -(GoodLeadingJets_reco_3vec + GoodSubLeadingJets_reco_3vec);
-						TVector3 GoodProjLeadingJets_reco_3vec_diff = (GoodLeadingJets_reco_3vec - GoodSubLeadingJets_reco_3vec);
-						
 						if(thirdrecojet_pt > 0){
 							double delphi_3rdProj = fabs(deltaphi(GoodTrdLeadingJets_reco_3vec.Phi(),GoodProjLeadingJets_reco_3vec.Phi()));
 							double deleta_3rdProj = deltaeta(GoodTrdLeadingJets_reco_3vec.Eta(),GoodProjLeadingJets_reco_3vec.Eta());
@@ -1050,8 +1056,12 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if(thirdjet_removal_method == 3){ if(thirdrefjet_pt > thirdjet_removal_cut * 0.5 * (leadrefjet_pt + sublrefjet_pt)) removethirdjet_ref = true; }
 
 		bool removefourjet_ref = false;
-		if(do_fourjet_removal){ if(fourthrefjet_pt > 0.0) removefourjet_ref = true; } 
-		
+		if(do_fourjet_removal == 1 && fourthrefjet_pt > 0.0){ if( fourthrefjet_pt+thirdrefjet_pt > sublrefjet_pt ) removefourjet_ref = true; } 
+		if(do_fourjet_removal == 2 && fourthrefjet_pt > 0.0){ if( fourthrefjet_pt+thirdrefjet_pt > subleading_pT_min ) removefourjet_ref = true; } 
+		if(do_fourjet_removal == 3 && fourthrefjet_pt > 0.0){ if( fabs(fourthrefjet_pt-thirdrefjet_pt) > 10.0 ) removefourjet_ref = true; } 
+		if(do_fourjet_removal == 4 && fourthrefjet_pt > 0.0){ if( fabs(fourthrefjet_pt-thirdrefjet_pt) > 25.0 ) removefourjet_ref = true; } 
+		if(do_fourjet_removal == 5 && fourthrefjet_pt > 0.0){ if( fabs(fourthrefjet_pt-thirdrefjet_pt) > subleading_pT_min ) removefourjet_ref = true; } 
+				
 		if(leadrefjet_pt > 0.0 && sublrefjet_pt > 0.0 && !removethirdjet_ref && !removefourjet_ref){
 			//leading/subleading pT cuts
 			if(is_MC && leadrefjet_pt > leading_pT_min && sublrefjet_pt > subleading_pT_min){
@@ -1069,6 +1079,18 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 				double lrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadrefjet_pt, leadrefjet_eta);  // Jet weight (specially for MC)
 				double slrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublrefjet_pt, sublrefjet_eta);  // Jet weight (specially for MC)
+
+				TVector3 GoodLeadingJets_ref_3vec;
+				GoodLeadingJets_ref_3vec.SetPtEtaPhi(leadrefjet_pt,leadrefjet_eta_lab,leadrefjet_phi);
+				TVector3 GoodSubLeadingJets_ref_3vec;
+				GoodSubLeadingJets_ref_3vec.SetPtEtaPhi(sublrefjet_pt, sublrefjet_eta_lab, sublrefjet_phi);
+				TVector3 GoodTrdLeadingJets_ref_3vec;
+				GoodTrdLeadingJets_ref_3vec.SetPtEtaPhi(thirdrefjet_pt, thirdrefjet_eta, thirdrefjet_phi);
+				TVector3 GoodProjLeadingJets_ref_3vec = -(GoodLeadingJets_ref_3vec + GoodSubLeadingJets_ref_3vec);
+				TVector3 GoodProjLeadingJets_ref_3vec_diff = (GoodLeadingJets_ref_3vec - GoodSubLeadingJets_ref_3vec);
+
+				bool remove_3rdjetevent_ref = false;
+				if(thirdrefjet_pt > 0 && thirdjet_removal_method == 4 && (fabs(deltaphi(GoodTrdLeadingJets_ref_3vec.Phi(),GoodProjLeadingJets_ref_3vec.Phi())) < thirdjet_removal_cut)) remove_3rdjetevent_ref = true;
 
 				// Fill leading/subleading jet quenching quantities
 				double delta_phi_ref = fabs(deltaphi(leadrefjet_phi, sublrefjet_phi));
@@ -1113,63 +1135,63 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				bool leadbkwrap = (leadrefjet_eta > jet_bkw_eta_min_cut && leadrefjet_eta < jet_bkw_eta_max_cut);
 				bool sublbkwrap = (sublrefjet_eta > jet_bkw_eta_min_cut && sublrefjet_eta < jet_bkw_eta_max_cut);
 				if(do_dijetstudies){
-					if(leadmidrap && sublmidrap){
+					if(leadmidrap && sublmidrap && !remove_3rdjetevent_ref){
 						hist_ref_lead_ref_subl_quench_mid_mid->Fill(x_ref,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_plus_mid_mid->Fill(x_ref_lead_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_minus_mid_mid->Fill(x_ref_lead_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_plus_mid_mid->Fill(x_ref_subl_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_minus_mid_mid->Fill(x_ref_subl_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 					}
-					if(leadmidrap && sublfwdrap){
+					if(leadmidrap && sublfwdrap && !remove_3rdjetevent_ref){
 						hist_ref_lead_ref_subl_quench_mid_fwd->Fill(x_ref,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_plus_mid_fwd->Fill(x_ref_lead_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_minus_mid_fwd->Fill(x_ref_lead_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_plus_mid_fwd->Fill(x_ref_subl_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_minus_mid_fwd->Fill(x_ref_subl_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 					}
-					if(leadmidrap && sublbkwrap){
+					if(leadmidrap && sublbkwrap && !remove_3rdjetevent_ref){
 						hist_ref_lead_ref_subl_quench_mid_bkw->Fill(x_ref,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_plus_mid_bkw->Fill(x_ref_lead_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_minus_mid_bkw->Fill(x_ref_lead_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_plus_mid_bkw->Fill(x_ref_subl_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_minus_mid_bkw->Fill(x_ref_subl_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 					}
-					if(leadfwdrap && sublmidrap){
+					if(leadfwdrap && sublmidrap && !remove_3rdjetevent_ref){
 						hist_ref_lead_ref_subl_quench_fwd_mid->Fill(x_ref,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_plus_fwd_mid->Fill(x_ref_lead_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_minus_fwd_mid->Fill(x_ref_lead_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_plus_fwd_mid->Fill(x_ref_subl_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_minus_fwd_mid->Fill(x_ref_subl_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 					}
-					if(leadbkwrap && sublmidrap){
+					if(leadbkwrap && sublmidrap && !remove_3rdjetevent_ref){
 						hist_ref_lead_ref_subl_quench_bkw_mid->Fill(x_ref,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_plus_bkw_mid->Fill(x_ref_lead_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_minus_bkw_mid->Fill(x_ref_lead_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_plus_bkw_mid->Fill(x_ref_subl_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_minus_bkw_mid->Fill(x_ref_subl_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 					}
-					if(leadfwdrap && sublfwdrap){
+					if(leadfwdrap && sublfwdrap && !remove_3rdjetevent_ref){
 						hist_ref_lead_ref_subl_quench_fwd_fwd->Fill(x_ref,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_plus_fwd_fwd->Fill(x_ref_lead_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_minus_fwd_fwd->Fill(x_ref_lead_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_plus_fwd_fwd->Fill(x_ref_subl_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_minus_fwd_fwd->Fill(x_ref_subl_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 					}
-					if(leadfwdrap && sublbkwrap){
+					if(leadfwdrap && sublbkwrap && !remove_3rdjetevent_ref){
 						hist_ref_lead_ref_subl_quench_fwd_bkw->Fill(x_ref,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_plus_fwd_bkw->Fill(x_ref_lead_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_minus_fwd_bkw->Fill(x_ref_lead_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_plus_fwd_bkw->Fill(x_ref_subl_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_minus_fwd_bkw->Fill(x_ref_subl_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 					}
-					if(leadbkwrap && sublfwdrap){
+					if(leadbkwrap && sublfwdrap && !remove_3rdjetevent_ref){
 						hist_ref_lead_ref_subl_quench_bkw_fwd->Fill(x_ref,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_plus_bkw_fwd->Fill(x_ref_lead_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_minus_bkw_fwd->Fill(x_ref_lead_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_plus_bkw_fwd->Fill(x_ref_subl_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_minus_bkw_fwd->Fill(x_ref_subl_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 					}
-					if(leadbkwrap && sublbkwrap){
+					if(leadbkwrap && sublbkwrap && !remove_3rdjetevent_ref){
 						hist_ref_lead_ref_subl_quench_bkw_bkw->Fill(x_ref,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_plus_bkw_bkw->Fill(x_ref_lead_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_minus_bkw_bkw->Fill(x_ref_lead_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
@@ -1223,15 +1245,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				if(delta_phi_ref > leading_subleading_deltaphi_min){
 					if((Xj_ref >= xjmin && Xj_ref <= xjmax) && (Aj_ref >= Ajmin && Aj_ref <= Ajmax)){
 					
-						TVector3 GoodLeadingJets_ref_3vec;
-						GoodLeadingJets_ref_3vec.SetPtEtaPhi(leadrefjet_pt,leadrefjet_eta_lab,leadrefjet_phi);
-						TVector3 GoodSubLeadingJets_ref_3vec;
-						GoodSubLeadingJets_ref_3vec.SetPtEtaPhi(sublrefjet_pt, sublrefjet_eta_lab, sublrefjet_phi);
-						TVector3 GoodTrdLeadingJets_ref_3vec;
-						GoodTrdLeadingJets_ref_3vec.SetPtEtaPhi(thirdrefjet_pt, thirdrefjet_eta, thirdrefjet_phi);
-						TVector3 GoodProjLeadingJets_ref_3vec = -(GoodLeadingJets_ref_3vec + GoodSubLeadingJets_ref_3vec);
-						TVector3 GoodProjLeadingJets_ref_3vec_diff = (GoodLeadingJets_ref_3vec - GoodSubLeadingJets_ref_3vec);
-
 						if(thirdrefjet_pt > 0){
 							double delphi_3rdProj = fabs(deltaphi(GoodTrdLeadingJets_ref_3vec.Phi(),GoodProjLeadingJets_ref_3vec.Phi()));
 							double deleta_3rdProj = deltaeta(GoodTrdLeadingJets_ref_3vec.Eta(),GoodProjLeadingJets_ref_3vec.Eta());
@@ -1591,8 +1604,12 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			if(thirdjet_removal_method == 3){ if(thirdgenjet_pt > thirdjet_removal_cut * 0.5 * (leadgenjet_pt + sublgenjet_pt)) removethirdjet_gen = true; }
 
 			bool removefourjet_gen = false;
-			if(do_fourjet_removal){ if(fourthgenjet_pt > 0.0) removefourjet_gen = true; } 
-				
+			if(do_fourjet_removal == 1 && fourthgenjet_pt > 0.0){ if( fourthgenjet_pt+thirdgenjet_pt > sublgenjet_pt ) removefourjet_gen = true; } 
+			if(do_fourjet_removal == 2 && fourthgenjet_pt > 0.0){ if( fourthgenjet_pt+thirdgenjet_pt > subleading_pT_min ) removefourjet_gen = true; } 
+			if(do_fourjet_removal == 3 && fourthgenjet_pt > 0.0){ if( fabs(fourthgenjet_pt-thirdgenjet_pt) > 10.0 ) removefourjet_gen = true; } 
+			if(do_fourjet_removal == 4 && fourthgenjet_pt > 0.0){ if( fabs(fourthgenjet_pt-thirdgenjet_pt) > 25.0 ) removefourjet_gen = true; } 
+			if(do_fourjet_removal == 5 && fourthgenjet_pt > 0.0){ if( fabs(fourthgenjet_pt-thirdgenjet_pt) > subleading_pT_min ) removefourjet_gen = true; } 				
+
 			//leading/subleading jets
 			if(leadgenjet_pt > 0.0 && sublgenjet_pt > 0.0 && !removethirdjet_gen && !removefourjet_gen){
 				//leading/subleading pT cuts
@@ -1611,6 +1628,18 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 					double ljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadgenjet_pt, leadgenjet_eta); // Jet weight (specially for MC)
 					double sljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublgenjet_pt, sublgenjet_eta); // Jet weight (specially for MC)
+
+					TVector3 GoodLeadingJets_gen_3vec;
+					GoodLeadingJets_gen_3vec.SetPtEtaPhi(leadgenjet_pt,leadgenjet_eta_lab,leadgenjet_phi);
+					TVector3 GoodSubLeadingJets_gen_3vec;
+					GoodSubLeadingJets_gen_3vec.SetPtEtaPhi(sublgenjet_pt, sublgenjet_eta_lab, sublgenjet_phi);
+					TVector3 GoodTrdLeadingJets_gen_3vec;
+					GoodTrdLeadingJets_gen_3vec.SetPtEtaPhi(thirdgenjet_pt, thirdgenjet_eta, thirdgenjet_phi);
+					TVector3 GoodProjLeadingJets_gen_3vec = -(GoodLeadingJets_gen_3vec + GoodSubLeadingJets_gen_3vec);
+					TVector3 GoodProjLeadingJets_gen_3vec_diff = (GoodLeadingJets_gen_3vec - GoodSubLeadingJets_gen_3vec);
+
+					bool remove_3rdjetevent_gen = false;
+					if(thirdgenjet_pt > 0 && thirdjet_removal_method == 4 && (fabs(deltaphi(GoodTrdLeadingJets_gen_3vec.Phi(),GoodProjLeadingJets_gen_3vec.Phi())) < thirdjet_removal_cut)) remove_3rdjetevent_gen = true;
 
 					// Fill leading/subleading jet quenching quantities
 					double delta_phi_gen = fabs(deltaphi(leadgenjet_phi, sublgenjet_phi));
@@ -1655,63 +1684,63 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					bool leadbkwrap = (leadgenjet_eta > jet_bkw_eta_min_cut && leadgenjet_eta < jet_bkw_eta_max_cut);
 					bool sublbkwrap = (sublgenjet_eta > jet_bkw_eta_min_cut && sublgenjet_eta < jet_bkw_eta_max_cut);
 					if(do_dijetstudies){
-						if(leadmidrap && sublmidrap){
+						if(leadmidrap && sublmidrap && !remove_3rdjetevent_gen){
 							hist_gen_lead_gen_subl_quench_mid_mid->Fill(x_gen,event_weight*ljet_weight*sljet_weight);
 							hist_gen_leadEP_quench_plus_mid_mid->Fill(x_gen_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_leadEP_quench_minus_mid_mid->Fill(x_gen_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_sublEP_quench_plus_mid_mid->Fill(x_gen_subl_EP_plus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_sublEP_quench_minus_mid_mid->Fill(x_gen_subl_EP_minus,event_weight*ljet_weight*sljet_weight);
 						}
-						if(leadmidrap && sublfwdrap){
+						if(leadmidrap && sublfwdrap && !remove_3rdjetevent_gen){
 							hist_gen_lead_gen_subl_quench_mid_fwd->Fill(x_gen,event_weight*ljet_weight*sljet_weight);
 							hist_gen_leadEP_quench_plus_mid_fwd->Fill(x_gen_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_leadEP_quench_minus_mid_fwd->Fill(x_gen_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_sublEP_quench_plus_mid_fwd->Fill(x_gen_subl_EP_plus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_sublEP_quench_minus_mid_fwd->Fill(x_gen_subl_EP_minus,event_weight*ljet_weight*sljet_weight);
 						}
-						if(leadmidrap && sublbkwrap){
+						if(leadmidrap && sublbkwrap && !remove_3rdjetevent_gen){
 							hist_gen_lead_gen_subl_quench_mid_bkw->Fill(x_gen,event_weight*ljet_weight*sljet_weight);
 							hist_gen_leadEP_quench_plus_mid_bkw->Fill(x_gen_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_leadEP_quench_minus_mid_bkw->Fill(x_gen_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_sublEP_quench_plus_mid_bkw->Fill(x_gen_subl_EP_plus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_sublEP_quench_minus_mid_bkw->Fill(x_gen_subl_EP_minus,event_weight*ljet_weight*sljet_weight);
 						}
-						if(leadfwdrap && sublmidrap){
+						if(leadfwdrap && sublmidrap && !remove_3rdjetevent_gen){
 							hist_gen_lead_gen_subl_quench_fwd_mid->Fill(x_gen,event_weight*ljet_weight*sljet_weight);
 							hist_gen_leadEP_quench_plus_fwd_mid->Fill(x_gen_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_leadEP_quench_minus_fwd_mid->Fill(x_gen_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_sublEP_quench_plus_fwd_mid->Fill(x_gen_subl_EP_plus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_sublEP_quench_minus_fwd_mid->Fill(x_gen_subl_EP_minus,event_weight*ljet_weight*sljet_weight);
 						}
-						if(leadbkwrap && sublmidrap){
+						if(leadbkwrap && sublmidrap && !remove_3rdjetevent_gen){
 							hist_gen_lead_gen_subl_quench_bkw_mid->Fill(x_gen,event_weight*ljet_weight*sljet_weight);
 							hist_gen_leadEP_quench_plus_bkw_mid->Fill(x_gen_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_leadEP_quench_minus_bkw_mid->Fill(x_gen_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_sublEP_quench_plus_bkw_mid->Fill(x_gen_subl_EP_plus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_sublEP_quench_minus_bkw_mid->Fill(x_gen_subl_EP_minus,event_weight*ljet_weight*sljet_weight);
 						}
-						if(leadfwdrap && sublfwdrap){
+						if(leadfwdrap && sublfwdrap && !remove_3rdjetevent_gen){
 							hist_gen_lead_gen_subl_quench_fwd_fwd->Fill(x_gen,event_weight*ljet_weight*sljet_weight);
 							hist_gen_leadEP_quench_plus_fwd_fwd->Fill(x_gen_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_leadEP_quench_minus_fwd_fwd->Fill(x_gen_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_sublEP_quench_plus_fwd_fwd->Fill(x_gen_subl_EP_plus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_sublEP_quench_minus_fwd_fwd->Fill(x_gen_subl_EP_minus,event_weight*ljet_weight*sljet_weight);
 						}
-						if(leadfwdrap && sublbkwrap){
+						if(leadfwdrap && sublbkwrap && !remove_3rdjetevent_gen){
 							hist_gen_lead_gen_subl_quench_fwd_bkw->Fill(x_gen,event_weight*ljet_weight*sljet_weight);
 							hist_gen_leadEP_quench_plus_fwd_bkw->Fill(x_gen_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_leadEP_quench_minus_fwd_bkw->Fill(x_gen_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_sublEP_quench_plus_fwd_bkw->Fill(x_gen_subl_EP_plus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_sublEP_quench_minus_fwd_bkw->Fill(x_gen_subl_EP_minus,event_weight*ljet_weight*sljet_weight);
 						}
-						if(leadbkwrap && sublfwdrap){
+						if(leadbkwrap && sublfwdrap && !remove_3rdjetevent_gen){
 							hist_gen_lead_gen_subl_quench_bkw_fwd->Fill(x_gen,event_weight*ljet_weight*sljet_weight);
 							hist_gen_leadEP_quench_plus_bkw_fwd->Fill(x_gen_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_leadEP_quench_minus_bkw_fwd->Fill(x_gen_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_sublEP_quench_plus_bkw_fwd->Fill(x_gen_subl_EP_plus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_sublEP_quench_minus_bkw_fwd->Fill(x_gen_subl_EP_minus,event_weight*ljet_weight*sljet_weight);
 						}
-						if(leadbkwrap && sublbkwrap){
+						if(leadbkwrap && sublbkwrap && !remove_3rdjetevent_gen){
 							hist_gen_lead_gen_subl_quench_bkw_bkw->Fill(x_gen,event_weight*ljet_weight*sljet_weight);
 							hist_gen_leadEP_quench_plus_bkw_bkw->Fill(x_gen_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 							hist_gen_leadEP_quench_minus_bkw_bkw->Fill(x_gen_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
@@ -1765,15 +1794,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					if(delta_phi_gen > leading_subleading_deltaphi_min){
 						if((Xj_gen >= xjmin && Xj_gen < xjmax) && (Aj_gen >= Ajmin && Aj_gen < Ajmax)){
 						
-							TVector3 GoodLeadingJets_gen_3vec;
-							GoodLeadingJets_gen_3vec.SetPtEtaPhi(leadgenjet_pt,leadgenjet_eta_lab,leadgenjet_phi);
-							TVector3 GoodSubLeadingJets_gen_3vec;
-							GoodSubLeadingJets_gen_3vec.SetPtEtaPhi(sublgenjet_pt, sublgenjet_eta_lab, sublgenjet_phi);
-							TVector3 GoodTrdLeadingJets_gen_3vec;
-							GoodTrdLeadingJets_gen_3vec.SetPtEtaPhi(thirdgenjet_pt, thirdgenjet_eta, thirdgenjet_phi);
-							TVector3 GoodProjLeadingJets_gen_3vec = -(GoodLeadingJets_gen_3vec + GoodSubLeadingJets_gen_3vec);
-							TVector3 GoodProjLeadingJets_gen_3vec_diff = (GoodLeadingJets_gen_3vec - GoodSubLeadingJets_gen_3vec);
-
 							if(thirdgenjet_pt > 0){
 								double delphi_3rdProj = fabs(deltaphi(GoodTrdLeadingJets_gen_3vec.Phi(),GoodProjLeadingJets_gen_3vec.Phi()));
 								double deleta_3rdProj = deltaeta(GoodTrdLeadingJets_gen_3vec.Eta(),GoodProjLeadingJets_gen_3vec.Eta());

@@ -74,11 +74,21 @@ Methods:
 1 --> remove if pT3rdjet > thirdjet_removal_cut;
 2 --> remove if pT3rdjet > thirdjet_removal_cut * pTsubleadingjet
 3 --> remove if pT3rdjet > thirdjet_removal_cut * pTaverage
+4 --> delta R (3rd, project) > thirdjet_removal_cut
 */
 const int thirdjet_removal_method = 0; 
 const float thirdjet_removal_cut = 0.0; // this cut will be applied depending on the method above 
 
-const bool do_fourjet_removal = false; // remove four jet event
+/*
+Methods:
+0 --> do no apply 4rd jet removal; 
+1 --> if 3 + 4 > 2 discard the event;
+2 --> if 3 + 4 > subleading min discard the event;
+3 --> if |3 - 4| > 10 GeV, discard event
+4 --> if |3 - 4| > 25 GeV, discard event
+5 --> if |3 - 4| > subleading min discard event
+*/
+const int do_fourjet_removal = 0; // remove four jet event
 
 //pseudorapidity regions for jet-track leading and subleading correlations
 const TString fwdbkw_jettrk_option = "mid_mid"; // midrapidity + midrapidity
