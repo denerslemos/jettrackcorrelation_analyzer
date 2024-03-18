@@ -19,8 +19,14 @@ sideFiles = opt.side
 
 #os.system("mkdir -p "+str(outputfolder)+"/"+str(inPut)+"/"+str(sideFiles))
 
-if sideFiles == "pgoing":
+if sideFiles == "pgoing" && inPut == "EPOSPYTHIA":
 	os.system("condor_submit MC_embedded_Pbgoing_submission_nopthatcut.sub")
 
-if sideFiles == "Pbgoing":
+if sideFiles == "Pbgoing" && inPut == "EPOSPYTHIA":
 	os.system("condor_submit MC_embedded_pgoing_submission_nopthatcut.sub")
+
+if sideFiles == "pgoing" && inPut == "PYTHIA":
+    os.system("condor_submit MC_unembedded_Pbgoing_submission_nopthatcut.sub")
+
+if sideFiles == "Pbgoing" && inPut == "PYTHIA":
+    os.system("condor_submit MC_unembedded_pgoing_submission_nopthatcut.sub")
