@@ -416,7 +416,9 @@ TVector3 findClosestVectorInPhi(const std::vector<TVector3>& sortedVector) {
     double minPhiDiff = std::numeric_limits<double>::max();
 	cout << "===================================" << endl;
     // Loop over the sorted vector of TVector3 objects
-    for (size_t i = 0; i < sortedVector.size(); ++i) {
+    double dphivalue = -999.9;
+    int vecindex = -999;
+    for (int i = 0; i < sortedVector.size(); ++i) {
         // Skip the reference vector itself and index 0
         if (i == 0 || i == 1) continue;
 
@@ -426,11 +428,11 @@ TVector3 findClosestVectorInPhi(const std::vector<TVector3>& sortedVector) {
 		cout << "i: " << i << "; delta Phi: " << phiDiff << "; pT2nd: " << refVector.Pt() << " GeV; pTnext: " << sortedVector[i].Pt() << " GeV;" << endl;
 		
         // Update the closest vector if phi difference is smaller
-        if (phiDiff < minPhiDiff) { minPhiDiff = phiDiff; closestVector = sortedVector[i]; }
+        if (phiDiff < minPhiDiff) { minPhiDiff = phiDiff; closestVector = sortedVector[i]; vecindex = i;  dphivalue = phiDiff; }
     }
 	cout << "===================================" << endl;
 	cout << "Closest" << endl;
-	cout << "i: " << i << "; delta Phi: " << phiDiff << "; pT2nd: " << refVector.Pt() << " GeV; pTnext: " << closestVector.Pt() << " GeV;" << endl;
+	cout << "i: " << vecindex << "; delta Phi: " << dphivalue << "; pT2nd: " << refVector.Pt() << " GeV; pTnext: " << closestVector.Pt() << " GeV;" << endl;
 	cout << "-----------------------------------" << endl;
     return closestVector;
 }

@@ -1105,7 +1105,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				TVector3 GoodSubLeadingJets_ref_3vec;
 				GoodSubLeadingJets_ref_3vec.SetPtEtaPhi(sublrefjet_pt, sublrefjet_eta_lab, sublrefjet_phi);
 				TVector3 GoodTrdLeadingJets_ref_3vec;
-				if (sortedVectorRef.size() > 2){ GoodTrdLeadingJets_ref_3vec = findClosestVectorInPhi(sortedVectorGen); }else{GoodTrdLeadingJets_ref_3vec.SetPtEtaPhi(thirdrefjet_pt, thirdrefjet_eta, thirdrefjet_phi); }
+				if (sortedVectorRef.size() > 2){ GoodTrdLeadingJets_ref_3vec = findClosestVectorInPhi(sortedVectorRef); }else{GoodTrdLeadingJets_ref_3vec.SetPtEtaPhi(thirdrefjet_pt, thirdrefjet_eta, thirdrefjet_phi); }
 				TVector3 GoodProjLeadingJets_ref_3vec = -(GoodLeadingJets_ref_3vec + GoodSubLeadingJets_ref_3vec);
 				TVector3 GoodProjLeadingJets_ref_3vec_diff = (GoodLeadingJets_ref_3vec - GoodSubLeadingJets_ref_3vec);
 
