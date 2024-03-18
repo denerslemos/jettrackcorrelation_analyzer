@@ -398,6 +398,40 @@ void find_leading_subleading_third(float pt, float eta, float phi, float mass, f
 }
 
 /*
+Function to compare TVector3 objects based on Pt
+vec1: vector 1
+vec2: vector 2
+*/
+bool sortByPt(const TVector3& vec1, const TVector3& vec2) { return vec1.Pt() > vec2.Pt(); } // Sorting in descending order of Pt
+
+
+// Function to find the closest vector to the reference vector in phi
+TVector3 findClosestVectorInPhi(const std::vector<TVector3>& sortedVector) {
+
+    // Define the reference vector (i == 1)
+    const TVector3& refVector = sortedVector[1];
+
+    // Initialize variables to store the closest vector and its difference in phi
+    TVector3 closestVector;
+    double minPhiDiff = std::numeric_limits<double>::max();
+
+    // Loop over the sorted vector of TVector3 objects
+    for (size_t i = 0; i < sortedVector.size(); ++i) {
+        // Skip the reference vector itself and index 0
+        if (i == 0 || i == 1) continue;
+
+        // Calculate the difference in phi
+        double phiDiff = std::abs(refVector.DeltaPhi(sortedVector[i]));
+
+        // Update the closest vector if phi difference is smaller
+        if (phiDiff < minPhiDiff) { minPhiDiff = phiDiff; closestVector = sortedVector[i]; }
+    }
+
+    return closestVector;
+}
+
+
+/*
 Find bin dynamically 
 --> Arguments
 quant_vec: vector with binning
