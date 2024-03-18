@@ -70,10 +70,10 @@ float get_event_weight(float nevents, bool isMC, bool use_centrality, string sys
 		evtweight = (float) evtweight/nevents;
 		
 		// Vz weighting
-		TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
-		VzWeightFunction->SetParameters(0.856516,-0.0159813,0.00436628,-0.00012862,2.61129e-05,-4.16965e-07,1.73711e-08,-3.11953e-09,6.24993e-10);
-		vzweight = VzWeightFunction->Eval(vz);
-		vzweight = 1./vzweight;
+		//TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
+		//VzWeightFunction->SetParameters(0.856516,-0.0159813,0.00436628,-0.00012862,2.61129e-05,-4.16965e-07,1.73711e-08,-3.11953e-09,6.24993e-10);
+		//vzweight = VzWeightFunction->Eval(vz);
+		//vzweight = 1./vzweight;
 		/*
 		// multiplicity weight
 		// PYTHIA+EPOS
