@@ -510,7 +510,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double mu_smar = 1.0;
 				double smear = gRandom->Gaus(mu_smar,sigma_smear);
 //				while( smear < 0 ){ smear = gRandom->Gaus(mu_smar,sigma_smear); }
-				if(  smear < 0 ) << cout << "Negative smear" << endl;
+				if(  smear < 0 ) cout << "Negative smear" << endl;
 				jet_pt_corr = jet_pt_corr*smear;	
 					
 			}
