@@ -289,7 +289,7 @@ phi1: phi of first object
 phi2: phi of second object
 */
 float deltaphi(float phi1, float phi2){
-	if(phi1 < -3.0*TMath::Pi() || phi2 < -3.0*TMath::Pi()) return 999.9;
+	if(phi1 < -3.0*TMath::Pi() || phi2 < -3.0*TMath::Pi()) return -999.9;
 	float deltaPhi = ( phi1 - phi2 );
 	if( deltaPhi >  TMath::Pi() ) deltaPhi  += -2*TMath::Pi(); 
    	if( deltaPhi < -TMath::Pi() ) deltaPhi  +=  2*TMath::Pi();
@@ -303,7 +303,7 @@ phi1: phi of first object
 phi2: phi of second object
 */
 float deltaphi2PC(float phi1, float phi2){    
-	if(phi1 < -3.0*TMath::Pi() || phi2 < -3.0*TMath::Pi()) return 999.9;	
+	if(phi1 < -3.0*TMath::Pi() || phi2 < -3.0*TMath::Pi()) return -999.9;	
 	float deltaPhi = (phi1 - phi2);
 	if( deltaPhi >  1.5*TMath::Pi() ) deltaPhi += -2.*TMath::Pi();
 	if( deltaPhi < -0.5*TMath::Pi() ) deltaPhi +=  2.*TMath::Pi();
@@ -426,16 +426,18 @@ TVector3 findClosestVectorInPhi(const std::vector<TVector3>& sortedVector) {
         // Calculate the difference in phi
         double phiDiff = std::abs(refVector.DeltaPhi(sortedVector[i]));
 
-//		cout << "i: " << i << "; delta Phi: " << phiDiff << "; pT2nd: " << refVector.Pt() << " GeV; pTnext: " << sortedVector[i].Pt() << " GeV;" << endl;
-		
+		//cout << "i: " << i << "; delta Phi: " << phiDiff << "; pT1st:  " << sortedVector[0].Pt() << "GeV; pT2nd: " << refVector.Pt() << " GeV; pTnext: " << sortedVector[i].Pt() << " GeV;" << endl;		
+
         // Update the closest vector if phi difference is smaller
         if (phiDiff < minPhiDiff) { minPhiDiff = phiDiff; closestVector = sortedVector[i]; vecindex = i;  dphivalue = phiDiff; }
     }
 /*
-	cout << "===================================" << endl;
-	cout << "Closest" << endl;
-	cout << "i: " << vecindex << "; delta Phi: " << dphivalue << "; pT2nd: " << refVector.Pt() << " GeV; pTnext: " << closestVector.Pt() << " GeV;" << endl;
-	cout << "-----------------------------------" << endl;
+        cout << "===================================" << endl;
+        cout << "===================================" << endl;
+        cout << "Closest" << endl;
+        cout << "i: " << vecindex << "; delta Phi: " << dphivalue << "; pT1st:  " << sortedVector[0].Pt() << "GeV; pT2nd: " << refVector.Pt() << " GeV; pTnext: " << closestVector.Pt() << " GeV;" << endl;
+        cout << "-----------------------------------" << endl;
+        cout << "-----------------------------------" << endl;
 */
     return closestVector;
 }

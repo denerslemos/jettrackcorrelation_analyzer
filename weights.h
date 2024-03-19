@@ -70,36 +70,37 @@ float get_event_weight(float nevents, bool isMC, bool use_centrality, string sys
 		evtweight = (float) evtweight/nevents;
 		
 		// Vz weighting
-		//TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
-		//VzWeightFunction->SetParameters(0.856516,-0.0159813,0.00436628,-0.00012862,2.61129e-05,-4.16965e-07,1.73711e-08,-3.11953e-09,6.24993e-10);
-		//vzweight = VzWeightFunction->Eval(vz);
-		//vzweight = 1./vzweight;
-		/*
+        TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
+        VzWeightFunction->SetParameters(0.856516,-0.0159813,0.00436628,-0.00012862,2.61129e-05,-4.16965e-07,1.73711e-08,-3.11953e-09,6.24993e-10);
+        vzweight = VzWeightFunction->Eval(vz);
+        vzweight = 1./vzweight;
+		
 		// multiplicity weight
 		// PYTHIA+EPOS
-		if(is_embedded && is_multdep){
-    			if(mult < 210.0){
-				TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8", 0, 214);
-				EtWeightFunction->SetParameters(-0.0826495,-0.00330607,0.00247587,-8.86232e-05,1.49674e-06,-1.34468e-08,6.6039e-11,-1.68149e-13,1.74225e-16);
-				multweight = EtWeightFunction->Eval(mult);
-			}else if(mult >= 210 && mult <= 300){
-				TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol4",210,320);
-				EtWeightFunction->SetParameters(-1.63694,0.0731486,-0.000440227,7.64802e-07,-1.63748e-10);
-				multweight = EtWeightFunction->Eval(mult);					
-			}else{multweight = 1.0;}
-		}
-		// PYTHIA only
-		if(!is_embedded && is_multdep){
-    			if(mult < 105.0){
-				TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8", 0,109);
-				EtWeightFunction->SetParameters(-3.16636,0.611135,-0.0335973,0.00112987,-2.48313e-05,3.42197e-07,-2.81538e-09,1.26209e-11,-2.37342e-14);
-				multweight = EtWeightFunction->Eval(mult);
-			}else if(mult >= 105.0 && mult <= 250.0){
-				TF1 *EtWeightFunction = new TF1("EtWeightFunction", "expo",105,250);
-				EtWeightFunction->SetParameters(9.96645,-0.129954);
-				multweight = EtWeightFunction->Eval(mult);					
-			}else{multweight = 1.0;}
-		}
+        if(is_embedded && is_multdep){
+           if(mult < 205){
+              TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8", 10, 210);
+              EtWeightFunction->SetParameters(0.273504,-0.0587374,0.00454861,-0.000120682,1.68934e-06,-1.31439e-08,5.72164e-11,-1.31238e-13,1.24296e-16);
+              multweight = EtWeightFunction->Eval(mult);
+           }else if(mult >= 205 && mult <= 280){
+              TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol1",200,280);
+              EtWeightFunction->SetParameters(7.11637,-0.0247944);
+              multweight = EtWeightFunction->Eval(mult);
+           }else{multweight = 1.0;}
+        }
+        // PYTHIA only
+        if(!is_embedded && is_multdep){
+           if(mult < 105){
+              TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8", 10,110);
+              EtWeightFunction->SetParameters(1.42347,-0.378553,0.039283,-0.00163666,3.72994e-05,-5.12704e-07,4.2435e-09,-1.94374e-11,3.77717e-14);
+              multweight = EtWeightFunction->Eval(mult);
+           }else if(mult >= 105.0 && mult <= 250.0){
+              TF1 *EtWeightFunction = new TF1("EtWeightFunction", "expo",100,250);
+              EtWeightFunction->SetParameters(9.0118,-0.110292);
+              multweight = EtWeightFunction->Eval(mult);
+           }else{multweight = 1.0;}
+        }
+		/*
 		// EPb weight
 		// PYTHIA+EPOS
 		if(is_embedded && !is_multdep){
@@ -129,9 +130,9 @@ float get_event_weight(float nevents, bool isMC, bool use_centrality, string sys
 				multweight = EtWeightFunction->Eval(extraquantity);			
 			}
 		}
+		*/
 		multweight = 1./multweight;
-    	*/
-    	}
+    }
 	totalweight = evtweight*multweight*vzweight*multefficiency*jetefficiency;
 	return totalweight;
 }

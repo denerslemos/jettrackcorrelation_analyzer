@@ -5,6 +5,12 @@ executable = sub.sh
 requirements = ((OpSysAndVer =?= "AlmaLinux9") && (CERNEnvironment =?= "qa"))
 RequestCpus = 8
 
+log        = cond/pthat15_emb_pgoing_nocut.log
+output     = cond/pthat15_emb_pgoing_nocut.out
+error      = cond/pthat15_emb_pgoing_nocut.err
+arguments = files_input/pPb_8160/MC_embedded/pgoing/MC_pthat15_pgoing_embedded.txt /eos/user/d/ddesouza/JetResults/Embedded/Emb_nocut_pPb_15 1 15 30
+queue
+
 log        = cond/pthat30_emb_pgoing_nocut.log
 output     = cond/pthat30_emb_pgoing_nocut.out
 error      = cond/pthat30_emb_pgoing_nocut.err
