@@ -80,11 +80,11 @@ float get_event_weight(float nevents, bool isMC, bool use_centrality, string sys
         if(is_embedded && is_multdep){
            if(mult < 205){
               TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8", 10, 210);
-              EtWeightFunction->SetParameters(0.273504,-0.0587374,0.00454861,-0.000120682,1.68934e-06,-1.31439e-08,5.72164e-11,-1.31238e-13,1.24296e-16);
+              EtWeightFunction->SetParameters(-0.0958084,-0.00115779,0.00233641,-8.42997e-05,1.42306e-06,-1.27251e-08,6.20308e-11,-1.56457e-13,1.60319e-16);
               multweight = EtWeightFunction->Eval(mult);
            }else if(mult >= 205 && mult <= 280){
               TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol1",200,280);
-              EtWeightFunction->SetParameters(7.11637,-0.0247944);
+              EtWeightFunction->SetParameters(4.24931,-0.0149767);
               multweight = EtWeightFunction->Eval(mult);
            }else{multweight = 1.0;}
         }
@@ -92,11 +92,11 @@ float get_event_weight(float nevents, bool isMC, bool use_centrality, string sys
         if(!is_embedded && is_multdep){
            if(mult < 105){
               TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8", 10,110);
-              EtWeightFunction->SetParameters(1.42347,-0.378553,0.039283,-0.00163666,3.72994e-05,-5.12704e-07,4.2435e-09,-1.94374e-11,3.77717e-14);
+              EtWeightFunction->SetParameters(-3.15516,0.608522,-0.0334141,0.00112313,-2.46795e-05,3.40076e-07,-2.79767e-09,1.25403e-11,-2.35808e-14);
               multweight = EtWeightFunction->Eval(mult);
            }else if(mult >= 105.0 && mult <= 250.0){
               TF1 *EtWeightFunction = new TF1("EtWeightFunction", "expo",100,250);
-              EtWeightFunction->SetParameters(9.0118,-0.110292);
+              EtWeightFunction->SetParameters(9.97281,-0.13071);
               multweight = EtWeightFunction->Eval(mult);
            }else{multweight = 1.0;}
         }
