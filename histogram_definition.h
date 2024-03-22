@@ -55,23 +55,12 @@ const int nUnfoldingBins_xjptave = nXjAjBins*nPtaveBins;
 const double minUnfoldingBin_xjptave = 0;
 const double maxUnfoldingBin_xjptave = nPtaveBins*1.0; //nJetPtBinsEEC*maxDeltaREEC;
 double fullUnfoldingBinning_xjptave[nUnfoldingBins_xjptave+1];
-for(int ixj = 0; ixj < nXjAjBins; ixj++){
-  for(int iJetPtAve = 0; iJetPtAve < nPtaveBins; iJetPtAve++){
-    fullUnfoldingBinning_xjptave[ixj+iJetPtAve*nXjAjBins] = XjBins[ixj]+1.0*iJetPtAve;
-  }
-}
-fullUnfoldingBinning_xjptave[nUnfoldingBins_xjptave] = maxUnfoldingBin_xjptave;
+
 
 const int nUnfoldingBins_pt1pt2 = nPtLSLBins2*nPtLSLBins2;
 const double minUnfoldingBin_pt1pt2 = 0;
 const double maxUnfoldingBin_pt1pt2 = nPtLSLBins2*2000.0; //nJetPtBinsEEC*maxDeltaREEC;
 double fullUnfoldingBinning_pt1pt2[nUnfoldingBins_pt1pt2+1];
-for(int ipt1 = 0; ipt1 < nPtLSLBins2; ipt1++){
-  for(int ipt2 = 0; ipt2 < nPtLSLBins2; ipt2++){
-    fullUnfoldingBinning_pt1pt2[ipt1+ipt2*nPtLSLBins2] = PtLSLBins2[ipt1]+2000.0*ipt2;
-  }
-}
-fullUnfoldingBinning_pt1pt2[nUnfoldingBins_pt1pt2] = maxUnfoldingBin_pt1pt2;
 
 // histograms for unfolding
 // Axis : 0 -> reco, 1 -> gen, 2 -> multiplicity
@@ -849,6 +838,18 @@ THnSparseD *hist_gen_gen_2pcorrelation_mixing = new THnSparseD("hist_gen_gen_2pc
 // Evaluate uncertainties correctly at ROOT
 void sw2(){
 
+for(int ixj = 0; ixj < nXjAjBins; ixj++){
+  for(int iJetPtAve = 0; iJetPtAve < nPtaveBins; iJetPtAve++){
+    fullUnfoldingBinning_xjptave[ixj+iJetPtAve*nXjAjBins] = XjBins[ixj]+1.0*iJetPtAve;
+  }
+}
+fullUnfoldingBinning_xjptave[nUnfoldingBins_xjptave] = maxUnfoldingBin_xjptave;
+for(int ipt1 = 0; ipt1 < nPtLSLBins2; ipt1++){
+  for(int ipt2 = 0; ipt2 < nPtLSLBins2; ipt2++){
+    fullUnfoldingBinning_pt1pt2[ipt1+ipt2*nPtLSLBins2] = PtLSLBins2[ipt1]+2000.0*ipt2;
+  }
+}
+fullUnfoldingBinning_pt1pt2[nUnfoldingBins_pt1pt2] = maxUnfoldingBin_pt1pt2;
 
 fhUnfoldingResponse_xjptave->SetBinEdges(0, fullUnfoldingBinning_xjptave);
 fhUnfoldingResponse_xjptave->SetBinEdges(1, fullUnfoldingBinning_xjptave);

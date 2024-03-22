@@ -707,12 +707,12 @@ double GetUE_JESCorrection(TString jetcollection, bool doUE, float Jet_pT, bool 
 
 	if(jetcollection.Data() == "akCs4PFJetAnalyzer" && !doUE && isemb){
 		CorrectionFunction->SetParameters(1.00168e+00, -2.27352e+00);
-        correction = VzWeightFunction->Eval(Jet_pT);
+        correction = CorrectionFunction->Eval(Jet_pT);
 	}
 
 	if(jetcollection.Data() == "ak4PFJetAnalyzer" && doUE && isemb){
 		CorrectionFunction->SetParameters(1.00179e+00, -2.49776e+00);
-        correction = VzWeightFunction->Eval(Jet_pT);
+        correction = CorrectionFunction->Eval(Jet_pT);
 	}
 
 	return correction;
