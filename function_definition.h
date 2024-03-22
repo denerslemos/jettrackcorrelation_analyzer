@@ -710,7 +710,7 @@ double TransformToUnfoldingAxis_pt1pt2(const double pt1, const double pt2){
   const double maxpt1 = 2000.0;
   double transformedpt1 = pt1;
   for(int iJetPt = 1; iJetPt < nJetPt2Bins+1; iJetPt++){
-    if(jetPtAve >= PtLSLBins2[iJetPt]){
+    if(pt2 >= PtLSLBins2[iJetPt]){
       transformedpt1 += maxpt1;
     } else {
       return transformedpt1;
