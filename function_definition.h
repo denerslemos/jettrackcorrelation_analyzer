@@ -690,7 +690,7 @@ double GetUE_JESCorrection(const char* jetcollection, bool doUE, float Jet_pT, b
 }
 
 
-double TransformToUnfoldingAxis_xjptave(const double xj){
+double TransformToUnfoldingAxis_xjptave(const double xj, const double jetPtAve){
   const int nJetPtAveBins = nPtaveBins;
   const double maxxj = 1.0;
   double transformedxj = xj;
