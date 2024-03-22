@@ -32,9 +32,9 @@ const double minPtLSL = 20.0;  // minimum
 const double maxPtLSL = 1000.0; // maximum
 double PtLSLlogBinWidth = (TMath::Log(maxPtLSL+binnerShift) - TMath::Log(minPtLSL+binnerShift)) / nPtLSLBins; // binwidth
 // Xj and Aj bins
-const int nXjAjBins = 20; // number of bins
-double XjBins[nXjAjBins+1] = {0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0};
-double AjBins[nXjAjBins+1] = {0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0};
+const int nXjAjBins = 10; // number of bins
+double XjBins[nXjAjBins+1] = {0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0};
+double AjBins[nXjAjBins+1] = {0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0};
 // less bins
 //const int nDphiBins = 18; // number of bins
 //double DphiBins[nDphiBins+1] = {0.0, TMath::Pi()/5. ,TMath::Pi()/3., (3./7.)*TMath::Pi(), TMath::Pi()/2., (4./7.)*TMath::Pi(), (3./5.)*TMath::Pi(), 1.98967535,  2.0943951 ,  2.19911486,  2.30383461, 2.40855437,  2.51327412,  2.61799388,  2.72271363,  2.82743339, 2.93215314,  3.0368729, TMath::Pi()};
@@ -66,28 +66,28 @@ double fullUnfoldingBinning_pt1pt2[nUnfoldingBins_pt1pt2+1];
 
 // histograms for unfolding
 // Axis : 0 -> reco, 1 -> gen, 2 -> multiplicity
-int	bins_unfxjptave[3] 		=   { nUnfoldingBins_xjptave   , nUnfoldingBins_xjptave  , 80};
-double xmin_unfxjptave[3]   =   { minUnfoldingBin_xjptave  , minUnfoldingBin_xjptave , 0.0};
-double xmax_unfxjptave[3]   =   { maxUnfoldingBin_xjptave  , maxUnfoldingBin_xjptave , 400.0};
+int	bins_unfxjptave[3] 		=   { nUnfoldingBins_xjptave   , nUnfoldingBins_xjptave  , multbinsize-1};
+double xmin_unfxjptave[3]   =   { minUnfoldingBin_xjptave  , minUnfoldingBin_xjptave , multiplicity_centrality_bins[0]};
+double xmax_unfxjptave[3]   =   { maxUnfoldingBin_xjptave  , maxUnfoldingBin_xjptave , multiplicity_centrality_bins[multbinsize-1]};
 THnSparseD *fhUnfoldingResponse_xjptave = new THnSparseD("fhUnfoldingResponse_xjptave", "fhUnfoldingResponse_xjptave", 3, bins_unfxjptave, xmin_unfxjptave, xmax_unfxjptave);
 
 // Axis : 0 -> Measured or Truth, 1 -> multiplicity
-int	bins_unfxjptaveMT[2] 	  =   { nUnfoldingBins_xjptave   , 80};
-double xmin_unfxjptaveMT[2]   =   { minUnfoldingBin_xjptave  , 0.0};
-double xmax_unfxjptaveMT[2]   =   { maxUnfoldingBin_xjptave  , 400.0};
+int	bins_unfxjptaveMT[2] 	  =   { nUnfoldingBins_xjptave   , multbinsize-1};
+double xmin_unfxjptaveMT[2]   =   { minUnfoldingBin_xjptave  , multiplicity_centrality_bins[0]};
+double xmax_unfxjptaveMT[2]   =   { maxUnfoldingBin_xjptave  , multiplicity_centrality_bins[multbinsize-1]};
 THnSparseD *fhUnfoldingMeasu_xjptave = new THnSparseD("fhUnfoldingMeasu_xjptave", "fhUnfoldingMeasu_xjptave", 2, bins_unfxjptaveMT, xmin_unfxjptaveMT, xmax_unfxjptaveMT);
 THnSparseD *fhUnfoldingTruth_xjptave = new THnSparseD("fhUnfoldingTruth_xjptave", "fhUnfoldingTruth_xjptave", 2, bins_unfxjptaveMT, xmin_unfxjptaveMT, xmax_unfxjptaveMT);
 
 // Axis : 0 -> reco, 1 -> gen, 2 -> multiplicity
-int	bins_unfpt1pt2[3] 		=   { nUnfoldingBins_pt1pt2  , nUnfoldingBins_pt1pt2  , 80};
-double xmin_unfpt1pt2[3]   =   { minUnfoldingBin_pt1pt2  , minUnfoldingBin_pt1pt2 , 0.0};
-double xmax_unfpt1pt2[3]   =   { maxUnfoldingBin_pt1pt2  , maxUnfoldingBin_pt1pt2 , 400.0};
+int	bins_unfpt1pt2[3] 		=   { nUnfoldingBins_pt1pt2  , nUnfoldingBins_pt1pt2  , multbinsize-1};
+double xmin_unfpt1pt2[3]   =   { minUnfoldingBin_pt1pt2  , minUnfoldingBin_pt1pt2 , multiplicity_centrality_bins[0]};
+double xmax_unfpt1pt2[3]   =   { maxUnfoldingBin_pt1pt2  , maxUnfoldingBin_pt1pt2 , multiplicity_centrality_bins[multbinsize-1]};
 THnSparseD *fhUnfoldingResponse_pt1pt2 = new THnSparseD("fhUnfoldingResponse_pt1pt2", "fhUnfoldingResponse_pt1pt2", 3, bins_unfpt1pt2, xmin_unfpt1pt2, xmax_unfpt1pt2);
 
 // Axis : 0 -> Measured or Truth, 1 -> multiplicity
-int	bins_unfpt1pt2MT[2] 	  =   { nUnfoldingBins_pt1pt2  , 80};
-double xmin_unfpt1pt2MT[2]   =   { minUnfoldingBin_pt1pt2  , 0.0};
-double xmax_unfpt1pt2MT[2]   =   { maxUnfoldingBin_pt1pt2  , 400.0};
+int	bins_unfpt1pt2MT[2] 	  =   { nUnfoldingBins_pt1pt2  , multbinsize-1};
+double xmin_unfpt1pt2MT[2]   =   { minUnfoldingBin_pt1pt2  , multiplicity_centrality_bins[0]};
+double xmax_unfpt1pt2MT[2]   =   { maxUnfoldingBin_pt1pt2  , multiplicity_centrality_bins[multbinsize-1]};
 THnSparseD *fhUnfoldingMeasu_pt1pt2 = new THnSparseD("fhUnfoldingMeasu_pt1pt2", "fhUnfoldingMeasu_pt1pt2", 2, bins_unfpt1pt2MT, xmin_unfpt1pt2MT, xmax_unfpt1pt2MT);
 THnSparseD *fhUnfoldingTruth_pt1pt2 = new THnSparseD("fhUnfoldingTruth_pt1pt2", "fhUnfoldingTruth_pt1pt2", 2, bins_unfpt1pt2MT, xmin_unfpt1pt2MT, xmax_unfpt1pt2MT);
 
@@ -840,6 +840,10 @@ THnSparseD *hist_gen_gen_2pcorrelation_mixing = new THnSparseD("hist_gen_gen_2pc
 // Evaluate uncertainties correctly at ROOT
 void sw2(){
 
+//Multiplicity/Centrality binning
+double MultCentbins[multbinsize-1];
+for(int a = 0; a<multiplicity_centrality_bins.size();a++){MultCentbins[a] = multiplicity_centrality_bins[a];}
+
 for(int ixj = 0; ixj < nXjAjBins; ixj++){
   for(int iJetPtAve = 0; iJetPtAve < nPtaveBins; iJetPtAve++){
     fullUnfoldingBinning_xjptave[ixj+iJetPtAve*nXjAjBins] = XjBins[ixj]+1.0*iJetPtAve;
@@ -856,13 +860,19 @@ fullUnfoldingBinning_pt1pt2[nUnfoldingBins_pt1pt2] = maxUnfoldingBin_pt1pt2;
 
 fhUnfoldingResponse_xjptave->SetBinEdges(0, fullUnfoldingBinning_xjptave);
 fhUnfoldingResponse_xjptave->SetBinEdges(1, fullUnfoldingBinning_xjptave);
+fhUnfoldingResponse_xjptave->SetBinEdges(2, MultCentbins);
 fhUnfoldingMeasu_xjptave->SetBinEdges(0, fullUnfoldingBinning_xjptave);
+fhUnfoldingMeasu_xjptave->SetBinEdges(1, MultCentbins);
 fhUnfoldingTruth_xjptave->SetBinEdges(0, fullUnfoldingBinning_xjptave);
+fhUnfoldingTruth_xjptave->SetBinEdges(1, MultCentbins);
 
 fhUnfoldingResponse_pt1pt2->SetBinEdges(0, fullUnfoldingBinning_pt1pt2);
 fhUnfoldingResponse_pt1pt2->SetBinEdges(1, fullUnfoldingBinning_pt1pt2);
+fhUnfoldingResponse_pt1pt2->SetBinEdges(2, MultCentbins);
 fhUnfoldingMeasu_pt1pt2->SetBinEdges(0, fullUnfoldingBinning_pt1pt2);
+fhUnfoldingMeasu_pt1pt2->SetBinEdges(1, MultCentbins);
 fhUnfoldingTruth_pt1pt2->SetBinEdges(0, fullUnfoldingBinning_pt1pt2);
+fhUnfoldingTruth_pt1pt2->SetBinEdges(1, MultCentbins);
 
 double XBins[nXBins+1];
 // Xp and XpPb dependency
@@ -1452,9 +1462,7 @@ Dphi_GEN_EP3_flat_trk_minus->GetAxis(1)->Set(bins_TRKEP[1],TrkPtbins);
 Dphi_GEN_EP3_flat_trk_plus->GetAxis(1)->Set(bins_TRKEP[1],TrkPtbins);
 Dphi_GEN_EP4_flat_trk_minus->GetAxis(1)->Set(bins_TRKEP[1],TrkPtbins);
 Dphi_GEN_EP4_flat_trk_plus->GetAxis(1)->Set(bins_TRKEP[1],TrkPtbins);
-//Multiplicity/Centrality binning
-double MultCentbins[multbinsize-1];
-for(int a = 0; a<multiplicity_centrality_bins.size();a++){MultCentbins[a] = multiplicity_centrality_bins[a];}
+
 vzhist->GetAxis(1)->Set(bins_vz[1],MultCentbins);
 vzhist_weighted->GetAxis(1)->Set(bins_vz[1],MultCentbins);
 vzhist_jet_weighted->GetAxis(1)->Set(bins_vz[1],MultCentbins);
