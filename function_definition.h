@@ -631,7 +631,7 @@ rho: density
 Jet_Eta: jet eta for each jet
 Jet_R: jet cone R
 */
-double GetUE(std::vector<double> *etamin, vector<double> *etamax, vector<double> *rho, float Jet_Eta, float Jet_R){
+double GetUE(std::vector<double> *etamin, vector<double> *etamax, vector<double> *rho, double Jet_Eta, double Jet_R){
 
    double Result = 0;
 
