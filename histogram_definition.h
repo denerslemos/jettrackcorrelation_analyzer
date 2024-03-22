@@ -24,6 +24,9 @@ const int nPtaveBins = 25; // number of bins
 const double minPtave = 50.0;  // minimum
 const double maxPtave = 2000.0; // maximum
 double PtavelogBinWidth = (TMath::Log(maxPtave+binnerShift) - TMath::Log(minPtave+binnerShift)) / nPtaveBins; // binwidth
+double PtaveBinsClone[nPtaveBins+1];
+for(int a = 0; a <= nPtaveBins; a++){PtaveBinsClone[a] = (minPtave+binnerShift)*TMath::Exp(a*PtavelogBinWidth)-binnerShift;} // add bins by hand (bellow), because cannot loop here
+
 // PT leading/subleading -> see sumw2 function
 const int nPtLSLBins = 50; // number of bins
 const double minPtLSL = 20.0;  // minimum
@@ -844,6 +847,7 @@ for(int ixj = 0; ixj < nXjAjBins; ixj++){
   }
 }
 fullUnfoldingBinning_xjptave[nUnfoldingBins_xjptave] = maxUnfoldingBin_xjptave;
+
 for(int ipt1 = 0; ipt1 < nPtLSLBins2; ipt1++){
   for(int ipt2 = 0; ipt2 < nPtLSLBins2; ipt2++){
     fullUnfoldingBinning_pt1pt2[ipt1+ipt2*nPtLSLBins2] = PtLSLBins2[ipt1]+2000.0*ipt2;
