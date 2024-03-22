@@ -24,8 +24,7 @@ const int nPtaveBins = 25; // number of bins
 const double minPtave = 50.0;  // minimum
 const double maxPtave = 2000.0; // maximum
 double PtavelogBinWidth = (TMath::Log(maxPtave+binnerShift) - TMath::Log(minPtave+binnerShift)) / nPtaveBins; // binwidth
-double PtaveBinsClone[nPtaveBins+1];
-for(int a = 0; a <= nPtaveBins; a++){PtaveBinsClone[a] = (minPtave+binnerShift)*TMath::Exp(a*PtavelogBinWidth)-binnerShift;} // add bins by hand (bellow), because cannot loop here
+double PtaveBinsClone[nPtaveBins+1] = {50, 57.9499, 67.1637, 77.8426, 90.2193, 104.564, 121.189, 140.458, 162.791, 188.674, 218.672, 253.441, 293.737, 340.44, 394.57, 457.305, 530.015, 614.286, 711.956, 825.155, 956.352, 1108.41, 1284.64, 1488.9, 1725.63, 2000.0};
 
 // PT leading/subleading -> see sumw2 function
 const int nPtLSLBins = 50; // number of bins
