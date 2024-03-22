@@ -622,36 +622,6 @@ void twoparticlecorrelation(std::vector<TVector3> tracks, std::vector<double> tr
 	} // a loop
 }
 
-double TransformToUnfoldingAxis_xjptave(const double xj, const double jetPtAve){
-  const int nJetPtAveBins = nPtaveBins;
-  const double maxxj = 1.0;
-  double transformedxj = xj;
-  for(int iJetPtAve = 1; iJetPtAve < nJetPtAveBins+1; iJetPtAve++){
-    if(jetPtAve >= PtaveBins[iJetPtAve]){
-      transformedxj += maxxj;
-    } else {
-      return transformedxj;
-    }
-  }
-  // We should never reach this point. If we are here, just return error code -1
-  return -1;
-}
-
-double TransformToUnfoldingAxis_pt1pt2(const double pt1, const double pt2){
-  const int nJetPt2Bins = nPtLSLBins2;
-  const double maxpt1 = 2000.0;
-  double transformedpt1 = pt1;
-  for(int iJetPt = 1; iJetPt < nJetPt2Bins+1; iJetPt++){
-    if(jetPtAve >= PtLSLBins2[iJetPt]){
-      transformedpt1 += maxpt1;
-    } else {
-      return transformedpt1;
-    }
-  }
-  // We should never reach this point. If we are here, just return error code -1
-  return -1;
-}
-
 /*
 Get area-based underlying events using rho variable (from Yi)
 --> Arguments
