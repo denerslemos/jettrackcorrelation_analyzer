@@ -38,6 +38,8 @@
 #include "TObject.h"
 #include "TDirectoryFile.h"
 #include <Math/GenVector/PtEtaPhiM4D.h>  
+#include <stdio.h>
+#include <string.h>
 
 using namespace ROOT::Math;
 
