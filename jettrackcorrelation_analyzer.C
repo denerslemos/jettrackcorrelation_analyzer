@@ -922,7 +922,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double xjptaveunf = 0.0;//TransformToUnfoldingAxis_xjptave(Xj_reco, ptaveragelsl, PtaveBins);						
 							double x_unf_meas_xjptave[2]={xjptaveunf,(double)multcentbin}; 
 							fhUnfoldingMeasu_xjptave->Fill(x_unf_meas_xjptave,event_weight);
-							double pt1pt2unf = 0.0;//TransformToUnfoldingAxis_pt1pt2(leadrecojet_pt, sublrecojet_pt, PtLSLBins2);						
+							double pt1pt2unf = TransformToUnfoldingAxis_pt1pt2(leadrecojet_pt, sublrecojet_pt);						
 							double x_unf_meas_pt1pt2[2]={pt1pt2unf,(double)multcentbin}; 
 							fhUnfoldingMeasu_pt1pt2->Fill(x_unf_meas_pt1pt2,event_weight);
 
@@ -1327,7 +1327,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double xjptaveunfref = 0.0;//TransformToUnfoldingAxis_xjptave(Xj_ref, ptaveragelslref, PtaveBins);						
 							double x_unf_meas_xjptaveref[2]={xjptaveunfref,(double)multcentbin}; 
 							fhUnfoldingTruth_xjptave->Fill(x_unf_meas_xjptaveref,event_weight);
-							double pt1pt2unfref = 0.0;//TransformToUnfoldingAxis_pt1pt2(leadrefjet_pt, sublrefjet_pt, PtLSLBins2);						
+							double pt1pt2unfref = TransformToUnfoldingAxis_pt1pt2(leadrefjet_pt, sublrefjet_pt);						
 							double x_unf_meas_pt1pt2ref[2]={pt1pt2unfref,(double)multcentbin}; 
 							fhUnfoldingTruth_pt1pt2->Fill(x_unf_meas_pt1pt2ref,event_weight);
 
@@ -1349,8 +1349,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			double x_unf_meas_xjptave_response[3]={xjptaveunfreco_response,xjptaveunfref_response,(double)multcentbin}; 
 			fhUnfoldingResponse_xjptave->Fill(x_unf_meas_xjptave_response,event_weight);
 
-			double pt1pt2unfreco_response = 0.0;//TransformToUnfoldingAxis_pt1pt2(leadrecojet_pt, sublrecojet_pt, PtLSLBins2);						
-			double pt1pt2unfref_response = 0.0;//TransformToUnfoldingAxis_pt1pt2(leadrefjet_pt, sublrefjet_pt, PtLSLBins2);						
+			double pt1pt2unfreco_response = TransformToUnfoldingAxis_pt1pt2(leadrecojet_pt, sublrecojet_pt);						
+			double pt1pt2unfref_response = TransformToUnfoldingAxis_pt1pt2(leadrefjet_pt, sublrefjet_pt);						
 			double x_unf_meas_pt1pt2_response[3]={pt1pt2unfreco_response, pt1pt2unfref_response,(double)multcentbin}; 
 			fhUnfoldingResponse_pt1pt2->Fill(x_unf_meas_pt1pt2_response,event_weight);
 		
