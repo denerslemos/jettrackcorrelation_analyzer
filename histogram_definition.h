@@ -840,9 +840,6 @@ THnSparseD *hist_gen_gen_2pcorrelation_mixing = new THnSparseD("hist_gen_gen_2pc
 // Evaluate uncertainties correctly at ROOT
 void sw2(){
 
-//Multiplicity/Centrality binning
-double MultCentbins[multbinsize-1];
-for(int a = 0; a<multiplicity_centrality_bins.size();a++){MultCentbins[a] = multiplicity_centrality_bins[a];}
 
 for(int ixj = 0; ixj < nXjAjBins; ixj++){
   for(int iJetPtAve = 0; iJetPtAve < nPtaveBins; iJetPtAve++){
@@ -860,19 +857,13 @@ fullUnfoldingBinning_pt1pt2[nUnfoldingBins_pt1pt2] = maxUnfoldingBin_pt1pt2;
 
 fhUnfoldingResponse_xjptave->SetBinEdges(0, fullUnfoldingBinning_xjptave);
 fhUnfoldingResponse_xjptave->SetBinEdges(1, fullUnfoldingBinning_xjptave);
-fhUnfoldingResponse_xjptave->SetBinEdges(2, MultCentbins);
 fhUnfoldingMeasu_xjptave->SetBinEdges(0, fullUnfoldingBinning_xjptave);
-fhUnfoldingMeasu_xjptave->SetBinEdges(1, MultCentbins);
 fhUnfoldingTruth_xjptave->SetBinEdges(0, fullUnfoldingBinning_xjptave);
-fhUnfoldingTruth_xjptave->SetBinEdges(1, MultCentbins);
 
 fhUnfoldingResponse_pt1pt2->SetBinEdges(0, fullUnfoldingBinning_pt1pt2);
 fhUnfoldingResponse_pt1pt2->SetBinEdges(1, fullUnfoldingBinning_pt1pt2);
-fhUnfoldingResponse_pt1pt2->SetBinEdges(2, MultCentbins);
 fhUnfoldingMeasu_pt1pt2->SetBinEdges(0, fullUnfoldingBinning_pt1pt2);
-fhUnfoldingMeasu_pt1pt2->SetBinEdges(1, MultCentbins);
 fhUnfoldingTruth_pt1pt2->SetBinEdges(0, fullUnfoldingBinning_pt1pt2);
-fhUnfoldingTruth_pt1pt2->SetBinEdges(1, MultCentbins);
 
 double XBins[nXBins+1];
 // Xp and XpPb dependency
@@ -1462,6 +1453,18 @@ Dphi_GEN_EP3_flat_trk_minus->GetAxis(1)->Set(bins_TRKEP[1],TrkPtbins);
 Dphi_GEN_EP3_flat_trk_plus->GetAxis(1)->Set(bins_TRKEP[1],TrkPtbins);
 Dphi_GEN_EP4_flat_trk_minus->GetAxis(1)->Set(bins_TRKEP[1],TrkPtbins);
 Dphi_GEN_EP4_flat_trk_plus->GetAxis(1)->Set(bins_TRKEP[1],TrkPtbins);
+
+//Multiplicity/Centrality binning
+double MultCentbins[multbinsize-1];
+for(int a = 0; a<multiplicity_centrality_bins.size();a++){MultCentbins[a] = multiplicity_centrality_bins[a];}
+
+fhUnfoldingResponse_xjptave->GetAxis(2)->Set(bins_unfxjptave[2],MultCentbins);
+fhUnfoldingMeasu_xjptave->GetAxis(1)->Set(bins_unfxjptaveMT[1],MultCentbins);
+fhUnfoldingTruth_xjptave->GetAxis(1)->Set(bins_unfxjptaveMT[1],MultCentbins);
+fhUnfoldingResponse_pt1pt2->GetAxis(2)->Set(bins_unfpt1pt2[2],MultCentbins);
+fhUnfoldingMeasu_pt1pt2->GetAxis(1)->Set(bins_unfpt1pt2MT[1],MultCentbins);
+fhUnfoldingTruth_pt1pt2->GetAxis(1)->Set(bins_unfpt1pt2MT[1],MultCentbins);
+
 
 vzhist->GetAxis(1)->Set(bins_vz[1],MultCentbins);
 vzhist_weighted->GetAxis(1)->Set(bins_vz[1],MultCentbins);
