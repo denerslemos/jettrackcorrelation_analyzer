@@ -689,7 +689,7 @@ double GetUE_JESCorrection(const char* jetcollection, bool doUE, float Jet_pT, b
 	return correction;
 }
 
-
+/*
 double TransformToUnfoldingAxis_xjptave(const double xj, const double jetPtAve){
   const int nJetPtAveBins = nPtaveBins;
   const double maxxj = 1.0;
@@ -704,7 +704,7 @@ double TransformToUnfoldingAxis_xjptave(const double xj, const double jetPtAve){
   // We should never reach this point. If we are here, just return error code -1
   return -1;
 }
-
+*/
 double TransformToUnfoldingAxis_pt1pt2(const double pt1, const double pt2){
   const int nJetPt2Bins = nPtLSLBins2;
   const double maxpt1 = 2000.0;
