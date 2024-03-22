@@ -503,7 +503,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						
 			if(doUE_areabased) jet_pt_corr = (jet_rawpt - UE)*JEC.GetCorrection();
 			
-			jet_pt_corr = jet_pt_corr * GetUE_JESCorrection(jet_collection, doUE_areabased, jet_pt_corr);
+			jet_pt_corr = jet_pt_corr * GetUE_JESCorrection(jet_collection, doUE_areabased, jet_pt_corr, is_embedded);
 
 			if(is_MC && (!do_jer_up || !do_jer_down)) {
 			

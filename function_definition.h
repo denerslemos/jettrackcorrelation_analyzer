@@ -671,17 +671,17 @@ jetcollection: jet collection used
 doUE: do UE subtraction from area-based rho
 Jet_pT: jet pT
 */
-double GetUE_JESCorrection(TString jetcollection, bool doUE, float Jet_pT){
+double GetUE_JESCorrection(TString jetcollection, bool doUE, float Jet_pT, bool isemb){
 
 	double correction = 1.0;
 	TF1 *CorrectionFunction = new TF1("CorrectionFunction","([0]*x)/(x+[1])",30.0,800.0);
 
-	if(jetcollection.Data() == "akCs4PFJetAnalyzer" && !doUE){
+	if(jetcollection.Data() == "akCs4PFJetAnalyzer" && !doUE && isemb){
 		CorrectionFunction->SetParameters(1.00168e+00, -2.27352e+00);
         correction = VzWeightFunction->Eval(Jet_pT);
 	}
 
-	if(jetcollection.Data() == "ak4PFJetAnalyzer" && doUE){
+	if(jetcollection.Data() == "ak4PFJetAnalyzer" && doUE && isemb){
 		CorrectionFunction->SetParameters(1.00179e+00, -2.49776e+00);
         correction = VzWeightFunction->Eval(Jet_pT);
 	}
