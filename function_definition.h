@@ -1,5 +1,6 @@
 #include "call_libraries.h"  // call libraries from ROOT and C++
 #include "trk_efficiency_correction.h" // track efficiency correction
+#include "histogram_definition.h" // define histograms
 #include "weights.h" // weights applied
 
 /*

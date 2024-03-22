@@ -1,7 +1,6 @@
 #include "call_libraries.h"  // call libraries from ROOT and C++
 #include "read_tree.h" // read the TChains
 #include "vector_definition.h"  // define the vectors for mixing
-#include "histogram_definition.h" // define histograms
 #include "random_mixing.h" // random mixing function
 #include "uiclogo.h" // print UIC jets and start/stop time
 #include "JetCorrector.h" // reader for JEC
