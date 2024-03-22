@@ -919,10 +919,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							if(sublrecojet_pt > 0.0 && fourthrecojet_pt > 0.0) { double xDpt24[2] = { fabs(deltaeta(sublrecojet_pt,fourthrecojet_pt)), (double)multcentbin}; jet2jet4_Dpt_reco->Fill(xDpt24,event_weight); }
 							if(thirdrecojet_pt > 0.0 && fourthrecojet_pt > 0.0) { double xDpt34[2] = { fabs(deltaeta(thirdrecojet_pt,fourthrecojet_pt)), (double)multcentbin}; jet3jet4_Dpt_reco->Fill(xDpt34,event_weight); }
 
-							double xjptaveunf = TransformToUnfoldingAxis_xjptave(Xj_reco, ptaveragelsl);						
+							double xjptaveunf = TransformToUnfoldingAxis_xjptave(Xj_reco, ptaveragelsl, PtaveBins);						
 							double x_unf_meas_xjptave[2]={xjptaveunf,(double)multcentbin}; 
 							fhUnfoldingMeasu_xjptave->Fill(x_unf_meas_xjptave,event_weight);
-							double pt1pt2unf = TransformToUnfoldingAxis_pt1pt2(leadrecojet_pt, sublrecojet_pt);						
+							double pt1pt2unf = TransformToUnfoldingAxis_pt1pt2(leadrecojet_pt, sublrecojet_pt, PtLSLBins2);						
 							double x_unf_meas_pt1pt2[2]={pt1pt2unf,(double)multcentbin}; 
 							fhUnfoldingMeasu_pt1pt2->Fill(x_unf_meas_pt1pt2,event_weight);
 
@@ -1324,10 +1324,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							if(sublrefjet_pt > 0.0 && fourthrefjet_pt > 0.0) { double xDpt24[2] = { fabs(deltaeta(sublrefjet_pt,fourthrefjet_pt)), (double)multcentbin}; jet2jet4_Dpt_ref->Fill(xDpt24,event_weight); }
 							if(thirdrefjet_pt > 0.0 && fourthrefjet_pt > 0.0) { double xDpt34[2] = { fabs(deltaeta(thirdrefjet_pt,fourthrefjet_pt)), (double)multcentbin}; jet3jet4_Dpt_ref->Fill(xDpt34,event_weight); }
 
-							double xjptaveunfref = TransformToUnfoldingAxis_xjptave(Xj_ref, ptaveragelslref);						
+							double xjptaveunfref = TransformToUnfoldingAxis_xjptave(Xj_ref, ptaveragelslref, PtaveBins);						
 							double x_unf_meas_xjptaveref[2]={xjptaveunfref,(double)multcentbin}; 
 							fhUnfoldingTruth_xjptave->Fill(x_unf_meas_xjptaveref,event_weight);
-							double pt1pt2unfref = TransformToUnfoldingAxis_pt1pt2(leadrefjet_pt, sublrefjet_pt);						
+							double pt1pt2unfref = TransformToUnfoldingAxis_pt1pt2(leadrefjet_pt, sublrefjet_pt, PtLSLBins2);						
 							double x_unf_meas_pt1pt2ref[2]={pt1pt2unfref,(double)multcentbin}; 
 							fhUnfoldingTruth_pt1pt2->Fill(x_unf_meas_pt1pt2ref,event_weight);
 
@@ -1344,13 +1344,13 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			double ptaveee = 0.5*(leadrecojet_pt + sublrecojet_pt);
 			double xjjjjf = sublrefjet_pt/leadrefjet_pt;
 			double ptaveeef = 0.5*(leadrefjet_pt + sublrefjet_pt);			
-			double xjptaveunfreco_response = TransformToUnfoldingAxis_xjptave(xjjjj,ptaveee);						
-			double xjptaveunfref_response = TransformToUnfoldingAxis_xjptave(xjjjjf,ptaveeef);						
+			double xjptaveunfreco_response = TransformToUnfoldingAxis_xjptave(xjjjj,ptaveee, PtaveBins);						
+			double xjptaveunfref_response = TransformToUnfoldingAxis_xjptave(xjjjjf,ptaveeef, PtaveBins);						
 			double x_unf_meas_xjptave_response[3]={xjptaveunfreco_response,xjptaveunfref_response,(double)multcentbin}; 
 			fhUnfoldingResponse_xjptave->Fill(x_unf_meas_xjptave_response,event_weight);
 
-			double pt1pt2unfreco_response = TransformToUnfoldingAxis_pt1pt2(leadrecojet_pt, sublrecojet_pt);						
-			double pt1pt2unfref_response = TransformToUnfoldingAxis_pt1pt2(leadrefjet_pt, sublrefjet_pt);						
+			double pt1pt2unfreco_response = TransformToUnfoldingAxis_pt1pt2(leadrecojet_pt, sublrecojet_pt, PtLSLBins2);						
+			double pt1pt2unfref_response = TransformToUnfoldingAxis_pt1pt2(leadrefjet_pt, sublrefjet_pt, PtLSLBins2);						
 			double x_unf_meas_pt1pt2_response[3]={pt1pt2unfreco_response, pt1pt2unfref_response,(double)multcentbin}; 
 			fhUnfoldingResponse_pt1pt2->Fill(x_unf_meas_pt1pt2_response,event_weight);
 		
