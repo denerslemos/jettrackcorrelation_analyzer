@@ -700,7 +700,7 @@ jetcollection: jet collection used
 doUE: do UE subtraction from area-based rho
 Jet_pT: jet pT
 */
-double GetUE_JESCorrection(const char* jetcollection, bool doUE, float Jet_pT, bool isemb){
+double GetUE_JESCorrection(string jetcollection, bool doUE, float Jet_pT, bool isemb){
 
 	double correction = 1.0;
 	TF1 *CorrectionFunction = new TF1("CorrectionFunction","([0]*x)/(x+[1])",30.0,800.0);
