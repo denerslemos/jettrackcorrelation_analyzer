@@ -72,8 +72,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	TF1* JetSmear = new TF1("JetSmear","sqrt([0]*[0] + [1]*[1]/x + [2]*[2]/(x*x))",30,800);
 	JetSmear->SetParameters(4.25985e-02, 9.51054e-01, 0.0); // fitted from JER
 	TF1* JetScaleCorrection = new TF1("JetScaleCorrection","([0]*x)/(x+[1])",30,800);
-	if(jet_collection.Data() == "ak4PFJetAnalyzer" && doUE_areabased) JetScaleCorrection->SetParameters(1.00179e+00, -2.49776e+00);
-	if(jet_collection.Data() == "akCs4PFJetAnalyzer" && !doUE_areabased) JetScaleCorrection->SetParameters(1.00168e+00, -2.27352e+00);
+	if(jet_collection.EqualTo("ak4PFJetAnalyzer") && doUE_areabased) JetScaleCorrection->SetParameters(1.00179e+00, -2.49776e+00);
+	if(jet_collection.EqualTo("akCs4PFJetAnalyzer") && !doUE_areabased) JetScaleCorrection->SetParameters(1.00168e+00, -2.27352e+00);
+	
+	cout << "bool: "<< jet_collection.EqualTo("akCs4PFJetAnalyzer") << endl;
 
 	// Unfolding file and histograms (X -> Reco and Y -> Gen)
 	TFile *fileunf = TFile::Open(Form("aux_files/%s_%i/Unfolding/Unfoldingfile.root",colliding_system.Data(),sNN_energy_GeV));
