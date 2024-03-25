@@ -505,8 +505,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						
 			if(doUE_areabased) jet_pt_corr = (jet_rawpt - UE)*JEC.GetCorrection();
 			
-			if(jet_collection.Data() == "ak4PFJetAnalyzer" && doUE_areabased) jet_pt_corr = jet_pt_corr * JetScaleCorrection->Eval(Jet_pT);
-			if(jet_collection.Data() == "akCs4PFJetAnalyzer" && !doUE_areabased) jet_pt_corr = jet_pt_corr * JetScaleCorrection->Eval(Jet_pT);
+			if(jet_collection.EqualTo("ak4PFJetAnalyzer") && doUE_areabased) jet_pt_corr = jet_pt_corr * JetScaleCorrection->Eval(jet_pt_corr);
+			if(jet_collection.EqualTo("akCs4PFJetAnalyzer") && !doUE_areabased) jet_pt_corr = jet_pt_corr * JetScaleCorrection->Eval(jet_pt_corr);
 
 			if(is_MC && (!do_jer_up || !do_jer_down)) {
 			
