@@ -75,8 +75,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	if(jet_collection.EqualTo("ak4PFJetAnalyzer") && doUE_areabased) JetScaleCorrection->SetParameters(1.00179e+00, -2.49776e+00);
 	if(jet_collection.EqualTo("akCs4PFJetAnalyzer") && !doUE_areabased) JetScaleCorrection->SetParameters(1.00168e+00, -2.27352e+00);
 	
-	cout << "bool: "<< jet_collection.EqualTo("akCs4PFJetAnalyzer") << endl;
-
 	// Unfolding file and histograms (X -> Reco and Y -> Gen)
 	TFile *fileunf = TFile::Open(Form("aux_files/%s_%i/Unfolding/Unfoldingfile.root",colliding_system.Data(),sNN_energy_GeV));
    	TH2D *histo_unf_leading = (TH2D *)fileunf->Get("LeadingJet_match_response");
@@ -507,8 +505,11 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						
 			if(doUE_areabased) jet_pt_corr = (jet_rawpt - UE)*JEC.GetCorrection();
 			
-			if(jet_collection.EqualTo("ak4PFJetAnalyzer") && doUE_areabased) jet_pt_corr = jet_pt_corr * JetScaleCorrection->Eval(jet_pt_corr);
-			if(jet_collection.EqualTo("akCs4PFJetAnalyzer") && !doUE_areabased) jet_pt_corr = jet_pt_corr * JetScaleCorrection->Eval(jet_pt_corr);
+			float JEScorrection = 1.0;
+			if(jet_collection.EqualTo("ak4PFJetAnalyzer") && doUE_areabased) JEScorrection = JetScaleCorrection->Eval(jet_pt_corr);
+			if(jet_collection.EqualTo("akCs4PFJetAnalyzer") && !doUE_areabased) JEScorrection = JetScaleCorrection->Eval(jet_pt_corr);
+
+			jet_pt_corr = jet_pt_corr * JEScorrection;
 
 			if(is_MC && (!do_jer_up || !do_jer_down)) {
 			
