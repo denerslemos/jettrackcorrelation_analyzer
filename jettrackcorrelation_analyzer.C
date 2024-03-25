@@ -69,9 +69,12 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	if(!do_jer_up && !do_jer_down) filejersys->GetObject("JERnominal", resolution_histo);
 	if(do_jer_up && !do_jer_down) filejersys->GetObject("JERup", resolution_histo);
 	if(!do_jer_up && do_jer_down) filejersys->GetObject("JERdown", resolution_histo);
-	TF1* JetSmear = new TF1("JetSmear","sqrt([0]*[0] + [1]*[1]/x + [2]*[2]/(x*x))",20,800);
+	TF1* JetSmear = new TF1("JetSmear","sqrt([0]*[0] + [1]*[1]/x + [2]*[2]/(x*x))",30,800);
 	JetSmear->SetParameters(4.25985e-02, 9.51054e-01, 0.0); // fitted from JER
-	
+	TF1* JetScaleCorrection = new TF1("JetScaleCorrection","([0]*x)/(x+[1])",30,800);
+	if(jet_collection.Data() == "ak4PFJetAnalyzer" && doUE_areabased) JetScaleCorrection->SetParameters(1.00179e+00, -2.49776e+00);
+	if(jet_collection.Data() == "akCs4PFJetAnalyzer" && !doUE_areabased) JetScaleCorrection->SetParameters(1.00168e+00, -2.27352e+00);
+
 	// Unfolding file and histograms (X -> Reco and Y -> Gen)
 	TFile *fileunf = TFile::Open(Form("aux_files/%s_%i/Unfolding/Unfoldingfile.root",colliding_system.Data(),sNN_energy_GeV));
    	TH2D *histo_unf_leading = (TH2D *)fileunf->Get("LeadingJet_match_response");
@@ -502,7 +505,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						
 			if(doUE_areabased) jet_pt_corr = (jet_rawpt - UE)*JEC.GetCorrection();
 			
-			jet_pt_corr = jet_pt_corr * GetUE_JESCorrection(jet_collection.Data(), doUE_areabased, jet_pt_corr, is_embedded);
+			if(jet_collection.Data() == "ak4PFJetAnalyzer" && doUE_areabased) jet_pt_corr = jet_pt_corr * JetScaleCorrection->Eval(Jet_pT);
+			if(jet_collection.Data() == "akCs4PFJetAnalyzer" && !doUE_areabased) jet_pt_corr = jet_pt_corr * JetScaleCorrection->Eval(Jet_pT);
 
 			if(is_MC && (!do_jer_up || !do_jer_down)) {
 			
@@ -535,6 +539,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			float jet_flavor = (float) refpartonfromB;
 
 			int jet_index = (int) j;
+			
+			if(jet_pt_corr > jet_pt_max_cut) continue;
 
 			//leading and subleading
 			find_leading_subleading_third(jet_pt_corr,jet_eta,jet_phi,jet_mass,jet_flavor,jet_index,leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,leadrecojet_mass,leadrecojet_flavor,leadrecojet_index,sublrecojet_pt,sublrecojet_eta,sublrecojet_phi,sublrecojet_mass,sublrecojet_flavor,sublrecojet_index,thirdrecojet_pt,thirdrecojet_eta,thirdrecojet_phi,thirdrecojet_mass,thirdrecojet_flavor,thirdrecojet_index,fourthrecojet_pt); // Find leading and subleading jets
@@ -604,6 +610,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
     	        if(jet_rawpt < 0.0) continue;
  	            if(jet_pt_corr < 0.0) continue;
  	            if(fabs(ref_eta) > 5.1) continue;
+    	        if(ref_pt < 0.0) continue;
 
 				int jet_index_ref = (int) j;
 

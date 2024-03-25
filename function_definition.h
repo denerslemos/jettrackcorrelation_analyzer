@@ -664,32 +664,6 @@ double GetUE(std::vector<double> *etamin, vector<double> *etamax, vector<double>
 }
 
 
-
-/*
-Correct JES from the 
-jetcollection: jet collection used
-doUE: do UE subtraction from area-based rho
-Jet_pT: jet pT
-*/
-double GetUE_JESCorrection(const char* jetcollection, bool doUE, float Jet_pT, bool isemb){
-
-	double correction = 1.0;
-	TF1 *CorrectionFunction = new TF1("CorrectionFunction","([0]*x)/(x+[1])",30.0,800.0);
-
-	if(strcmp(jetcollection, "akCs4PFJetAnalyzer")  && !doUE && isemb){
-		CorrectionFunction->SetParameters(1.00168e+00, -2.27352e+00);
-        correction = CorrectionFunction->Eval(Jet_pT);
-	}
-
-	if(strcmp(jetcollection, "ak4PFJetAnalyzer") && doUE && isemb){
-		CorrectionFunction->SetParameters(1.00179e+00, -2.49776e+00);
-        correction = CorrectionFunction->Eval(Jet_pT);
-	}
-
-	return correction;
-}
-
-
 double TransformToUnfoldingAxis_xjptave(const double xj, const double jetPtAve){
   const int nJetPtAveBins = nPtaveBins;
   const double maxxj = 1.0;
