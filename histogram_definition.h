@@ -32,9 +32,9 @@ const double minPtLSL = 20.0;  // minimum
 const double maxPtLSL = 1000.0; // maximum
 double PtLSLlogBinWidth = (TMath::Log(maxPtLSL+binnerShift) - TMath::Log(minPtLSL+binnerShift)) / nPtLSLBins; // binwidth
 // Xj and Aj bins
-const int nXjAjBins = 10; // number of bins
-double XjBins[nXjAjBins+1] = {0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0};
-double AjBins[nXjAjBins+1] = {0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0};
+const int nXjAjBins = 20; // number of bins
+double XjBins[nXjAjBins+1] = {0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0};
+double AjBins[nXjAjBins+1] = {0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0};
 // less bins
 //const int nDphiBins = 18; // number of bins
 //double DphiBins[nDphiBins+1] = {0.0, TMath::Pi()/5. ,TMath::Pi()/3., (3./7.)*TMath::Pi(), TMath::Pi()/2., (4./7.)*TMath::Pi(), (3./5.)*TMath::Pi(), 1.98967535,  2.0943951 ,  2.19911486,  2.30383461, 2.40855437,  2.51327412,  2.61799388,  2.72271363,  2.82743339, 2.93215314,  3.0368729, TMath::Pi()};
@@ -76,7 +76,8 @@ int	bins_unfxjptaveMT[2] 	  =   { nUnfoldingBins_xjptave   , multbinsize-1};
 double xmin_unfxjptaveMT[2]   =   { minUnfoldingBin_xjptave  , multiplicity_centrality_bins[0]};
 double xmax_unfxjptaveMT[2]   =   { maxUnfoldingBin_xjptave  , multiplicity_centrality_bins[multbinsize-1]};
 THnSparseD *fhUnfoldingMeasu_xjptave = new THnSparseD("fhUnfoldingMeasu_xjptave", "fhUnfoldingMeasu_xjptave", 2, bins_unfxjptaveMT, xmin_unfxjptaveMT, xmax_unfxjptaveMT);
-THnSparseD *fhUnfoldingTruth_xjptave = new THnSparseD("fhUnfoldingTruth_xjptave", "fhUnfoldingTruth_xjptave", 2, bins_unfxjptaveMT, xmin_unfxjptaveMT, xmax_unfxjptaveMT);
+THnSparseD *fhUnfoldingTruthRef_xjptave = new THnSparseD("fhUnfoldingTruthRef_xjptave", "fhUnfoldingTruthRef_xjptave", 2, bins_unfxjptaveMT, xmin_unfxjptaveMT, xmax_unfxjptaveMT);
+THnSparseD *fhUnfoldingTruthGen_xjptave = new THnSparseD("fhUnfoldingTruthGen_xjptave", "fhUnfoldingTruthGen_xjptave", 2, bins_unfxjptaveMT, xmin_unfxjptaveMT, xmax_unfxjptaveMT);
 
 // Axis : 0 -> reco, 1 -> gen, 2 -> multiplicity
 int	bins_unfpt1pt2[3] 		=   { nUnfoldingBins_pt1pt2  , nUnfoldingBins_pt1pt2  , multbinsize-1};
@@ -858,7 +859,8 @@ fullUnfoldingBinning_pt1pt2[nUnfoldingBins_pt1pt2] = maxUnfoldingBin_pt1pt2;
 fhUnfoldingResponse_xjptave->SetBinEdges(0, fullUnfoldingBinning_xjptave);
 fhUnfoldingResponse_xjptave->SetBinEdges(1, fullUnfoldingBinning_xjptave);
 fhUnfoldingMeasu_xjptave->SetBinEdges(0, fullUnfoldingBinning_xjptave);
-fhUnfoldingTruth_xjptave->SetBinEdges(0, fullUnfoldingBinning_xjptave);
+fhUnfoldingTruthRef_xjptave->SetBinEdges(0, fullUnfoldingBinning_xjptave);
+fhUnfoldingTruthGen_xjptave->SetBinEdges(0, fullUnfoldingBinning_xjptave);
 
 fhUnfoldingResponse_pt1pt2->SetBinEdges(0, fullUnfoldingBinning_pt1pt2);
 fhUnfoldingResponse_pt1pt2->SetBinEdges(1, fullUnfoldingBinning_pt1pt2);
@@ -1460,7 +1462,8 @@ for(int a = 0; a<multiplicity_centrality_bins.size();a++){MultCentbins[a] = mult
 
 fhUnfoldingResponse_xjptave->GetAxis(2)->Set(bins_unfxjptave[2],MultCentbins);
 fhUnfoldingMeasu_xjptave->GetAxis(1)->Set(bins_unfxjptaveMT[1],MultCentbins);
-fhUnfoldingTruth_xjptave->GetAxis(1)->Set(bins_unfxjptaveMT[1],MultCentbins);
+fhUnfoldingTruthRef_xjptave->GetAxis(1)->Set(bins_unfxjptaveMT[1],MultCentbins);
+fhUnfoldingTruthGen_xjptave->GetAxis(1)->Set(bins_unfxjptaveMT[1],MultCentbins);
 fhUnfoldingResponse_pt1pt2->GetAxis(2)->Set(bins_unfpt1pt2[2],MultCentbins);
 fhUnfoldingMeasu_pt1pt2->GetAxis(1)->Set(bins_unfpt1pt2MT[1],MultCentbins);
 fhUnfoldingTruth_pt1pt2->GetAxis(1)->Set(bins_unfpt1pt2MT[1],MultCentbins);
@@ -2812,7 +2815,8 @@ jet3jet4_Dpt_gen->Sumw2();
 
 fhUnfoldingResponse_xjptave->Sumw2();
 fhUnfoldingMeasu_xjptave->Sumw2();
-fhUnfoldingTruth_xjptave->Sumw2();
+fhUnfoldingTruthRef_xjptave->Sumw2();
+fhUnfoldingTruthGen_xjptave->Sumw2();
 
 fhUnfoldingResponse_pt1pt2->Sumw2();
 fhUnfoldingMeasu_pt1pt2->Sumw2();
@@ -3449,47 +3453,11 @@ void w_unf_hist(){
 
 fhUnfoldingResponse_xjptave->Write();
 fhUnfoldingMeasu_xjptave->Write();
-fhUnfoldingTruth_xjptave->Write();
+fhUnfoldingTruthRef_xjptave->Write();
+fhUnfoldingTruthGen_xjptave->Write();
 
 fhUnfoldingResponse_pt1pt2->Write();
 fhUnfoldingMeasu_pt1pt2->Write();
 fhUnfoldingTruth_pt1pt2->Write();
 
-/*
-	hist_jetunf_weighted->Write();
-	hist_leadjetunf_weighted->Write();
-	hist_subljetunf_weighted->Write();
-	hist_xjunf_weighted->Write();
-	hist_leadjetunf_match_weighted->Write();
-	hist_subljetunf_match_weighted->Write();
-	hist_leadjetunf_swap_weighted->Write();
-	hist_subljetunf_swap_weighted->Write();
-	hist_xjunf_match_weighted->Write();
-	hist_xjunf_swap_weighted->Write();
-	hist_leadjetunf_gensmear->Write();
-	hist_leadjetunf_recosmear->Write();
-	hist_subljetunf_gensmear->Write();
-	hist_subljetunf_recosmear->Write();
-	hist_xjunf_gensmear->Write();
-	hist_xjunf_recosmear->Write();
-	hist_xjunf_gensmear_fromLSL->Write();
-	hist_xjunf_recosmear_fromLSL->Write();
-	hist_xjunf_gensmear_fromLSL_4D->Write();
-	hist_xjunf_recosmear_fromLSL_4D->Write();
-	hist_leadjetunf_gensmear_fromInclJet->Write();
-	hist_leadjetunf_recosmear_fromInclJet->Write();
-	hist_subljetunf_gensmear_fromInclJet->Write();
-	hist_subljetunf_recosmear_fromInclJet->Write();
-	hist_xjunf_gensmear_fromLSL_InclJet->Write();
-	hist_xjunf_recosmear_fromLSL_InclJet->Write();
-	hist_leadjetunf_gensmear_4D->Write();
-	hist_subljetunf_gensmear_4D->Write();
-	hist_leadjetunf_recosmear_4D->Write();
-	hist_subljetunf_recosmear_4D->Write();
-	hist_jetunf_weighted_4D->Write();
-	hist_jetunf_match_weighted_4D->Write();
-	hist_jetunf_match_weighted_sym_4D->Write();
-	hist_jetunf_match_weighted_symhalf_4D->Write();
-	hist_jetunf_swap_weighted_4D->Write();
-*/
 }

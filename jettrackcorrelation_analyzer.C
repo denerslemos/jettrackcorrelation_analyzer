@@ -71,10 +71,15 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	if(!do_jer_up && do_jer_down) filejersys->GetObject("JERdown", resolution_histo);
 	TF1* JetSmear = new TF1("JetSmear","sqrt([0]*[0] + [1]*[1]/x + [2]*[2]/(x*x))",30,800);
 	JetSmear->SetParameters(4.25985e-02, 9.51054e-01, 0.0); // fitted from JER
+	/*
 	TF1* JetScaleCorrection = new TF1("JetScaleCorrection","([0]*x)/(x+[1])",30,800);
 	if(jet_collection.EqualTo("ak4PFJetAnalyzer") && doUE_areabased) JetScaleCorrection->SetParameters(1.00179e+00, -2.49776e+00);
 	if(jet_collection.EqualTo("akCs4PFJetAnalyzer") && !doUE_areabased) JetScaleCorrection->SetParameters(1.00168e+00, -2.27352e+00);
-	
+	*/
+	TF1* JetScaleCorrection = new TF1("JetScaleCorrection","[3] + ([0]-[3]) / ( 1.0 + pow( x/[2],[1] ) )",30,800);
+	if(jet_collection.EqualTo("ak4PFJetAnalyzer") && doUE_areabased) JetScaleCorrection->SetParameters(3.19771e+00, 9.45364e-01, 9.71077e-01, 1.00049e+00);
+	if(jet_collection.EqualTo("akCs4PFJetAnalyzer") && !doUE_areabased) JetScaleCorrection->SetParameters(2.27008e+00, 9.18625e-01, 1.43067e+00, 1.00002e+00);
+
 	// Unfolding file and histograms (X -> Reco and Y -> Gen)
 	TFile *fileunf = TFile::Open(Form("aux_files/%s_%i/Unfolding/Unfoldingfile.root",colliding_system.Data(),sNN_energy_GeV));
    	TH2D *histo_unf_leading = (TH2D *)fileunf->Get("LeadingJet_match_response");
@@ -1336,7 +1341,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 							double xjptaveunfref = TransformToUnfoldingAxis_xjptave(Xj_ref, ptaveragelslref);						
 							double x_unf_meas_xjptaveref[2]={xjptaveunfref,(double)multcentbin}; 
-							fhUnfoldingTruth_xjptave->Fill(x_unf_meas_xjptaveref,event_weight);
+							fhUnfoldingTruthRef_xjptave->Fill(x_unf_meas_xjptaveref,event_weight);
 							double pt1pt2unfref = TransformToUnfoldingAxis_pt1pt2(leadrefjet_pt, sublrefjet_pt);						
 							double x_unf_meas_pt1pt2ref[2]={pt1pt2unfref,(double)multcentbin}; 
 							fhUnfoldingTruth_pt1pt2->Fill(x_unf_meas_pt1pt2ref,event_weight);
@@ -1745,7 +1750,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							isgdijet = true;
 
 							if( leadmidrap && sublmidrap ){
-								
+	
 								if(leadgenjet_pt > 0.0 && sublgenjet_pt > 0.0) { double xDpt12[2] = { fabs(deltaeta(leadgenjet_pt,sublgenjet_pt)), (double)multcentbin}; jet1jet2_Dpt_gen->Fill(xDpt12,event_weight); }
 								if(leadgenjet_pt > 0.0 && thirdgenjet_pt > 0.0) { double xDpt13[2] = { fabs(deltaeta(leadgenjet_pt,thirdgenjet_pt)), (double)multcentbin}; jet1jet3_Dpt_gen->Fill(xDpt13,event_weight); }
 								if(leadgenjet_pt > 0.0 && fourthgenjet_pt > 0.0) { double xDpt14[2] = { fabs(deltaeta(leadgenjet_pt,fourthgenjet_pt)), (double)multcentbin}; jet1jet4_Dpt_gen->Fill(xDpt14,event_weight); }
@@ -1759,6 +1764,12 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 								double ratio32gen = thirdgenjet_pt / sublgenjet_pt;
 								double x_ptcheckgen[8]={leadgenjet_pt, sublgenjet_pt, thirdgenjet_pt, ptaveragelslgen, ratio31gen, ratio32gen, alphaptgen,(double) multcentbin};
 								if(thirdgenjet_pt > 0) hist_gen_3rdjet_pt->Fill(x_ptcheckgen,event_weight);	 
+	
+								double xjptaveunfgen = TransformToUnfoldingAxis_xjptave(Xj_gen, ptaveragelslgen);						
+								double x_unf_meas_xjptavegen[2]={xjptaveunfgen,(double)multcentbin}; 
+								fhUnfoldingTruthGen_xjptave->Fill(x_unf_meas_xjptavegen,event_weight);
+								
+
 							}
 							
 							// Fill leading and subleading jet QA histograms
