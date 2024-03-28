@@ -698,6 +698,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if(do_fourjet_removal == 4 && fourthrecojet_pt > 0.0){ if( fabs(fourthrecojet_pt-thirdrecojet_pt) > 25.0 ) removefourjet = true; } 
 		if(do_fourjet_removal == 5 && fourthrecojet_pt > 0.0){ if( fabs(fourthrecojet_pt-thirdrecojet_pt) > subleading_pT_min ) removefourjet = true; } 
 
+		double ljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadrecojet_pt, leadrecojet_eta);  // Jet weight (specially for MC)
+		double sljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublrecojet_pt, sublrecojet_eta);  // Jet weight (specially for MC)
+
 		//dijets
 		if(leadrecojet_pt > 0.0 && sublrecojet_pt > 0.0 && !removethirdjet && !removefourjet){
 
@@ -719,8 +722,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					sublrecojet_eta_lab = -sublrecojet_eta_lab;
 				}
 
-				double ljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadrecojet_pt, leadrecojet_eta);  // Jet weight (specially for MC)
- 				double sljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublrecojet_pt, sublrecojet_eta);  // Jet weight (specially for MC)
 				
 				Nevents->Fill(8);
 				
@@ -781,9 +782,13 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				bool sublfwdrap = (sublrecojet_eta > jet_fwd_eta_min_cut && sublrecojet_eta < jet_fwd_eta_max_cut);
 				bool leadbkwrap = (leadrecojet_eta > jet_bkw_eta_min_cut && leadrecojet_eta < jet_bkw_eta_max_cut);
 				bool sublbkwrap = (sublrecojet_eta > jet_bkw_eta_min_cut && sublrecojet_eta < jet_bkw_eta_max_cut);
+
+				float dijetetarecotype = dijetetabin(leadrecojet_eta, sublrecojet_eta, jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut);
+				double x_reco_x[9]={Xj_reco,Aj_reco,delta_phi_reco,(double)multcentbin,(double)ptdijetbin,(double)extrabin,(double)leadrecojet_pt,(double)sublrecojet_pt, (double) dijetetarecotype}; 
+
 				if(do_dijetstudies){
+					hist_reco_lead_reco_subl_quench->Fill(x_reco_x, event_weight*ljet_weight*sljet_weight);
 					if(leadmidrap && sublmidrap && !remove_3rdjetevent){
-//						if(delta_phi_reco > leading_subleading_deltaphi_min) {cout << endl; cout << "1PT: " << leadrecojet_pt << " GeV; 2PT: " << sublrecojet_pt <<  " GeV; 3PT: " << thirdrecojet_pt << " GeV; 4PT: " << fourthrecojet_pt << endl; cout << endl; }
 						hist_reco_lead_reco_subl_quench_mid_mid->Fill(x_reco,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_plus_mid_mid->Fill(x_reco_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_minus_mid_mid->Fill(x_reco_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
@@ -849,36 +854,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				}
 				
 				if(colliding_system=="pPb" && year_of_datataking==2016 && do_dijetstudies){
-
-					double etadijet = 0.5*(leadrecojet_eta_lab + sublrecojet_eta_lab);
-					double etadiff = 0.5*deltaeta(leadrecojet_eta_lab,sublrecojet_eta_lab);
-					double xp_reco = 2.0*(ptdijet*exp(etadijet)*cosh(etadiff))/sqrts;
-					double xPb_reco = 2.0*(ptdijet*exp(-etadijet)*cosh(etadiff))/sqrts;
-					double m12_reco = 2.0*ptdijet*cosh(etadiff); // for future, if needed 		
-					double x_dijet_reco[11] = {etadijet, etadiff, Xj_reco, Aj_reco, delta_phi_reco, xp_reco, xPb_reco, m12_reco, (double)multcentbin, (double)ptdijetbin, (double)extrabin};
-
-					double etadijet_CM = 0.5*(leadrecojet_eta + sublrecojet_eta);
-					double etadiff_CM = 0.5*deltaeta(leadrecojet_eta,sublrecojet_eta);
-					double xp_reco_CM = 2.0*(ptdijet*exp(etadijet_CM)*cosh(etadiff_CM))/sqrts;
-					double xPb_reco_CM = 2.0*(ptdijet*exp(-etadijet_CM)*cosh(etadiff_CM))/sqrts;
-					double m12_reco_CM = 2.0*ptdijet*cosh(etadiff_CM); // for future, if needed 		
-					double x_dijet_reco_CM[11] = {etadijet_CM, etadiff_CM, Xj_reco, Aj_reco, delta_phi_reco, xp_reco_CM, xPb_reco_CM, m12_reco_CM, (double)multcentbin, (double)ptdijetbin, (double)extrabin};
-
-					ROOT::Math::PtEtaPhiMVector Lead_reco_jet(leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,leadrecojet_mass);
-					ROOT::Math::PtEtaPhiMVector Subl_reco_jet(sublrecojet_pt,sublrecojet_eta,sublrecojet_phi,sublrecojet_mass);			
-					double etadijet_CM_y = 0.5*(Lead_reco_jet.Rapidity() + Subl_reco_jet.Rapidity());
-					double etadiff_CM_y = 0.5*deltaeta(Lead_reco_jet.Rapidity(),Subl_reco_jet.Rapidity());
-					double xp_reco_CM_y = 2.0*(ptdijet*exp(etadijet_CM_y)*cosh(etadiff_CM_y))/sqrts;
-					double xPb_reco_CM_y = 2.0*(ptdijet*exp(-etadijet_CM_y)*cosh(etadiff_CM_y))/sqrts;
-					double m12_reco_CM_y = 2.0*ptdijet*cosh(etadiff_CM_y); // for future, if needed 					
-					double x_dijet_reco_CM_y[11] = {etadijet_CM_y, etadiff_CM_y, Xj_reco, Aj_reco, delta_phi_reco, xp_reco_CM_y, xPb_reco_CM_y, m12_reco_CM_y, (double)multcentbin, (double)ptdijetbin, (double)extrabin};
-
-					if(fabs(leadrecojet_eta_lab) < dijetetamax && fabs(sublrecojet_eta_lab) < dijetetamax){
-						hist_etaDijet_reco->Fill(x_dijet_reco,event_weight*ljet_weight*sljet_weight); 
-						hist_etaDijet_CM_reco->Fill(x_dijet_reco_CM,event_weight*ljet_weight*sljet_weight);
-						hist_yDijet_CM_reco->Fill(x_dijet_reco_CM_y,event_weight*ljet_weight*sljet_weight);
-					}
-					
+					filletadijethistograms( (double) sqrts, leadrecojet_eta_lab, sublrecojet_eta_lab, leadrecojet_eta, sublrecojet_eta, leadrecojet_pt, leadrecojet_phi, leadrecojet_mass, sublrecojet_pt, sublrecojet_phi, sublrecojet_mass, (double)multcentbin, (double)extrabin, (double) event_weight*ljet_weight*sljet_weight, hist_etaDijet_reco, hist_etaDijet_CM_reco, hist_yDijet_CM_reco );
 				}
 				
 				// Fill 3rd jet histograms

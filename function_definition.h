@@ -693,3 +693,64 @@ double TransformToUnfoldingAxis_pt1pt2(const double pt1, const double pt2){
   // We should never reach this point. If we are here, just return error code -1
   return -1;
 }
+
+float dijetetabin(float leadjet_eta, float subljet_eta, float jet_eta_min_cut, float jet_eta_max_cut, float jet_fwd_eta_min_cut, float jet_fwd_eta_max_cut){
+
+	float dijetbineta = 9.5;
+	
+	bool leadmidrap = (leadjet_eta > jet_eta_min_cut && leadjet_eta < jet_eta_max_cut);
+	bool sublmidrap = (subljet_eta > jet_eta_min_cut && subljet_eta < jet_eta_max_cut);
+	bool leadfwdrap = (leadjet_eta > jet_fwd_eta_min_cut && leadjet_eta < jet_fwd_eta_max_cut);
+	bool sublfwdrap = (subljet_eta > jet_fwd_eta_min_cut && subljet_eta < jet_fwd_eta_max_cut);
+	bool leadbkwrap = (leadjet_eta > jet_bkw_eta_min_cut && leadjet_eta < jet_bkw_eta_max_cut);
+	bool sublbkwrap = (subljet_eta > jet_bkw_eta_min_cut && subljet_eta < jet_bkw_eta_max_cut);
+
+	if( leadmidrap && sublmidrap ) dijetbineta = 0.5;
+	if( leadmidrap && sublfwdrap ) dijetbineta = 1.5;
+	if( leadmidrap && sublbkwrap ) dijetbineta = 2.5;
+	if( leadfwdrap && sublmidrap ) dijetbineta = 3.5;
+	if( leadbkwrap && sublmidrap ) dijetbineta = 4.5;
+	if( leadfwdrap && sublfwdrap ) dijetbineta = 5.5;
+	if( leadfwdrap && sublbkwrap ) dijetbineta = 6.5;
+	if( leadbkwrap && sublfwdrap ) dijetbineta = 7.5;
+	if( leadbkwrap && sublbkwrap ) dijetbineta = 8.5;
+
+	return dijetbineta;
+}
+
+void filletadijethistograms(double sqrts, double leadetalab, double subletalab, double leadetacm, double subletacm, double leadpt, double leadphi, double leadmass, double sublpt, double sublphi, double sublmass, double multcentbin, double extrabin, double weight, THnSparse* h_eta_lab, THnSparse* h_eta_cm, THnSparse* h_y_cm){
+
+	double ptdijet = 0.5*(leadpt + sublpt);
+	double Xj = xjvar(leadpt,sublpt);
+	double Aj = asymmetry(leadpt,sublpt);
+	double delta_phi = fabs(deltaphi(leadphi, sublphi));
+	double etadijet = 0.5*(leadetalab + subletalab);
+	double etadiff = 0.5*deltaeta(leadetalab,subletalab);
+	double xp = 2.0*(ptdijet*exp(etadijet)*cosh(etadiff))/sqrts;
+	double xPb = 2.0*(ptdijet*exp(-etadijet)*cosh(etadiff))/sqrts;
+	double m12 = 2.0*ptdijet*cosh(etadiff); // for future, if needed 		
+	double x_dijet[11] = {etadijet, etadiff, Xj, Aj, delta_phi, xp, xPb, m12, (double)multcentbin, (double)ptdijet, (double)extrabin};
+
+	double etadijet_CM = 0.5*(leadetacm + subletacm);
+	double etadiff_CM = 0.5*deltaeta(leadetacm,subletacm);
+	double xp_CM = 2.0*(ptdijet*exp(etadijet_CM)*cosh(etadiff_CM))/sqrts;
+	double xPb_CM = 2.0*(ptdijet*exp(-etadijet_CM)*cosh(etadiff_CM))/sqrts;
+	double m12_CM = 2.0*ptdijet*cosh(etadiff_CM); // for future, if needed 		
+	double x_dijet_CM[11] = {etadijet_CM, etadiff_CM, Xj, Aj, delta_phi, xp_CM, xPb_CM, m12_CM, (double)multcentbin, (double)ptdijet, (double)extrabin};
+
+	ROOT::Math::PtEtaPhiMVector Lead_jet(leadpt,leadetacm,leadphi,leadmass);
+	ROOT::Math::PtEtaPhiMVector Subl_jet(sublpt,subletacm,sublphi,sublmass);			
+	double etadijet_CM_y = 0.5*(Lead_jet.Rapidity() + Subl_jet.Rapidity());
+	double etadiff_CM_y = 0.5*deltaeta(Lead_jet.Rapidity(),Subl_jet.Rapidity());
+	double xp_CM_y = 2.0*(ptdijet*exp(etadijet_CM_y)*cosh(etadiff_CM_y))/sqrts;
+	double xPb_CM_y = 2.0*(ptdijet*exp(-etadijet_CM_y)*cosh(etadiff_CM_y))/sqrts;
+	double m12_CM_y = 2.0*ptdijet*cosh(etadijet_CM_y); // for future, if needed 		
+	double x_dijet_CM_y[11] = {etadijet_CM_y, etadiff_CM_y, Xj, Aj, delta_phi, xp_CM_y, xPb_CM_y, m12_CM_y, (double)multcentbin, (double)ptdijet, (double)extrabin};
+
+	h_eta_lab->Fill(x_dijet,weight); 
+	h_eta_cm->Fill(x_dijet_CM,weight);
+	h_y_cm->Fill(x_dijet_CM_y,weight);
+
+}
+
+
