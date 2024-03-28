@@ -170,6 +170,7 @@ fileeff: efficiency file
 coll_system: colliding system
 */
 void print_input(TString data_or_mc, TFile *fileeff, TString coll_system, float pthatmin, float pthatmax){
+	cout << "------------------------------------------------------------------" << endl;
 	cout << "From input:" << endl;
 	cout << endl;
 	cout << "Running over " << data_or_mc.Data() << endl;

@@ -77,8 +77,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	if(jet_collection.EqualTo("akCs4PFJetAnalyzer") && !doUE_areabased) JetScaleCorrection->SetParameters(1.00168e+00, -2.27352e+00);
 	*/
 	TF1* JetScaleCorrection = new TF1("JetScaleCorrection","[3] + ([0]-[3]) / ( 1.0 + pow( x/[2],[1] ) )",30,800);
-	if(jet_collection.EqualTo("ak4PFJetAnalyzer") && doUE_areabased) JetScaleCorrection->SetParameters(3.19771e+00, 9.45364e-01, 9.71077e-01, 1.00049e+00);
-	if(jet_collection.EqualTo("akCs4PFJetAnalyzer") && !doUE_areabased) JetScaleCorrection->SetParameters(2.27008e+00, 9.18625e-01, 1.43067e+00, 1.00002e+00);
+	if(jet_collection == "ak4PFJetAnalyzer" && doUE_areabased) JetScaleCorrection->SetParameters(3.19771e+00, 9.45364e-01, 9.71077e-01, 1.00049e+00);
+	if(jet_collection == "akCs4PFJetAnalyzer" && !doUE_areabased) JetScaleCorrection->SetParameters(2.27008e+00, 9.18625e-01, 1.43067e+00, 1.00002e+00);
 
 	// Unfolding file and histograms (X -> Reco and Y -> Gen)
 	TFile *fileunf = TFile::Open(Form("aux_files/%s_%i/Unfolding/Unfoldingfile.root",colliding_system.Data(),sNN_energy_GeV));
@@ -646,11 +646,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				AllJetsRef.SetPtEtaPhi(ref_pt, ref_eta, ref_phi);
 				alljets_ref.push_back(AllJetsRef);
 				
-				if(jet_eta > jet_eta_min_cut && jet_eta < jet_eta_max_cut){
-					double ptmatch[4]={jet_pt_corr, ref_pt,(double)multcentbin,(double) extrabin}; 
-					hist_jetunf_weighted->Fill(ptmatch,event_weight);
-				}
-				
 			} // End if over ref (MC)
 
 		} // End loop over jets
@@ -903,13 +898,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double x_ptcheck[8]={leadrecojet_pt, sublrecojet_pt, thirdrecojet_pt, ptaveragelsl, ratio31, ratio32, alphapt,(double) multcentbin};
 							if(thirdrecojet_pt > 0) hist_reco_3rdjet_pt->Fill(x_ptcheck,event_weight); 	
 							
-							if(leadrecojet_pt > 0.0 && sublrecojet_pt > 0.0) { double xDpt12[2] = { fabs(deltaeta(leadrecojet_pt,sublrecojet_pt)), (double)multcentbin}; jet1jet2_Dpt_reco->Fill(xDpt12,event_weight); }
-							if(leadrecojet_pt > 0.0 && thirdrecojet_pt > 0.0) { double xDpt13[2] = { fabs(deltaeta(leadrecojet_pt,thirdrecojet_pt)), (double)multcentbin}; jet1jet3_Dpt_reco->Fill(xDpt13,event_weight); }
-							if(leadrecojet_pt > 0.0 && fourthrecojet_pt > 0.0) { double xDpt14[2] = { fabs(deltaeta(leadrecojet_pt,fourthrecojet_pt)), (double)multcentbin}; jet1jet4_Dpt_reco->Fill(xDpt14,event_weight); }
-							if(sublrecojet_pt > 0.0 && thirdrecojet_pt > 0.0) { double xDpt23[2] = { fabs(deltaeta(sublrecojet_pt,thirdrecojet_pt)), (double)multcentbin}; jet2jet3_Dpt_reco->Fill(xDpt23,event_weight); }
-							if(sublrecojet_pt > 0.0 && fourthrecojet_pt > 0.0) { double xDpt24[2] = { fabs(deltaeta(sublrecojet_pt,fourthrecojet_pt)), (double)multcentbin}; jet2jet4_Dpt_reco->Fill(xDpt24,event_weight); }
-							if(thirdrecojet_pt > 0.0 && fourthrecojet_pt > 0.0) { double xDpt34[2] = { fabs(deltaeta(thirdrecojet_pt,fourthrecojet_pt)), (double)multcentbin}; jet3jet4_Dpt_reco->Fill(xDpt34,event_weight); }
-
 							double xjptaveunf = TransformToUnfoldingAxis_xjptave(Xj_reco, ptaveragelsl);						
 							double x_unf_meas_xjptave[2]={xjptaveunf,(double)multcentbin}; 
 							fhUnfoldingMeasu_xjptave->Fill(x_unf_meas_xjptave,event_weight);
@@ -1308,13 +1296,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double x_ptcheckref[8]={leadrefjet_pt, sublrefjet_pt, thirdrefjet_pt, ptaveragelslref, ratio31ref, ratio32ref, alphaptref,(double) multcentbin};
 							if(thirdrefjet_pt > 0) hist_ref_3rdjet_pt->Fill(x_ptcheckref,event_weight);	 
 							
-							if(leadrefjet_pt > 0.0 && sublrefjet_pt > 0.0) { double xDpt12[2] = { fabs(deltaeta(leadrefjet_pt,sublrefjet_pt)), (double)multcentbin}; jet1jet2_Dpt_ref->Fill(xDpt12,event_weight); }
-							if(leadrefjet_pt > 0.0 && thirdrefjet_pt > 0.0) { double xDpt13[2] = { fabs(deltaeta(leadrefjet_pt,thirdrefjet_pt)), (double)multcentbin}; jet1jet3_Dpt_ref->Fill(xDpt13,event_weight); }
-							if(leadrefjet_pt > 0.0 && fourthrefjet_pt > 0.0) { double xDpt14[2] = { fabs(deltaeta(leadrefjet_pt,fourthrefjet_pt)), (double)multcentbin}; jet1jet4_Dpt_ref->Fill(xDpt14,event_weight); }
-							if(sublrefjet_pt > 0.0 && thirdrefjet_pt > 0.0) { double xDpt23[2] = { fabs(deltaeta(sublrefjet_pt,thirdrefjet_pt)), (double)multcentbin}; jet2jet3_Dpt_ref->Fill(xDpt23,event_weight); }
-							if(sublrefjet_pt > 0.0 && fourthrefjet_pt > 0.0) { double xDpt24[2] = { fabs(deltaeta(sublrefjet_pt,fourthrefjet_pt)), (double)multcentbin}; jet2jet4_Dpt_ref->Fill(xDpt24,event_weight); }
-							if(thirdrefjet_pt > 0.0 && fourthrefjet_pt > 0.0) { double xDpt34[2] = { fabs(deltaeta(thirdrefjet_pt,fourthrefjet_pt)), (double)multcentbin}; jet3jet4_Dpt_ref->Fill(xDpt34,event_weight); }
-
 							double xjptaveunfref = TransformToUnfoldingAxis_xjptave(Xj_ref, ptaveragelslref);						
 							double x_unf_meas_xjptaveref[2]={xjptaveunfref,(double)multcentbin}; 
 							fhUnfoldingTruthRef_xjptave->Fill(x_unf_meas_xjptaveref,event_weight);
@@ -1727,13 +1708,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 							if( leadmidrap && sublmidrap ){
 	
-								if(leadgenjet_pt > 0.0 && sublgenjet_pt > 0.0) { double xDpt12[2] = { fabs(deltaeta(leadgenjet_pt,sublgenjet_pt)), (double)multcentbin}; jet1jet2_Dpt_gen->Fill(xDpt12,event_weight); }
-								if(leadgenjet_pt > 0.0 && thirdgenjet_pt > 0.0) { double xDpt13[2] = { fabs(deltaeta(leadgenjet_pt,thirdgenjet_pt)), (double)multcentbin}; jet1jet3_Dpt_gen->Fill(xDpt13,event_weight); }
-								if(leadgenjet_pt > 0.0 && fourthgenjet_pt > 0.0) { double xDpt14[2] = { fabs(deltaeta(leadgenjet_pt,fourthgenjet_pt)), (double)multcentbin}; jet1jet4_Dpt_gen->Fill(xDpt14,event_weight); }
-								if(sublgenjet_pt > 0.0 && thirdgenjet_pt > 0.0) { double xDpt23[2] = { fabs(deltaeta(sublgenjet_pt,thirdgenjet_pt)), (double)multcentbin}; jet2jet3_Dpt_gen->Fill(xDpt23,event_weight); }
-								if(sublgenjet_pt > 0.0 && fourthgenjet_pt > 0.0) { double xDpt24[2] = { fabs(deltaeta(sublgenjet_pt,fourthgenjet_pt)), (double)multcentbin}; jet2jet4_Dpt_gen->Fill(xDpt24,event_weight); }
-								if(thirdgenjet_pt > 0.0 && fourthgenjet_pt > 0.0) { double xDpt34[2] = { fabs(deltaeta(thirdgenjet_pt,fourthgenjet_pt)), (double)multcentbin}; jet3jet4_Dpt_gen->Fill(xDpt34,event_weight); }
-													
 								double ptaveragelslgen = 0.5*(leadgenjet_pt+sublgenjet_pt);
 								double alphaptgen = thirdgenjet_pt / ptaveragelslgen;
 								double ratio31gen = thirdgenjet_pt / leadgenjet_pt;

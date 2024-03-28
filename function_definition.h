@@ -728,15 +728,13 @@ void filletadijethistograms(double sqrts, double leadetalab, double subletalab, 
 	double etadiff = 0.5*deltaeta(leadetalab,subletalab);
 	double xp = 2.0*(ptdijet*exp(etadijet)*cosh(etadiff))/sqrts;
 	double xPb = 2.0*(ptdijet*exp(-etadijet)*cosh(etadiff))/sqrts;
-	double m12 = 2.0*ptdijet*cosh(etadiff); // for future, if needed 		
-	double x_dijet[11] = {etadijet, etadiff, Xj, Aj, delta_phi, xp, xPb, m12, (double)multcentbin, (double)ptdijet, (double)extrabin};
+	double x_dijet[10] = {etadijet, etadiff, Xj, Aj, delta_phi, xp, xPb, (double)multcentbin, (double)ptdijet, (double)extrabin};
 
 	double etadijet_CM = 0.5*(leadetacm + subletacm);
 	double etadiff_CM = 0.5*deltaeta(leadetacm,subletacm);
 	double xp_CM = 2.0*(ptdijet*exp(etadijet_CM)*cosh(etadiff_CM))/sqrts;
 	double xPb_CM = 2.0*(ptdijet*exp(-etadijet_CM)*cosh(etadiff_CM))/sqrts;
-	double m12_CM = 2.0*ptdijet*cosh(etadiff_CM); // for future, if needed 		
-	double x_dijet_CM[11] = {etadijet_CM, etadiff_CM, Xj, Aj, delta_phi, xp_CM, xPb_CM, m12_CM, (double)multcentbin, (double)ptdijet, (double)extrabin};
+	double x_dijet_CM[10] = {etadijet_CM, etadiff_CM, Xj, Aj, delta_phi, xp_CM, xPb_CM, (double)multcentbin, (double)ptdijet, (double)extrabin};
 
 	ROOT::Math::PtEtaPhiMVector Lead_jet(leadpt,leadetacm,leadphi,leadmass);
 	ROOT::Math::PtEtaPhiMVector Subl_jet(sublpt,subletacm,sublphi,sublmass);			
@@ -744,8 +742,7 @@ void filletadijethistograms(double sqrts, double leadetalab, double subletalab, 
 	double etadiff_CM_y = 0.5*deltaeta(Lead_jet.Rapidity(),Subl_jet.Rapidity());
 	double xp_CM_y = 2.0*(ptdijet*exp(etadijet_CM_y)*cosh(etadiff_CM_y))/sqrts;
 	double xPb_CM_y = 2.0*(ptdijet*exp(-etadijet_CM_y)*cosh(etadiff_CM_y))/sqrts;
-	double m12_CM_y = 2.0*ptdijet*cosh(etadijet_CM_y); // for future, if needed 		
-	double x_dijet_CM_y[11] = {etadijet_CM_y, etadiff_CM_y, Xj, Aj, delta_phi, xp_CM_y, xPb_CM_y, m12_CM_y, (double)multcentbin, (double)ptdijet, (double)extrabin};
+	double x_dijet_CM_y[10] = {etadijet_CM_y, etadiff_CM_y, Xj, Aj, delta_phi, xp_CM_y, xPb_CM_y, (double)multcentbin, (double)ptdijet, (double)extrabin};
 
 	h_eta_lab->Fill(x_dijet,weight); 
 	h_eta_cm->Fill(x_dijet_CM,weight);
