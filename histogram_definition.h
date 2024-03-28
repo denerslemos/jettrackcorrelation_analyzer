@@ -1,6 +1,10 @@
 #include "call_libraries.h"  // call libraries from ROOT and C++
 #include "input_variables.h" // call inputs
 
+// ------------------------------------------------ //
+// ----------------- Bin Definition --------------- //
+// ------------------------------------------------ //
+
 const int trkbinsize = (int) trk_pt_bins.size(); // track bins for jet-track correlation
 const int multbinsize = (int) multiplicity_centrality_bins.size();// multiplicity or centrality bins for jet-track correlation
 const int extrabinsize = (int) extra_bins.size();// any additional dependency you wanna add (be carefull about memory)
@@ -92,8 +96,9 @@ double xmax_unfpt1pt2MT[2]   =   { maxUnfoldingBin_pt1pt2  , multiplicity_centra
 THnSparseD *fhUnfoldingMeasu_pt1pt2 = new THnSparseD("fhUnfoldingMeasu_pt1pt2", "fhUnfoldingMeasu_pt1pt2", 2, bins_unfpt1pt2MT, xmin_unfpt1pt2MT, xmax_unfpt1pt2MT);
 THnSparseD *fhUnfoldingTruth_pt1pt2 = new THnSparseD("fhUnfoldingTruth_pt1pt2", "fhUnfoldingTruth_pt1pt2", 2, bins_unfpt1pt2MT, xmin_unfpt1pt2MT, xmax_unfpt1pt2MT);
 
-
+// -------------------------------------------------------------------------- //
 // ============================ Event quantities ============================
+// -------------------------------------------------------------------------- //
 
 // Number of events
 TH1I *Nevents = new TH1I("Nevents", "Nevents", 10, 0, 10);
@@ -125,25 +130,11 @@ TH1D *multiplicity = new TH1D("multiplicity", "multiplicity", 80, 0.0, 400.0);
 TH1D *multiplicity_weighted = new TH1D("multiplicity_weighted", "multiplicity_weighted", 80, 0.0, 400.0);
 TH1D *multiplicity_withonejet_weighted = new TH1D("multiplicity_withonejet_weighted", "multiplicity_withonejet_weighted", 80, 0.0, 400.0);
 TH1D *multiplicity_withdijets_weighted = new TH1D("multiplicity_withdijets_weighted", "multiplicity_withdijets_weighted", 80, 0.0, 400.0);
-TH1D *multiplicity_midmid_weighted = new TH1D("multiplicity_midmid_weighted", "multiplicity_midmid_weighted", 80, 0.0, 400.0);
-TH1D *multiplicity_midfwd_weighted = new TH1D("multiplicity_midfwd_weighted", "multiplicity_midfwd_weighted", 80, 0.0, 400.0);
-TH1D *multiplicity_midbkw_weighted = new TH1D("multiplicity_midbkw_weighted", "multiplicity_midbkw_weighted", 80, 0.0, 400.0);
-TH1D *multiplicity_fwdmid_weighted = new TH1D("multiplicity_fwdmid_weighted", "multiplicity_fwdmid_weighted", 80, 0.0, 400.0);
-TH1D *multiplicity_fwdfwd_weighted = new TH1D("multiplicity_fwdfwd_weighted", "multiplicity_fwdfwd_weighted", 80, 0.0, 400.0);
-TH1D *multiplicity_fwdbkw_weighted = new TH1D("multiplicity_fwdbkw_weighted", "multiplicity_fwdbkw_weighted", 80, 0.0, 400.0);
-TH1D *multiplicity_bkwmid_weighted = new TH1D("multiplicity_bkwmid_weighted", "multiplicity_bkwmid_weighted", 80, 0.0, 400.0);
-TH1D *multiplicity_bkwfwd_weighted = new TH1D("multiplicity_bkwfwd_weighted", "multiplicity_bkwfwd_weighted", 80, 0.0, 400.0);
-TH1D *multiplicity_bkwbkw_weighted = new TH1D("multiplicity_bkwbkw_weighted", "multiplicity_bkwbkw_weighted", 80, 0.0, 400.0);
-
 TH1D *multiplicity_nocut = new TH1D("multiplicity_nocut", "multiplicity_nocut", 500, 0.0, 500.0);
 TH1D *multiplicity_corrected = new TH1D("multiplicity_corrected", "multiplicity_corrected", 500, 0.0, 500.0);
-TH2D *multiplicity2D = new TH2D("multiplicity2D", "multiplicity2D", 500, 0.0, 500.0, 500, 0.0, 500.0);
-
-
 TH1D *multiplicity_weighted_at1 = new TH1D("multiplicity_weighted_at1", "multiplicity_weighted_at1", 80, 0.0, 400.0);
 TH1D *multiplicity_withonejet_weighted_at1 = new TH1D("multiplicity_withonejet_weighted_at1", "multiplicity_withonejet_weighted_at1", 80, 0.0, 400.0);
 TH1D *multiplicity_withdijets_weighted_at1 = new TH1D("multiplicity_withdijets_weighted_at1", "multiplicity_withdijets_weighted_at1", 80, 0.0, 400.0);
-
 TH1D *reco_mult = new TH1D("reco_mult", "reco_mult", 80, 0.0, 400.0);
 TH1D *reco_mult_weighted = new TH1D("reco_mult_weighted", "reco_mult_weighted", 80, 0.0, 400.0);
 TH1D *reco_mult_withonejet_weighted = new TH1D("reco_mult_withonejet_weighted", "reco_mult_withonejet_weighted", 80, 0.0, 400.0);
@@ -152,6 +143,9 @@ TH1D *gen_mult = new TH1D("gen_mult", "gen_mult", 80, 0.0, 400.0);
 TH1D *gen_mult_weighted = new TH1D("gen_mult_weighted", "gen_mult_weighted", 80, 0.0, 400.0);
 TH1D *gen_mult_withonejet_weighted = new TH1D("gen_mult_withonejet_weighted", "gen_mult_withonejet_weighted", 80, 0.0, 400.0);
 TH1D *gen_mult_withdijets_weighted = new TH1D("gen_mult_withdijets_weighted", "gen_mult_withdijets_weighted", 80, 0.0, 400.0);
+TH2D *multiplicity_etadep_weighted = new TH2D("multiplicity_etadep_weighted", "multiplicity_etadep_weighted", 80, 0.0, 400.0, 11, 0.0, 11.0);
+TH2D *multiplicity2D = new TH2D("multiplicity2D", "multiplicity2D", 500, 0.0, 500.0, 500, 0.0, 500.0);
+
 
 // Jet Delta's
 // Axis : 0 -> delta phi, 1 -> delta eta, 2 -> multiplicity
@@ -472,93 +466,14 @@ double xmax_xjclos[8]   =   { 1.0 ,  1.0 , 4.0 , 4.0 , 4.0 , 4.0 , multiplicity_
 THnSparseD *hist_xjclos_weighted = new THnSparseD("hist_xjclos_weighted", "hist_xjclos_weighted", 8, bins_xjclos, xmin_xjclos, xmax_xjclos);
 THnSparseD *hist_xjclos_removesome_weighted = new THnSparseD("hist_xjclos_removesome_weighted", "hist_xjclos_removesome_weighted", 8, bins_xjclos, xmin_xjclos, xmax_xjclos);
 
-// for jet unfolding
-int    bins_jetunf[4]   =   { nPtLSLBins2    , nPtLSLBins2   , multbinsize-1                               , extrabinsize-1};
-double xmin_jetunf[4]   =   { PtLSLBins2[0]  , PtLSLBins2[0] , multiplicity_centrality_bins[0]             , extra_bins[0]};
-double xmax_jetunf[4]   =   { 8160.0		 , 8160.0 		 , multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
-THnSparseD *hist_jetunf_weighted = new THnSparseD("hist_jetunf_weighted", "hist_jetunf_weighted", 4, bins_jetunf, xmin_jetunf, xmax_jetunf);
-THnSparseD *hist_leadjetunf_weighted = new THnSparseD("hist_leadjetunf_weighted", "hist_leadjetunf_weighted", 4, bins_jetunf, xmin_jetunf, xmax_jetunf);
-THnSparseD *hist_subljetunf_weighted = new THnSparseD("hist_subljetunf_weighted", "hist_subljetunf_weighted", 4, bins_jetunf, xmin_jetunf, xmax_jetunf);
-THnSparseD *hist_leadjetunf_match_weighted = new THnSparseD("hist_leadjetunf_match_weighted", "hist_leadjetunf_match_weighted", 4, bins_jetunf, xmin_jetunf, xmax_jetunf);
-THnSparseD *hist_subljetunf_match_weighted = new THnSparseD("hist_subljetunf_match_weighted", "hist_subljetunf_match_weighted", 4, bins_jetunf, xmin_jetunf, xmax_jetunf);
-THnSparseD *hist_leadjetunf_swap_weighted = new THnSparseD("hist_leadjetunf_swap_weighted", "hist_leadjetunf_swap_weighted", 4, bins_jetunf, xmin_jetunf, xmax_jetunf);
-THnSparseD *hist_subljetunf_swap_weighted = new THnSparseD("hist_subljetunf_swap_weighted", "hist_subljetunf_swap_weighted", 4, bins_jetunf, xmin_jetunf, xmax_jetunf);
-
-int    bins_jetunf4D[6]   =   { nPtLSLBins2  	,  nPtLSLBins2   , nPtLSLBins2  	,  nPtLSLBins2   , multbinsize-1                               , extrabinsize-1};
-double xmin_jetunf4D[6]   =   { PtLSLBins2[0] ,  PtLSLBins2[0] , PtLSLBins2[0] 	,  PtLSLBins2[0] , multiplicity_centrality_bins[0]             , extra_bins[0]};
-double xmax_jetunf4D[6]   =   { 8160.0 		,  8160.0 		 , 8160.0 			,  8160.0 		 , multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
-THnSparseD *hist_jetunf_weighted_4D = new THnSparseD("hist_jetunf_weighted_4D", "hist_jetunf_weighted_4D", 6, bins_jetunf4D, xmin_jetunf4D, xmax_jetunf4D);
-THnSparseD *hist_jetunf_match_weighted_4D = new THnSparseD("hist_jetunf_match_weighted_4D", "hist_jetunf_match_weighted_4D", 6, bins_jetunf4D, xmin_jetunf4D, xmax_jetunf4D);
-THnSparseD *hist_jetunf_swap_weighted_4D = new THnSparseD("hist_jetunf_swap_weighted_4D", "hist_jetunf_swap_weighted_4D", 6, bins_jetunf4D, xmin_jetunf4D, xmax_jetunf4D);
-THnSparseD *hist_jetunf_match_weighted_sym_4D = new THnSparseD("hist_jetunf_match_weighted_sym_4D", "hist_jetunf_match_weighted_sym_4D", 6, bins_jetunf4D, xmin_jetunf4D, xmax_jetunf4D);
-THnSparseD *hist_jetunf_match_weighted_symhalf_4D = new THnSparseD("hist_jetunf_match_weighted_symhalf_4D", "hist_jetunf_match_weighted_symhalf_4D", 6, bins_jetunf4D, xmin_jetunf4D, xmax_jetunf4D);
-
-int    bins_xjunf[4]   =   { nXjAjBins  ,  nXjAjBins  , multbinsize-1                               , extrabinsize-1};
-double xmin_xjunf[4]   =   { 0    		,  0    	  , multiplicity_centrality_bins[0]             , extra_bins[0]};
-double xmax_xjunf[4]   =   { 1.0 		,  1.0 		  , multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
-THnSparseD *hist_xjunf_weighted = new THnSparseD("hist_xjunf_weighted", "hist_xjunf_weighted", 4, bins_xjunf, xmin_xjunf, xmax_xjunf);
-THnSparseD *hist_xjunf_match_weighted = new THnSparseD("hist_xjunf_match_weighted", "hist_xjunf_match_weighted", 4, bins_xjunf, xmin_xjunf, xmax_xjunf);
-THnSparseD *hist_xjunf_swap_weighted = new THnSparseD("hist_xjunf_swap_weighted", "hist_xjunf_swap_weighted", 4, bins_xjunf, xmin_xjunf, xmax_xjunf);
-
-int    bins_xjunfptave[6]   =   { nXjAjBins  ,  nXjAjBins , nPtLSLBins2  , nPtLSLBins2  , multbinsize-1                               , extrabinsize-1};
-double xmin_xjunfptave[6]   =   { 0    		,  0    	  , PtLSLBins2[0], PtLSLBins2[0], multiplicity_centrality_bins[0]             , extra_bins[0]};
-double xmax_xjunfptave[6]   =   { 1.0 		,  1.0 		  , 8160.0       , 8160.0       ,  multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
-THnSparseD *hist_xjunfptave_weighted = new THnSparseD("hist_xjunfptave_weighted", "hist_xjunfptave_weighted", 6, bins_xjunfptave, xmin_xjunfptave, xmax_xjunfptave);
-
-
-// cross-check it
-int    bins_jetunf_smear[3]       =   { nPtLSLBins2     , multbinsize-1                               , extrabinsize-1};
-double xmin_jetunf_smear[3]   	  =   { PtLSLBins2[0]   , multiplicity_centrality_bins[0]             , extra_bins[0]};
-double xmax_jetunf_smear[3]   	  =   { 8160.0 			, multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
-THnSparseD *hist_leadjetunf_gensmear = new THnSparseD("hist_leadjetunf_gensmear", "hist_leadjetunf_gensmear", 3, bins_jetunf_smear, xmin_jetunf_smear, xmax_jetunf_smear);
-THnSparseD *hist_leadjetunf_recosmear = new THnSparseD("hist_leadjetunf_recosmear", "hist_leadjetunf_recosmear", 3, bins_jetunf_smear, xmin_jetunf_smear, xmax_jetunf_smear);
-THnSparseD *hist_leadjetunf_gensmear_4D = new THnSparseD("hist_leadjetunf_gensmear_4D", "hist_leadjetunf_gensmear_4D", 3, bins_jetunf_smear, xmin_jetunf_smear, xmax_jetunf_smear);
-THnSparseD *hist_leadjetunf_recosmear_4D = new THnSparseD("hist_leadjetunf_recosmear_4D", "hist_leadjetunf_recosmear_4D", 3, bins_jetunf_smear, xmin_jetunf_smear, xmax_jetunf_smear);
-THnSparseD *hist_subljetunf_gensmear = new THnSparseD("hist_subljetunf_gensmear", "hist_subljetunf_gensmear", 3, bins_jetunf_smear, xmin_jetunf_smear, xmax_jetunf_smear);
-THnSparseD *hist_subljetunf_recosmear = new THnSparseD("hist_subljetunf_recosmear", "hist_subljetunf_recosmear", 3, bins_jetunf_smear, xmin_jetunf_smear, xmax_jetunf_smear);
-THnSparseD *hist_subljetunf_gensmear_4D = new THnSparseD("hist_subljetunf_gensmear_4D", "hist_subljetunf_gensmear_4D", 3, bins_jetunf_smear, xmin_jetunf_smear, xmax_jetunf_smear);
-THnSparseD *hist_subljetunf_recosmear_4D = new THnSparseD("hist_subljetunf_recosmear_4D", "hist_subljetunf_recosmear_4D", 3, bins_jetunf_smear, xmin_jetunf_smear, xmax_jetunf_smear);
-
-THnSparseD *hist_leadjetunf_gensmear_fromInclJet = new THnSparseD("hist_leadjetunf_gensmear_fromInclJet", "hist_leadjetunf_gensmear_fromInclJet", 3, bins_jetunf_smear, xmin_jetunf_smear, xmax_jetunf_smear);
-THnSparseD *hist_leadjetunf_recosmear_fromInclJet = new THnSparseD("hist_leadjetunf_recosmear_fromInclJet", "hist_leadjetunf_recosmear_fromInclJet", 3, bins_jetunf_smear, xmin_jetunf_smear, xmax_jetunf_smear);
-THnSparseD *hist_subljetunf_gensmear_fromInclJet = new THnSparseD("hist_subljetunf_gensmear_fromInclJet", "hist_subljetunf_gensmear_fromInclJet", 3, bins_jetunf_smear, xmin_jetunf_smear, xmax_jetunf_smear);
-THnSparseD *hist_subljetunf_recosmear_fromInclJet = new THnSparseD("hist_subljetunf_recosmear_fromInclJet", "hist_subljetunf_recosmear_fromInclJet", 3, bins_jetunf_smear, xmin_jetunf_smear, xmax_jetunf_smear);
-
-int    bins_xjunf_smear[3]   =   { nXjAjBins  , multbinsize-1                               , extrabinsize-1};
-double xmin_xjunf_smear[3]   =   { 0    	  , multiplicity_centrality_bins[0]             , extra_bins[0]};
-double xmax_xjunf_smear[3]   =   { 1.0 		  , multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
-THnSparseD *hist_xjunf_gensmear = new THnSparseD("hist_xjunf_gensmear", "hist_xjunf_gensmear", 3, bins_xjunf_smear, xmin_xjunf_smear, xmax_xjunf_smear);
-THnSparseD *hist_xjunf_recosmear = new THnSparseD("hist_xjunf_recosmear", "hist_xjunf_recosmear", 3, bins_xjunf_smear, xmin_xjunf_smear, xmax_xjunf_smear);
-THnSparseD *hist_xjunf_gensmear_fromLSL = new THnSparseD("hist_xjunf_gensmear_fromLSL", "hist_xjunf_gensmear_fromLSL", 3, bins_xjunf_smear, xmin_xjunf_smear, xmax_xjunf_smear);
-THnSparseD *hist_xjunf_recosmear_fromLSL = new THnSparseD("hist_xjunf_recosmear_fromLSL", "hist_xjunf_recosmear_fromLSL", 3, bins_xjunf_smear, xmin_xjunf_smear, xmax_xjunf_smear);
-THnSparseD *hist_xjunf_gensmear_fromLSL_4D= new THnSparseD("hist_xjunf_gensmear_fromLSL_4D", "hist_xjunf_gensmear_fromLSL_4D", 3, bins_xjunf_smear, xmin_xjunf_smear, xmax_xjunf_smear);
-THnSparseD *hist_xjunf_recosmear_fromLSL_4D = new THnSparseD("hist_xjunf_recosmear_fromLSL_4D", "hist_xjunf_recosmear_fromLSL_4D", 3, bins_xjunf_smear, xmin_xjunf_smear, xmax_xjunf_smear);
-THnSparseD *hist_xjunf_gensmear_fromLSL_InclJet = new THnSparseD("hist_xjunf_gensmear_fromLSL_InclJet", "hist_xjunf_gensmear_fromLSL_InclJet", 3, bins_xjunf_smear, xmin_xjunf_smear, xmax_xjunf_smear);
-THnSparseD *hist_xjunf_recosmear_fromLSL_InclJet = new THnSparseD("hist_xjunf_recosmear_fromLSL_InclJet", "hist_xjunf_recosmear_fromLSL_InclJet", 3, bins_xjunf_smear, xmin_xjunf_smear, xmax_xjunf_smear);
-
-// --------------------------------------------------------------------------------------------------------
-// 3rd jet studies
-// Axis : 0 -> XJ12, 1 -> DPhi12, 2 -> XJ13, 3 ->DPhi13, 4 -> XJ23, 5 ->DPhi23 , 6 -> multiplicity, 7 -> extra dependency
-int	bins_3rdjet[8]   	=     { nXjBins3rd   , nDphiBins3rd		, nXjBins3rd	, nDphiBins3rd	 , nXjBins3rd	, nDphiBins3rd   , multbinsize-1		  	 					 ,  extrabinsize-1};
-double xmin_3rdjet[8]   =  	  { XjBins3rd[0] , DphiBins3rd[0]	, XjBins3rd[0]	, DphiBins3rd[0] , XjBins3rd[0]	, DphiBins3rd[0] , multiplicity_centrality_bins[0]		   	     ,  extra_bins[0]};
-double xmax_3rdjet[8]   =     { 1.0  		 , TMath::Pi()  	, 1.0 			, TMath::Pi() 	 , 1.0 			, TMath::Pi() 	 , multiplicity_centrality_bins[multbinsize-1]   ,  extra_bins[extrabinsize-1]};
-THnSparseD *hist_reco_3rdjet = new THnSparseD("hist_reco_3rdjet", "hist_reco_3rdjet", 8, bins_3rdjet, xmin_3rdjet, xmax_3rdjet);
-THnSparseD *hist_ref_3rdjet = new THnSparseD("hist_ref_3rdjet", "hist_ref_3rdjet", 8, bins_3rdjet, xmin_3rdjet, xmax_3rdjet);
-THnSparseD *hist_gen_3rdjet = new THnSparseD("hist_gen_3rdjet", "hist_gen_3rdjet", 8, bins_3rdjet, xmin_3rdjet, xmax_3rdjet);
-
-int	bins_3rdjetpt[8]   	=     { nPtLSLBins2   , nPtLSLBins2		, nPtLSLBins2	, nPtLSLBins2	, 20	, 20  , 20  , multbinsize-1};
-double xmin_3rdjetpt[8]   =   { PtLSLBins2[0] , PtLSLBins2[0]	, PtLSLBins2[0]	, PtLSLBins2[0] , 0.0	, 0.0 , 0.0 , multiplicity_centrality_bins[0]};
-double xmax_3rdjetpt[8]   =   { 8160.0 		  , 8160.0  	    , 8160.0		, 8160.0 	 	, 1.0 	, 1.0 , 1.0 , multiplicity_centrality_bins[multbinsize-1]};
-THnSparseD *hist_reco_3rdjet_pt = new THnSparseD("hist_reco_3rdjet_pt", "hist_reco_3rdjet_pt", 8, bins_3rdjetpt, xmin_3rdjetpt, xmax_3rdjetpt);
-THnSparseD *hist_ref_3rdjet_pt = new THnSparseD("hist_ref_3rdjet_pt", "hist_ref_3rdjet_pt", 8, bins_3rdjetpt, xmin_3rdjetpt, xmax_3rdjetpt);
-THnSparseD *hist_gen_3rdjet_pt = new THnSparseD("hist_gen_3rdjet_pt", "hist_gen_3rdjet_pt", 8, bins_3rdjetpt, xmin_3rdjetpt, xmax_3rdjetpt);
-
 // Quenching studies
 // Axis : 0 -> Xj, 1 -> Aj, 2 -> delta phi, 3 -> multiplicity , 4 -> jet pT average, 5 -> extra dependency, 6 -> pT leading jet, 7 -> pT subleading jet, 8 -> mid-fwd-bkw combinations
 int	bins_quencx[9]   =      { nXjAjBins   , nXjAjBins	  , nDphiBins		, multbinsize-1		  	 					  ,	 nPtaveBins  ,  extrabinsize-1 				, nPtLSLBins, nPtLSLBins, 11};
 double xmin_quencx[9]   =   { 0.0 		 , 0.0  		  , 0.0		    	, multiplicity_centrality_bins[0]		   	  ,	 minPtave	 ,	extra_bins[0]				, minPtLSL	, minPtLSL  , 0.0};
 double xmax_quencx[9]   =   { 1.0  		 , 1.0   		  , TMath::Pi() 	, multiplicity_centrality_bins[multbinsize-1] ,  maxPtave    ,  extra_bins[extrabinsize-1]  , maxPtLSL	, maxPtLSL  , 11.0};
 THnSparseD *hist_reco_lead_reco_subl_quench = new THnSparseD("hist_reco_lead_reco_subl_quench", "hist_reco_lead_reco_subl_quench", 9, bins_quencx, xmin_quencx, xmax_quencx);
+THnSparseD *hist_ref_lead_ref_subl_quench = new THnSparseD("hist_reco_lead_reco_subl_quench", "hist_reco_lead_reco_subl_quench", 9, bins_quencx, xmin_quencx, xmax_quencx);
+THnSparseD *hist_gen_lead_gen_subl_quench = new THnSparseD("hist_reco_lead_reco_subl_quench", "hist_reco_lead_reco_subl_quench", 9, bins_quencx, xmin_quencx, xmax_quencx);
 
 // Axis : 0 -> Xj, 1 -> Aj, 2 -> delta phi, 3 -> multiplicity , 4 -> jet pT average, 5 -> extra dependency, 6 -> pT leading jet, 7 -> pT subleading jet
 int	bins_quenc[8]   =      { nXjAjBins   , nXjAjBins	  , nDphiBins		, multbinsize-1		  	 					  ,	 nPtaveBins  ,  extrabinsize-1 				, nPtLSLBins, nPtLSLBins};
@@ -593,7 +508,7 @@ THnSparseD *hist_ref_lead_ref_subl_quench_bkw_fwd = new THnSparseD("hist_ref_lea
 THnSparseD *hist_ref_lead_ref_subl_quench_bkw_bkw = new THnSparseD("hist_ref_lead_ref_subl_quench_bkw_bkw", "hist_ref_lead_ref_subl_quench_bkw_bkw", 8, bins_quenc, xmin_quenc, xmax_quenc);
 
 // EP dependency
-// Axis : 0 -> Xj, 1 -> delta phi, 2 -> 2*|Psi2 - jetphi|, 3 -> 3*|Psi3 - jetphi|, 4 -> 4*|Psi4 - jetphi|, 5 -> multiplicity , 6 -> jet pT average
+// Axis : 0 -> Xj, 1 -> delta phi, 2 -> 2*|Psi2 - jetphi|, 3 -> 3*|Psi3 - jetphi|, 4 -> 4*|Psi4 - jetphi|, 5 -> multiplicity , 6 -> jet pT average, 7 -> 
 int	bins_quencEP[7]   =      { nXjAjBins   , nDphiBins		, 16 		 , 16 			, 16 			, multbinsize-1		  	 					  ,	 nPtaveBins};
 double xmin_quencEP[7]   =   { 0.0 		   , 0.0		  	, 0.0		 , 0.0			, 0.0			, multiplicity_centrality_bins[0]		   	  ,	 minPtave};
 double xmax_quencEP[7]   =   { 1.0  	   , TMath::Pi() 	, TMath::Pi(), TMath::Pi()	, TMath::Pi()	, multiplicity_centrality_bins[multbinsize-1] ,  maxPtave};
@@ -2091,186 +2006,6 @@ hist_gen_gen_2pcorrelation_signal_subg0->GetAxis(4)->Set(bins_2pc[4],Extrabins);
 hist_gen_gen_2pcorrelation_signal_subcross->GetAxis(4)->Set(bins_2pc[4],Extrabins);
 hist_gen_gen_2pcorrelation_mixing->GetAxis(4)->Set(bins_2pc[4],Extrabins);
 
-// 3rd jet studies
-hist_reco_3rdjet->GetAxis(0)->Set(bins_3rdjet[0],XjBins3rd);
-hist_ref_3rdjet->GetAxis(0)->Set(bins_3rdjet[0],XjBins3rd);
-hist_gen_3rdjet->GetAxis(0)->Set(bins_3rdjet[0],XjBins3rd);
-hist_reco_3rdjet->GetAxis(1)->Set(bins_3rdjet[1],DphiBins3rd);
-hist_ref_3rdjet->GetAxis(1)->Set(bins_3rdjet[1],DphiBins3rd);
-hist_gen_3rdjet->GetAxis(1)->Set(bins_3rdjet[1],DphiBins3rd);
-hist_reco_3rdjet->GetAxis(2)->Set(bins_3rdjet[2],XjBins3rd);
-hist_ref_3rdjet->GetAxis(2)->Set(bins_3rdjet[2],XjBins3rd);
-hist_gen_3rdjet->GetAxis(2)->Set(bins_3rdjet[2],XjBins3rd);
-hist_reco_3rdjet->GetAxis(3)->Set(bins_3rdjet[3],DphiBins3rd);
-hist_ref_3rdjet->GetAxis(3)->Set(bins_3rdjet[3],DphiBins3rd);
-hist_gen_3rdjet->GetAxis(3)->Set(bins_3rdjet[3],DphiBins3rd);
-hist_reco_3rdjet->GetAxis(4)->Set(bins_3rdjet[4],XjBins3rd);
-hist_ref_3rdjet->GetAxis(4)->Set(bins_3rdjet[4],XjBins3rd);
-hist_gen_3rdjet->GetAxis(4)->Set(bins_3rdjet[4],XjBins3rd);
-hist_reco_3rdjet->GetAxis(5)->Set(bins_3rdjet[5],DphiBins3rd);
-hist_ref_3rdjet->GetAxis(5)->Set(bins_3rdjet[5],DphiBins3rd);
-hist_gen_3rdjet->GetAxis(5)->Set(bins_3rdjet[5],DphiBins3rd);
-hist_reco_3rdjet->GetAxis(6)->Set(bins_3rdjet[6],MultCentbins);
-hist_ref_3rdjet->GetAxis(6)->Set(bins_3rdjet[6],MultCentbins);
-hist_gen_3rdjet->GetAxis(6)->Set(bins_3rdjet[6],MultCentbins);
-hist_reco_3rdjet->GetAxis(7)->Set(bins_3rdjet[7],Extrabins);
-hist_ref_3rdjet->GetAxis(7)->Set(bins_3rdjet[7],Extrabins);
-hist_gen_3rdjet->GetAxis(7)->Set(bins_3rdjet[7],Extrabins);
-
-hist_reco_3rdjet_pt->GetAxis(0)->Set(bins_3rdjetpt[0],PtLSLBins2);
-hist_reco_3rdjet_pt->GetAxis(1)->Set(bins_3rdjetpt[1],PtLSLBins2);
-hist_reco_3rdjet_pt->GetAxis(2)->Set(bins_3rdjetpt[2],PtLSLBins2);
-hist_reco_3rdjet_pt->GetAxis(3)->Set(bins_3rdjetpt[3],PtLSLBins2);
-hist_reco_3rdjet_pt->GetAxis(7)->Set(bins_3rdjetpt[7],MultCentbins);
-hist_ref_3rdjet_pt->GetAxis(0)->Set(bins_3rdjetpt[0],PtLSLBins2);
-hist_ref_3rdjet_pt->GetAxis(1)->Set(bins_3rdjetpt[1],PtLSLBins2);
-hist_ref_3rdjet_pt->GetAxis(2)->Set(bins_3rdjetpt[2],PtLSLBins2);
-hist_ref_3rdjet_pt->GetAxis(3)->Set(bins_3rdjetpt[3],PtLSLBins2);
-hist_ref_3rdjet_pt->GetAxis(7)->Set(bins_3rdjetpt[7],MultCentbins);
-hist_gen_3rdjet_pt->GetAxis(0)->Set(bins_3rdjetpt[0],PtLSLBins2);
-hist_gen_3rdjet_pt->GetAxis(1)->Set(bins_3rdjetpt[1],PtLSLBins2);
-hist_gen_3rdjet_pt->GetAxis(2)->Set(bins_3rdjetpt[2],PtLSLBins2);
-hist_gen_3rdjet_pt->GetAxis(3)->Set(bins_3rdjetpt[3],PtLSLBins2);
-hist_gen_3rdjet_pt->GetAxis(7)->Set(bins_3rdjetpt[7],MultCentbins);
-
-
-hist_jetunf_weighted->GetAxis(0)->Set(bins_jetunf[0],PtLSLBins2);
-hist_jetunf_weighted->GetAxis(1)->Set(bins_jetunf[1],PtLSLBins2);
-hist_jetunf_weighted->GetAxis(2)->Set(bins_jetunf[2],MultCentbins);
-hist_jetunf_weighted->GetAxis(3)->Set(bins_jetunf[3],Extrabins);
-hist_leadjetunf_weighted->GetAxis(0)->Set(bins_jetunf[0],PtLSLBins2);
-hist_leadjetunf_weighted->GetAxis(1)->Set(bins_jetunf[1],PtLSLBins2);
-hist_leadjetunf_weighted->GetAxis(2)->Set(bins_jetunf[2],MultCentbins);
-hist_leadjetunf_weighted->GetAxis(3)->Set(bins_jetunf[3],Extrabins);
-hist_leadjetunf_match_weighted->GetAxis(0)->Set(bins_jetunf[0],PtLSLBins2);
-hist_leadjetunf_match_weighted->GetAxis(1)->Set(bins_jetunf[1],PtLSLBins2);
-hist_leadjetunf_match_weighted->GetAxis(2)->Set(bins_jetunf[2],MultCentbins);
-hist_leadjetunf_match_weighted->GetAxis(3)->Set(bins_jetunf[3],Extrabins);
-hist_leadjetunf_swap_weighted->GetAxis(0)->Set(bins_jetunf[0],PtLSLBins2);
-hist_leadjetunf_swap_weighted->GetAxis(1)->Set(bins_jetunf[1],PtLSLBins2);
-hist_leadjetunf_swap_weighted->GetAxis(2)->Set(bins_jetunf[2],MultCentbins);
-hist_leadjetunf_swap_weighted->GetAxis(3)->Set(bins_jetunf[3],Extrabins);
-hist_subljetunf_weighted->GetAxis(0)->Set(bins_jetunf[0],PtLSLBins2);
-hist_subljetunf_weighted->GetAxis(1)->Set(bins_jetunf[1],PtLSLBins2);
-hist_subljetunf_weighted->GetAxis(2)->Set(bins_jetunf[2],MultCentbins);
-hist_subljetunf_weighted->GetAxis(3)->Set(bins_jetunf[3],Extrabins);
-hist_subljetunf_match_weighted->GetAxis(0)->Set(bins_jetunf[0],PtLSLBins2);
-hist_subljetunf_match_weighted->GetAxis(1)->Set(bins_jetunf[1],PtLSLBins2);
-hist_subljetunf_match_weighted->GetAxis(2)->Set(bins_jetunf[2],MultCentbins);
-hist_subljetunf_match_weighted->GetAxis(3)->Set(bins_jetunf[3],Extrabins);
-hist_subljetunf_swap_weighted->GetAxis(0)->Set(bins_jetunf[0],PtLSLBins2);
-hist_subljetunf_swap_weighted->GetAxis(1)->Set(bins_jetunf[1],PtLSLBins2);
-hist_subljetunf_swap_weighted->GetAxis(2)->Set(bins_jetunf[2],MultCentbins);
-hist_subljetunf_swap_weighted->GetAxis(3)->Set(bins_jetunf[3],Extrabins);
-hist_xjunf_weighted->GetAxis(0)->Set(bins_xjunf[0],XjBins);
-hist_xjunf_weighted->GetAxis(1)->Set(bins_xjunf[1],XjBins);
-hist_xjunf_weighted->GetAxis(2)->Set(bins_xjunf[2],MultCentbins);
-hist_xjunf_weighted->GetAxis(3)->Set(bins_xjunf[3],Extrabins);
-hist_xjunf_match_weighted->GetAxis(0)->Set(bins_xjunf[0],XjBins);
-hist_xjunf_match_weighted->GetAxis(1)->Set(bins_xjunf[1],XjBins);
-hist_xjunf_match_weighted->GetAxis(2)->Set(bins_xjunf[2],MultCentbins);
-hist_xjunf_match_weighted->GetAxis(3)->Set(bins_xjunf[3],Extrabins);
-hist_xjunf_swap_weighted->GetAxis(0)->Set(bins_xjunf[0],XjBins);
-hist_xjunf_swap_weighted->GetAxis(1)->Set(bins_xjunf[1],XjBins);
-hist_xjunf_swap_weighted->GetAxis(2)->Set(bins_xjunf[2],MultCentbins);
-hist_xjunf_swap_weighted->GetAxis(3)->Set(bins_xjunf[3],Extrabins);
-
-hist_jetunf_weighted_4D->GetAxis(0)->Set(bins_jetunf4D[0],PtLSLBins2);
-hist_jetunf_weighted_4D->GetAxis(1)->Set(bins_jetunf4D[1],PtLSLBins2);
-hist_jetunf_weighted_4D->GetAxis(2)->Set(bins_jetunf4D[2],PtLSLBins2);
-hist_jetunf_weighted_4D->GetAxis(3)->Set(bins_jetunf4D[3],PtLSLBins2);
-hist_jetunf_weighted_4D->GetAxis(4)->Set(bins_jetunf4D[4],MultCentbins);
-hist_jetunf_weighted_4D->GetAxis(5)->Set(bins_jetunf4D[5],Extrabins);
-hist_jetunf_match_weighted_4D->GetAxis(0)->Set(bins_jetunf4D[0],PtLSLBins2);
-hist_jetunf_match_weighted_4D->GetAxis(1)->Set(bins_jetunf4D[1],PtLSLBins2);
-hist_jetunf_match_weighted_4D->GetAxis(2)->Set(bins_jetunf4D[2],PtLSLBins2);
-hist_jetunf_match_weighted_4D->GetAxis(3)->Set(bins_jetunf4D[3],PtLSLBins2);
-hist_jetunf_match_weighted_4D->GetAxis(4)->Set(bins_jetunf4D[4],MultCentbins);
-hist_jetunf_match_weighted_4D->GetAxis(5)->Set(bins_jetunf4D[5],Extrabins);
-hist_jetunf_swap_weighted_4D->GetAxis(0)->Set(bins_jetunf4D[0],PtLSLBins2);
-hist_jetunf_swap_weighted_4D->GetAxis(1)->Set(bins_jetunf4D[1],PtLSLBins2);
-hist_jetunf_swap_weighted_4D->GetAxis(2)->Set(bins_jetunf4D[2],PtLSLBins2);
-hist_jetunf_swap_weighted_4D->GetAxis(3)->Set(bins_jetunf4D[3],PtLSLBins2);
-hist_jetunf_swap_weighted_4D->GetAxis(4)->Set(bins_jetunf4D[4],MultCentbins);
-hist_jetunf_swap_weighted_4D->GetAxis(5)->Set(bins_jetunf4D[5],Extrabins);
-hist_jetunf_match_weighted_sym_4D->GetAxis(0)->Set(bins_jetunf4D[0],PtLSLBins2);
-hist_jetunf_match_weighted_sym_4D->GetAxis(1)->Set(bins_jetunf4D[1],PtLSLBins2);
-hist_jetunf_match_weighted_sym_4D->GetAxis(2)->Set(bins_jetunf4D[2],PtLSLBins2);
-hist_jetunf_match_weighted_sym_4D->GetAxis(3)->Set(bins_jetunf4D[3],PtLSLBins2);
-hist_jetunf_match_weighted_sym_4D->GetAxis(4)->Set(bins_jetunf4D[4],MultCentbins);
-hist_jetunf_match_weighted_sym_4D->GetAxis(5)->Set(bins_jetunf4D[5],Extrabins);
-hist_jetunf_match_weighted_symhalf_4D->GetAxis(0)->Set(bins_jetunf4D[0],PtLSLBins2);
-hist_jetunf_match_weighted_symhalf_4D->GetAxis(1)->Set(bins_jetunf4D[1],PtLSLBins2);
-hist_jetunf_match_weighted_symhalf_4D->GetAxis(2)->Set(bins_jetunf4D[2],PtLSLBins2);
-hist_jetunf_match_weighted_symhalf_4D->GetAxis(3)->Set(bins_jetunf4D[3],PtLSLBins2);
-hist_jetunf_match_weighted_symhalf_4D->GetAxis(4)->Set(bins_jetunf4D[4],MultCentbins);
-hist_jetunf_match_weighted_symhalf_4D->GetAxis(5)->Set(bins_jetunf4D[5],Extrabins);
-
-hist_leadjetunf_gensmear->GetAxis(0)->Set(bins_jetunf_smear[0],PtLSLBins2);
-hist_subljetunf_gensmear->GetAxis(0)->Set(bins_jetunf_smear[0],PtLSLBins2);
-hist_leadjetunf_gensmear->GetAxis(1)->Set(bins_jetunf_smear[1],MultCentbins);
-hist_subljetunf_gensmear->GetAxis(1)->Set(bins_jetunf_smear[1],MultCentbins);
-hist_leadjetunf_gensmear->GetAxis(2)->Set(bins_jetunf_smear[2],Extrabins);
-hist_subljetunf_gensmear->GetAxis(2)->Set(bins_jetunf_smear[2],Extrabins);
-hist_leadjetunf_recosmear->GetAxis(0)->Set(bins_jetunf_smear[0],PtLSLBins2);
-hist_subljetunf_recosmear->GetAxis(0)->Set(bins_jetunf_smear[0],PtLSLBins2);
-hist_leadjetunf_recosmear->GetAxis(1)->Set(bins_jetunf_smear[1],MultCentbins);
-hist_subljetunf_recosmear->GetAxis(1)->Set(bins_jetunf_smear[1],MultCentbins);
-hist_leadjetunf_recosmear->GetAxis(2)->Set(bins_jetunf_smear[2],Extrabins);
-hist_subljetunf_recosmear->GetAxis(2)->Set(bins_jetunf_smear[2],Extrabins);
-
-
-hist_leadjetunf_gensmear_fromInclJet->GetAxis(1)->Set(bins_jetunf_smear[1],MultCentbins);
-hist_leadjetunf_gensmear_fromInclJet->GetAxis(2)->Set(bins_jetunf_smear[2],Extrabins);
-hist_subljetunf_gensmear_fromInclJet->GetAxis(1)->Set(bins_jetunf_smear[1],MultCentbins);
-hist_subljetunf_gensmear_fromInclJet->GetAxis(2)->Set(bins_jetunf_smear[2],Extrabins);
-hist_leadjetunf_recosmear_fromInclJet->GetAxis(1)->Set(bins_jetunf_smear[1],MultCentbins);
-hist_leadjetunf_recosmear_fromInclJet->GetAxis(2)->Set(bins_jetunf_smear[2],Extrabins);
-hist_subljetunf_recosmear_fromInclJet->GetAxis(1)->Set(bins_jetunf_smear[1],MultCentbins);
-hist_subljetunf_recosmear_fromInclJet->GetAxis(2)->Set(bins_jetunf_smear[2],Extrabins);
-
-
-hist_leadjetunf_gensmear_4D->GetAxis(0)->Set(bins_jetunf_smear[0],PtLSLBins2);
-hist_subljetunf_gensmear_4D->GetAxis(0)->Set(bins_jetunf_smear[0],PtLSLBins2);
-hist_leadjetunf_gensmear_4D->GetAxis(1)->Set(bins_jetunf_smear[1],MultCentbins);
-hist_subljetunf_gensmear_4D->GetAxis(1)->Set(bins_jetunf_smear[1],MultCentbins);
-hist_leadjetunf_gensmear_4D->GetAxis(2)->Set(bins_jetunf_smear[2],Extrabins);
-hist_subljetunf_gensmear_4D->GetAxis(2)->Set(bins_jetunf_smear[2],Extrabins);
-hist_leadjetunf_recosmear_4D->GetAxis(0)->Set(bins_jetunf_smear[0],PtLSLBins2);
-hist_subljetunf_recosmear_4D->GetAxis(0)->Set(bins_jetunf_smear[0],PtLSLBins2);
-hist_leadjetunf_recosmear_4D->GetAxis(1)->Set(bins_jetunf_smear[1],MultCentbins);
-hist_subljetunf_recosmear_4D->GetAxis(1)->Set(bins_jetunf_smear[1],MultCentbins);
-hist_leadjetunf_recosmear_4D->GetAxis(2)->Set(bins_jetunf_smear[2],Extrabins);
-hist_subljetunf_recosmear_4D->GetAxis(2)->Set(bins_jetunf_smear[2],Extrabins);
-
-hist_xjunf_gensmear->GetAxis(0)->Set(bins_xjunf_smear[0],XjBins);
-hist_xjunf_gensmear->GetAxis(1)->Set(bins_xjunf_smear[1],MultCentbins);
-hist_xjunf_gensmear->GetAxis(2)->Set(bins_xjunf_smear[2],Extrabins);
-hist_xjunf_recosmear->GetAxis(0)->Set(bins_xjunf_smear[0],XjBins);
-hist_xjunf_recosmear->GetAxis(1)->Set(bins_xjunf_smear[1],MultCentbins);
-hist_xjunf_recosmear->GetAxis(2)->Set(bins_xjunf_smear[2],Extrabins);
-hist_xjunf_gensmear_fromLSL->GetAxis(0)->Set(bins_xjunf_smear[0],XjBins);
-hist_xjunf_gensmear_fromLSL->GetAxis(1)->Set(bins_xjunf_smear[1],MultCentbins);
-hist_xjunf_gensmear_fromLSL->GetAxis(2)->Set(bins_xjunf_smear[2],Extrabins);
-hist_xjunf_recosmear_fromLSL->GetAxis(0)->Set(bins_xjunf_smear[0],XjBins);
-hist_xjunf_recosmear_fromLSL->GetAxis(1)->Set(bins_xjunf_smear[1],MultCentbins);
-hist_xjunf_recosmear_fromLSL->GetAxis(2)->Set(bins_xjunf_smear[2],Extrabins);
-
-hist_xjunf_gensmear_fromLSL_4D->GetAxis(0)->Set(bins_xjunf_smear[0],XjBins);
-hist_xjunf_gensmear_fromLSL_4D->GetAxis(1)->Set(bins_xjunf_smear[1],MultCentbins);
-hist_xjunf_gensmear_fromLSL_4D->GetAxis(2)->Set(bins_xjunf_smear[2],Extrabins);
-hist_xjunf_recosmear_fromLSL_4D->GetAxis(0)->Set(bins_xjunf_smear[0],XjBins);
-hist_xjunf_recosmear_fromLSL_4D->GetAxis(1)->Set(bins_xjunf_smear[1],MultCentbins);
-hist_xjunf_recosmear_fromLSL_4D->GetAxis(2)->Set(bins_xjunf_smear[2],Extrabins);
-
-hist_xjunf_gensmear_fromLSL_InclJet->GetAxis(0)->Set(bins_xjunf_smear[0],XjBins);
-hist_xjunf_gensmear_fromLSL_InclJet->GetAxis(1)->Set(bins_xjunf_smear[1],MultCentbins);
-hist_xjunf_gensmear_fromLSL_InclJet->GetAxis(2)->Set(bins_xjunf_smear[2],Extrabins);
-hist_xjunf_recosmear_fromLSL_InclJet->GetAxis(0)->Set(bins_xjunf_smear[0],XjBins);
-hist_xjunf_recosmear_fromLSL_InclJet->GetAxis(1)->Set(bins_xjunf_smear[1],MultCentbins);
-hist_xjunf_recosmear_fromLSL_InclJet->GetAxis(2)->Set(bins_xjunf_smear[2],Extrabins);
-
-
 //Sumw2 starts here!
 Nevents->Sumw2();
 Nev_recoreco->Sumw2();
@@ -2297,18 +2032,10 @@ multiplicity->Sumw2();
 multiplicity_weighted->Sumw2();
 multiplicity_withonejet_weighted->Sumw2();
 multiplicity_withdijets_weighted->Sumw2();
-multiplicity_midmid_weighted->Sumw2();
-multiplicity_midfwd_weighted->Sumw2();
-multiplicity_midbkw_weighted->Sumw2();
-multiplicity_fwdmid_weighted->Sumw2();
-multiplicity_fwdfwd_weighted->Sumw2();
-multiplicity_fwdbkw_weighted->Sumw2();
-multiplicity_bkwmid_weighted->Sumw2();
-multiplicity_bkwfwd_weighted->Sumw2();
-multiplicity_bkwbkw_weighted->Sumw2();
 multiplicity_weighted_at1->Sumw2();
 multiplicity_withonejet_weighted_at1->Sumw2();
 multiplicity_withdijets_weighted_at1->Sumw2();
+multiplicity_etadep_weighted->Sumw2();
 multiplicity_nocut->Sumw2();
 multiplicity_corrected->Sumw2();
 multiplicity2D->Sumw2();
@@ -2478,43 +2205,6 @@ hist_subljetptclosremovesome_weighed->Sumw2();
 hist_averjetptclosremovesome_weighed->Sumw2();
 hist_xjclos_weighted->Sumw2();
 hist_xjclos_removesome_weighted->Sumw2();
-hist_jetunf_weighted->Sumw2();
-hist_leadjetunf_weighted->Sumw2();
-hist_subljetunf_weighted->Sumw2();
-hist_xjunf_weighted->Sumw2();
-hist_leadjetunf_match_weighted->Sumw2();
-hist_subljetunf_match_weighted->Sumw2();
-hist_leadjetunf_swap_weighted->Sumw2();
-hist_subljetunf_swap_weighted->Sumw2();
-hist_xjunf_match_weighted->Sumw2();
-hist_xjunf_swap_weighted->Sumw2();
-hist_leadjetunf_gensmear->Sumw2();
-hist_leadjetunf_recosmear->Sumw2();
-hist_subljetunf_gensmear->Sumw2();
-hist_subljetunf_recosmear->Sumw2();
-hist_xjunf_gensmear->Sumw2();
-hist_xjunf_recosmear->Sumw2();
-hist_xjunf_gensmear_fromLSL->Sumw2();
-hist_xjunf_recosmear_fromLSL->Sumw2();
-
-hist_leadjetunf_gensmear_fromInclJet->Sumw2();
-hist_leadjetunf_recosmear_fromInclJet->Sumw2();
-hist_subljetunf_gensmear_fromInclJet->Sumw2();
-hist_subljetunf_recosmear_fromInclJet->Sumw2();
-hist_xjunf_gensmear_fromLSL_InclJet->Sumw2();
-hist_xjunf_recosmear_fromLSL_InclJet->Sumw2();
-
-hist_xjunf_gensmear_fromLSL_4D->Sumw2();
-hist_xjunf_recosmear_fromLSL_4D->Sumw2();
-hist_leadjetunf_gensmear_4D->Sumw2();
-hist_subljetunf_gensmear_4D->Sumw2();
-hist_leadjetunf_recosmear_4D->Sumw2();
-hist_subljetunf_recosmear_4D->Sumw2();
-hist_jetunf_weighted_4D->Sumw2();
-hist_jetunf_match_weighted_4D->Sumw2();
-hist_jetunf_match_weighted_sym_4D->Sumw2();
-hist_jetunf_match_weighted_symhalf_4D->Sumw2();
-hist_jetunf_swap_weighted_4D->Sumw2();
 
 hist_jet_from_reco_reco_sig->Sumw2();
 hist_jet_from_reco_gen_sig->Sumw2();
@@ -2754,14 +2444,6 @@ hist_gen_gen_2pcorrelation_signal_subg0->Sumw2();
 hist_gen_gen_2pcorrelation_signal_subcross->Sumw2();
 hist_gen_gen_2pcorrelation_mixing->Sumw2();
 
-hist_reco_3rdjet->Sumw2();
-hist_ref_3rdjet->Sumw2();
-hist_gen_3rdjet->Sumw2();
-
-hist_reco_3rdjet_pt->Sumw2();
-hist_ref_3rdjet_pt->Sumw2();
-hist_gen_3rdjet_pt->Sumw2();
-
 jetjet_Dphi_Deta_reco->Sumw2();
 jetjet_Dphi_Deta_ref->Sumw2();
 jetjet_Dphi_Deta_gen->Sumw2();
@@ -2821,6 +2503,7 @@ void w_QA_hist(bool isMC){
 	reco_mult_weighted->Write();
 	reco_mult_withonejet_weighted->Write();
 	reco_mult_withdijets_weighted->Write();
+	multiplicity_etadep_weighted->Write();
 	multiplicity_nocut->Write();
 	multiplicity_corrected->Write();
 	multiplicity2D->Write();
@@ -2828,15 +2511,6 @@ void w_QA_hist(bool isMC){
 	multiplicity_weighted->Write();
 	multiplicity_withonejet_weighted->Write();
 	multiplicity_withdijets_weighted->Write();
-	multiplicity_midmid_weighted->Write();
-	multiplicity_midfwd_weighted->Write();
-	multiplicity_midbkw_weighted->Write();
-	multiplicity_fwdmid_weighted->Write();
-	multiplicity_fwdfwd_weighted->Write();
-	multiplicity_fwdbkw_weighted->Write();
-	multiplicity_bkwmid_weighted->Write();
-	multiplicity_bkwfwd_weighted->Write();
-	multiplicity_bkwbkw_weighted->Write();
 	multiplicity_weighted_at1->Write();
 	multiplicity_withonejet_weighted_at1->Write();
 	multiplicity_withdijets_weighted_at1->Write();
@@ -3184,8 +2858,6 @@ void w_dijet_hist(bool isMC){
 	hist_etaDijet_reco->Write();
 	hist_etaDijet_CM_reco->Write();
 	hist_yDijet_CM_reco->Write();
-	hist_reco_3rdjet->Write();
-	hist_reco_3rdjet_pt->Write();
 	if(isMC){
 		hist_gen_lead_gen_subl_quench_mid_mid->Write();
 		hist_gen_lead_gen_subl_quench_mid_fwd->Write();
@@ -3283,10 +2955,7 @@ void w_dijet_hist(bool isMC){
 		hist_etaDijet_gen->Write();
 		hist_etaDijet_CM_gen->Write();
 		hist_yDijet_CM_gen->Write();
-		hist_ref_3rdjet->Write();
-		hist_gen_3rdjet->Write();
-		hist_ref_3rdjet_pt->Write();
-		hist_gen_3rdjet_pt->Write();
+
 	}
 }
 
