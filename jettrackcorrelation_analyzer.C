@@ -587,10 +587,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_withfake(is_MC, Xj_reco, delta_phi_reco, leadrecojet_phi, refpt[leadrecojet_index], (double) multcentbin, (double)extrabin, (double)ptdijetbinreco, (double) dijetetarecotype, event_weight*ljet_weight*sljet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_reco_leadEP_quench_plus, hist_reco_leadEP_quench_minus, hist_fake_leadEP_quench_plus, hist_fake_leadEP_quench_minus);
 					if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_withfake(is_MC, Xj_reco, delta_phi_reco, sublrecojet_phi, refpt[sublrecojet_index], (double) multcentbin, (double)extrabin, (double)ptdijetbinreco, (double) dijetetarecotype, event_weight*ljet_weight*sljet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_reco_sublEP_quench_plus, hist_reco_sublEP_quench_minus, hist_fake_sublEP_quench_plus, hist_fake_sublEP_quench_minus);
 
-					double xjptaveunfreco = TransformToUnfoldingAxis_xjptave(Xj_reco, ptdijetbinreco);						
+					double xjptaveunfreco = TransformToUnfoldingAxis_xjptave(Xj_reco, ptdijetbinreco,xjmax);						
 					double x_unf_meas_xjptave[2]={xjptaveunfreco,(double)multcentbin}; 
 					fhUnfoldingMeasu_xjptave->Fill(x_unf_meas_xjptave,event_weight);
-					double pt1pt2unf = TransformToUnfoldingAxis_pt1pt2(leadrecojet_pt, sublrecojet_pt);						
+					double pt1pt2unf = TransformToUnfoldingAxis_pt1pt2(leadrecojet_pt, sublrecojet_pt, jet_pt_max_cut);						
 					double x_unf_meas_pt1pt2[2]={pt1pt2unf,(double)multcentbin}; 
 					fhUnfoldingMeasu_pt1pt2->Fill(x_unf_meas_pt1pt2,event_weight);
 				}
@@ -718,12 +718,12 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_nofake(Xj_ref, delta_phi_ref, leadrefjet_phi, (double) multcentbin, (double)extrabin, (double)ptdijetbinref, (double) dijetetareftype, event_weight*lrefjet_weight*slrefjet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_ref_leadEP_quench_plus, hist_ref_leadEP_quench_minus);
 					if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_nofake(Xj_ref, delta_phi_ref, sublrefjet_phi, (double) multcentbin, (double)extrabin, (double)ptdijetbinref, (double) dijetetareftype, event_weight*lrefjet_weight*slrefjet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_ref_sublEP_quench_plus, hist_ref_sublEP_quench_minus);
 
-					double xjptaveunfref = TransformToUnfoldingAxis_xjptave(Xj_ref, ptdijetbinref);						
+					double xjptaveunfref = TransformToUnfoldingAxis_xjptave(Xj_ref, ptdijetbinref,xjmax);						
 					double x_unf_meas_xjptaveref[2]={xjptaveunfref,(double)multcentbin}; 
 					fhUnfoldingTruthRef_xjptave->Fill(x_unf_meas_xjptaveref,event_weight);
-					double pt1pt2unfref = TransformToUnfoldingAxis_pt1pt2(leadrefjet_pt, sublrefjet_pt);						
+					double pt1pt2unfref = TransformToUnfoldingAxis_pt1pt2(leadrefjet_pt, sublrefjet_pt, jet_pt_max_cut);						
 					double x_unf_meas_pt1pt2ref[2]={pt1pt2unfref,(double)multcentbin}; 
-					fhUnfoldingTruth_pt1pt2->Fill(x_unf_meas_pt1pt2ref,event_weight);
+					fhUnfoldingTruthRef_pt1pt2->Fill(x_unf_meas_pt1pt2ref,event_weight);
 				}
 
 				if(isrefdijets){
@@ -827,13 +827,13 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			double ptaveee = 0.5*(leadrecojet_pt + sublrecojet_pt);
 			double xjjjjf = sublrefjet_pt/leadrefjet_pt;
 			double ptaveeef = 0.5*(leadrefjet_pt + sublrefjet_pt);			
-			double xjptaveunfreco_response = TransformToUnfoldingAxis_xjptave(xjjjj,ptaveee);						
-			double xjptaveunfref_response = TransformToUnfoldingAxis_xjptave(xjjjjf,ptaveeef);						
+			double xjptaveunfreco_response = TransformToUnfoldingAxis_xjptave(xjjjj,ptaveee,xjmax);						
+			double xjptaveunfref_response = TransformToUnfoldingAxis_xjptave(xjjjjf,ptaveeef,xjmax);						
 			double x_unf_meas_xjptave_response[3]={xjptaveunfreco_response,xjptaveunfref_response,(double)multcentbin}; 
 			fhUnfoldingResponse_xjptave->Fill(x_unf_meas_xjptave_response,event_weight);
 
-			double pt1pt2unfreco_response = TransformToUnfoldingAxis_pt1pt2(leadrecojet_pt, sublrecojet_pt);						
-			double pt1pt2unfref_response = TransformToUnfoldingAxis_pt1pt2(leadrefjet_pt, sublrefjet_pt);						
+			double pt1pt2unfreco_response = TransformToUnfoldingAxis_pt1pt2(leadrecojet_pt, sublrecojet_pt, jet_pt_max_cut);						
+			double pt1pt2unfref_response = TransformToUnfoldingAxis_pt1pt2(leadrefjet_pt, sublrefjet_pt, jet_pt_max_cut);						
 			double x_unf_meas_pt1pt2_response[3]={pt1pt2unfreco_response, pt1pt2unfref_response,(double)multcentbin}; 
 			fhUnfoldingResponse_pt1pt2->Fill(x_unf_meas_pt1pt2_response,event_weight);
 		
@@ -1003,7 +1003,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_nofake(Xj_gen, delta_phi_gen, leadgenjet_phi, (double) multcentbin, (double)extrabin, (double)ptdijetbingen, (double) dijetetagentype, event_weight*gljet_weight*gsljet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_gen_leadEP_quench_plus, hist_gen_leadEP_quench_minus);
 						if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_nofake(Xj_gen, delta_phi_gen, sublgenjet_phi, (double) multcentbin, (double)extrabin, (double)ptdijetbingen, (double) dijetetagentype, event_weight*gljet_weight*gsljet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_gen_sublEP_quench_plus, hist_gen_sublEP_quench_minus);
 
-						double xjptaveunfgen = TransformToUnfoldingAxis_xjptave(Xj_gen, ptdijetbingen);						
+						double xjptaveunfgen = TransformToUnfoldingAxis_xjptave(Xj_gen, ptdijetbingen, xjmax);						
 						double x_unf_meas_xjptavegen[2]={xjptaveunfgen,(double)multcentbin}; 
 						fhUnfoldingTruthGen_xjptave->Fill(x_unf_meas_xjptavegen,event_weight);						
 					}

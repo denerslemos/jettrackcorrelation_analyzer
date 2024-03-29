@@ -22,79 +22,78 @@ const int nXBins = 40; // number of bins
 const double minX = 3e-04;  // minimum
 const double maxX = 1.0; 	   // maximum
 double XlogBinWidth = (TMath::Log(maxX+binnerShift) - TMath::Log(minX+binnerShift)) / nXBins; // binwidth
-//double XBins[nXBins+1] = {minX, 0.000125893, 0.000158489, 0.000199526, 0.000251189, 0.000316228, 0.000398107, 0.000501187, 0.000630957, 0.000794328, 0.001, 0.00125893, 0.00158489, 0.00199526, 0.00251189, 0.00316228, 0.00398107, 0.00501187, 0.00630957, 0.00794328, 0.01, 0.0125893, 0.0158489, 0.0199526, 0.0251189, 0.0316228, 0.0398107, 0.0501187, 0.0630957, 0.0794328, 0.1, 0.125893, 0.158489, 0.199526, 0.251189, 0.316228, 0.398107, 0.501187, 0.630957, 0.794328, maxX};
-// PT average -> see sumw2 function
-const int nPtaveBins = 25; // number of bins
-const double minPtave = 50.0;  // minimum
-const double maxPtave = 2000.0; // maximum
-double PtavelogBinWidth = (TMath::Log(maxPtave+binnerShift) - TMath::Log(minPtave+binnerShift)) / nPtaveBins; // binwidth
-double PtaveBinsClone[nPtaveBins+1] = {50, 57.9499, 67.1637, 77.8426, 90.2193, 104.564, 121.189, 140.458, 162.791, 188.674, 218.672, 253.441, 293.737, 340.44, 394.57, 457.305, 530.015, 614.286, 711.956, 825.155, 956.352, 1108.41, 1284.64, 1488.9, 1725.63, 2000.0};
 
-// PT leading/subleading -> see sumw2 function
-const int nPtLSLBins = 50; // number of bins
-const double minPtLSL = 20.0;  // minimum
-const double maxPtLSL = 1000.0; // maximum
-double PtLSLlogBinWidth = (TMath::Log(maxPtLSL+binnerShift) - TMath::Log(minPtLSL+binnerShift)) / nPtLSLBins; // binwidth
 // Xj and Aj bins
 const int nXjAjBins = 20; // number of bins
-double XjBins[nXjAjBins+1] = {0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0};
-double AjBins[nXjAjBins+1] = {0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0};
-// less bins
-//const int nDphiBins = 18; // number of bins
-//double DphiBins[nDphiBins+1] = {0.0, TMath::Pi()/5. ,TMath::Pi()/3., (3./7.)*TMath::Pi(), TMath::Pi()/2., (4./7.)*TMath::Pi(), (3./5.)*TMath::Pi(), 1.98967535,  2.0943951 ,  2.19911486,  2.30383461, 2.40855437,  2.51327412,  2.61799388,  2.72271363,  2.82743339, 2.93215314,  3.0368729, TMath::Pi()};
-// More bins
+double XjBins[nXjAjBins+1] = {minxjhist,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,maxxjhist};
+double AjBins[nXjAjBins+1] = {minxjhist,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,maxxjhist};
+//Dphibins
 const int nDphiBins = 30; // number of bins
 double DphiBins[nDphiBins+1] = {0.0, TMath::Pi()/5. ,TMath::Pi()/3., (3./7.)*TMath::Pi(), TMath::Pi()/2., (4./7.)*TMath::Pi(), (3./5.)*TMath::Pi(), 1.93731547,  1.98967535,  2.04203522,  2.0943951 , 2.14675498,  2.19911486,  2.25147474,  2.30383461,  2.35619449, 2.40855437,  2.46091425,  2.51327412,  2.565634,  2.61799388, 2.67035376,  2.72271363,  2.77507351,  2.82743339,  2.87979327, 2.93215314,  2.98451302,  3.0368729 ,  3.08923278,  TMath::Pi()};
 
-// for 3rd jet studies
-const int nXjBins3rd = 21; // number of bins
-double XjBins3rd[nXjBins3rd+1] = {-1.0,0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0};
-const int nDphiBins3rd = 31; // number of bins
-double DphiBins3rd[nDphiBins3rd+1] = {-1.0, 0.0, TMath::Pi()/5. ,TMath::Pi()/3., (3./7.)*TMath::Pi(), TMath::Pi()/2., (4./7.)*TMath::Pi(), (3./5.)*TMath::Pi(), 1.93731547,  1.98967535,  2.04203522,  2.0943951 , 2.14675498,  2.19911486,  2.25147474,  2.30383461,  2.35619449, 2.40855437,  2.46091425,  2.51327412,  2.565634,  2.61799388, 2.67035376,  2.72271363,  2.77507351,  2.82743339,  2.87979327, 2.93215314,  2.98451302,  3.0368729 ,  3.08923278,  TMath::Pi()};
-
 // leading and subleading jet pTs
-const int nPtLSLBins2 = 38; // number of bins
-double PtLSLBins2[nPtLSLBins2+1] = {30.0, 35.0, 40.0, 45.0, 50.0, 55.0, 60.0, 65.0, 70.0, 75.0, 80.0, 85.0, 90.0, 95.0, 100.0, 105.0, 110.0, 115.0, 120.0, 125.0, 130.0, 140.0, 160.0, 180.0, 200.0, 220.0, 240.0, 260.0, 280.0, 300.0, 350.0, 400.0, 450.0, 500.0, 600.0, 800.0, 1000.0, 1500.0, 2000.0};
+const int nPtLSLBins = 33; // number of bins
+const double minPtLSL = minpthist-10.0;  // minimum
+const double maxPtLSL = maxpthist; // maximum
+double PtLSLBins[nPtLSLBins+1] = {minpthist-10.0, 45.0, 50.0, 55.0, 60.0, 65.0, 70.0, 75.0, 80.0, 85.0, 90.0, 95.0, 100.0, 105.0, 110.0, 115.0, 120.0, 125.0, 130.0, 140.0, 160.0, 180.0, 200.0, 220.0, 240.0, 260.0, 280.0, 300.0, 350.0, 400.0, 450.0, 500.0, 600.0, maxpthist};
 
-// Binning for the two-dimensional unfolding response
-const int nUnfoldingBins_xjptave = nXjAjBins*nPtaveBins;
+// Binning for the two-dimensional unfolding
+// --> xj vs pt average
+const int nUnfoldingBins_xjptave = nXjAjBins*nPtLSLBins;
 const double minUnfoldingBin_xjptave = 0;
-const double maxUnfoldingBin_xjptave = nPtaveBins*1.0; //nJetPtBinsEEC*maxDeltaREEC;
+const double maxUnfoldingBin_xjptave = nPtLSLBins*maxxjhist; //nJetPtBinsEEC*maxDeltaREEC;
 double fullUnfoldingBinning_xjptave[nUnfoldingBins_xjptave+1];
-
-
-const int nUnfoldingBins_pt1pt2 = nPtLSLBins2*nPtLSLBins2;
-const double minUnfoldingBin_pt1pt2 = 0;
-const double maxUnfoldingBin_pt1pt2 = nPtLSLBins2*2000.0; //nJetPtBinsEEC*maxDeltaREEC;
-double fullUnfoldingBinning_pt1pt2[nUnfoldingBins_pt1pt2+1];
-
 // histograms for unfolding
-// Axis : 0 -> reco, 1 -> gen, 2 -> multiplicity
-int	bins_unfxjptave[3] 		=   { nUnfoldingBins_xjptave   , nUnfoldingBins_xjptave  , multbinsize-1};
-double xmin_unfxjptave[3]   =   { minUnfoldingBin_xjptave  , minUnfoldingBin_xjptave , multiplicity_centrality_bins[0]};
-double xmax_unfxjptave[3]   =   { maxUnfoldingBin_xjptave  , maxUnfoldingBin_xjptave , multiplicity_centrality_bins[multbinsize-1]};
-THnSparseD *fhUnfoldingResponse_xjptave = new THnSparseD("fhUnfoldingResponse_xjptave", "fhUnfoldingResponse_xjptave", 3, bins_unfxjptave, xmin_unfxjptave, xmax_unfxjptave);
+// Axis : 0 -> reco, 1 -> gen, 2 -> delta phi reco, 3 -> delta phi gen, 4 -> mid-fwd-bkw ranges,  5 -> multiplicity
+int	bins_unfxjptave[6] 		=   { nUnfoldingBins_xjptave   , nUnfoldingBins_xjptave  , nDphiBins   , nDphiBins   , 11  , multbinsize-1};
+double xmin_unfxjptave[6]   =   { minUnfoldingBin_xjptave  , minUnfoldingBin_xjptave , 0.0         , 0.0	     , 0.0 , multiplicity_centrality_bins[0]};
+double xmax_unfxjptave[6]   =   { maxUnfoldingBin_xjptave  , maxUnfoldingBin_xjptave , TMath::Pi() , TMath::Pi() , 11.0, multiplicity_centrality_bins[multbinsize-1]};
+THnSparseD *fhUnfoldingResponse_xjptave = new THnSparseD("fhUnfoldingResponse_xjptave", "fhUnfoldingResponse_xjptave", 6, bins_unfxjptave, xmin_unfxjptave, xmax_unfxjptave);
+// Axis : 0 -> Measured or Truth, 1 -> delta phi measured or truth, 2 ->  mid-fwd-bkw ranges, 3 -> multiplicity
+int	bins_unfxjptaveMT[4] 	  =   { nUnfoldingBins_xjptave   , nDphiBins   , 11  , multbinsize-1};
+double xmin_unfxjptaveMT[4]   =   { minUnfoldingBin_xjptave  , 0.0	       , 0.0 , multiplicity_centrality_bins[0]};
+double xmax_unfxjptaveMT[4]   =   { maxUnfoldingBin_xjptave  , TMath::Pi() , 11.0, multiplicity_centrality_bins[multbinsize-1]};
+THnSparseD *fhUnfoldingMeasu_xjptave = new THnSparseD("fhUnfoldingMeasu_xjptave", "fhUnfoldingMeasu_xjptave", 4, bins_unfxjptaveMT, xmin_unfxjptaveMT, xmax_unfxjptaveMT);
+THnSparseD *fhUnfoldingTruthRef_xjptave = new THnSparseD("fhUnfoldingTruthRef_xjptave", "fhUnfoldingTruthRef_xjptave", 4, bins_unfxjptaveMT, xmin_unfxjptaveMT, xmax_unfxjptaveMT);
+THnSparseD *fhUnfoldingTruthGen_xjptave = new THnSparseD("fhUnfoldingTruthGen_xjptave", "fhUnfoldingTruthGen_xjptave", 4, bins_unfxjptaveMT, xmin_unfxjptaveMT, xmax_unfxjptaveMT);
 
-// Axis : 0 -> Measured or Truth, 1 -> multiplicity
-int	bins_unfxjptaveMT[2] 	  =   { nUnfoldingBins_xjptave   , multbinsize-1};
-double xmin_unfxjptaveMT[2]   =   { minUnfoldingBin_xjptave  , multiplicity_centrality_bins[0]};
-double xmax_unfxjptaveMT[2]   =   { maxUnfoldingBin_xjptave  , multiplicity_centrality_bins[multbinsize-1]};
-THnSparseD *fhUnfoldingMeasu_xjptave = new THnSparseD("fhUnfoldingMeasu_xjptave", "fhUnfoldingMeasu_xjptave", 2, bins_unfxjptaveMT, xmin_unfxjptaveMT, xmax_unfxjptaveMT);
-THnSparseD *fhUnfoldingTruthRef_xjptave = new THnSparseD("fhUnfoldingTruthRef_xjptave", "fhUnfoldingTruthRef_xjptave", 2, bins_unfxjptaveMT, xmin_unfxjptaveMT, xmax_unfxjptaveMT);
-THnSparseD *fhUnfoldingTruthGen_xjptave = new THnSparseD("fhUnfoldingTruthGen_xjptave", "fhUnfoldingTruthGen_xjptave", 2, bins_unfxjptaveMT, xmin_unfxjptaveMT, xmax_unfxjptaveMT);
+// --> pt1 vs pt2
+const int nUnfoldingBins_pt1pt2 = nPtLSLBins*nPtLSLBins;
+const double minUnfoldingBin_pt1pt2 = 0;
+const double maxUnfoldingBin_pt1pt2 = nPtLSLBins*maxpthist;
+double fullUnfoldingBinning_pt1pt2[nUnfoldingBins_pt1pt2+1];
+// histograms for unfolding
+// Axis : 0 -> reco, 1 -> gen, 2 -> delta phi reco, 3 -> delta phi gen, 4 -> mid-fwd-bkw ranges,  5 -> multiplicity
+int	bins_unfpt1pt2[6] 	   =   { nUnfoldingBins_pt1pt2   , nUnfoldingBins_pt1pt2  , nDphiBins   , nDphiBins   , 11  , multbinsize-1};
+double xmin_unfpt1pt2[6]   =   { minUnfoldingBin_pt1pt2  , minUnfoldingBin_pt1pt2 , 0.0         , 0.0	     , 0.0 , multiplicity_centrality_bins[0]};
+double xmax_unfpt1pt2[6]   =   { maxUnfoldingBin_pt1pt2  , maxUnfoldingBin_pt1pt2 , TMath::Pi() , TMath::Pi() , 11.0, multiplicity_centrality_bins[multbinsize-1]};
+THnSparseD *fhUnfoldingResponse_pt1pt2 = new THnSparseD("fhUnfoldingResponse_pt1pt2", "fhUnfoldingResponse_pt1pt2", 6, bins_unfpt1pt2, xmin_unfpt1pt2, xmax_unfpt1pt2);
+// Axis : 0 -> Measured or Truth, 1 -> delta phi measured or truth, 2 ->  mid-fwd-bkw ranges, 3 -> multiplicity
+int	bins_unfpt1pt2MT[4] 	  =   { nUnfoldingBins_pt1pt2  , nDphiBins   , 11  , multbinsize-1};
+double xmin_unfpt1pt2MT[4]   =   { minUnfoldingBin_pt1pt2  , 0.0	     , 0.0 , multiplicity_centrality_bins[0]};
+double xmax_unfpt1pt2MT[4]   =   { maxUnfoldingBin_pt1pt2  , TMath::Pi() , 11.0, multiplicity_centrality_bins[multbinsize-1]};
+THnSparseD *fhUnfoldingMeasu_pt1pt2 = new THnSparseD("fhUnfoldingMeasu_pt1pt2", "fhUnfoldingMeasu_pt1pt2", 4, bins_unfpt1pt2MT, xmin_unfpt1pt2MT, xmax_unfpt1pt2MT);
+THnSparseD *fhUnfoldingTruthRef_pt1pt2 = new THnSparseD("fhUnfoldingTruthRef_pt1pt2", "fhUnfoldingTruthRef_pt1pt2", 4, bins_unfpt1pt2MT, xmin_unfpt1pt2MT, xmax_unfpt1pt2MT);
+THnSparseD *fhUnfoldingTruthGen_pt1pt2 = new THnSparseD("fhUnfoldingTruthGen_pt1pt2", "fhUnfoldingTruthGen_pt1pt2", 4, bins_unfpt1pt2MT, xmin_unfpt1pt2MT, xmax_unfpt1pt2MT);
 
-// Axis : 0 -> reco, 1 -> gen, 2 -> multiplicity
-int	bins_unfpt1pt2[3] 		=   { nUnfoldingBins_pt1pt2  , nUnfoldingBins_pt1pt2  , multbinsize-1};
-double xmin_unfpt1pt2[3]   =   { minUnfoldingBin_pt1pt2  , minUnfoldingBin_pt1pt2 , multiplicity_centrality_bins[0]};
-double xmax_unfpt1pt2[3]   =   { maxUnfoldingBin_pt1pt2  , maxUnfoldingBin_pt1pt2 , multiplicity_centrality_bins[multbinsize-1]};
-THnSparseD *fhUnfoldingResponse_pt1pt2 = new THnSparseD("fhUnfoldingResponse_pt1pt2", "fhUnfoldingResponse_pt1pt2", 3, bins_unfpt1pt2, xmin_unfpt1pt2, xmax_unfpt1pt2);
-
-// Axis : 0 -> Measured or Truth, 1 -> multiplicity
-int	bins_unfpt1pt2MT[2] 	  =   { nUnfoldingBins_pt1pt2  , multbinsize-1};
-double xmin_unfpt1pt2MT[2]   =   { minUnfoldingBin_pt1pt2  , multiplicity_centrality_bins[0]};
-double xmax_unfpt1pt2MT[2]   =   { maxUnfoldingBin_pt1pt2  , multiplicity_centrality_bins[multbinsize-1]};
-THnSparseD *fhUnfoldingMeasu_pt1pt2 = new THnSparseD("fhUnfoldingMeasu_pt1pt2", "fhUnfoldingMeasu_pt1pt2", 2, bins_unfpt1pt2MT, xmin_unfpt1pt2MT, xmax_unfpt1pt2MT);
-THnSparseD *fhUnfoldingTruth_pt1pt2 = new THnSparseD("fhUnfoldingTruth_pt1pt2", "fhUnfoldingTruth_pt1pt2", 2, bins_unfpt1pt2MT, xmin_unfpt1pt2MT, xmax_unfpt1pt2MT);
+// xj vs pt2 in bins of pt1
+const int nUnfoldingBins_xjpt2 = nXjAjBins*nPtLSLBins;
+const double minUnfoldingBin_xjpt2 = 0;
+const double maxUnfoldingBin_xjpt2 = nPtLSLBins*maxxjhist; //nJetPtBinsEEC*maxDeltaREEC;
+double fullUnfoldingBinning_xjpt2[nUnfoldingBins_xjpt2+1];
+// histograms for unfolding
+// Axis : 0 -> reco, 1 -> gen, 2 -> delta phi reco, 3 -> delta phi gen, 4 -> mid-fwd-bkw ranges,  5 -> multiplicity
+int	bins_unfxjpt2[6] 	  =   { nUnfoldingBins_xjpt2   , nUnfoldingBins_xjpt2  , nDphiBins   , nDphiBins   , 11  , multbinsize-1};
+double xmin_unfxjpt2[6]   =   { minUnfoldingBin_xjpt2  , minUnfoldingBin_xjpt2 , 0.0         , 0.0	     , 0.0 , multiplicity_centrality_bins[0]};
+double xmax_unfxjpt2[6]   =   { maxUnfoldingBin_xjpt2  , maxUnfoldingBin_xjpt2 , TMath::Pi() , TMath::Pi() , 11.0, multiplicity_centrality_bins[multbinsize-1]};
+THnSparseD *fhUnfoldingResponse_xjpt2 = new THnSparseD("fhUnfoldingResponse_xjpt2", "fhUnfoldingResponse_xjpt2", 6, bins_unfxjpt2, xmin_unfxjpt2, xmax_unfxjpt2);
+// Axis : 0 -> Measured or Truth, 1 -> delta phi measured or truth, 2 ->  mid-fwd-bkw ranges, 3 -> multiplicity
+int	bins_unfxjpt2MT[4] 	    =   { nUnfoldingBins_xjpt2   , nDphiBins   , 11  , multbinsize-1};
+double xmin_unfxjpt2MT[4]   =   { minUnfoldingBin_xjpt2  , 0.0	     , 0.0 , multiplicity_centrality_bins[0]};
+double xmax_unfxjpt2MT[4]   =   { maxUnfoldingBin_xjpt2  , TMath::Pi() , 11.0, multiplicity_centrality_bins[multbinsize-1]};
+THnSparseD *fhUnfoldingMeasu_xjpt2 = new THnSparseD("fhUnfoldingMeasu_xjpt2", "fhUnfoldingMeasu_xjpt2", 4, bins_unfxjpt2MT, xmin_unfxjpt2MT, xmax_unfxjpt2MT);
+THnSparseD *fhUnfoldingTruthRef_xjpt2 = new THnSparseD("fhUnfoldingTruthRef_xjpt2", "fhUnfoldingTruthRef_xjpt2", 4, bins_unfxjpt2MT, xmin_unfxjpt2MT, xmax_unfxjpt2MT);
+THnSparseD *fhUnfoldingTruthGen_xjpt2 = new THnSparseD("fhUnfoldingTruthGen_xjpt2", "fhUnfoldingTruthGen_xjpt2", 4, bins_unfxjpt2MT, xmin_unfxjpt2MT, xmax_unfxjpt2MT);
 
 // -------------------------------------------------------------------------- //
 // ============================ Event quantities ============================
@@ -124,7 +123,6 @@ TH1D *Nev_jetwithlowpttrk_sublead = new TH1D("Nev_jetwithlowpttrk_sublead", "Nev
 TH1D *Nev_jetfromonetrk_lead = new TH1D("Nev_jetfromonetrk_lead", "Nev_jetfromonetrk_lead", 80, 0, 400);
 TH1D *Nev_jetfromonetrk_sublead = new TH1D("Nev_jetfromonetrk_sublead", "Nev_jetfromonetrk_sublead", 80, 0, 400);
 
-
 // Multiplicities
 TH1D *multiplicity = new TH1D("multiplicity", "multiplicity", 80, 0.0, 400.0);
 TH1D *multiplicity_weighted = new TH1D("multiplicity_weighted", "multiplicity_weighted", 80, 0.0, 400.0);
@@ -145,19 +143,6 @@ TH1D *gen_mult_withonejet_weighted = new TH1D("gen_mult_withonejet_weighted", "g
 TH1D *gen_mult_withdijets_weighted = new TH1D("gen_mult_withdijets_weighted", "gen_mult_withdijets_weighted", 80, 0.0, 400.0);
 TH2D *multiplicity_etadep_weighted = new TH2D("multiplicity_etadep_weighted", "multiplicity_etadep_weighted", 80, 0.0, 400.0, 11, 0.0, 11.0);
 TH2D *multiplicity2D = new TH2D("multiplicity2D", "multiplicity2D", 500, 0.0, 500.0, 500, 0.0, 500.0);
-
-
-// Jet Delta's
-// Axis : 0 -> delta phi, 1 -> delta eta, 2 -> multiplicity
-int	bins_jetjet[3]      =   { 100 	     , 250  , 80};
-double xmin_jetjet[3]   =   { 0.0		 , -5.0 , 0.0};
-double xmax_jetjet[3]   =   { TMath::Pi(), 5.0  , 400.0};
-THnSparseD *jetjet_Dphi_Deta_reco = new THnSparseD("jetjet_Dphi_Deta_reco", "jetjet_Dphi_Deta_reco", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
-THnSparseD *jetjet_Dphi_Deta_ref = new THnSparseD("jetjet_Dphi_Deta_ref", "jetjet_Dphi_Deta_ref", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
-THnSparseD *jetjet_Dphi_Deta_gen = new THnSparseD("jetjet_Dphi_Deta_gen", "jetjet_Dphi_Deta_gen", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
-THnSparseD *jetjet_Dphi_Deta_reco_diff = new THnSparseD("jetjet_Dphi_Deta_reco_diff", "jetjet_Dphi_Deta_reco_diff", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
-THnSparseD *jetjet_Dphi_Deta_ref_diff = new THnSparseD("jetjet_Dphi_Deta_ref_diff", "jetjet_Dphi_Deta_ref_diff", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
-THnSparseD *jetjet_Dphi_Deta_gen_diff = new THnSparseD("jetjet_Dphi_Deta_gen_diff", "jetjet_Dphi_Deta_gen_diff", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
 
 // Hadron Forward (HF) Calorimeter information
 // Axis : 0 -> HF+, 1 -> HF-, 2 -> multbin
@@ -452,9 +437,9 @@ THnSparseD *hist_xjclos_removesome_weighted = new THnSparseD("hist_xjclos_remove
 
 // Quenching studies
 // Axis : 0 -> Xj, 1 -> Aj, 2 -> delta phi, 3 -> multiplicity , 4 -> jet pT average, 5 -> extra dependency, 6 -> pT leading jet, 7 -> pT subleading jet, 8 -> mid-fwd-bkw combinations
-int	bins_quenc[9]   =      { nXjAjBins   , nXjAjBins	  , nDphiBins		, multbinsize-1		  	 					  ,	 nPtaveBins  ,  extrabinsize-1 				, nPtLSLBins, nPtLSLBins, 11};
-double xmin_quenc[9]   =   { 0.0 		 , 0.0  		  , 0.0		    	, multiplicity_centrality_bins[0]		   	  ,	 minPtave	 ,	extra_bins[0]				, minPtLSL	, minPtLSL  , 0.0};
-double xmax_quenc[9]   =   { 1.0  		 , 1.0   		  , TMath::Pi() 	, multiplicity_centrality_bins[multbinsize-1] ,  maxPtave    ,  extra_bins[extrabinsize-1]  , maxPtLSL	, maxPtLSL  , 11.0};
+int	bins_quenc[9]   =      { nXjAjBins   , nXjAjBins	  , nDphiBins		, multbinsize-1		  	 					  ,	 nPtLSLBins  ,  extrabinsize-1 				, nPtLSLBins, nPtLSLBins, 11};
+double xmin_quenc[9]   =   { 0.0 		 , 0.0  		  , 0.0		    	, multiplicity_centrality_bins[0]		   	  ,	 minPtLSL	 ,	extra_bins[0]				, minPtLSL	, minPtLSL  , 0.0};
+double xmax_quenc[9]   =   { 1.0  		 , 1.0   		  , TMath::Pi() 	, multiplicity_centrality_bins[multbinsize-1] ,  maxPtLSL    ,  extra_bins[extrabinsize-1]  , maxPtLSL	, maxPtLSL  , 11.0};
 THnSparseD *hist_reco_lead_reco_subl_quench = new THnSparseD("hist_reco_lead_reco_subl_quench", "hist_reco_lead_reco_subl_quench", 9, bins_quenc, xmin_quenc, xmax_quenc);
 THnSparseD *hist_fake_lead_reco_subl_quench = new THnSparseD("hist_fake_lead_reco_subl_quench", "hist_fake_lead_reco_subl_quench", 9, bins_quenc, xmin_quenc, xmax_quenc);
 THnSparseD *hist_reco_lead_fake_subl_quench = new THnSparseD("hist_reco_lead_fake_subl_quench", "hist_reco_lead_fake_subl_quench", 9, bins_quenc, xmin_quenc, xmax_quenc);
@@ -464,9 +449,9 @@ THnSparseD *hist_gen_lead_gen_subl_quench = new THnSparseD("hist_gen_lead_gen_su
 
 // EP dependency
 // Axis : 0 -> Xj, 1 -> delta phi, 2 -> 2*|Psi2 - jetphi|, 3 -> 3*|Psi3 - jetphi|, 4 -> 4*|Psi4 - jetphi|, 5 -> multiplicity , 6 -> jet pT average, 7 -> extra dependency , 8 ->  mid-fwd-bkw combinations
-int	bins_quencEPx[9]   =      { nXjAjBins  , nDphiBins		, 16 		 , 16 			, 16 			, multbinsize-1		  	 					  ,	 nPtaveBins,  extrabinsize-1 			, 11};
-double xmin_quencEPx[9]   =   { 0.0 	   , 0.0		  	, 0.0		 , 0.0			, 0.0			, multiplicity_centrality_bins[0]		   	  ,	 minPtave  ,  extra_bins[0]   			, 0.0};
-double xmax_quencEPx[9]   =   { 1.0  	   , TMath::Pi() 	, TMath::Pi(), TMath::Pi()	, TMath::Pi()	, multiplicity_centrality_bins[multbinsize-1] ,  maxPtave  ,  extra_bins[extrabinsize-1], 11.0};
+int	bins_quencEPx[9]   =      { nXjAjBins  , nDphiBins		, 16 		 , 16 			, 16 			, multbinsize-1		  	 					  ,	 nPtLSLBins,  extrabinsize-1 			, 11};
+double xmin_quencEPx[9]   =   { 0.0 	   , 0.0		  	, 0.0		 , 0.0			, 0.0			, multiplicity_centrality_bins[0]		   	  ,	 minPtLSL  ,  extra_bins[0]   			, 0.0};
+double xmax_quencEPx[9]   =   { 1.0  	   , TMath::Pi() 	, TMath::Pi(), TMath::Pi()	, TMath::Pi()	, multiplicity_centrality_bins[multbinsize-1] ,  maxPtLSL  ,  extra_bins[extrabinsize-1], 11.0};
 THnSparseD *hist_reco_leadEP_quench_plus = new THnSparseD("hist_reco_leadEP_quench_plus", "hist_reco_leadEP_quench_plus", 9, bins_quencEPx, xmin_quencEPx, xmax_quencEPx);
 THnSparseD *hist_reco_leadEP_quench_minus = new THnSparseD("hist_reco_leadEP_quench_minus", "hist_reco_leadEP_quench_minus", 9, bins_quencEPx, xmin_quencEPx, xmax_quencEPx);
 THnSparseD *hist_reco_sublEP_quench_plus = new THnSparseD("hist_reco_sublEP_quench_plus", "hist_reco_sublEP_quench_plus", 9, bins_quencEPx, xmin_quencEPx, xmax_quencEPx);
@@ -486,9 +471,9 @@ THnSparseD *hist_fake_sublEP_quench_minus = new THnSparseD("hist_fake_sublEP_que
 
 // eta dijet studies
 // Axis : 0 -> etaDijet, 1 -> delta eta / 2, 2 -> Xj, 3 -> Aj, 4 -> delta phi, 5 -> x_p, 6 -> x_Pb, 7 -> multiplicity, 8 -> jet pT average, 9 -> extra dependency
-int	bins_etaDijet[10]      =   {  40   ,  16  , nXjAjBins	  , nXjAjBins , nDphiBins	    , nXBins ,  nXBins  ,	 multbinsize-1		  	 					  ,	 nPtaveBins	 ,  extrabinsize-1};
-double xmin_etaDijet[10]   =   { -4.0  , -4.0 ,  0.0   		  , 0.0		  , 0.0 	 	    , minX   ,  minX    , 	 multiplicity_centrality_bins[0]		   	  ,	 minPtave	 ,  extra_bins[0]};
-double xmax_etaDijet[10]   =   {  4.0  ,  4.0 ,  1.0   		  , 1.0		  , TMath::Pi() 	, maxX   ,  maxX    , 	 multiplicity_centrality_bins[multbinsize-1]  ,  maxPtave    ,  extra_bins[extrabinsize-1]};
+int	bins_etaDijet[10]      =   {  50   ,  16  , nXjAjBins	  , nXjAjBins , nDphiBins	    , nXBins ,  nXBins  ,	 multbinsize-1		  	 					  ,	 nPtLSLBins	 ,  extrabinsize-1};
+double xmin_etaDijet[10]   =   { -5.0  , -4.0 ,  0.0   		  , 0.0		  , 0.0 	 	    , minX   ,  minX    , 	 multiplicity_centrality_bins[0]		   	  ,	 minPtLSL	 ,  extra_bins[0]};
+double xmax_etaDijet[10]   =   {  5.0  ,  4.0 ,  1.0   		  , 1.0		  , TMath::Pi() 	, maxX   ,  maxX    , 	 multiplicity_centrality_bins[multbinsize-1]  ,  maxPtLSL    ,  extra_bins[extrabinsize-1]};
 THnSparseD *hist_etaDijet_reco = new THnSparseD("hist_etaDijet_reco", "hist_etaDijet_reco", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
 THnSparseD *hist_etaDijet_CM_reco = new THnSparseD("hist_etaDijet_CM_reco", "hist_etaDijet_CM_reco", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
 THnSparseD *hist_etaDijet_ref = new THnSparseD("hist_etaDijet_ref", "hist_etaDijet_ref", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
@@ -597,23 +582,44 @@ THnSparseD *hist_gen_gen_2pcorrelation_signal_subg0 = new THnSparseD("hist_gen_g
 THnSparseD *hist_gen_gen_2pcorrelation_signal_subcross = new THnSparseD("hist_gen_gen_2pcorrelation_signal_subcross","hist_gen_gen_2pcorrelation_signal_subcross",5,bins_2pc,xmin_2pc,xmax_2pc);
 THnSparseD *hist_gen_gen_2pcorrelation_mixing = new THnSparseD("hist_gen_gen_2pcorrelation_mixing","hist_gen_gen_2pcorrelation_mixing",5,bins_2pc,xmin_2pc,xmax_2pc);
 
+// Jet Delta's
+// Axis : 0 -> delta phi, 1 -> delta eta, 2 -> multiplicity
+int	bins_jetjet[3]      =   { 100 	     , 250  , 80};
+double xmin_jetjet[3]   =   { 0.0		 , -5.0 , 0.0};
+double xmax_jetjet[3]   =   { TMath::Pi(), 5.0  , 400.0};
+THnSparseD *jetjet_Dphi_Deta_reco = new THnSparseD("jetjet_Dphi_Deta_reco", "jetjet_Dphi_Deta_reco", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
+THnSparseD *jetjet_Dphi_Deta_ref = new THnSparseD("jetjet_Dphi_Deta_ref", "jetjet_Dphi_Deta_ref", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
+THnSparseD *jetjet_Dphi_Deta_gen = new THnSparseD("jetjet_Dphi_Deta_gen", "jetjet_Dphi_Deta_gen", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
+THnSparseD *jetjet_Dphi_Deta_reco_diff = new THnSparseD("jetjet_Dphi_Deta_reco_diff", "jetjet_Dphi_Deta_reco_diff", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
+THnSparseD *jetjet_Dphi_Deta_ref_diff = new THnSparseD("jetjet_Dphi_Deta_ref_diff", "jetjet_Dphi_Deta_ref_diff", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
+THnSparseD *jetjet_Dphi_Deta_gen_diff = new THnSparseD("jetjet_Dphi_Deta_gen_diff", "jetjet_Dphi_Deta_gen_diff", 3, bins_jetjet, xmin_jetjet, xmax_jetjet);
+
+
 // Evaluate uncertainties correctly at ROOT
 void sw2(){
 
 
 for(int ixj = 0; ixj < nXjAjBins; ixj++){
-  for(int iJetPtAve = 0; iJetPtAve < nPtaveBins; iJetPtAve++){
-    fullUnfoldingBinning_xjptave[ixj+iJetPtAve*nXjAjBins] = XjBins[ixj]+1.0*iJetPtAve;
+  for(int iJetPtAve = 0; iJetPtAve < nPtLSLBins; iJetPtAve++){
+    fullUnfoldingBinning_xjptave[ixj+iJetPtAve*nXjAjBins] = XjBins[ixj]+maxxjhist*iJetPtAve;
   }
 }
 fullUnfoldingBinning_xjptave[nUnfoldingBins_xjptave] = maxUnfoldingBin_xjptave;
 
-for(int ipt1 = 0; ipt1 < nPtLSLBins2; ipt1++){
-  for(int ipt2 = 0; ipt2 < nPtLSLBins2; ipt2++){
-    fullUnfoldingBinning_pt1pt2[ipt1+ipt2*nPtLSLBins2] = PtLSLBins2[ipt1]+2000.0*ipt2;
+for(int ipt1 = 0; ipt1 < nPtLSLBins; ipt1++){
+  for(int ipt2 = 0; ipt2 < nPtLSLBins; ipt2++){
+    fullUnfoldingBinning_pt1pt2[ipt1+ipt2*nPtLSLBins] = PtLSLBins[ipt1]+maxpthist*ipt2;
   }
 }
 fullUnfoldingBinning_pt1pt2[nUnfoldingBins_pt1pt2] = maxUnfoldingBin_pt1pt2;
+
+for(int ipt1 = 0; ipt1 < nPtLSLBins; ipt1++){
+  for(int ipt2 = 0; ipt2 < nPtLSLBins; ipt2++){
+    fullUnfoldingBinning_pt1pt2[ipt1+ipt2*nPtLSLBins] = PtLSLBins[ipt1]+maxpthist*ipt2;
+  }
+}
+fullUnfoldingBinning_pt1pt2[nUnfoldingBins_pt1pt2] = maxUnfoldingBin_pt1pt2;
+
 
 fhUnfoldingResponse_xjptave->SetBinEdges(0, fullUnfoldingBinning_xjptave);
 fhUnfoldingResponse_xjptave->SetBinEdges(1, fullUnfoldingBinning_xjptave);
@@ -624,7 +630,8 @@ fhUnfoldingTruthGen_xjptave->SetBinEdges(0, fullUnfoldingBinning_xjptave);
 fhUnfoldingResponse_pt1pt2->SetBinEdges(0, fullUnfoldingBinning_pt1pt2);
 fhUnfoldingResponse_pt1pt2->SetBinEdges(1, fullUnfoldingBinning_pt1pt2);
 fhUnfoldingMeasu_pt1pt2->SetBinEdges(0, fullUnfoldingBinning_pt1pt2);
-fhUnfoldingTruth_pt1pt2->SetBinEdges(0, fullUnfoldingBinning_pt1pt2);
+fhUnfoldingTruthRef_pt1pt2->SetBinEdges(0, fullUnfoldingBinning_pt1pt2);
+fhUnfoldingTruthGen_pt1pt2->SetBinEdges(0, fullUnfoldingBinning_pt1pt2);
 
 double XBins[nXBins+1];
 // Xp and XpPb dependency
@@ -687,24 +694,19 @@ hist_reco_lead_reco_subl_quench->GetAxis(2)->Set(bins_quenc[2],DphiBins);
 hist_gen_lead_gen_subl_quench->GetAxis(2)->Set(bins_quenc[2],DphiBins);
 hist_ref_lead_ref_subl_quench->GetAxis(2)->Set(bins_quenc[2],DphiBins);
 
-// pT average
-double PtaveBins[nPtaveBins+1];
-// pT average
-for(int a = 0; a <= nPtaveBins; a++){PtaveBins[a] = (minPtave+binnerShift)*TMath::Exp(a*PtavelogBinWidth)-binnerShift;} // add bins by hand (bellow), because cannot loop here
+hist_etaDijet_reco->GetAxis(8)->Set(bins_etaDijet[8],PtLSLBins);
+hist_etaDijet_CM_reco->GetAxis(8)->Set(bins_etaDijet[8],PtLSLBins);
+hist_etaDijet_ref->GetAxis(8)->Set(bins_etaDijet[8],PtLSLBins);
+hist_etaDijet_CM_ref->GetAxis(8)->Set(bins_etaDijet[8],PtLSLBins);
+hist_etaDijet_gen->GetAxis(8)->Set(bins_etaDijet[8],PtLSLBins);
+hist_etaDijet_CM_gen->GetAxis(8)->Set(bins_etaDijet[8],PtLSLBins);
+hist_yDijet_CM_reco->GetAxis(8)->Set(bins_etaDijet[8],PtLSLBins);
+hist_yDijet_CM_ref->GetAxis(8)->Set(bins_etaDijet[8],PtLSLBins);
+hist_yDijet_CM_gen->GetAxis(8)->Set(bins_etaDijet[8],PtLSLBins);
 //adjust the bins for pT average
-hist_etaDijet_reco->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
-hist_etaDijet_CM_reco->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
-hist_etaDijet_ref->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
-hist_etaDijet_CM_ref->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
-hist_etaDijet_gen->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
-hist_etaDijet_CM_gen->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
-hist_yDijet_CM_reco->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
-hist_yDijet_CM_ref->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
-hist_yDijet_CM_gen->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
-//adjust the bins for pT average
-hist_reco_lead_reco_subl_quench->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_gen_lead_gen_subl_quench->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_ref_lead_ref_subl_quench->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
+hist_reco_lead_reco_subl_quench->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
+hist_gen_lead_gen_subl_quench->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
+hist_ref_lead_ref_subl_quench->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
 
 //Trk pt binning
 double TrkPtbins[trkbinsize-1];
@@ -782,13 +784,13 @@ Dphi_GEN_EP4_flat_trk_plus->GetAxis(1)->Set(bins_TRKEP[1],TrkPtbins);
 double MultCentbins[multbinsize-1];
 for(int a = 0; a<multiplicity_centrality_bins.size();a++){MultCentbins[a] = multiplicity_centrality_bins[a];}
 
-fhUnfoldingResponse_xjptave->GetAxis(2)->Set(bins_unfxjptave[2],MultCentbins);
-fhUnfoldingMeasu_xjptave->GetAxis(1)->Set(bins_unfxjptaveMT[1],MultCentbins);
-fhUnfoldingTruthRef_xjptave->GetAxis(1)->Set(bins_unfxjptaveMT[1],MultCentbins);
-fhUnfoldingTruthGen_xjptave->GetAxis(1)->Set(bins_unfxjptaveMT[1],MultCentbins);
-fhUnfoldingResponse_pt1pt2->GetAxis(2)->Set(bins_unfpt1pt2[2],MultCentbins);
-fhUnfoldingMeasu_pt1pt2->GetAxis(1)->Set(bins_unfpt1pt2MT[1],MultCentbins);
-fhUnfoldingTruth_pt1pt2->GetAxis(1)->Set(bins_unfpt1pt2MT[1],MultCentbins);
+fhUnfoldingResponse_xjptave->GetAxis(5)->Set(bins_unfxjptave[5],MultCentbins);
+fhUnfoldingMeasu_xjptave->GetAxis(3)->Set(bins_unfxjptaveMT[3],MultCentbins);
+fhUnfoldingTruthRef_xjptave->GetAxis(3)->Set(bins_unfxjptaveMT[3],MultCentbins);
+fhUnfoldingTruthGen_xjptave->GetAxis(3)->Set(bins_unfxjptaveMT[3],MultCentbins);
+fhUnfoldingResponse_pt1pt2->GetAxis(5)->Set(bins_unfpt1pt2[5],MultCentbins);
+fhUnfoldingMeasu_pt1pt2->GetAxis(3)->Set(bins_unfpt1pt2MT[3],MultCentbins);
+fhUnfoldingTruthRef_pt1pt2->GetAxis(3)->Set(bins_unfpt1pt2MT[3],MultCentbins);
 
 
 vzhist->GetAxis(1)->Set(bins_vz[1],MultCentbins);
@@ -1578,7 +1580,7 @@ fhUnfoldingTruthGen_xjptave->Sumw2();
 
 fhUnfoldingResponse_pt1pt2->Sumw2();
 fhUnfoldingMeasu_pt1pt2->Sumw2();
-fhUnfoldingTruth_pt1pt2->Sumw2();
+fhUnfoldingTruthRef_pt1pt2->Sumw2();
 
 }
 
@@ -2048,6 +2050,6 @@ fhUnfoldingTruthGen_xjptave->Write();
 
 fhUnfoldingResponse_pt1pt2->Write();
 fhUnfoldingMeasu_pt1pt2->Write();
-fhUnfoldingTruth_pt1pt2->Write();
+fhUnfoldingTruthRef_pt1pt2->Write();
 
 }

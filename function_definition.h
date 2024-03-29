@@ -717,12 +717,11 @@ void invert_eventquantities(float &hfplus, float &hfminus, float &hfplusEta4, fl
 
 }
 
-double TransformToUnfoldingAxis_xjptave(const double xj, const double jetPtAve){
-  const int nJetPtAveBins = nPtaveBins;
-  const double maxxj = 1.0;
+double TransformToUnfoldingAxis_xjptave(const double xj, const double jetPtAve, const double maxxj){
+  const int nJetPtAveBins = nPtLSLBins;
   double transformedxj = xj;
   for(int iJetPtAve = 1; iJetPtAve < nJetPtAveBins+1; iJetPtAve++){
-    if(jetPtAve >= PtaveBinsClone[iJetPtAve]){
+    if(jetPtAve >= PtLSLBins[iJetPtAve]){
       transformedxj += maxxj;
     } else {
       return transformedxj;
@@ -732,12 +731,11 @@ double TransformToUnfoldingAxis_xjptave(const double xj, const double jetPtAve){
   return -1;
 }
 
-double TransformToUnfoldingAxis_pt1pt2(const double pt1, const double pt2){
-  const int nJetPt2Bins = nPtLSLBins2;
-  const double maxpt1 = 2000.0;
+double TransformToUnfoldingAxis_pt1pt2(const double pt1, const double pt2, const double maxpt1){
+  const int nJetPt2Bins = nPtLSLBins;
   double transformedpt1 = pt1;
   for(int iJetPt = 1; iJetPt < nJetPt2Bins+1; iJetPt++){
-    if(pt2 >= PtLSLBins2[iJetPt]){
+    if(pt2 >= PtLSLBins[iJetPt]){
       transformedpt1 += maxpt1;
     } else {
       return transformedpt1;
@@ -955,8 +953,6 @@ void fillxjEPhistograms_nofake(double Xj, double delta_phi, float jet_phi, doubl
 	hist_realEP_quench_minus->Fill(x_EP_minus,weight);
 
 }
-
-
 
 bool twojetfounded(float leadjet_pt, float lead_pT_min, float subljet_pt, float subl_pT_min){
 	bool twojets = false;
