@@ -351,6 +351,7 @@ thrdphi: third jet Phi
 thrdmass: third jet Mass
 thrdflavor: third jet flavour
 thrdindex: third jet index in the loop
+fourpt: fourth jet pT
 */
 void find_leading_subleading_third(float pt, float eta, float phi, float mass, float flavor, int jetindex, float &leadpt, float &leadeta, float &leadphi, float &leadmass, float &leadflavor, int &leadindex, float &sublpt, float &subleta, float &sublphi, float &sublmass, float &sublflavor, int &sublindex, float &thrdpt, float &thrdeta, float &thrdphi, float &thrdmass, float &thrdflavor, int &thrdindex, float &fourpt){
     if( pt > leadpt ) {
@@ -963,10 +964,10 @@ bool twojetfounded(float leadjet_pt, float lead_pT_min, float subljet_pt, float 
 bool isdijet(float leadjet_pt, float lead_pT_min, float subljet_pt, float subl_pT_min, float leadjet_phi, float subljet_phi, float lead_subl_deltaphi_min, float xjmin, float xjmax, float Ajmin, float Ajmax){
 	bool dijets = false;
 	bool twojet = twojetfounded(leadjet_pt, lead_pT_min, subljet_pt, subl_pT_min);
-	float deltap = deltaphi(leadjet_phi, subljet_phi);
+	float delta_phi = deltaphi(leadjet_phi, subljet_phi);
 	float Aj = asymmetry(leadjet_pt,subljet_pt);
 	float Xj = xjvar(leadjet_pt,subljet_pt);
-	if(twojet && deltap > lead_subl_deltaphi_min){
+	if(twojet && delta_phi > lead_subl_deltaphi_min){
 		 if( (Xj >= xjmin && Xj <= xjmax) && (Aj >= Ajmin && Aj <= Ajmax) ) dijets = true;
 	}
 	return dijets;
