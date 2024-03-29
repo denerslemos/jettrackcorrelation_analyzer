@@ -663,7 +663,6 @@ double GetUE(std::vector<double> *etamin, vector<double> *etamax, vector<double>
    return Result;
 }
 
-
 void invert_eventquantities(float &hfplus, float &hfminus, float &hfplusEta4, float &hfminusEta4, float &zdcplus, float &zdcminus, float &EP_Psi2_plus_flat, float &EP_Qx2_plus, float &EP_Qy2_plus, float &EP_Mult2_plus, float &EP_Psi3_plus_flat, float &EP_Qx3_plus, float &EP_Qy3_plus, float &EP_Mult3_plus, float &EP_Psi4_plus_flat, float &EP_Qx4_plus, float &EP_Qy4_plus, float &EP_Mult4_plus, float &EP_Psi2_minus_flat, float &EP_Qx2_minus, float &EP_Qy2_minus, float &EP_Mult2_minus, float &EP_Psi3_minus_flat, float &EP_Qx3_minus, float &EP_Qy3_minus, float &EP_Mult3_minus, float &EP_Psi4_minus_flat, float &EP_Qx4_minus, float &EP_Qy4_minus, float &EP_Mult4_minus){
 
 	float hfplus_temp = hfplus;
@@ -748,7 +747,7 @@ double TransformToUnfoldingAxis_pt1pt2(const double pt1, const double pt2){
   return -1;
 }
 
-float dijetetabin(float leadjet_eta, float subljet_eta, float jet_eta_min_cut, float jet_eta_max_cut, float jet_fwd_eta_min_cut, float jet_fwd_eta_max_cut){
+float dijetetabin(float leadjet_eta, float subljet_eta, float jet_eta_min_cut, float jet_eta_max_cut, float jet_fwd_eta_min_cut, float jet_fwd_eta_max_cut, float jet_bkw_eta_min_cut, float jet_bkw_eta_max_cut){
 
 	float dijetbineta = 9.5;
 	
@@ -903,3 +902,76 @@ void filljetEPhistograms(float jet_phi, double multcentbin, double extrabin, dou
 
 }
 
+void fillxjEPhistograms_withfake(bool isMC, double Xj, double delta_phi, float jet_phi, float refpt_inindex, double multcentbin, double extrabin, double ptdijetbin, float dijetetarecotype, double weight, float EP_Psi2_plus_flat, float EP_Psi2_minus_flat, float EP_Psi3_plus_flat, float EP_Psi3_minus_flat, float EP_Psi4_plus_flat, float EP_Psi4_minus_flat, THnSparse* hist_realEP_quench_plus, THnSparse* hist_realEP_quench_minus, THnSparse* hist_fakeEP_quench_plus, THnSparse* hist_fakeEP_quench_minus){
+
+	// Psi 2
+	double Psi2_EP_flat_plus = (double) EP_Psi2_plus_flat;
+	double Psi2_EP_flat_minus = (double) EP_Psi2_minus_flat;
+	double delta_phi_recoEP2_plus = 2.0*fabs(deltaphi(jet_phi, Psi2_EP_flat_plus));
+	double delta_phi_recoEP2_minus = 2.0*fabs(deltaphi(jet_phi, Psi2_EP_flat_minus));
+	// Psi 3
+	double Psi3_EP_flat_plus = (double) EP_Psi3_plus_flat;
+	double Psi3_EP_flat_minus = (double) EP_Psi3_minus_flat;
+	double delta_phi_recoEP3_plus = 3.0*fabs(deltaphi(jet_phi, Psi3_EP_flat_plus));
+	double delta_phi_recoEP3_minus = 3.0*fabs(deltaphi(jet_phi, Psi3_EP_flat_minus));
+	// Psi 4
+	double Psi4_EP_flat_plus = (double) EP_Psi4_plus_flat;
+	double Psi4_EP_flat_minus = (double) EP_Psi4_minus_flat;
+	double delta_phi_recoEP4_plus = 4.0*fabs(deltaphi(jet_phi, Psi4_EP_flat_plus));
+	double delta_phi_recoEP4_minus = 4.0*fabs(deltaphi(jet_phi, Psi4_EP_flat_minus));
+
+	double x_EP_plus[9]={Xj,delta_phi,delta_phi_recoEP2_plus,delta_phi_recoEP3_plus,delta_phi_recoEP4_plus,(double)multcentbin,(double)ptdijetbin, (double)extrabin, (double) dijetetarecotype}; 
+	double x_EP_minus[9]={Xj,delta_phi,delta_phi_recoEP2_minus,delta_phi_recoEP3_minus,delta_phi_recoEP4_minus,(double)multcentbin,(double)ptdijetbin, (double)extrabin, (double) dijetetarecotype}; 
+
+	hist_realEP_quench_plus->Fill(x_EP_plus,weight);
+	hist_realEP_quench_minus->Fill(x_EP_minus,weight);
+	if(isMC && refpt_inindex < 0) hist_fakeEP_quench_plus->Fill(x_EP_plus,weight);
+	if(isMC && refpt_inindex < 0) hist_fakeEP_quench_minus->Fill(x_EP_minus,weight);
+
+}
+
+void fillxjEPhistograms_nofake(double Xj, double delta_phi, float jet_phi, double multcentbin, double extrabin, double ptdijetbin, float dijetetarecotype, double weight, float EP_Psi2_plus_flat, float EP_Psi2_minus_flat, float EP_Psi3_plus_flat, float EP_Psi3_minus_flat, float EP_Psi4_plus_flat, float EP_Psi4_minus_flat, THnSparse* hist_realEP_quench_plus, THnSparse* hist_realEP_quench_minus){
+
+	// Psi 2
+	double Psi2_EP_flat_plus = (double) EP_Psi2_plus_flat;
+	double Psi2_EP_flat_minus = (double) EP_Psi2_minus_flat;
+	double delta_phi_recoEP2_plus = 2.0*fabs(deltaphi(jet_phi, Psi2_EP_flat_plus));
+	double delta_phi_recoEP2_minus = 2.0*fabs(deltaphi(jet_phi, Psi2_EP_flat_minus));
+	// Psi 3
+	double Psi3_EP_flat_plus = (double) EP_Psi3_plus_flat;
+	double Psi3_EP_flat_minus = (double) EP_Psi3_minus_flat;
+	double delta_phi_recoEP3_plus = 3.0*fabs(deltaphi(jet_phi, Psi3_EP_flat_plus));
+	double delta_phi_recoEP3_minus = 3.0*fabs(deltaphi(jet_phi, Psi3_EP_flat_minus));
+	// Psi 4
+	double Psi4_EP_flat_plus = (double) EP_Psi4_plus_flat;
+	double Psi4_EP_flat_minus = (double) EP_Psi4_minus_flat;
+	double delta_phi_recoEP4_plus = 4.0*fabs(deltaphi(jet_phi, Psi4_EP_flat_plus));
+	double delta_phi_recoEP4_minus = 4.0*fabs(deltaphi(jet_phi, Psi4_EP_flat_minus));
+
+	double x_EP_plus[9]={Xj,delta_phi,delta_phi_recoEP2_plus,delta_phi_recoEP3_plus,delta_phi_recoEP4_plus,(double)multcentbin,(double)ptdijetbin, (double)extrabin, (double) dijetetarecotype}; 
+	double x_EP_minus[9]={Xj,delta_phi,delta_phi_recoEP2_minus,delta_phi_recoEP3_minus,delta_phi_recoEP4_minus,(double)multcentbin,(double)ptdijetbin, (double)extrabin, (double) dijetetarecotype}; 
+
+	hist_realEP_quench_plus->Fill(x_EP_plus,weight);
+	hist_realEP_quench_minus->Fill(x_EP_minus,weight);
+
+}
+
+
+
+bool twojetfounded(float leadjet_pt, float lead_pT_min, float subljet_pt, float subl_pT_min){
+	bool twojets = false;
+	if(leadjet_pt > lead_pT_min && subljet_pt > subl_pT_min) twojets = true; 
+	return twojets;
+}
+
+bool isdijet(float leadjet_pt, float lead_pT_min, float subljet_pt, float subl_pT_min, float leadjet_phi, float subljet_phi, float lead_subl_deltaphi_min, float xjmin, float xjmax, float Ajmin, float Ajmax){
+	bool dijets = false;
+	bool twojet = twojetfounded(leadjet_pt, lead_pT_min, subljet_pt, subl_pT_min);
+	float deltap = deltaphi(leadjet_phi, subljet_phi);
+	float Aj = asymmetry(leadjet_pt,subljet_pt);
+	float Xj = xjvar(leadjet_pt,subljet_pt);
+	if(twojet && deltap > lead_subl_deltaphi_min){
+		 if( (Xj >= xjmin && Xj <= xjmax) && (Aj >= Ajmin && Aj <= Ajmax) ) dijets = true;
+	}
+	return dijets;
+}
