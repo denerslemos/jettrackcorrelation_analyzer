@@ -175,7 +175,7 @@ THnSparseD *hfhistEta4_dijet_weighted = new THnSparseD("hfhistEta4_dijet_weighte
 
 // Zero Degree Calorimeter (ZDC) information
 // Axis : 0 -> ZDC+, 1 -> ZDC-, 2 -> multbin
-int	bins_ZDC[3]      =   {  200   ,   200   ,  80};
+int	bins_ZDC[3]      =   {  100   ,   200   ,  80};
 double xmin_ZDC[3]   =   { -10000 ,  -10000 ,  0.0};
 double xmax_ZDC[3]   =   {  10000 ,   10000 ,  400};
 THnSparseD *zdchist = new THnSparseD("zdchist", "zdchist", 3, bins_ZDC, xmin_ZDC, xmax_ZDC);
@@ -184,7 +184,7 @@ THnSparseD *zdchist_onejet_weighted = new THnSparseD("zdchist_onejet_weighted", 
 THnSparseD *zdchist_dijet_weighted = new THnSparseD("zdchist_dijet_weighted", "zdchist_dijet_weighted", 3, bins_ZDC, xmin_ZDC, xmax_ZDC);
 
 // HFSum
-int	bins_HFSum[2]   =      { 500  ,  80};
+int	bins_HFSum[2]   =      { 250  ,  80};
 double xmin_HFSum[2]   =   { 0.0  ,  0.0};
 double xmax_HFSum[2]   =   { 500  ,  400};
 THnSparseD *hfhistSum_weighted = new THnSparseD("hfhistSum_weighted", "hfhistSum_weighted", 2, bins_HFSum, xmin_HFSum, xmax_HFSum);
@@ -300,14 +300,14 @@ THnSparseD *NJets = new THnSparseD("NJets", "NJets", 3, bins_NJETS, xmin_NJETS, 
 
 // trackmax histogram
 // Axis : 0 -> max track pt in a jet, 1 -> multiplicity bins, 2 -> extra dependence bins
-int	bins_trkmax[3]      =   {  500   ,   multbinsize-1    							    ,  extrabinsize-1};
+int	bins_trkmax[3]      =   {  100   ,   multbinsize-1    							    ,  extrabinsize-1};
 double xmin_trkmax[3]   =   {  0.0 	  ,   multiplicity_centrality_bins[0]  			    ,  extra_bins[0]};
 double xmax_trkmax[3]   =   {  100.0 ,   multiplicity_centrality_bins[multbinsize-1]   ,  extra_bins[extrabinsize-1]};
 THnSparseD *trackmaxptinjethisto = new THnSparseD("trackmaxptinjethisto", "trackmaxptinjethisto", 3, bins_trkmax, xmin_trkmax, xmax_trkmax);
 
 // trackmax/rawjet histogram
 // Axis : 0 -> max track pt in a jet over raw pT, 1 -> raw pT, 2 -> multiplicity bins
-int	bins_trkmaxjet[3]      =   {  500   , 100  , multbinsize-1};
+int	bins_trkmaxjet[3]      =   {  100   , 100  , multbinsize-1};
 double xmin_trkmaxjet[3]   =   {  0.0   , 0    , multiplicity_centrality_bins[0]};
 double xmax_trkmaxjet[3]   =   {  1.0   , 1000 , multiplicity_centrality_bins[multbinsize-1]};
 THnSparseD *jettrackmaxptinjethisto = new THnSparseD("jettrackmaxptinjethisto", "jettrackmaxptinjethisto", 3, bins_trkmaxjet, xmin_trkmaxjet, xmax_trkmaxjet);
@@ -316,7 +316,7 @@ THnSparseD *jettrackmaxptinjethisto_ref = new THnSparseD("jettrackmaxptinjethist
 
 // UE histogram
 // Axis : 0 -> UE, 1 -> multiplicity bins, 2 -> extra dependence bins
-int	bins_UE[3]      =   {  1000  	,   multbinsize-1    							    ,  extrabinsize-1};
+int	bins_UE[3]      =   {  400  	,   multbinsize-1    							    ,  extrabinsize-1};
 double xmin_UE[3]   =   {  -1000.0   	,   multiplicity_centrality_bins[0]  			    ,  extra_bins[0]};
 double xmax_UE[3]   =   {  1000.0   ,   multiplicity_centrality_bins[multbinsize-1]   	,  extra_bins[extrabinsize-1]};
 THnSparseD *histo_jetUE 			 = new THnSparseD("histo_jetUE", "histo_jetUE", 3, bins_UE, xmin_UE, xmax_UE);
@@ -325,7 +325,7 @@ THnSparseD *histo_jetcheckcorrection = new THnSparseD("histo_jetcheckcorrection"
 
 //correlations to EP
 // Axis : 0 -> delta phi between jet and EP, 1 -> multiplicity bins, 2 -> extra dependence bins
-int	bins_JETEP[3]      =   { 200			   		,  multbinsize-1							 	 ,  extrabinsize-1};
+int	bins_JETEP[3]      =   { 40			   		,  multbinsize-1							 	 ,  extrabinsize-1};
 double xmin_JETEP[3]   =   { -TMath::Pi()/2.0	    ,  multiplicity_centrality_bins[0]  			 ,  extra_bins[0]};
 double xmax_JETEP[3]   =   { 3.0*TMath::Pi()/2.0 	,  multiplicity_centrality_bins[multbinsize-1]   ,  extra_bins[extrabinsize-1]};
 
@@ -436,7 +436,7 @@ THnSparseD *hist_subl_jet_from_gen_gen_mix = new THnSparseD("hist_subl_jet_from_
 // Jet Energy Scale (JES) and Jet Energy Resolution (JER)
 int	bins_jes[6]   =      { 200  ,  100  ,  40  ,  8, multbinsize-1          					 , extrabinsize-1};
 double xmin_jes[6]   =   { 0.0  ,  0    , -4.0 ,  0, multiplicity_centrality_bins[0]             , extra_bins[0]};
-double xmax_jes[6]   =   { 5.0 ,  1000 ,  4.0 ,  8, multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
+double xmax_jes[6]   =   { 4.0 ,  1000 ,  4.0 ,  8, multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
 THnSparseD *hist_jes_reco_weighted = new THnSparseD("hist_jes_reco_weighted", "hist_jes_reco_weighted", 6, bins_jes, xmin_jes, xmax_jes);
 THnSparseD *hist_jes_reco_fromB_weighted = new THnSparseD("hist_jes_reco_fromB_weighted", "hist_jes_reco_fromB_weighted", 6, bins_jes, xmin_jes, xmax_jes);
 THnSparseD *hist_leadjes_reco_weighted = new THnSparseD("hist_leadjes_reco_weighted", "hist_leadjes_reco_weighted", 6, bins_jes, xmin_jes, xmax_jes);
@@ -468,44 +468,38 @@ THnSparseD *hist_xjclos_removesome_weighted = new THnSparseD("hist_xjclos_remove
 
 // Quenching studies
 // Axis : 0 -> Xj, 1 -> Aj, 2 -> delta phi, 3 -> multiplicity , 4 -> jet pT average, 5 -> extra dependency, 6 -> pT leading jet, 7 -> pT subleading jet, 8 -> mid-fwd-bkw combinations
-int	bins_quencx[9]   =      { nXjAjBins   , nXjAjBins	  , nDphiBins		, multbinsize-1		  	 					  ,	 nPtaveBins  ,  extrabinsize-1 				, nPtLSLBins, nPtLSLBins, 11};
-double xmin_quencx[9]   =   { 0.0 		 , 0.0  		  , 0.0		    	, multiplicity_centrality_bins[0]		   	  ,	 minPtave	 ,	extra_bins[0]				, minPtLSL	, minPtLSL  , 0.0};
-double xmax_quencx[9]   =   { 1.0  		 , 1.0   		  , TMath::Pi() 	, multiplicity_centrality_bins[multbinsize-1] ,  maxPtave    ,  extra_bins[extrabinsize-1]  , maxPtLSL	, maxPtLSL  , 11.0};
-THnSparseD *hist_reco_lead_reco_subl_quench = new THnSparseD("hist_reco_lead_reco_subl_quench", "hist_reco_lead_reco_subl_quench", 9, bins_quencx, xmin_quencx, xmax_quencx);
-THnSparseD *hist_ref_lead_ref_subl_quench = new THnSparseD("hist_reco_lead_reco_subl_quench", "hist_reco_lead_reco_subl_quench", 9, bins_quencx, xmin_quencx, xmax_quencx);
-THnSparseD *hist_gen_lead_gen_subl_quench = new THnSparseD("hist_reco_lead_reco_subl_quench", "hist_reco_lead_reco_subl_quench", 9, bins_quencx, xmin_quencx, xmax_quencx);
+int	bins_quenc[9]   =      { nXjAjBins   , nXjAjBins	  , nDphiBins		, multbinsize-1		  	 					  ,	 nPtaveBins  ,  extrabinsize-1 				, nPtLSLBins, nPtLSLBins, 11};
+double xmin_quenc[9]   =   { 0.0 		 , 0.0  		  , 0.0		    	, multiplicity_centrality_bins[0]		   	  ,	 minPtave	 ,	extra_bins[0]				, minPtLSL	, minPtLSL  , 0.0};
+double xmax_quenc[9]   =   { 1.0  		 , 1.0   		  , TMath::Pi() 	, multiplicity_centrality_bins[multbinsize-1] ,  maxPtave    ,  extra_bins[extrabinsize-1]  , maxPtLSL	, maxPtLSL  , 11.0};
+THnSparseD *hist_reco_lead_reco_subl_quench = new THnSparseD("hist_reco_lead_reco_subl_quench", "hist_reco_lead_reco_subl_quench", 9, bins_quenc, xmin_quenc, xmax_quenc);
+THnSparseD *hist_fake_lead_reco_subl_quench = new THnSparseD("hist_fake_lead_reco_subl_quench", "hist_fake_lead_reco_subl_quench", 9, bins_quenc, xmin_quenc, xmax_quenc);
+THnSparseD *hist_reco_lead_fake_subl_quench = new THnSparseD("hist_reco_lead_fake_subl_quench", "hist_reco_lead_fake_subl_quench", 9, bins_quenc, xmin_quenc, xmax_quenc);
+THnSparseD *hist_fake_lead_fake_subl_quench = new THnSparseD("hist_fake_lead_fake_subl_quench", "hist_fake_lead_fake_subl_quench", 9, bins_quenc, xmin_quenc, xmax_quenc);
+THnSparseD *hist_ref_lead_ref_subl_quench = new THnSparseD("hist_ref_lead_ref_subl_quench", "hist_ref_lead_ref_subl_quench", 9, bins_quenc, xmin_quenc, xmax_quenc);
+THnSparseD *hist_gen_lead_gen_subl_quench = new THnSparseD("hist_gen_lead_gen_subl_quench", "hist_gen_lead_gen_subl_quench", 9, bins_quenc, xmin_quenc, xmax_quenc);
 
-// Axis : 0 -> Xj, 1 -> Aj, 2 -> delta phi, 3 -> multiplicity , 4 -> jet pT average, 5 -> extra dependency, 6 -> pT leading jet, 7 -> pT subleading jet
-int	bins_quenc[8]   =      { nXjAjBins   , nXjAjBins	  , nDphiBins		, multbinsize-1		  	 					  ,	 nPtaveBins  ,  extrabinsize-1 				, nPtLSLBins, nPtLSLBins};
-double xmin_quenc[8]   =   { 0.0 		 , 0.0  		  , 0.0		    	, multiplicity_centrality_bins[0]		   	  ,	 minPtave	 ,	extra_bins[0]				, minPtLSL	, minPtLSL};
-double xmax_quenc[8]   =   { 1.0  		 , 1.0   		  , TMath::Pi() 	, multiplicity_centrality_bins[multbinsize-1] ,  maxPtave    ,  extra_bins[extrabinsize-1]  , maxPtLSL	, maxPtLSL};
-THnSparseD *hist_reco_lead_reco_subl_quench_mid_mid = new THnSparseD("hist_reco_lead_reco_subl_quench_mid_mid", "hist_reco_lead_reco_subl_quench_mid_mid", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_reco_lead_reco_subl_quench_mid_fwd = new THnSparseD("hist_reco_lead_reco_subl_quench_mid_fwd", "hist_reco_lead_reco_subl_quench_mid_fwd", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_reco_lead_reco_subl_quench_mid_bkw = new THnSparseD("hist_reco_lead_reco_subl_quench_mid_bkw", "hist_reco_lead_reco_subl_quench_mid_bkw", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_reco_lead_reco_subl_quench_fwd_mid = new THnSparseD("hist_reco_lead_reco_subl_quench_fwd_mid", "hist_reco_lead_reco_subl_quench_fwd_mid", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_reco_lead_reco_subl_quench_bkw_mid = new THnSparseD("hist_reco_lead_reco_subl_quench_bkw_mid", "hist_reco_lead_reco_subl_quench_bkw_mid", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_reco_lead_reco_subl_quench_fwd_fwd = new THnSparseD("hist_reco_lead_reco_subl_quench_fwd_fwd", "hist_reco_lead_reco_subl_quench_fwd_fwd", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_reco_lead_reco_subl_quench_fwd_bkw = new THnSparseD("hist_reco_lead_reco_subl_quench_fwd_bkw", "hist_reco_lead_reco_subl_quench_fwd_bkw", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_reco_lead_reco_subl_quench_bkw_fwd = new THnSparseD("hist_reco_lead_reco_subl_quench_bkw_fwd", "hist_reco_lead_reco_subl_quench_bkw_fwd", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_reco_lead_reco_subl_quench_bkw_bkw = new THnSparseD("hist_reco_lead_reco_subl_quench_bkw_bkw", "hist_reco_lead_reco_subl_quench_bkw_bkw", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_gen_lead_gen_subl_quench_mid_mid = new THnSparseD("hist_gen_lead_gen_subl_quench_mid_mid", "hist_gen_lead_gen_subl_quench_mid_mid", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_gen_lead_gen_subl_quench_mid_fwd = new THnSparseD("hist_gen_lead_gen_subl_quench_mid_fwd", "hist_gen_lead_gen_subl_quench_mid_fwd", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_gen_lead_gen_subl_quench_mid_bkw = new THnSparseD("hist_gen_lead_gen_subl_quench_mid_bkw", "hist_gen_lead_gen_subl_quench_mid_bkw", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_gen_lead_gen_subl_quench_fwd_mid = new THnSparseD("hist_gen_lead_gen_subl_quench_fwd_mid", "hist_gen_lead_gen_subl_quench_fwd_mid", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_gen_lead_gen_subl_quench_bkw_mid = new THnSparseD("hist_gen_lead_gen_subl_quench_bkw_mid", "hist_gen_lead_gen_subl_quench_bkw_mid", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_gen_lead_gen_subl_quench_fwd_fwd = new THnSparseD("hist_gen_lead_gen_subl_quench_fwd_fwd", "hist_gen_lead_gen_subl_quench_fwd_fwd", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_gen_lead_gen_subl_quench_fwd_bkw = new THnSparseD("hist_gen_lead_gen_subl_quench_fwd_bkw", "hist_gen_lead_gen_subl_quench_fwd_bkw", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_gen_lead_gen_subl_quench_bkw_fwd = new THnSparseD("hist_gen_lead_gen_subl_quench_bkw_fwd", "hist_gen_lead_gen_subl_quench_bkw_fwd", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_gen_lead_gen_subl_quench_bkw_bkw = new THnSparseD("hist_gen_lead_gen_subl_quench_bkw_bkw", "hist_gen_lead_gen_subl_quench_bkw_bkw", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_ref_lead_ref_subl_quench_mid_mid = new THnSparseD("hist_ref_lead_ref_subl_quench_mid_mid", "hist_ref_lead_ref_subl_quench_mid_mid", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_ref_lead_ref_subl_quench_mid_fwd = new THnSparseD("hist_ref_lead_ref_subl_quench_mid_fwd", "hist_ref_lead_ref_subl_quench_mid_fwd", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_ref_lead_ref_subl_quench_mid_bkw = new THnSparseD("hist_ref_lead_ref_subl_quench_mid_bkw", "hist_ref_lead_ref_subl_quench_mid_bkw", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_ref_lead_ref_subl_quench_fwd_mid = new THnSparseD("hist_ref_lead_ref_subl_quench_fwd_mid", "hist_ref_lead_ref_subl_quench_fwd_mid", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_ref_lead_ref_subl_quench_bkw_mid = new THnSparseD("hist_ref_lead_ref_subl_quench_bkw_mid", "hist_ref_lead_ref_subl_quench_bkw_mid", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_ref_lead_ref_subl_quench_fwd_fwd = new THnSparseD("hist_ref_lead_ref_subl_quench_fwd_fwd", "hist_ref_lead_ref_subl_quench_fwd_fwd", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_ref_lead_ref_subl_quench_fwd_bkw = new THnSparseD("hist_ref_lead_ref_subl_quench_fwd_bkw", "hist_ref_lead_ref_subl_quench_fwd_bkw", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_ref_lead_ref_subl_quench_bkw_fwd = new THnSparseD("hist_ref_lead_ref_subl_quench_bkw_fwd", "hist_ref_lead_ref_subl_quench_bkw_fwd", 8, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_ref_lead_ref_subl_quench_bkw_bkw = new THnSparseD("hist_ref_lead_ref_subl_quench_bkw_bkw", "hist_ref_lead_ref_subl_quench_bkw_bkw", 8, bins_quenc, xmin_quenc, xmax_quenc);
+
+// EP dependency
+// Axis : 0 -> Xj, 1 -> delta phi, 2 -> 2*|Psi2 - jetphi|, 3 -> 3*|Psi3 - jetphi|, 4 -> 4*|Psi4 - jetphi|, 5 -> multiplicity , 6 -> jet pT average, 7 ->  mid-fwd-bkw combinations
+int	bins_quencEPx[8]   =      { nXjAjBins  , nDphiBins		, 16 		 , 16 			, 16 			, multbinsize-1		  	 					  ,	 nPtaveBins , 11};
+double xmin_quencEPx[8]   =   { 0.0 	   , 0.0		  	, 0.0		 , 0.0			, 0.0			, multiplicity_centrality_bins[0]		   	  ,	 minPtave   , 0.0};
+double xmax_quencEPx[8]   =   { 1.0  	   , TMath::Pi() 	, TMath::Pi(), TMath::Pi()	, TMath::Pi()	, multiplicity_centrality_bins[multbinsize-1] ,  maxPtave   , 11.0};
+THnSparseD *hist_reco_leadEP_quench_plus = new THnSparseD("hist_reco_leadEP_quench_plus", "hist_reco_leadEP_quench_plus", 8, bins_quencEPx, xmin_quencEPx, xmax_quencEPx);
+THnSparseD *hist_reco_leadEP_quench_minus = new THnSparseD("hist_reco_leadEP_quench_minus", "hist_reco_leadEP_quench_minus", 8, bins_quencEPx, xmin_quencEPx, xmax_quencEPx);
+THnSparseD *hist_reco_sublEP_quench_plus = new THnSparseD("hist_reco_sublEP_quench_plus", "hist_reco_sublEP_quench_plus", 8, bins_quencEPx, xmin_quencEPx, xmax_quencEPx);
+THnSparseD *hist_reco_sublEP_quench_minus = new THnSparseD("hist_reco_sublEP_quench_minus", "hist_reco_sublEP_quench_minus", 8, bins_quencEPx, xmin_quencEPx, xmax_quencEPx);
+THnSparseD *hist_ref_sublEP_quench_plus = new THnSparseD("hist_ref_sublEP_quench_plus", "hist_ref_sublEP_quench_plus", 8, bins_quencEPx, xmin_quencEPx, xmax_quencEPx);
+THnSparseD *hist_ref_sublEP_quench_minus = new THnSparseD("hist_ref_sublEP_quench_minus", "hist_ref_sublEP_quench_minus", 8, bins_quencEPx, xmin_quencEPx, xmax_quencEPx);
+THnSparseD *hist_ref_leadEP_quench_plus = new THnSparseD("hist_ref_leadEP_quench_plus", "hist_ref_leadEP_quench_plus", 8, bins_quencEPx, xmin_quencEPx, xmax_quencEPx);
+THnSparseD *hist_ref_leadEP_quench_minus = new THnSparseD("hist_ref_leadEP_quench_minus", "hist_ref_leadEP_quench_minus", 8, bins_quencEPx, xmin_quencEPx, xmax_quencEPx);
+THnSparseD *hist_gen_leadEP_quench_plus = new THnSparseD("hist_gen_leadEP_quench_plus", "hist_gen_leadEP_quench_plus", 8, bins_quencEPx, xmin_quencEPx, xmax_quencEPx);
+THnSparseD *hist_gen_leadEP_quench_minus = new THnSparseD("hist_gen_leadEP_quench_minus", "hist_gen_leadEP_quench_minus", 8, bins_quencEPx, xmin_quencEPx, xmax_quencEPx);
+THnSparseD *hist_gen_sublEP_quench_plus = new THnSparseD("hist_gen_sublEP_quench_plus", "hist_gen_sublEP_quench_plus", 8, bins_quencEPx, xmin_quencEPx, xmax_quencEPx);
+THnSparseD *hist_gen_sublEP_quench_minus = new THnSparseD("hist_gen_sublEP_quench_minus", "hist_gen_sublEP_quench_minus", 8, bins_quencEPx, xmin_quencEPx, xmax_quencEPx);
+THnSparseD *hist_fake_leadEP_quench_plus = new THnSparseD("hist_fake_leadEP_quench_plus", "hist_fake_leadEP_quench_plus", 8, bins_quencEPx, xmin_quencEPx, xmax_quencEPx);
+THnSparseD *hist_fake_leadEP_quench_minus = new THnSparseD("hist_fake_leadEP_quench_minus", "hist_fake_leadEP_quench_minus", 8, bins_quencEPx, xmin_quencEPx, xmax_quencEPx);
+THnSparseD *hist_fake_sublEP_quench_plus = new THnSparseD("hist_fake_sublEP_quench_plus", "hist_fake_sublEP_quench_plus", 8, bins_quencEPx, xmin_quencEPx, xmax_quencEPx);
+THnSparseD *hist_fake_sublEP_quench_minus = new THnSparseD("hist_fake_sublEP_quench_minus", "hist_fake_sublEP_quench_minus", 8, bins_quencEPx, xmin_quencEPx, xmax_quencEPx);
 
 // EP dependency
 // Axis : 0 -> Xj, 1 -> delta phi, 2 -> 2*|Psi2 - jetphi|, 3 -> 3*|Psi3 - jetphi|, 4 -> 4*|Psi4 - jetphi|, 5 -> multiplicity , 6 -> jet pT average, 7 -> 
@@ -636,7 +630,7 @@ THnSparseD *hist_yDijet_CM_ref = new THnSparseD("hist_yDijet_CM_ref", "hist_yDij
 THnSparseD *hist_yDijet_CM_gen = new THnSparseD("hist_yDijet_CM_gen", "hist_yDijet_CM_gen", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
 
 // Axis : 0 -> in-jet multiplicity, 1 -> multiplicity, 2 -> extra dimension
-int	bins_injettrk[3]   	  =   { 100 , multbinsize-1			  						  ,  extrabinsize-1};
+int	bins_injettrk[3]   	  =   { 50 , multbinsize-1			  						  ,  extrabinsize-1};
 double xmin_injettrk[3]   =   { 0.0 , multiplicity_centrality_bins[0]				  ,	 extra_bins[0]};
 double xmax_injettrk[3]   =   { 100 , multiplicity_centrality_bins[multbinsize-1]	  ,  extra_bins[extrabinsize-1]};
 THnSparseD *hist_injet_reco_track_reco = new THnSparseD("hist_injet_reco_track_reco","hist_injet_reco_track_reco",3,bins_injettrk,xmin_injettrk,xmax_injettrk);
@@ -793,34 +787,9 @@ hist_etaDijet_CM_gen->GetAxis(2)->Set(bins_etaDijet[2],XjBins);
 hist_yDijet_CM_reco->GetAxis(2)->Set(bins_etaDijet[2],XjBins);
 hist_yDijet_CM_ref->GetAxis(2)->Set(bins_etaDijet[2],XjBins);
 hist_yDijet_CM_gen->GetAxis(2)->Set(bins_etaDijet[2],XjBins);
-hist_reco_lead_reco_subl_quench->GetAxis(0)->Set(bins_quencx[0],XjBins);
-hist_reco_lead_reco_subl_quench_mid_mid->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_reco_lead_reco_subl_quench_mid_fwd->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_reco_lead_reco_subl_quench_mid_bkw->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_reco_lead_reco_subl_quench_fwd_mid->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_reco_lead_reco_subl_quench_bkw_mid->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_reco_lead_reco_subl_quench_fwd_fwd->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_reco_lead_reco_subl_quench_fwd_bkw->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_reco_lead_reco_subl_quench_bkw_fwd->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_reco_lead_reco_subl_quench_bkw_bkw->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_gen_lead_gen_subl_quench_mid_mid->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_gen_lead_gen_subl_quench_mid_fwd->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_gen_lead_gen_subl_quench_mid_bkw->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_gen_lead_gen_subl_quench_fwd_mid->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_gen_lead_gen_subl_quench_bkw_mid->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_gen_lead_gen_subl_quench_fwd_fwd->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_gen_lead_gen_subl_quench_fwd_bkw->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_gen_lead_gen_subl_quench_bkw_fwd->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_gen_lead_gen_subl_quench_bkw_bkw->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_ref_lead_ref_subl_quench_mid_mid->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_ref_lead_ref_subl_quench_mid_fwd->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_ref_lead_ref_subl_quench_mid_bkw->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_ref_lead_ref_subl_quench_fwd_mid->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_ref_lead_ref_subl_quench_bkw_mid->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_ref_lead_ref_subl_quench_fwd_fwd->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_ref_lead_ref_subl_quench_fwd_bkw->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_ref_lead_ref_subl_quench_bkw_fwd->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_ref_lead_ref_subl_quench_bkw_bkw->GetAxis(0)->Set(bins_quenc[0],XjBins);
+hist_reco_lead_reco_subl_quench->GetAxis(0)->Set(bins_quenc[0],XjBins);
+hist_gen_lead_gen_subl_quench->GetAxis(0)->Set(bins_quenc[0],XjBins);
+hist_ref_lead_ref_subl_quench->GetAxis(0)->Set(bins_quenc[0],XjBins);
 
 hist_reco_leadEP_quench_plus_mid_mid->GetAxis(0)->Set(bins_quencEP[0],XjBins);
 hist_reco_leadEP_quench_plus_mid_fwd->GetAxis(0)->Set(bins_quencEP[0],XjBins);
@@ -940,34 +909,9 @@ hist_etaDijet_CM_gen->GetAxis(3)->Set(bins_etaDijet[3],AjBins);
 hist_yDijet_CM_reco->GetAxis(3)->Set(bins_etaDijet[3],AjBins);
 hist_yDijet_CM_ref->GetAxis(3)->Set(bins_etaDijet[3],AjBins);
 hist_yDijet_CM_gen->GetAxis(3)->Set(bins_etaDijet[3],AjBins);
-hist_reco_lead_reco_subl_quench->GetAxis(1)->Set(bins_quencx[1],AjBins);
-hist_reco_lead_reco_subl_quench_mid_mid->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_reco_lead_reco_subl_quench_mid_fwd->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_reco_lead_reco_subl_quench_mid_bkw->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_reco_lead_reco_subl_quench_fwd_mid->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_reco_lead_reco_subl_quench_bkw_mid->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_reco_lead_reco_subl_quench_fwd_fwd->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_reco_lead_reco_subl_quench_fwd_bkw->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_reco_lead_reco_subl_quench_bkw_fwd->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_reco_lead_reco_subl_quench_bkw_bkw->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_gen_lead_gen_subl_quench_mid_mid->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_gen_lead_gen_subl_quench_mid_fwd->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_gen_lead_gen_subl_quench_mid_bkw->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_gen_lead_gen_subl_quench_fwd_mid->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_gen_lead_gen_subl_quench_bkw_mid->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_gen_lead_gen_subl_quench_fwd_fwd->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_gen_lead_gen_subl_quench_fwd_bkw->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_gen_lead_gen_subl_quench_bkw_fwd->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_gen_lead_gen_subl_quench_bkw_bkw->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_ref_lead_ref_subl_quench_mid_mid->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_ref_lead_ref_subl_quench_mid_fwd->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_ref_lead_ref_subl_quench_mid_bkw->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_ref_lead_ref_subl_quench_fwd_mid->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_ref_lead_ref_subl_quench_bkw_mid->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_ref_lead_ref_subl_quench_fwd_fwd->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_ref_lead_ref_subl_quench_fwd_bkw->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_ref_lead_ref_subl_quench_bkw_fwd->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_ref_lead_ref_subl_quench_bkw_bkw->GetAxis(1)->Set(bins_quenc[1],AjBins);
+hist_reco_lead_reco_subl_quench->GetAxis(1)->Set(bins_quenc[1],AjBins);
+hist_gen_lead_gen_subl_quench->GetAxis(1)->Set(bins_quenc[1],AjBins);
+hist_ref_lead_ref_subl_quench->GetAxis(1)->Set(bins_quenc[1],AjBins);
 
 hist_etaDijet_reco->GetAxis(4)->Set(bins_etaDijet[4],DphiBins);
 hist_etaDijet_CM_reco->GetAxis(4)->Set(bins_etaDijet[4],DphiBins);
@@ -978,34 +922,9 @@ hist_etaDijet_CM_gen->GetAxis(4)->Set(bins_etaDijet[4],DphiBins);
 hist_yDijet_CM_reco->GetAxis(4)->Set(bins_etaDijet[4],DphiBins);
 hist_yDijet_CM_ref->GetAxis(4)->Set(bins_etaDijet[4],DphiBins);
 hist_yDijet_CM_gen->GetAxis(4)->Set(bins_etaDijet[4],DphiBins);
-hist_reco_lead_reco_subl_quench->GetAxis(2)->Set(bins_quencx[2],DphiBins);
-hist_reco_lead_reco_subl_quench_mid_mid->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_reco_lead_reco_subl_quench_mid_fwd->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_reco_lead_reco_subl_quench_mid_bkw->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_reco_lead_reco_subl_quench_fwd_mid->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_reco_lead_reco_subl_quench_bkw_mid->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_reco_lead_reco_subl_quench_fwd_fwd->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_reco_lead_reco_subl_quench_fwd_bkw->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_reco_lead_reco_subl_quench_bkw_fwd->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_reco_lead_reco_subl_quench_bkw_bkw->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_gen_lead_gen_subl_quench_mid_mid->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_gen_lead_gen_subl_quench_mid_fwd->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_gen_lead_gen_subl_quench_mid_bkw->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_gen_lead_gen_subl_quench_fwd_mid->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_gen_lead_gen_subl_quench_bkw_mid->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_gen_lead_gen_subl_quench_fwd_fwd->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_gen_lead_gen_subl_quench_fwd_bkw->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_gen_lead_gen_subl_quench_bkw_fwd->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_gen_lead_gen_subl_quench_bkw_bkw->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_ref_lead_ref_subl_quench_mid_mid->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_ref_lead_ref_subl_quench_mid_fwd->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_ref_lead_ref_subl_quench_mid_bkw->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_ref_lead_ref_subl_quench_fwd_mid->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_ref_lead_ref_subl_quench_bkw_mid->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_ref_lead_ref_subl_quench_fwd_fwd->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_ref_lead_ref_subl_quench_fwd_bkw->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_ref_lead_ref_subl_quench_bkw_fwd->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_ref_lead_ref_subl_quench_bkw_bkw->GetAxis(2)->Set(bins_quenc[2],DphiBins);
+hist_reco_lead_reco_subl_quench->GetAxis(2)->Set(bins_quenc[2],DphiBins);
+hist_gen_lead_gen_subl_quench->GetAxis(2)->Set(bins_quenc[2],DphiBins);
+hist_ref_lead_ref_subl_quench->GetAxis(2)->Set(bins_quenc[2],DphiBins);
 
 hist_reco_leadEP_quench_plus_mid_mid->GetAxis(1)->Set(bins_quencEP[1],DphiBins);
 hist_reco_leadEP_quench_plus_mid_fwd->GetAxis(1)->Set(bins_quencEP[1],DphiBins);
@@ -1133,34 +1052,9 @@ hist_yDijet_CM_reco->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
 hist_yDijet_CM_ref->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
 hist_yDijet_CM_gen->GetAxis(8)->Set(bins_etaDijet[8],PtaveBins);
 //adjust the bins for pT average
-hist_reco_lead_reco_subl_quench->GetAxis(4)->Set(bins_quencx[4],PtaveBins);
-hist_reco_lead_reco_subl_quench_mid_mid->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_reco_lead_reco_subl_quench_mid_fwd->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_reco_lead_reco_subl_quench_mid_bkw->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_reco_lead_reco_subl_quench_fwd_mid->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_reco_lead_reco_subl_quench_bkw_mid->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_reco_lead_reco_subl_quench_fwd_fwd->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_reco_lead_reco_subl_quench_fwd_bkw->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_reco_lead_reco_subl_quench_bkw_fwd->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_reco_lead_reco_subl_quench_bkw_bkw->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_gen_lead_gen_subl_quench_mid_mid->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_gen_lead_gen_subl_quench_mid_fwd->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_gen_lead_gen_subl_quench_mid_bkw->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_gen_lead_gen_subl_quench_fwd_mid->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_gen_lead_gen_subl_quench_bkw_mid->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_gen_lead_gen_subl_quench_fwd_fwd->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_gen_lead_gen_subl_quench_fwd_bkw->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_gen_lead_gen_subl_quench_bkw_fwd->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_gen_lead_gen_subl_quench_bkw_bkw->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_ref_lead_ref_subl_quench_mid_mid->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_ref_lead_ref_subl_quench_mid_fwd->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_ref_lead_ref_subl_quench_mid_bkw->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_ref_lead_ref_subl_quench_fwd_mid->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_ref_lead_ref_subl_quench_bkw_mid->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_ref_lead_ref_subl_quench_fwd_fwd->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_ref_lead_ref_subl_quench_fwd_bkw->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_ref_lead_ref_subl_quench_bkw_fwd->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
-hist_ref_lead_ref_subl_quench_bkw_bkw->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
+hist_reco_lead_reco_subl_quench->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
+hist_gen_lead_gen_subl_quench->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
+hist_ref_lead_ref_subl_quench->GetAxis(4)->Set(bins_quenc[4],PtaveBins);
 
 hist_reco_leadEP_quench_plus_mid_mid->GetAxis(6)->Set(bins_quencEP[6],PtaveBins);
 hist_reco_leadEP_quench_plus_mid_fwd->GetAxis(6)->Set(bins_quencEP[6],PtaveBins);
@@ -1521,34 +1415,9 @@ hist_averjetptclos_weighted->GetAxis(6)->Set(bins_jetptclosave[6],MultCentbins);
 hist_averjetptclosremovesome_weighed->GetAxis(6)->Set(bins_jetptclosave[6],MultCentbins);
 hist_xjclos_weighted->GetAxis(6)->Set(bins_xjclos[6],MultCentbins);
 hist_xjclos_removesome_weighted->GetAxis(6)->Set(bins_xjclos[6],MultCentbins);
-hist_reco_lead_reco_subl_quench->GetAxis(3)->Set(bins_quencx[3],MultCentbins);
-hist_reco_lead_reco_subl_quench_mid_mid->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_reco_lead_reco_subl_quench_mid_fwd->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_reco_lead_reco_subl_quench_mid_bkw->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_reco_lead_reco_subl_quench_fwd_mid->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_reco_lead_reco_subl_quench_bkw_mid->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_reco_lead_reco_subl_quench_fwd_fwd->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_reco_lead_reco_subl_quench_fwd_bkw->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_reco_lead_reco_subl_quench_bkw_fwd->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_reco_lead_reco_subl_quench_bkw_bkw->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_gen_lead_gen_subl_quench_mid_mid->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_gen_lead_gen_subl_quench_mid_fwd->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_gen_lead_gen_subl_quench_mid_bkw->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_gen_lead_gen_subl_quench_fwd_mid->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_gen_lead_gen_subl_quench_bkw_mid->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_gen_lead_gen_subl_quench_fwd_fwd->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_gen_lead_gen_subl_quench_fwd_bkw->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_gen_lead_gen_subl_quench_bkw_fwd->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_gen_lead_gen_subl_quench_bkw_bkw->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_ref_lead_ref_subl_quench_mid_mid->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_ref_lead_ref_subl_quench_mid_fwd->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_ref_lead_ref_subl_quench_mid_bkw->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_ref_lead_ref_subl_quench_fwd_mid->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_ref_lead_ref_subl_quench_bkw_mid->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_ref_lead_ref_subl_quench_fwd_fwd->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_ref_lead_ref_subl_quench_fwd_bkw->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_ref_lead_ref_subl_quench_bkw_fwd->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_ref_lead_ref_subl_quench_bkw_bkw->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
+hist_reco_lead_reco_subl_quench->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
+hist_gen_lead_gen_subl_quench->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
+hist_ref_lead_ref_subl_quench->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
 
 hist_reco_leadEP_quench_plus_mid_mid->GetAxis(5)->Set(bins_quencEP[5],MultCentbins);
 hist_reco_leadEP_quench_plus_mid_fwd->GetAxis(5)->Set(bins_quencEP[5],MultCentbins);
@@ -1900,34 +1769,10 @@ hist_averjetptclos_weighted->GetAxis(7)->Set(bins_jetptclosave[7],Extrabins);
 hist_averjetptclosremovesome_weighed->GetAxis(7)->Set(bins_jetptclosave[7],Extrabins);
 hist_xjclos_weighted->GetAxis(7)->Set(bins_xjclos[7],Extrabins);
 hist_xjclos_removesome_weighted->GetAxis(7)->Set(bins_xjclos[7],Extrabins);
-hist_reco_lead_reco_subl_quench->GetAxis(5)->Set(bins_quencx[5],Extrabins);
-hist_reco_lead_reco_subl_quench_mid_mid->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_reco_lead_reco_subl_quench_mid_fwd->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_reco_lead_reco_subl_quench_mid_bkw->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_reco_lead_reco_subl_quench_fwd_mid->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_reco_lead_reco_subl_quench_bkw_mid->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_reco_lead_reco_subl_quench_fwd_fwd->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_reco_lead_reco_subl_quench_fwd_bkw->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_reco_lead_reco_subl_quench_bkw_fwd->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_reco_lead_reco_subl_quench_bkw_bkw->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_gen_lead_gen_subl_quench_mid_mid->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_gen_lead_gen_subl_quench_mid_fwd->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_gen_lead_gen_subl_quench_mid_bkw->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_gen_lead_gen_subl_quench_fwd_mid->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_gen_lead_gen_subl_quench_bkw_mid->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_gen_lead_gen_subl_quench_fwd_fwd->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_gen_lead_gen_subl_quench_fwd_bkw->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_gen_lead_gen_subl_quench_bkw_fwd->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_gen_lead_gen_subl_quench_bkw_bkw->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_ref_lead_ref_subl_quench_mid_mid->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_ref_lead_ref_subl_quench_mid_fwd->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_ref_lead_ref_subl_quench_mid_bkw->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_ref_lead_ref_subl_quench_fwd_mid->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_ref_lead_ref_subl_quench_bkw_mid->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_ref_lead_ref_subl_quench_fwd_fwd->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_ref_lead_ref_subl_quench_fwd_bkw->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_ref_lead_ref_subl_quench_bkw_fwd->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_ref_lead_ref_subl_quench_bkw_bkw->GetAxis(5)->Set(bins_quenc[5],Extrabins);
+hist_reco_lead_reco_subl_quench->GetAxis(5)->Set(bins_quenc[5],Extrabins);
+hist_gen_lead_gen_subl_quench->GetAxis(5)->Set(bins_quenc[5],Extrabins);
+hist_ref_lead_ref_subl_quench->GetAxis(5)->Set(bins_quenc[5],Extrabins);
+
 hist_etaDijet_reco->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
 hist_etaDijet_CM_reco->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
 hist_etaDijet_ref->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
@@ -2231,33 +2076,9 @@ hist_subl_jet_from_reco_gen_mix->Sumw2();
 hist_subl_jet_from_gen_reco_mix->Sumw2();
 hist_subl_jet_from_gen_gen_mix->Sumw2();
 hist_reco_lead_reco_subl_quench->Sumw2();
-hist_reco_lead_reco_subl_quench_mid_mid->Sumw2();
-hist_reco_lead_reco_subl_quench_mid_fwd->Sumw2();
-hist_reco_lead_reco_subl_quench_mid_bkw->Sumw2();
-hist_reco_lead_reco_subl_quench_fwd_mid->Sumw2();
-hist_reco_lead_reco_subl_quench_bkw_mid->Sumw2();
-hist_reco_lead_reco_subl_quench_fwd_fwd->Sumw2();
-hist_reco_lead_reco_subl_quench_fwd_bkw->Sumw2();
-hist_reco_lead_reco_subl_quench_bkw_fwd->Sumw2();
-hist_reco_lead_reco_subl_quench_bkw_bkw->Sumw2();
-hist_gen_lead_gen_subl_quench_mid_mid->Sumw2();
-hist_gen_lead_gen_subl_quench_mid_fwd->Sumw2();
-hist_gen_lead_gen_subl_quench_mid_bkw->Sumw2();
-hist_gen_lead_gen_subl_quench_fwd_mid->Sumw2();
-hist_gen_lead_gen_subl_quench_bkw_mid->Sumw2();
-hist_gen_lead_gen_subl_quench_fwd_fwd->Sumw2();
-hist_gen_lead_gen_subl_quench_fwd_bkw->Sumw2();
-hist_gen_lead_gen_subl_quench_bkw_fwd->Sumw2();
-hist_gen_lead_gen_subl_quench_bkw_bkw->Sumw2();
-hist_ref_lead_ref_subl_quench_mid_mid->Sumw2();
-hist_ref_lead_ref_subl_quench_mid_fwd->Sumw2();
-hist_ref_lead_ref_subl_quench_mid_bkw->Sumw2();
-hist_ref_lead_ref_subl_quench_fwd_mid->Sumw2();
-hist_ref_lead_ref_subl_quench_bkw_mid->Sumw2();
-hist_ref_lead_ref_subl_quench_fwd_fwd->Sumw2();
-hist_ref_lead_ref_subl_quench_fwd_bkw->Sumw2();
-hist_ref_lead_ref_subl_quench_bkw_fwd->Sumw2();
-hist_ref_lead_ref_subl_quench_bkw_bkw->Sumw2();
+hist_gen_lead_gen_subl_quench->Sumw2();
+hist_ref_lead_ref_subl_quench->Sumw2();
+
 hist_reco_leadEP_quench_plus_mid_mid->Sumw2();
 hist_reco_leadEP_quench_plus_mid_fwd->Sumw2();
 hist_reco_leadEP_quench_plus_mid_bkw->Sumw2();
@@ -2810,15 +2631,6 @@ isMC: true for MC and false for Data
 */
 void w_dijet_hist(bool isMC){
 	hist_reco_lead_reco_subl_quench->Write();
-	hist_reco_lead_reco_subl_quench_mid_mid->Write();
-	hist_reco_lead_reco_subl_quench_mid_fwd->Write();
-	hist_reco_lead_reco_subl_quench_mid_bkw->Write();
-	hist_reco_lead_reco_subl_quench_fwd_mid->Write();
-	hist_reco_lead_reco_subl_quench_bkw_mid->Write();
-	hist_reco_lead_reco_subl_quench_fwd_fwd->Write();
-	hist_reco_lead_reco_subl_quench_fwd_bkw->Write();
-	hist_reco_lead_reco_subl_quench_bkw_fwd->Write();
-	hist_reco_lead_reco_subl_quench_bkw_bkw->Write();
 	hist_reco_leadEP_quench_plus_mid_mid->Write();
 	hist_reco_leadEP_quench_plus_mid_fwd->Write();
 	hist_reco_leadEP_quench_plus_mid_bkw->Write();
@@ -2859,24 +2671,8 @@ void w_dijet_hist(bool isMC){
 	hist_etaDijet_CM_reco->Write();
 	hist_yDijet_CM_reco->Write();
 	if(isMC){
-		hist_gen_lead_gen_subl_quench_mid_mid->Write();
-		hist_gen_lead_gen_subl_quench_mid_fwd->Write();
-		hist_gen_lead_gen_subl_quench_mid_bkw->Write();
-		hist_gen_lead_gen_subl_quench_fwd_mid->Write();
-		hist_gen_lead_gen_subl_quench_bkw_mid->Write();
-		hist_gen_lead_gen_subl_quench_fwd_fwd->Write();
-		hist_gen_lead_gen_subl_quench_fwd_bkw->Write();
-		hist_gen_lead_gen_subl_quench_bkw_fwd->Write();
-		hist_gen_lead_gen_subl_quench_bkw_bkw->Write();
-		hist_ref_lead_ref_subl_quench_mid_mid->Write();
-		hist_ref_lead_ref_subl_quench_mid_fwd->Write();
-		hist_ref_lead_ref_subl_quench_mid_bkw->Write();
-		hist_ref_lead_ref_subl_quench_fwd_mid->Write();
-		hist_ref_lead_ref_subl_quench_bkw_mid->Write();
-		hist_ref_lead_ref_subl_quench_fwd_fwd->Write();
-		hist_ref_lead_ref_subl_quench_fwd_bkw->Write();
-		hist_ref_lead_ref_subl_quench_bkw_fwd->Write();
-		hist_ref_lead_ref_subl_quench_bkw_bkw->Write();
+		hist_gen_lead_gen_subl_quench->Write();
+		hist_ref_lead_ref_subl_quench->Write();
 		hist_ref_leadEP_quench_plus_mid_mid->Write();
 		hist_ref_leadEP_quench_plus_mid_fwd->Write();
 		hist_ref_leadEP_quench_plus_mid_bkw->Write();

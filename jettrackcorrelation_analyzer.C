@@ -1,6 +1,6 @@
 #include "call_libraries.h"  // call libraries from ROOT and C++
-#include "read_tree.h" // read the TChains
 #include "vector_definition.h"  // define the vectors for mixing
+#include "read_tree.h" // read the TChains
 #include "random_mixing.h" // random mixing function
 #include "uiclogo.h" // print UIC jets and start/stop time
 #include "JetCorrector.h" // reader for JEC
@@ -79,13 +79,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	TF1* JetScaleCorrection = new TF1("JetScaleCorrection","[3] + ([0]-[3]) / ( 1.0 + pow( x/[2],[1] ) )",30,800);
 	if(jet_collection == "ak4PFJetAnalyzer" && doUE_areabased) JetScaleCorrection->SetParameters(3.19771e+00, 9.45364e-01, 9.71077e-01, 1.00049e+00);
 	if(jet_collection == "akCs4PFJetAnalyzer" && !doUE_areabased) JetScaleCorrection->SetParameters(2.27008e+00, 9.18625e-01, 1.43067e+00, 1.00002e+00);
-
-	// Unfolding file and histograms (X -> Reco and Y -> Gen)
-	TFile *fileunf = TFile::Open(Form("aux_files/%s_%i/Unfolding/Unfoldingfile.root",colliding_system.Data(),sNN_energy_GeV));
-   	TH2D *histo_unf_leading = (TH2D *)fileunf->Get("LeadingJet_match_response");
-   	TH2D *histo_unf_subleading = (TH2D *)fileunf->Get("SubLeadingJet_match_response");
-   	TH2D *histo_unf_xj = (TH2D *)fileunf->Get("XjJet_match_response");
-	THnSparse *histo_unf_4D = (THnSparse *)fileunf->Get("Jet4DUnf_match_response");
 
 	// Track or particle efficiency file
 	TFile *fileeff = TFile::Open(Form("aux_files/%s_%i/trk_eff_table/%s",colliding_system.Data(),sNN_energy_GeV,trk_eff_file.Data()));
@@ -215,7 +208,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		std::vector<double> jet_w_gen;
 		std::vector<double> lead_jet_w_gen;
 		std::vector<double> subl_jet_w_gen;
-
 		std::vector<TVector3> alljets_reco;
 		std::vector<TVector3> alljets_ref;
 		std::vector<TVector3> alljets_gen;
@@ -237,72 +229,17 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		int recomult = get_simple_mult_reco(colliding_system, sNN_energy_GeV, year_of_datataking, trksize, trketa, trkpt, trkcharge); // reco multiplicity (only pt and eta cuts)
 		int genmult;
 		if(is_MC) genmult = get_simple_mult_gen(colliding_system, sNN_energy_GeV, year_of_datataking, (int) gen_trkpt->size(), gen_trketa, gen_trkpt, gen_trkchg); // gen multiplicity (only pt and eta cuts)
-
+		double mult_corr = get_Ntrkcorr(fileeff, use_centrality, mult, colliding_system, sNN_energy_GeV, year_of_datataking, trksize, trketa, trkpt, trkphi, trkcharge, highpur, trkpterr, trkdcaxy, trkdcaxyerr, trkdcaz, trkdcazerr, trkchi2, trkndof, trknlayer, trknhits, trkalgo, trkmva);
 		multiplicity_nocut->Fill((double) mult);
-		//double mult_corr = get_Ntrkcorr(fileeff, use_centrality, mult, colliding_system, sNN_energy_GeV, year_of_datataking, trksize, trketa, trkpt, trkphi, trkcharge, highpur, trkpterr, trkdcaxy, trkdcaxyerr, trkdcaz, trkdcazerr, trkchi2, trkndof, trknlayer, trknhits, trkalgo, trkmva);
-		//multiplicity_corrected->Fill((double) mult_corr);
-		//multiplicity2D->Fill((double) mult, (double) mult_corr);
+		multiplicity_corrected->Fill((double) mult_corr);
+		multiplicity2D->Fill((double) mult, (double) mult_corr);
 		
 		if(mult < multiplicity_centrality_bins[0] || mult > multiplicity_centrality_bins[multiplicity_centrality_bins.size()-1])continue; //centrality of multiplicity range
 		double multcentbin = (double) mult;
 		Nevents->Fill(5);
 	
-		int multat1 = get_Ntrkoff_at1(colliding_system, sNN_energy_GeV, year_of_datataking, trksize, trketa, trkpt, trkcharge, highpur, trkpterr, trkdcaxy, trkdcaxyerr, trkdcaz, trkdcazerr, trkchi2, trkndof, trknlayer, trknhits, trkalgo, trkmva);	 
-		
-		// invert the HF/ZDC sides for pPb
-		if(colliding_system=="pPb" && is_pgoing && invert_pgoing){
-			float hfplus_temp = hfplus;
-			float hfminus_temp = hfminus;
-			float hfplusE4_temp = hfplusEta4;
-			float hfminusE4_temp = hfminusEta4;
-			float zdcplus_temp = zdcplus;
-			float zdcminus_temp = zdcminus;
-			double EP_Mult2_plus_temp = EP_Mult2_plus;
-			double EP_Mult2_minus_temp = EP_Mult2_minus;
-			double EP_Qx2_plus_temp = EP_Qx2_plus;
-			double EP_Qx2_minus_temp = EP_Qx2_minus;
-			double EP_Qy2_plus_temp = EP_Qy2_plus;
-			double EP_Qy2_minus_temp = EP_Qy2_minus;
-			double EP_Psi2_plus_flat_temp = EP_Psi2_plus_flat;
-			double EP_Psi2_minus_flat_temp = EP_Psi2_minus_flat;
-			double EP_Mult3_plus_temp = EP_Mult3_plus;
-			double EP_Mult3_minus_temp = EP_Mult3_minus;
-			double EP_Qx3_plus_temp = EP_Qx3_plus;
-			double EP_Qx3_minus_temp = EP_Qx3_minus;
-			double EP_Qy3_plus_temp = EP_Qy3_plus;
-			double EP_Qy3_minus_temp = EP_Qy3_minus;
-			double EP_Psi3_plus_flat_temp = EP_Psi3_plus_flat;
-			double EP_Psi3_minus_flat_temp = EP_Psi3_minus_flat;
-			double EP_Mult4_plus_temp = EP_Mult4_plus;
-			double EP_Mult4_minus_temp = EP_Mult4_minus;
-			double EP_Qx4_plus_temp = EP_Qx4_plus;
-			double EP_Qx4_minus_temp = EP_Qx4_minus;
-			double EP_Qy4_plus_temp = EP_Qy4_plus;
-			double EP_Qy4_minus_temp = EP_Qy4_minus;
-			double EP_Psi4_plus_flat_temp = EP_Psi4_plus_flat;
-			double EP_Psi4_minus_flat_temp = EP_Psi4_minus_flat;
-			
-			hfplus = hfminus_temp; hfminus = hfplus_temp;
-			hfplusEta4 = hfminusE4_temp; hfminusEta4 = hfplusE4_temp;
-			zdcplus = zdcminus_temp; zdcminus = zdcplus_temp;
-
-			//EP2
-			EP_Mult2_plus = EP_Mult2_minus_temp; EP_Mult2_minus = EP_Mult2_plus_temp;
-			EP_Qx2_plus = EP_Qx2_minus_temp; EP_Qx2_minus = EP_Qx2_plus_temp;
-			EP_Qy2_plus = EP_Qy2_minus_temp; EP_Qy2_minus = EP_Qy2_plus_temp;
-			EP_Psi2_plus_flat = EP_Psi2_minus_flat_temp; EP_Psi2_minus_flat = EP_Psi2_plus_flat_temp;
-			//EP3
-			EP_Mult3_plus = EP_Mult3_minus_temp; EP_Mult3_minus = EP_Mult3_plus_temp;
-			EP_Qx3_plus = EP_Qx3_minus_temp; EP_Qx3_minus = EP_Qx3_plus_temp;
-			EP_Qy3_plus = EP_Qy3_minus_temp; EP_Qy3_minus = EP_Qy3_plus_temp;
-			EP_Psi3_plus_flat = EP_Psi3_minus_flat_temp; EP_Psi3_minus_flat = EP_Psi3_plus_flat_temp;
-			//EP4
-			EP_Mult4_plus = EP_Mult4_minus_temp; EP_Mult4_minus = EP_Mult4_plus_temp;
-			EP_Qx4_plus = EP_Qx4_minus_temp; EP_Qx4_minus = EP_Qx4_plus_temp;
-			EP_Qy4_plus = EP_Qy4_minus_temp; EP_Qy4_minus = EP_Qy4_plus_temp;
-			EP_Psi4_plus_flat = EP_Psi4_minus_flat_temp; EP_Psi4_minus_flat = EP_Psi4_plus_flat_temp;
-						
-		} 
+		// invert the HF, ZDC and EP sides for pPb
+		if(colliding_system=="pPb" && is_pgoing && invert_pgoing) invert_eventquantities(hfplus, hfminus, hfplusEta4, hfminusEta4, zdcplus, zdcminus, EP_Psi2_plus_flat, EP_Qx2_plus, EP_Qy2_plus, EP_Mult2_plus, EP_Psi3_plus_flat, EP_Qx3_plus, EP_Qy3_plus, EP_Mult3_plus, EP_Psi4_plus_flat, EP_Qx4_plus, EP_Qy4_plus, EP_Mult4_plus, EP_Psi2_minus_flat, EP_Qx2_minus, EP_Qy2_minus, EP_Mult2_minus, EP_Psi3_minus_flat, EP_Qx3_minus, EP_Qy3_minus, EP_Mult3_minus, EP_Psi4_minus_flat, EP_Qx4_minus, EP_Qy4_minus, EP_Mult4_minus);
 
 		//  add extra dependency
 		float extra_variable = hfminusEta4;
@@ -311,7 +248,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		// event weight(s), this must be applied in all histograms
 		double event_weight = get_event_weight(nev,is_MC, use_centrality, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, vertexz, mult, weight, pthat, extra_variable, is_embedded, is_multdep); // get the event weight
 
-		// Fill vertex, pthat and multiplicity/centrality histograms
+		// Fill vertex, pthat (MC) and multiplicity/centrality histograms
+		int multat1 = get_Ntrkoff_at1(colliding_system, sNN_energy_GeV, year_of_datataking, trksize, trketa, trkpt, trkcharge, highpur, trkpterr, trkdcaxy, trkdcaxyerr, trkdcaz, trkdcazerr, trkchi2, trkndof, trknlayer, trknhits, trkalgo, trkmva);	 
 		multiplicity->Fill(mult);
 		multiplicity_weighted->Fill(mult, event_weight);	
 		reco_mult->Fill(recomult);
@@ -319,20 +257,18 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		gen_mult->Fill(genmult);
 		gen_mult_weighted->Fill(genmult, event_weight);
 		multiplicity_weighted_at1->Fill(multat1, event_weight);
-	
 		double x_vz[3]={(double) vertexz, (double) multcentbin, (double) extrabin}; vzhist->Fill(x_vz); vzhist_weighted->Fill(x_vz,event_weight);
 		double x_vxy[4]={(double) vertexx, (double) vertexy, (double) multcentbin, (double) extrabin}; vxyhist->Fill(x_vxy); vxyhist_weighted->Fill(x_vxy,event_weight);
 		double x_pthat[3]={(double) pthat, (double) multcentbin, (double) extrabin}; pthathist->Fill(x_pthat); pthathist_weighted->Fill(x_pthat,event_weight);
 
 		if(colliding_system=="pPb" && year_of_datataking==2016){
-		
-			// HF and ZDC histograms (fill histograms)		
+			// Fill HF and ZDC histograms 
 			double x3D_hiHF[3]={hfplus,hfminus,(double) mult}; hfhist->Fill(x3D_hiHF); hfhist_weighted->Fill(x3D_hiHF,event_weight);
 			double x3D_hiHFEta4[3]={hfplusEta4,hfminusEta4,(double) mult}; hfhistEta4->Fill(x3D_hiHFEta4); hfhistEta4_weighted->Fill(x3D_hiHFEta4,event_weight);
 			double x3D_hiZDC[3]={zdcplus,zdcminus,(double) mult}; zdchist->Fill(x3D_hiZDC); zdchist_weighted->Fill(x3D_hiZDC,event_weight);
 			double x2D_hiHFSum[2]={hfplus+hfminus,(double) mult}; hfhistSum_weighted->Fill(x2D_hiHFSum,event_weight);
-			double x2D_hiHFEta4Sum[2]={hfplusEta4+hfminusEta4,(double) mult}; hfhistEta4Sum_weighted->Fill(x2D_hiHFEta4Sum,event_weight);			
-			
+			double x2D_hiHFEta4Sum[2]={hfplusEta4+hfminusEta4,(double) mult}; hfhistEta4Sum_weighted->Fill(x2D_hiHFEta4Sum,event_weight);	
+			// Fill EP histograms		
 			if(do_flow) fillEPhistograms((double) multcentbin, (double) extrabin, event_weight, EP_Psi2_plus_flat, EP_Qx2_plus, EP_Qy2_plus, EP_Mult2_plus, EP_Psi3_plus_flat, EP_Qx3_plus, EP_Qy3_plus, EP_Mult3_plus, EP_Psi4_plus_flat, EP_Qx4_plus, EP_Qy4_plus, EP_Mult4_plus, EP_Psi2_minus_flat, EP_Qx2_minus, EP_Qy2_minus, EP_Mult2_minus, EP_Psi3_minus_flat, EP_Qx3_minus, EP_Qy3_minus, EP_Mult3_minus,  EP_Psi4_minus_flat, EP_Qx4_minus, EP_Qy4_minus, EP_Mult4_minus, EP2_plus_flat, EP2_minus_flat, EP3_plus_flat, EP3_minus_flat, EP4_plus_flat,EP4_minus_flat);
 		}
 
@@ -365,20 +301,20 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			}
 			if(colliding_system=="PbPb" && sNN_energy_GeV==5020 && year_of_datataking==2018){if(trkalgo[j] == 6 && trkmva[j] < 0.98) continue;}
 
-			// Track efficiency correction
+			// Calculate track efficiency correction
 			double trk_weight = 1.0;
 			trk_weight = trk_weight*getTrkCorrWeight(fileeff, use_centrality, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, mult, trk_pt, trk_eta, trk_phi);
 
 			trk_eta = trk_eta + boost; // In pPb case, for the center-of-mass correction if needed
 			if(colliding_system == "pPb" && is_pgoing && invert_pgoing) trk_eta = -trk_eta; // in case of merging pgoing and Pbgoing use this
 
-			// Track QA histogram filling
+			// Fill track QA histograms
 			double x_reco_trk[5]={trk_pt,trk_eta,trk_phi,(double) multcentbin,(double) extrabin}; 
 			hist_reco_trk->Fill(x_reco_trk);
 			hist_reco_trk_corr->Fill(x_reco_trk,trk_weight);
 			hist_reco_trk_weighted->Fill(x_reco_trk,trk_weight*event_weight);
 
-			// Track vector filling
+			// Fill track vectors
 			TVector3 GoodTracks;
 			GoodTracks.SetPtEtaPhi(trk_pt, trk_eta, trk_phi);
 			tracks_reco.push_back(GoodTracks);
@@ -391,7 +327,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			
 		} // End loop over tracks
 
-		// to find leading, subleading and third jets
+		// Used to find leading, subleading and third jets
 		float leadrecojet_pt=-999999999.9, leadrecojet_eta=-999999999.9, leadrecojet_phi=-999999999.9, leadrecojet_mass=-999999999.9, leadrecojet_flavor=-999999999.9;  // leading jet quantities
 		float sublrecojet_pt=-999999999.9, sublrecojet_eta=-999999999.9, sublrecojet_phi=-999999999.9, sublrecojet_mass=-999999999.9, sublrecojet_flavor=-999999999.9; // subleading jet quantities
 		float thirdrecojet_pt=-999999999.9, thirdrecojet_eta=-999999999.9, thirdrecojet_phi=-999999999.9, thirdrecojet_mass=-999999999.9, thirdrecojet_flavor=-999999999.9; // third jet quantities
@@ -452,7 +388,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			float JEScorrection = 1.0;
 			if(jet_collection.EqualTo("ak4PFJetAnalyzer") && doUE_areabased) JEScorrection = JetScaleCorrection->Eval(jet_pt_corr);
 			if(jet_collection.EqualTo("akCs4PFJetAnalyzer") && !doUE_areabased) JEScorrection = JetScaleCorrection->Eval(jet_pt_corr);
-
 			jet_pt_corr = jet_pt_corr * JEScorrection;
 
 			if(is_MC && (!do_jer_up || !do_jer_down)) {
@@ -484,9 +419,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				refpartonfromB = 0;}
 			}
 			float jet_flavor = (float) refpartonfromB;
-
 			int jet_index = (int) j;
-			
 			if(jet_pt_corr > jet_pt_max_cut) continue;
 
 			//leading and subleading
@@ -666,6 +599,18 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				float ptdijet = 0.5*(leadrecojet_pt + sublrecojet_pt);
 				double ptdijetbin = (double) ptdijet;
 
+
+				// combinations of midrapidity, forward and backward
+				bool leadmidrap = (leadrecojet_eta > jet_eta_min_cut && leadrecojet_eta < jet_eta_max_cut);
+				bool sublmidrap = (sublrecojet_eta > jet_eta_min_cut && sublrecojet_eta < jet_eta_max_cut);
+				bool leadfwdrap = (leadrecojet_eta > jet_fwd_eta_min_cut && leadrecojet_eta < jet_fwd_eta_max_cut);
+				bool sublfwdrap = (sublrecojet_eta > jet_fwd_eta_min_cut && sublrecojet_eta < jet_fwd_eta_max_cut);
+				bool leadbkwrap = (leadrecojet_eta > jet_bkw_eta_min_cut && leadrecojet_eta < jet_bkw_eta_max_cut);
+				bool sublbkwrap = (sublrecojet_eta > jet_bkw_eta_min_cut && sublrecojet_eta < jet_bkw_eta_max_cut);
+
+				float dijetetarecotype = dijetetabin(leadrecojet_eta, sublrecojet_eta, jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut);
+				double x_reco[9]={Xj_reco,Aj_reco,delta_phi_reco,(double)multcentbin,(double)ptdijetbin,(double)extrabin,(double)leadrecojet_pt,(double)sublrecojet_pt, (double) dijetetarecotype}; 
+
 				// Psi 2
 				double Psi2_EP_flat_plus = (double) EP_Psi2_plus_flat;
 				double Psi2_EP_flat_minus = (double) EP_Psi2_minus_flat;
@@ -693,19 +638,13 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double x_reco_subl_EP_plus[7]={Xj_reco,delta_phi_reco,delta_phi_reco_SublEP2_plus,delta_phi_reco_SublEP3_plus,delta_phi_reco_SublEP4_plus,(double)multcentbin,(double)ptdijetbin}; 
 				double x_reco_subl_EP_minus[7]={Xj_reco,delta_phi_reco,delta_phi_reco_SublEP2_minus,delta_phi_reco_SublEP3_minus,delta_phi_reco_SublEP4_minus,(double)multcentbin,(double)ptdijetbin}; 
 
-				// combinations of midrapidity, forward and backward
-				bool leadmidrap = (leadrecojet_eta > jet_eta_min_cut && leadrecojet_eta < jet_eta_max_cut);
-				bool sublmidrap = (sublrecojet_eta > jet_eta_min_cut && sublrecojet_eta < jet_eta_max_cut);
-				bool leadfwdrap = (leadrecojet_eta > jet_fwd_eta_min_cut && leadrecojet_eta < jet_fwd_eta_max_cut);
-				bool sublfwdrap = (sublrecojet_eta > jet_fwd_eta_min_cut && sublrecojet_eta < jet_fwd_eta_max_cut);
-				bool leadbkwrap = (leadrecojet_eta > jet_bkw_eta_min_cut && leadrecojet_eta < jet_bkw_eta_max_cut);
-				bool sublbkwrap = (sublrecojet_eta > jet_bkw_eta_min_cut && sublrecojet_eta < jet_bkw_eta_max_cut);
 
-				float dijetetarecotype = dijetetabin(leadrecojet_eta, sublrecojet_eta, jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut);
-				double x_reco[9]={Xj_reco,Aj_reco,delta_phi_reco,(double)multcentbin,(double)ptdijetbin,(double)extrabin,(double)leadrecojet_pt,(double)sublrecojet_pt, (double) dijetetarecotype}; 
-
-				if(do_dijetstudies){
+				if(do_dijetstudies && !remove_3rdjetevent){
 					hist_reco_lead_reco_subl_quench->Fill(x_reco, event_weight*ljet_weight*sljet_weight);
+					if(is_MC && refpt[leadrecojet_index] < 0)hist_fake_lead_reco_subl_quench->Fill(x_reco, event_weight*ljet_weight*sljet_weight);
+					if(is_MC && refpt[sublrecojet_index] < 0)hist_reco_lead_fake_subl_quench->Fill(x_reco, event_weight*ljet_weight*sljet_weight);
+					if(is_MC && refpt[leadrecojet_index] < 0 && refpt[sublrecojet_index] < 0)hist_fake_lead_fake_subl_quench->Fill(x_reco, event_weight*ljet_weight*sljet_weight);
+
 					if(leadmidrap && sublmidrap && !remove_3rdjetevent){
 						hist_reco_leadEP_quench_plus_mid_mid->Fill(x_reco_lead_EP_plus,event_weight*ljet_weight*sljet_weight);
 						hist_reco_leadEP_quench_minus_mid_mid->Fill(x_reco_lead_EP_minus,event_weight*ljet_weight*sljet_weight);
@@ -976,7 +915,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double Xj_ref = xjvar(leadrefjet_pt,sublrefjet_pt);
 				float ptdijet = 0.5*(leadrefjet_pt + sublrefjet_pt);
 				double ptdijetbin = (double) ptdijet;
-				double x_ref[8]={Xj_ref,Aj_ref,delta_phi_ref,(double)multcentbin,(double)ptdijetbin,(double)extrabin,(double)leadrefjet_pt,(double)sublrefjet_pt};
 
 				// Psi 2
 				double Psi2_EP_flat_plus = (double) EP_Psi2_plus_flat;
@@ -1012,65 +950,61 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				bool sublfwdrap = (sublrefjet_eta > jet_fwd_eta_min_cut && sublrefjet_eta < jet_fwd_eta_max_cut);
 				bool leadbkwrap = (leadrefjet_eta > jet_bkw_eta_min_cut && leadrefjet_eta < jet_bkw_eta_max_cut);
 				bool sublbkwrap = (sublrefjet_eta > jet_bkw_eta_min_cut && sublrefjet_eta < jet_bkw_eta_max_cut);
+
+				float dijetetareftype = dijetetabin(leadrefjet_eta, sublrefjet_eta, jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut);
+				double x_ref[9]={Xj_ref,Aj_ref,delta_phi_ref,(double)multcentbin,(double)ptdijetbin,(double)extrabin,(double)leadrefjet_pt,(double)sublrefjet_pt, (double) dijetetareftype};
+
 				if(do_dijetstudies){
+					hist_ref_lead_ref_subl_quench->Fill(x_ref,event_weight*lrefjet_weight*slrefjet_weight);
 					if(leadmidrap && sublmidrap && !remove_3rdjetevent_ref){
-						hist_ref_lead_ref_subl_quench_mid_mid->Fill(x_ref,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_plus_mid_mid->Fill(x_ref_lead_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_minus_mid_mid->Fill(x_ref_lead_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_plus_mid_mid->Fill(x_ref_subl_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_minus_mid_mid->Fill(x_ref_subl_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 					}
 					if(leadmidrap && sublfwdrap && !remove_3rdjetevent_ref){
-						hist_ref_lead_ref_subl_quench_mid_fwd->Fill(x_ref,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_plus_mid_fwd->Fill(x_ref_lead_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_minus_mid_fwd->Fill(x_ref_lead_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_plus_mid_fwd->Fill(x_ref_subl_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_minus_mid_fwd->Fill(x_ref_subl_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 					}
 					if(leadmidrap && sublbkwrap && !remove_3rdjetevent_ref){
-						hist_ref_lead_ref_subl_quench_mid_bkw->Fill(x_ref,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_plus_mid_bkw->Fill(x_ref_lead_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_minus_mid_bkw->Fill(x_ref_lead_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_plus_mid_bkw->Fill(x_ref_subl_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_minus_mid_bkw->Fill(x_ref_subl_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 					}
 					if(leadfwdrap && sublmidrap && !remove_3rdjetevent_ref){
-						hist_ref_lead_ref_subl_quench_fwd_mid->Fill(x_ref,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_plus_fwd_mid->Fill(x_ref_lead_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_minus_fwd_mid->Fill(x_ref_lead_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_plus_fwd_mid->Fill(x_ref_subl_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_minus_fwd_mid->Fill(x_ref_subl_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 					}
 					if(leadbkwrap && sublmidrap && !remove_3rdjetevent_ref){
-						hist_ref_lead_ref_subl_quench_bkw_mid->Fill(x_ref,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_plus_bkw_mid->Fill(x_ref_lead_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_minus_bkw_mid->Fill(x_ref_lead_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_plus_bkw_mid->Fill(x_ref_subl_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_minus_bkw_mid->Fill(x_ref_subl_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 					}
 					if(leadfwdrap && sublfwdrap && !remove_3rdjetevent_ref){
-						hist_ref_lead_ref_subl_quench_fwd_fwd->Fill(x_ref,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_plus_fwd_fwd->Fill(x_ref_lead_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_minus_fwd_fwd->Fill(x_ref_lead_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_plus_fwd_fwd->Fill(x_ref_subl_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_minus_fwd_fwd->Fill(x_ref_subl_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 					}
 					if(leadfwdrap && sublbkwrap && !remove_3rdjetevent_ref){
-						hist_ref_lead_ref_subl_quench_fwd_bkw->Fill(x_ref,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_plus_fwd_bkw->Fill(x_ref_lead_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_minus_fwd_bkw->Fill(x_ref_lead_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_plus_fwd_bkw->Fill(x_ref_subl_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_minus_fwd_bkw->Fill(x_ref_subl_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 					}
 					if(leadbkwrap && sublfwdrap && !remove_3rdjetevent_ref){
-						hist_ref_lead_ref_subl_quench_bkw_fwd->Fill(x_ref,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_plus_bkw_fwd->Fill(x_ref_lead_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_minus_bkw_fwd->Fill(x_ref_lead_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_plus_bkw_fwd->Fill(x_ref_subl_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_minus_bkw_fwd->Fill(x_ref_subl_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 					}
 					if(leadbkwrap && sublbkwrap && !remove_3rdjetevent_ref){
-						hist_ref_lead_ref_subl_quench_bkw_bkw->Fill(x_ref,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_plus_bkw_bkw->Fill(x_ref_lead_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_leadEP_quench_minus_bkw_bkw->Fill(x_ref_lead_EP_minus,event_weight*lrefjet_weight*slrefjet_weight);
 						hist_ref_sublEP_quench_plus_bkw_bkw->Fill(x_ref_subl_EP_plus,event_weight*lrefjet_weight*slrefjet_weight);
@@ -1320,7 +1254,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					double Xj_gen = xjvar(leadgenjet_pt,sublgenjet_pt);
 					double ptdijet = 0.5*(leadgenjet_pt + sublgenjet_pt);
 					double ptdijetbin = (double) ptdijet;
-					double x_gen[8]={Xj_gen,Aj_gen,delta_phi_gen,(double)multcentbin,(double)ptdijetbin,(double)extrabin,(double)leadgenjet_pt,(double)sublgenjet_pt}; 
 
 					// Psi 2
 					double Psi2_EP_flat_plus = (double) EP_Psi2_plus_flat;
@@ -1356,65 +1289,61 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					bool sublfwdrap = (sublgenjet_eta > jet_fwd_eta_min_cut && sublgenjet_eta < jet_fwd_eta_max_cut);
 					bool leadbkwrap = (leadgenjet_eta > jet_bkw_eta_min_cut && leadgenjet_eta < jet_bkw_eta_max_cut);
 					bool sublbkwrap = (sublgenjet_eta > jet_bkw_eta_min_cut && sublgenjet_eta < jet_bkw_eta_max_cut);
+
+					float dijetetagentype = dijetetabin(leadgenjet_eta, sublgenjet_eta, jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut);
+					double x_gen[9]={Xj_gen,Aj_gen,delta_phi_gen,(double)multcentbin,(double)ptdijetbin,(double)extrabin,(double)leadgenjet_pt,(double)sublgenjet_pt, (double) dijetetagentype}; 
+				
 					if(do_dijetstudies){
+						hist_gen_lead_gen_subl_quench->Fill(x_gen,event_weight*gljet_weight*gsljet_weight);
 						if(leadmidrap && sublmidrap && !remove_3rdjetevent_gen){
-							hist_gen_lead_gen_subl_quench_mid_mid->Fill(x_gen,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_leadEP_quench_plus_mid_mid->Fill(x_gen_lead_EP_plus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_leadEP_quench_minus_mid_mid->Fill(x_gen_lead_EP_minus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_sublEP_quench_plus_mid_mid->Fill(x_gen_subl_EP_plus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_sublEP_quench_minus_mid_mid->Fill(x_gen_subl_EP_minus,event_weight*gljet_weight*gsljet_weight);
 						}
 						if(leadmidrap && sublfwdrap && !remove_3rdjetevent_gen){
-							hist_gen_lead_gen_subl_quench_mid_fwd->Fill(x_gen,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_leadEP_quench_plus_mid_fwd->Fill(x_gen_lead_EP_plus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_leadEP_quench_minus_mid_fwd->Fill(x_gen_lead_EP_minus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_sublEP_quench_plus_mid_fwd->Fill(x_gen_subl_EP_plus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_sublEP_quench_minus_mid_fwd->Fill(x_gen_subl_EP_minus,event_weight*gljet_weight*gsljet_weight);
 						}
 						if(leadmidrap && sublbkwrap && !remove_3rdjetevent_gen){
-							hist_gen_lead_gen_subl_quench_mid_bkw->Fill(x_gen,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_leadEP_quench_plus_mid_bkw->Fill(x_gen_lead_EP_plus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_leadEP_quench_minus_mid_bkw->Fill(x_gen_lead_EP_minus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_sublEP_quench_plus_mid_bkw->Fill(x_gen_subl_EP_plus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_sublEP_quench_minus_mid_bkw->Fill(x_gen_subl_EP_minus,event_weight*gljet_weight*gsljet_weight);
 						}
 						if(leadfwdrap && sublmidrap && !remove_3rdjetevent_gen){
-							hist_gen_lead_gen_subl_quench_fwd_mid->Fill(x_gen,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_leadEP_quench_plus_fwd_mid->Fill(x_gen_lead_EP_plus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_leadEP_quench_minus_fwd_mid->Fill(x_gen_lead_EP_minus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_sublEP_quench_plus_fwd_mid->Fill(x_gen_subl_EP_plus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_sublEP_quench_minus_fwd_mid->Fill(x_gen_subl_EP_minus,event_weight*gljet_weight*gsljet_weight);
 						}
 						if(leadbkwrap && sublmidrap && !remove_3rdjetevent_gen){
-							hist_gen_lead_gen_subl_quench_bkw_mid->Fill(x_gen,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_leadEP_quench_plus_bkw_mid->Fill(x_gen_lead_EP_plus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_leadEP_quench_minus_bkw_mid->Fill(x_gen_lead_EP_minus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_sublEP_quench_plus_bkw_mid->Fill(x_gen_subl_EP_plus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_sublEP_quench_minus_bkw_mid->Fill(x_gen_subl_EP_minus,event_weight*gljet_weight*gsljet_weight);
 						}
 						if(leadfwdrap && sublfwdrap && !remove_3rdjetevent_gen){
-							hist_gen_lead_gen_subl_quench_fwd_fwd->Fill(x_gen,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_leadEP_quench_plus_fwd_fwd->Fill(x_gen_lead_EP_plus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_leadEP_quench_minus_fwd_fwd->Fill(x_gen_lead_EP_minus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_sublEP_quench_plus_fwd_fwd->Fill(x_gen_subl_EP_plus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_sublEP_quench_minus_fwd_fwd->Fill(x_gen_subl_EP_minus,event_weight*gljet_weight*gsljet_weight);
 						}
 						if(leadfwdrap && sublbkwrap && !remove_3rdjetevent_gen){
-							hist_gen_lead_gen_subl_quench_fwd_bkw->Fill(x_gen,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_leadEP_quench_plus_fwd_bkw->Fill(x_gen_lead_EP_plus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_leadEP_quench_minus_fwd_bkw->Fill(x_gen_lead_EP_minus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_sublEP_quench_plus_fwd_bkw->Fill(x_gen_subl_EP_plus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_sublEP_quench_minus_fwd_bkw->Fill(x_gen_subl_EP_minus,event_weight*gljet_weight*gsljet_weight);
 						}
 						if(leadbkwrap && sublfwdrap && !remove_3rdjetevent_gen){
-							hist_gen_lead_gen_subl_quench_bkw_fwd->Fill(x_gen,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_leadEP_quench_plus_bkw_fwd->Fill(x_gen_lead_EP_plus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_leadEP_quench_minus_bkw_fwd->Fill(x_gen_lead_EP_minus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_sublEP_quench_plus_bkw_fwd->Fill(x_gen_subl_EP_plus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_sublEP_quench_minus_bkw_fwd->Fill(x_gen_subl_EP_minus,event_weight*gljet_weight*gsljet_weight);
 						}
 						if(leadbkwrap && sublbkwrap && !remove_3rdjetevent_gen){
-							hist_gen_lead_gen_subl_quench_bkw_bkw->Fill(x_gen,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_leadEP_quench_plus_bkw_bkw->Fill(x_gen_lead_EP_plus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_leadEP_quench_minus_bkw_bkw->Fill(x_gen_lead_EP_minus,event_weight*gljet_weight*gsljet_weight);
 							hist_gen_sublEP_quench_plus_bkw_bkw->Fill(x_gen_subl_EP_plus,event_weight*gljet_weight*gsljet_weight);

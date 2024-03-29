@@ -664,6 +664,60 @@ double GetUE(std::vector<double> *etamin, vector<double> *etamax, vector<double>
 }
 
 
+void invert_eventquantities(float &hfplus, float &hfminus, float &hfplusEta4, float &hfminusEta4, float &zdcplus, float &zdcminus, float &EP_Psi2_plus_flat, float &EP_Qx2_plus, float &EP_Qy2_plus, float &EP_Mult2_plus, float &EP_Psi3_plus_flat, float &EP_Qx3_plus, float &EP_Qy3_plus, float &EP_Mult3_plus, float &EP_Psi4_plus_flat, float &EP_Qx4_plus, float &EP_Qy4_plus, float &EP_Mult4_plus, float &EP_Psi2_minus_flat, float &EP_Qx2_minus, float &EP_Qy2_minus, float &EP_Mult2_minus, float &EP_Psi3_minus_flat, float &EP_Qx3_minus, float &EP_Qy3_minus, float &EP_Mult3_minus, float &EP_Psi4_minus_flat, float &EP_Qx4_minus, float &EP_Qy4_minus, float &EP_Mult4_minus){
+
+	float hfplus_temp = hfplus;
+	float hfminus_temp = hfminus;
+	float hfplusE4_temp = hfplusEta4;
+	float hfminusE4_temp = hfminusEta4;
+	float zdcplus_temp = zdcplus;
+	float zdcminus_temp = zdcminus;
+	float EP_Mult2_plus_temp = EP_Mult2_plus;
+	float EP_Mult2_minus_temp = EP_Mult2_minus;
+	float EP_Qx2_plus_temp = EP_Qx2_plus;
+	float EP_Qx2_minus_temp = EP_Qx2_minus;
+	float EP_Qy2_plus_temp = EP_Qy2_plus;
+	float EP_Qy2_minus_temp = EP_Qy2_minus;
+	float EP_Psi2_plus_flat_temp = EP_Psi2_plus_flat;
+	float EP_Psi2_minus_flat_temp = EP_Psi2_minus_flat;
+	float EP_Mult3_plus_temp = EP_Mult3_plus;
+	float EP_Mult3_minus_temp = EP_Mult3_minus;
+	float EP_Qx3_plus_temp = EP_Qx3_plus;
+	float EP_Qx3_minus_temp = EP_Qx3_minus;
+	float EP_Qy3_plus_temp = EP_Qy3_plus;
+	float EP_Qy3_minus_temp = EP_Qy3_minus;
+	float EP_Psi3_plus_flat_temp = EP_Psi3_plus_flat;
+	float EP_Psi3_minus_flat_temp = EP_Psi3_minus_flat;
+	float EP_Mult4_plus_temp = EP_Mult4_plus;
+	float EP_Mult4_minus_temp = EP_Mult4_minus;
+	float EP_Qx4_plus_temp = EP_Qx4_plus;
+	float EP_Qx4_minus_temp = EP_Qx4_minus;
+	float EP_Qy4_plus_temp = EP_Qy4_plus;
+	float EP_Qy4_minus_temp = EP_Qy4_minus;
+	float EP_Psi4_plus_flat_temp = EP_Psi4_plus_flat;
+	float EP_Psi4_minus_flat_temp = EP_Psi4_minus_flat;
+	//HF+ZDC
+	hfplus = hfminus_temp; hfminus = hfplus_temp;
+	hfplusEta4 = hfminusE4_temp; hfminusEta4 = hfplusE4_temp;
+	zdcplus = zdcminus_temp; zdcminus = zdcplus_temp;
+	//EP2
+	EP_Mult2_plus = EP_Mult2_minus_temp; EP_Mult2_minus = EP_Mult2_plus_temp;
+	EP_Qx2_plus = EP_Qx2_minus_temp; EP_Qx2_minus = EP_Qx2_plus_temp;
+	EP_Qy2_plus = EP_Qy2_minus_temp; EP_Qy2_minus = EP_Qy2_plus_temp;
+	EP_Psi2_plus_flat = EP_Psi2_minus_flat_temp; EP_Psi2_minus_flat = EP_Psi2_plus_flat_temp;
+	//EP3
+	EP_Mult3_plus = EP_Mult3_minus_temp; EP_Mult3_minus = EP_Mult3_plus_temp;
+	EP_Qx3_plus = EP_Qx3_minus_temp; EP_Qx3_minus = EP_Qx3_plus_temp;
+	EP_Qy3_plus = EP_Qy3_minus_temp; EP_Qy3_minus = EP_Qy3_plus_temp;
+	EP_Psi3_plus_flat = EP_Psi3_minus_flat_temp; EP_Psi3_minus_flat = EP_Psi3_plus_flat_temp;
+	//EP4
+	EP_Mult4_plus = EP_Mult4_minus_temp; EP_Mult4_minus = EP_Mult4_plus_temp;
+	EP_Qx4_plus = EP_Qx4_minus_temp; EP_Qx4_minus = EP_Qx4_plus_temp;
+	EP_Qy4_plus = EP_Qy4_minus_temp; EP_Qy4_minus = EP_Qy4_plus_temp;
+	EP_Psi4_plus_flat = EP_Psi4_minus_flat_temp; EP_Psi4_minus_flat = EP_Psi4_plus_flat_temp;
+
+}
+
 double TransformToUnfoldingAxis_xjptave(const double xj, const double jetPtAve){
   const int nJetPtAveBins = nPtaveBins;
   const double maxxj = 1.0;
@@ -754,36 +808,36 @@ void fillEPhistograms(double multcentbin, double extrabin, double event_weight, 
 
 	//event plane information and filling of histograms
 	// Psi 2
-	double mult2_plus = (double)EP_Mult2_plus;
-	double mult2_minus = (double)EP_Mult2_minus;
+	double mult2_plus = (double) EP_Mult2_plus;
+	double mult2_minus = (double) EP_Mult2_minus;
 	double q2vec_plus = (double) sqrt(EP_Qx2_plus*EP_Qx2_plus + EP_Qy2_plus*EP_Qy2_plus);
-	double q2vec_minus = (double)sqrt(EP_Qx2_minus*EP_Qx2_minus + EP_Qy2_minus*EP_Qy2_minus);
+	double q2vec_minus = (double) sqrt(EP_Qx2_minus*EP_Qx2_minus + EP_Qy2_minus*EP_Qy2_minus);
 	double Psi2_EP_flat_plus = (double) EP_Psi2_plus_flat;
-	double Psi2_EP_flat_minus = (double)EP_Psi2_minus_flat;
+	double Psi2_EP_flat_minus = (double) EP_Psi2_minus_flat;
 	double x_reco_plus_ep2_flat[5]={mult2_plus,q2vec_plus,Psi2_EP_flat_plus,(double) multcentbin,(double) extrabin}; 
 	EP2_plus_flat->Fill(x_reco_plus_ep2_flat,event_weight);
 	double x_reco_minus_ep2_flat[5]={mult2_minus,q2vec_minus,Psi2_EP_flat_minus,(double) multcentbin,(double) extrabin}; 
 	EP2_minus_flat->Fill(x_reco_minus_ep2_flat,event_weight);
 
 	// Psi 3
-	double mult3_plus = (double)EP_Mult3_plus;
-	double mult3_minus = (double)EP_Mult3_minus;
+	double mult3_plus = (double) EP_Mult3_plus;
+	double mult3_minus = (double) EP_Mult3_minus;
 	double q3vec_plus = (double) sqrt(EP_Qx3_plus*EP_Qx3_plus + EP_Qy3_plus*EP_Qy3_plus);
-	double q3vec_minus = (double)sqrt(EP_Qx3_minus*EP_Qx3_minus + EP_Qy3_minus*EP_Qy3_minus);
+	double q3vec_minus = (double) sqrt(EP_Qx3_minus*EP_Qx3_minus + EP_Qy3_minus*EP_Qy3_minus);
 	double Psi3_EP_flat_plus = (double) EP_Psi3_plus_flat;
-	double Psi3_EP_flat_minus = (double)EP_Psi3_minus_flat;
+	double Psi3_EP_flat_minus = (double) EP_Psi3_minus_flat;
 	double x_reco_plus_ep3_flat[5]={mult3_plus,q3vec_plus,Psi3_EP_flat_plus,(double) multcentbin,(double) extrabin}; 
 	EP3_plus_flat->Fill(x_reco_plus_ep3_flat,event_weight);
 	double x_reco_minus_ep3_flat[5]={mult3_minus,q3vec_minus,Psi3_EP_flat_minus,(double) multcentbin,(double) extrabin}; 
 	EP3_minus_flat->Fill(x_reco_minus_ep3_flat,event_weight);
 
 	// Psi 4
-	double mult4_plus = (double)EP_Mult4_plus;
-	double mult4_minus = (double)EP_Mult4_minus;
+	double mult4_plus = (double) EP_Mult4_plus;
+	double mult4_minus = (double) EP_Mult4_minus;
 	double q4vec_plus = (double) sqrt(EP_Qx4_plus*EP_Qx4_plus + EP_Qy4_plus*EP_Qy4_plus);
-	double q4vec_minus = (double)sqrt(EP_Qx4_minus*EP_Qx4_minus + EP_Qy4_minus*EP_Qy4_minus);
+	double q4vec_minus = (double) sqrt(EP_Qx4_minus*EP_Qx4_minus + EP_Qy4_minus*EP_Qy4_minus);
 	double Psi4_EP_flat_plus = (double) EP_Psi4_plus_flat;
-	double Psi4_EP_flat_minus = (double)EP_Psi4_minus_flat;
+	double Psi4_EP_flat_minus = (double) EP_Psi4_minus_flat;
 	double x_reco_plus_ep4_flat[5]={mult4_plus,q4vec_plus,Psi4_EP_flat_plus,(double) multcentbin,(double) extrabin}; 
 	EP4_plus_flat->Fill(x_reco_plus_ep4_flat,event_weight);
 	double x_reco_minus_ep4_flat[5]={mult4_minus,q4vec_minus,Psi4_EP_flat_minus,(double) multcentbin,(double) extrabin}; 
@@ -796,7 +850,7 @@ void filltrkEPhistograms(float trk_phi, double trackbin, double multcentbin, dou
 	//event plane information
 	// Psi 2
 	double Psi2_EP_flat_plus = (double) EP_Psi2_plus_flat;
-	double Psi2_EP_flat_minus = (double)EP_Psi2_minus_flat;
+	double Psi2_EP_flat_minus = (double) EP_Psi2_minus_flat;
 	double x_reco_plus_dphi2_flat[4]={deltaphi2PC(trk_phi, Psi2_EP_flat_plus), (double) trackbin, (double) multcentbin,(double) extrabin}; 
 	Dphi_EP2_flat_trk_plus->Fill(x_reco_plus_dphi2_flat,weight);
 	double x_reco_minus_dphi2_flat[4]={deltaphi2PC(trk_phi, Psi2_EP_flat_minus), (double) trackbin, (double) multcentbin,(double) extrabin}; 
@@ -804,7 +858,7 @@ void filltrkEPhistograms(float trk_phi, double trackbin, double multcentbin, dou
 		
 	// Psi 3
 	double Psi3_EP_flat_plus = (double) EP_Psi3_plus_flat;
-	double Psi3_EP_flat_minus = (double)EP_Psi3_minus_flat;
+	double Psi3_EP_flat_minus = (double) EP_Psi3_minus_flat;
 	double x_reco_plus_dphi3_flat[4]={deltaphi2PC(trk_phi, Psi3_EP_flat_plus), (double) trackbin, (double) multcentbin,(double) extrabin}; 
 	Dphi_EP3_flat_trk_plus->Fill(x_reco_plus_dphi3_flat,weight);
 	double x_reco_minus_dphi3_flat[4]={deltaphi2PC(trk_phi, Psi3_EP_flat_minus), (double) trackbin, (double) multcentbin,(double) extrabin}; 
@@ -812,7 +866,7 @@ void filltrkEPhistograms(float trk_phi, double trackbin, double multcentbin, dou
 				
 	// Psi 4
 	double Psi4_EP_flat_plus = (double) EP_Psi4_plus_flat;
-	double Psi4_EP_flat_minus = (double)EP_Psi4_minus_flat;
+	double Psi4_EP_flat_minus = (double) EP_Psi4_minus_flat;
 	double x_reco_plus_dphi4_flat[4]={deltaphi2PC(trk_phi, Psi4_EP_flat_plus), (double) trackbin, (double) multcentbin,(double) extrabin}; 
 	Dphi_EP4_flat_trk_plus->Fill(x_reco_plus_dphi4_flat,weight);
 	double x_reco_minus_dphi4_flat[4]={deltaphi2PC(trk_phi, Psi4_EP_flat_minus), (double) trackbin, (double) multcentbin,(double) extrabin}; 
@@ -825,7 +879,7 @@ void filljetEPhistograms(float jet_phi, double multcentbin, double extrabin, dou
 	//event plane information
 	// Psi 2
 	double Psi2_EP_flat_plus = (double) EP_Psi2_plus_flat;
-	double Psi2_EP_flat_minus = (double)EP_Psi2_minus_flat;
+	double Psi2_EP_flat_minus = (double) EP_Psi2_minus_flat;
 	double x_reco_plus_dphi2_flat[3]={deltaphi2PC(jet_phi, Psi2_EP_flat_plus), (double) multcentbin,(double) extrabin}; 
 	Dphi_EP2_flat_jet_plus->Fill(x_reco_plus_dphi2_flat,weight);
 	double x_reco_minus_dphi2_flat[3]={deltaphi2PC(jet_phi, Psi2_EP_flat_minus), (double) multcentbin,(double) extrabin}; 
@@ -833,7 +887,7 @@ void filljetEPhistograms(float jet_phi, double multcentbin, double extrabin, dou
 		
 	// Psi 3
 	double Psi3_EP_flat_plus = (double) EP_Psi3_plus_flat;
-	double Psi3_EP_flat_minus = (double)EP_Psi3_minus_flat;
+	double Psi3_EP_flat_minus = (double) EP_Psi3_minus_flat;
 	double x_reco_plus_dphi3_flat[3]={deltaphi2PC(jet_phi, Psi3_EP_flat_plus), (double) multcentbin,(double) extrabin}; 
 	Dphi_EP3_flat_jet_plus->Fill(x_reco_plus_dphi3_flat,weight);
 	double x_reco_minus_dphi3_flat[3]={deltaphi2PC(jet_phi, Psi3_EP_flat_minus), (double) multcentbin,(double) extrabin}; 
@@ -841,7 +895,7 @@ void filljetEPhistograms(float jet_phi, double multcentbin, double extrabin, dou
 				
 	// Psi 4
 	double Psi4_EP_flat_plus = (double) EP_Psi4_plus_flat;
-	double Psi4_EP_flat_minus = (double)EP_Psi4_minus_flat;
+	double Psi4_EP_flat_minus = (double) EP_Psi4_minus_flat;
 	double x_reco_plus_dphi4_flat[3]={deltaphi2PC(jet_phi, Psi4_EP_flat_plus), (double) multcentbin,(double) extrabin}; 
 	Dphi_EP4_flat_jet_plus->Fill(x_reco_plus_dphi4_flat,weight);
 	double x_reco_minus_dphi4_flat[3]={deltaphi2PC(jet_phi, Psi4_EP_flat_minus), (double) multcentbin,(double) extrabin}; 
