@@ -1755,6 +1755,7 @@ hist_correlation_signal_subg0_subl_jet_gen_track_gen->Sumw2();
 */
 // --> Two particle correlation histos
 //Trk pT binning
+/*
 hist_reco_reco_2pcorrelation_signal->GetAxis(2)->Set(bins_2pc[2],TrkPtbins);
 hist_reco_reco_2pcorrelation_signal_subg0->GetAxis(2)->Set(bins_2pc[2],TrkPtbins);
 hist_reco_reco_2pcorrelation_signal_subcross->GetAxis(2)->Set(bins_2pc[2],TrkPtbins);
@@ -1763,6 +1764,7 @@ hist_gen_gen_2pcorrelation_signal->GetAxis(2)->Set(bins_2pc[2],TrkPtbins);
 hist_gen_gen_2pcorrelation_signal_subg0->GetAxis(2)->Set(bins_2pc[2],TrkPtbins);
 hist_gen_gen_2pcorrelation_signal_subcross->GetAxis(2)->Set(bins_2pc[2],TrkPtbins);
 hist_gen_gen_2pcorrelation_mixing->GetAxis(2)->Set(bins_2pc[2],TrkPtbins);
+*/
 // Multiplicity binning
 hist_reco_reco_2pcorrelation_signal->GetAxis(3)->Set(bins_2pc[3],MultCentbins);
 hist_reco_reco_2pcorrelation_signal_subg0->GetAxis(3)->Set(bins_2pc[3],MultCentbins);
