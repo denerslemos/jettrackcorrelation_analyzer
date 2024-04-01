@@ -618,15 +618,15 @@ for(int a = 0; a <= nXBins; a++){XBins[a] = (minX+binnerShift)*TMath::Exp(a*Xlog
 
 // --> Trk pT
 double TrkPtbins[trkbinsize-1];
-for(int a = 0; a<trk_pt_bins.size();a++){TrkPtbins[a] = trk_pt_bins[a];}
+for(int a = 0; a<trk_pt_bins.size();a++){TrkPtbins[a] = trk_pt_bins[a]; cout << "TrkPtbins:" << TrkPtbins[a] << endl;}
 
 // --> Multiplicity binning
 double MultCentbins[multbinsize-1];
-for(int a = 0; a<multiplicity_centrality_bins.size();a++){MultCentbins[a] = multiplicity_centrality_bins[a];}
+for(int a = 0; a<multiplicity_centrality_bins.size();a++){MultCentbins[a] = multiplicity_centrality_bins[a]; cout << "MultCentbins:" << MultCentbins[a] << endl;}
 
 // --> Extra binning
 double Extrabins[extrabinsize-1];
-for(int a = 0; a<extra_bins.size();a++){Extrabins[a] = extra_bins[a];}
+for(int a = 0; a<extra_bins.size();a++){Extrabins[a] = extra_bins[a]; cout << "Extrabins:" << Extrabins[a] << endl;}
 
 // --> Unfolding
 for(int ixj = 0; ixj < nXjAjBins; ixj++){
