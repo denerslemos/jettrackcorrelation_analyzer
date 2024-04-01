@@ -954,7 +954,6 @@ histo_jetcheckcorrection->GetAxis(2)->Set(bins_UE[2],Extrabins);
 histo_jetUE->Sumw2();
 histo_jetAverageRho->Sumw2();
 histo_jetcheckcorrection->Sumw2();
-/*
 
 // --> Jet correlations to EP histos
 // Multiplicity binning
@@ -1228,8 +1227,8 @@ hist_subl_jet_from_reco_reco_mix->Sumw2();
 hist_subl_jet_from_reco_gen_mix->Sumw2();
 hist_subl_jet_from_gen_reco_mix->Sumw2();
 hist_subl_jet_from_gen_gen_mix->Sumw2();
-*/
 
+/*
 // --> JES studies histos
 // Multiplicity binning
 hist_jes_reco_weighted->GetAxis(4)->Set(bins_jes[4],MultCentbins);
@@ -1870,7 +1869,7 @@ fhUnfoldingResponse_xjpt2->Sumw2();
 fhUnfoldingMeasu_xjpt2->Sumw2();
 fhUnfoldingTruthRef_xjpt2->Sumw2();
 fhUnfoldingTruthGen_xjpt2->Sumw2();
-
+*/
 
 }
 
