@@ -21,26 +21,26 @@ double maxetadijethist = 6.0;
 
 
 // binning definition
-const double binnerShift = 0.0; // shift if starts at 0, Log(0) -> error
+double binnerShift = 0.0; // shift if starts at 0, Log(0) -> error
 // Needed to define log binning
 // Xp and XPb -> see sumw2 function
-const int nXBins = 40; // number of bins
-const double minX = 3e-04;  // minimum
-const double maxX = 1.0; 	   // maximum
+int nXBins = 40; // number of bins
+double minX = 3e-04;  // minimum
+double maxX = 1.0; 	   // maximum
 double XlogBinWidth = (TMath::Log(maxX+binnerShift) - TMath::Log(minX+binnerShift)) / nXBins; // binwidth
 
 // Xj and Aj bins
-const int nXjAjBins = 20; // number of bins
+int nXjAjBins = 20; // number of bins
 double XjBins[nXjAjBins+1] = {minxjhist,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,maxxjhist};
 double AjBins[nXjAjBins+1] = {minxjhist,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,maxxjhist};
 //Dphibins
-const int nDphiBins = 30; // number of bins
+int nDphiBins = 30; // number of bins
 double DphiBins[nDphiBins+1] = {0.0, TMath::Pi()/5. ,TMath::Pi()/3., (3./7.)*TMath::Pi(), TMath::Pi()/2., (4./7.)*TMath::Pi(), (3./5.)*TMath::Pi(), 1.93731547,  1.98967535,  2.04203522,  2.0943951 , 2.14675498,  2.19911486,  2.25147474,  2.30383461,  2.35619449, 2.40855437,  2.46091425,  2.51327412,  2.565634,  2.61799388, 2.67035376,  2.72271363,  2.77507351,  2.82743339,  2.87979327, 2.93215314,  2.98451302,  3.0368729 ,  3.08923278,  TMath::Pi()};
 
 // leading and subleading jet pTs
-const int nPtLSLBins = 33; // number of bins
-const double minPtLSL = minpthist-10.0;  // minimum
-const double maxPtLSL = maxpthist; // maximum
+int nPtLSLBins = 33; // number of bins
+double minPtLSL = minpthist-10.0;  // minimum
+double maxPtLSL = maxpthist; // maximum
 double PtLSLBins[nPtLSLBins+1] = {minPtLSL, 45.0, 50.0, 55.0, 60.0, 65.0, 70.0, 75.0, 80.0, 85.0, 90.0, 95.0, 100.0, 105.0, 110.0, 115.0, 120.0, 125.0, 130.0, 140.0, 160.0, 180.0, 200.0, 220.0, 240.0, 260.0, 280.0, 300.0, 350.0, 400.0, 450.0, 500.0, 600.0, maxPtLSL};
 
 // -------------------------------------------------------------------------- //
@@ -49,9 +49,9 @@ double PtLSLBins[nPtLSLBins+1] = {minPtLSL, 45.0, 50.0, 55.0, 60.0, 65.0, 70.0, 
 
 // Binning for the two-dimensional unfolding
 // --> xj vs pt average
-const int nUnfoldingBins_xjptave = nXjAjBins*nPtLSLBins;
-const double minUnfoldingBin_xjptave = 0;
-const double maxUnfoldingBin_xjptave = nPtLSLBins*maxxjhist; //nJetPtBinsEEC*maxDeltaREEC;
+int nUnfoldingBins_xjptave = nXjAjBins*nPtLSLBins;
+double minUnfoldingBin_xjptave = 0;
+double maxUnfoldingBin_xjptave = nPtLSLBins*maxxjhist; //nJetPtBinsEEC*maxDeltaREEC;
 double fullUnfoldingBinning_xjptave[nUnfoldingBins_xjptave+1];
 // histograms for unfolding
 // Axis : 0 -> reco, 1 -> gen, 2 -> delta phi reco, 3 -> delta phi gen, 4 -> mid-fwd-bkw ranges reco, 5 -> mid-fwd-bkw ranges gen,  6 -> multiplicity
@@ -68,9 +68,9 @@ THnSparseD *fhUnfoldingTruthRef_xjptave = new THnSparseD("fhUnfoldingTruthRef_xj
 THnSparseD *fhUnfoldingTruthGen_xjptave = new THnSparseD("fhUnfoldingTruthGen_xjptave", "fhUnfoldingTruthGen_xjptave", 4, bins_unfxjptaveMT, xmin_unfxjptaveMT, xmax_unfxjptaveMT);
 
 // --> pt1 vs pt2
-const int nUnfoldingBins_pt1pt2 = nPtLSLBins*nPtLSLBins;
-const double minUnfoldingBin_pt1pt2 = 0;
-const double maxUnfoldingBin_pt1pt2 = nPtLSLBins*maxpthist;
+int nUnfoldingBins_pt1pt2 = nPtLSLBins*nPtLSLBins;
+double minUnfoldingBin_pt1pt2 = 0;
+double maxUnfoldingBin_pt1pt2 = nPtLSLBins*maxpthist;
 double fullUnfoldingBinning_pt1pt2[nUnfoldingBins_pt1pt2+1];
 // histograms for unfolding
 // Axis : 0 -> reco, 1 -> gen, 2 -> delta phi reco, 3 -> delta phi gen, 4 -> mid-fwd-bkw ranges reco, 5 -> mid-fwd-bkw ranges gen,  6 -> multiplicity
@@ -87,9 +87,9 @@ THnSparseD *fhUnfoldingTruthRef_pt1pt2 = new THnSparseD("fhUnfoldingTruthRef_pt1
 THnSparseD *fhUnfoldingTruthGen_pt1pt2 = new THnSparseD("fhUnfoldingTruthGen_pt1pt2", "fhUnfoldingTruthGen_pt1pt2", 4, bins_unfpt1pt2MT, xmin_unfpt1pt2MT, xmax_unfpt1pt2MT);
 
 // xj vs pt2 in bins of pt1
-const int nUnfoldingBins_xjpt2 = nXjAjBins*nPtLSLBins;
-const double minUnfoldingBin_xjpt2 = 0;
-const double maxUnfoldingBin_xjpt2 = nPtLSLBins*maxxjhist; //nJetPtBinsEEC*maxDeltaREEC;
+int nUnfoldingBins_xjpt2 = nXjAjBins*nPtLSLBins;
+double minUnfoldingBin_xjpt2 = 0;
+double maxUnfoldingBin_xjpt2 = nPtLSLBins*maxxjhist; //nJetPtBinsEEC*maxDeltaREEC;
 double fullUnfoldingBinning_xjpt2[nUnfoldingBins_xjpt2+1];
 // histograms for unfolding
 // Axis : 0 -> reco, 1 -> gen, 2 -> delta phi reco, 3 -> delta phi gen, 4 -> mid-fwd-bkw ranges reco, 5 -> mid-fwd-bkw ranges gen, 6 -> multiplicity, 7 -> Leading jet pT reco, 8 -> Leading jet pT gen
