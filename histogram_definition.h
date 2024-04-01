@@ -5,9 +5,9 @@
 // ----------------- Bin Definition --------------- //
 // ------------------------------------------------ //
 
-int trkbinsize = (int) trk_pt_bins.size(); // track bins for jet-track correlation
-int multbinsize = (int) multiplicity_centrality_bins.size();// multiplicity or centrality bins for jet-track correlation
-int extrabinsize = (int) extra_bins.size();// any additional dependency you wanna add (be carefull about memory)
+const int trkbinsize = (int) trk_pt_bins.size(); // track bins for jet-track correlation
+const int multbinsize = (int) multiplicity_centrality_bins.size();// multiplicity or centrality bins for jet-track correlation
+const int extrabinsize = (int) extra_bins.size();// any additional dependency you wanna add (be carefull about memory)
 
 double minpthist = (double) ((jet_pt_min_cut < subleading_pT_min) ? jet_pt_min_cut : subleading_pT_min);
 double maxpthist = (double) jet_pt_max_cut;
@@ -21,26 +21,26 @@ double maxetadijethist = 6.0;
 
 
 // binning definition
-double binnerShift = 0.0; // shift if starts at 0, Log(0) -> error
+const double binnerShift = 0.0; // shift if starts at 0, Log(0) -> error
 // Needed to define log binning
 // Xp and XPb -> see sumw2 function
-int nXBins = 40; // number of bins
-double minX = 3e-04;  // minimum
-double maxX = 1.0; 	   // maximum
+const int nXBins = 40; // number of bins
+const double minX = 3e-04;  // minimum
+const double maxX = 1.0; 	   // maximum
 double XlogBinWidth = (TMath::Log(maxX+binnerShift) - TMath::Log(minX+binnerShift)) / nXBins; // binwidth
 
 // Xj and Aj bins
-int nXjAjBins = 20; // number of bins
+const int nXjAjBins = 20; // number of bins
 double XjBins[nXjAjBins+1] = {minxjhist,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,maxxjhist};
 double AjBins[nXjAjBins+1] = {minxjhist,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,maxxjhist};
 //Dphibins
-int nDphiBins = 30; // number of bins
+const int nDphiBins = 30; // number of bins
 double DphiBins[nDphiBins+1] = {0.0, TMath::Pi()/5. ,TMath::Pi()/3., (3./7.)*TMath::Pi(), TMath::Pi()/2., (4./7.)*TMath::Pi(), (3./5.)*TMath::Pi(), 1.93731547,  1.98967535,  2.04203522,  2.0943951 , 2.14675498,  2.19911486,  2.25147474,  2.30383461,  2.35619449, 2.40855437,  2.46091425,  2.51327412,  2.565634,  2.61799388, 2.67035376,  2.72271363,  2.77507351,  2.82743339,  2.87979327, 2.93215314,  2.98451302,  3.0368729 ,  3.08923278,  TMath::Pi()};
 
 // leading and subleading jet pTs
-int nPtLSLBins = 33; // number of bins
-double minPtLSL = minpthist-10.0;  // minimum
-double maxPtLSL = maxpthist; // maximum
+const int nPtLSLBins = 33; // number of bins
+const double minPtLSL = minpthist-10.0;  // minimum
+const double maxPtLSL = maxpthist; // maximum
 double PtLSLBins[nPtLSLBins+1] = {minPtLSL, 45.0, 50.0, 55.0, 60.0, 65.0, 70.0, 75.0, 80.0, 85.0, 90.0, 95.0, 100.0, 105.0, 110.0, 115.0, 120.0, 125.0, 130.0, 140.0, 160.0, 180.0, 200.0, 220.0, 240.0, 260.0, 280.0, 300.0, 350.0, 400.0, 450.0, 500.0, 600.0, maxPtLSL};
 
 // -------------------------------------------------------------------------- //
@@ -49,9 +49,9 @@ double PtLSLBins[nPtLSLBins+1] = {minPtLSL, 45.0, 50.0, 55.0, 60.0, 65.0, 70.0, 
 
 // Binning for the two-dimensional unfolding
 // --> xj vs pt average
-int nUnfoldingBins_xjptave = nXjAjBins*nPtLSLBins;
-double minUnfoldingBin_xjptave = 0;
-double maxUnfoldingBin_xjptave = nPtLSLBins*maxxjhist; //nJetPtBinsEEC*maxDeltaREEC;
+const int nUnfoldingBins_xjptave = nXjAjBins*nPtLSLBins;
+const double minUnfoldingBin_xjptave = 0;
+const double maxUnfoldingBin_xjptave = nPtLSLBins*maxxjhist; //nJetPtBinsEEC*maxDeltaREEC;
 double fullUnfoldingBinning_xjptave[nUnfoldingBins_xjptave+1];
 // histograms for unfolding
 // Axis : 0 -> reco, 1 -> gen, 2 -> delta phi reco, 3 -> delta phi gen, 4 -> mid-fwd-bkw ranges reco, 5 -> mid-fwd-bkw ranges gen,  6 -> multiplicity
@@ -68,9 +68,9 @@ THnSparseD *fhUnfoldingTruthRef_xjptave = new THnSparseD("fhUnfoldingTruthRef_xj
 THnSparseD *fhUnfoldingTruthGen_xjptave = new THnSparseD("fhUnfoldingTruthGen_xjptave", "fhUnfoldingTruthGen_xjptave", 4, bins_unfxjptaveMT, xmin_unfxjptaveMT, xmax_unfxjptaveMT);
 
 // --> pt1 vs pt2
-int nUnfoldingBins_pt1pt2 = nPtLSLBins*nPtLSLBins;
-double minUnfoldingBin_pt1pt2 = 0;
-double maxUnfoldingBin_pt1pt2 = nPtLSLBins*maxpthist;
+const int nUnfoldingBins_pt1pt2 = nPtLSLBins*nPtLSLBins;
+const double minUnfoldingBin_pt1pt2 = 0;
+const double maxUnfoldingBin_pt1pt2 = nPtLSLBins*maxpthist;
 double fullUnfoldingBinning_pt1pt2[nUnfoldingBins_pt1pt2+1];
 // histograms for unfolding
 // Axis : 0 -> reco, 1 -> gen, 2 -> delta phi reco, 3 -> delta phi gen, 4 -> mid-fwd-bkw ranges reco, 5 -> mid-fwd-bkw ranges gen,  6 -> multiplicity
@@ -87,9 +87,9 @@ THnSparseD *fhUnfoldingTruthRef_pt1pt2 = new THnSparseD("fhUnfoldingTruthRef_pt1
 THnSparseD *fhUnfoldingTruthGen_pt1pt2 = new THnSparseD("fhUnfoldingTruthGen_pt1pt2", "fhUnfoldingTruthGen_pt1pt2", 4, bins_unfpt1pt2MT, xmin_unfpt1pt2MT, xmax_unfpt1pt2MT);
 
 // xj vs pt2 in bins of pt1
-int nUnfoldingBins_xjpt2 = nXjAjBins*nPtLSLBins;
-double minUnfoldingBin_xjpt2 = 0;
-double maxUnfoldingBin_xjpt2 = nPtLSLBins*maxxjhist; //nJetPtBinsEEC*maxDeltaREEC;
+const int nUnfoldingBins_xjpt2 = nXjAjBins*nPtLSLBins;
+const double minUnfoldingBin_xjpt2 = 0;
+const double maxUnfoldingBin_xjpt2 = nPtLSLBins*maxxjhist; //nJetPtBinsEEC*maxDeltaREEC;
 double fullUnfoldingBinning_xjpt2[nUnfoldingBins_xjpt2+1];
 // histograms for unfolding
 // Axis : 0 -> reco, 1 -> gen, 2 -> delta phi reco, 3 -> delta phi gen, 4 -> mid-fwd-bkw ranges reco, 5 -> mid-fwd-bkw ranges gen, 6 -> multiplicity, 7 -> Leading jet pT reco, 8 -> Leading jet pT gen
@@ -617,16 +617,16 @@ double XBins[nXBins+1];
 for(int a = 0; a <= nXBins; a++){XBins[a] = (minX+binnerShift)*TMath::Exp(a*XlogBinWidth)-binnerShift;}
 
 // --> Trk pT
-double TrkPtbins[trkbinsize-1];
-for(int a = 0; a<trk_pt_bins.size();a++){TrkPtbins[a] = trk_pt_bins[a];}
+double TrkPtbins[trkbinsize];
+for(int a = 0; a < trk_pt_bins.size();a++){TrkPtbins[a] = (double) trk_pt_bins[a];}
 
 // --> Multiplicity binning
-double MultCentbins[multbinsize-1];
-for(int a = 0; a<multiplicity_centrality_bins.size();a++){MultCentbins[a] = multiplicity_centrality_bins[a];}
+double MultCentbins[multbinsize];
+for(int a = 0; a < multiplicity_centrality_bins.size();a++){MultCentbins[a] = (double) multiplicity_centrality_bins[a];}
 
 // --> Extra binning
-double Extrabins[extrabinsize-1];
-for(int a = 0; a<extra_bins.size();a++){Extrabins[a] = extra_bins[a];}
+double Extrabins[extrabinsize];
+for(int a = 0; a < extra_bins.size();a++){Extrabins[a] = (double) extra_bins[a];}
 
 // --> Unfolding
 for(int ixj = 0; ixj < nXjAjBins; ixj++){
@@ -869,7 +869,7 @@ hist_SLJ_trk_from_reco_reco_mix->Sumw2();
 hist_SLJ_trk_from_reco_gen_mix->Sumw2();
 hist_SLJ_trk_from_gen_reco_mix->Sumw2();
 hist_SLJ_trk_from_gen_gen_mix->Sumw2();
-/*
+
 // --> Track correlations to EP histos
 // Track Pt binning
 Dphi_EP2_flat_trk_minus->GetAxis(1)->Set(bins_TRKEP[1],TrkPtbins);
@@ -884,6 +884,7 @@ Dphi_GEN_EP3_flat_trk_minus->GetAxis(1)->Set(bins_TRKEP[1],TrkPtbins);
 Dphi_GEN_EP3_flat_trk_plus->GetAxis(1)->Set(bins_TRKEP[1],TrkPtbins);
 Dphi_GEN_EP4_flat_trk_minus->GetAxis(1)->Set(bins_TRKEP[1],TrkPtbins);
 Dphi_GEN_EP4_flat_trk_plus->GetAxis(1)->Set(bins_TRKEP[1],TrkPtbins);
+
 // Multiplicity binning
 Dphi_EP2_flat_trk_minus->GetAxis(2)->Set(bins_TRKEP[2],MultCentbins);
 Dphi_EP2_flat_trk_plus->GetAxis(2)->Set(bins_TRKEP[2],MultCentbins);
@@ -923,7 +924,6 @@ Dphi_GEN_EP3_flat_trk_minus->Sumw2();
 Dphi_GEN_EP3_flat_trk_plus->Sumw2();
 Dphi_GEN_EP4_flat_trk_minus->Sumw2();
 Dphi_GEN_EP4_flat_trk_plus->Sumw2();
-*/
 
 // --> TrackMax/RawPt and Njets histos
 // Multiplicity binning
@@ -1555,7 +1555,6 @@ hist_inSubljet_reco_track_gen->Sumw2();
 hist_inSubljet_gen_track_reco->Sumw2();
 hist_inSubljet_gen_track_gen->Sumw2();
 
-/*
 // --> Jet-Track correlation histos
 // Trk pt binning
 hist_correlation_signal_jet_reco_track_reco->GetAxis(2)->Set(bins_jettrk[2],TrkPtbins);
@@ -1763,7 +1762,7 @@ hist_gen_gen_2pcorrelation_signal->GetAxis(2)->Set(bins_2pc[2],TrkPtbins);
 hist_gen_gen_2pcorrelation_signal_subg0->GetAxis(2)->Set(bins_2pc[2],TrkPtbins);
 hist_gen_gen_2pcorrelation_signal_subcross->GetAxis(2)->Set(bins_2pc[2],TrkPtbins);
 hist_gen_gen_2pcorrelation_mixing->GetAxis(2)->Set(bins_2pc[2],TrkPtbins);
-*/
+
 // Multiplicity binning
 hist_reco_reco_2pcorrelation_signal->GetAxis(3)->Set(bins_2pc[3],MultCentbins);
 hist_reco_reco_2pcorrelation_signal_subg0->GetAxis(3)->Set(bins_2pc[3],MultCentbins);
