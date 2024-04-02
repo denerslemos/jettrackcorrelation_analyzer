@@ -9,10 +9,10 @@ const int trkbinsize = (int) trk_pt_bins.size(); // track bins for jet-track cor
 const int multbinsize = (int) multiplicity_centrality_bins.size();// multiplicity or centrality bins for jet-track correlation
 const int extrabinsize = (int) extra_bins.size();// any additional dependency you wanna add (be carefull about memory)
 
-double minpthist = (double) ((jet_pt_min_cut < subleading_pT_min) ? jet_pt_min_cut : subleading_pT_min);
+double minpthist = (double) 0.0;
 double maxpthist = (double) jet_pt_max_cut;
-double minxjhist = (double) xjmin;
-double maxxjhist = (double) xjmax;
+double minxjhist = (double) 0.0;
+double maxxjhist = (double) 2.0;
 double mindphihist = 0.0;
 double maxdphihist = TMath::Pi();
 int Netadijethist = 60;
@@ -30,18 +30,18 @@ const double maxX = 1.0; 	   // maximum
 double XlogBinWidth = (TMath::Log(maxX+binnerShift) - TMath::Log(minX+binnerShift)) / nXBins; // binwidth
 
 // Xj and Aj bins
-const int nXjAjBins = 20; // number of bins
-double XjBins[nXjAjBins+1] = {minxjhist,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,maxxjhist};
-double AjBins[nXjAjBins+1] = {minxjhist,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,maxxjhist};
+const int nXjAjBins = 40; // number of bins
+double XjBins[nXjAjBins+1] = {minxjhist,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,maxxjhist};
+double AjBins[nXjAjBins+1] = {minxjhist,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,maxxjhist};
 //Dphibins
 const int nDphiBins = 30; // number of bins
 double DphiBins[nDphiBins+1] = {0.0, TMath::Pi()/5. ,TMath::Pi()/3., (3./7.)*TMath::Pi(), TMath::Pi()/2., (4./7.)*TMath::Pi(), (3./5.)*TMath::Pi(), 1.93731547,  1.98967535,  2.04203522,  2.0943951 , 2.14675498,  2.19911486,  2.25147474,  2.30383461,  2.35619449, 2.40855437,  2.46091425,  2.51327412,  2.565634,  2.61799388, 2.67035376,  2.72271363,  2.77507351,  2.82743339,  2.87979327, 2.93215314,  2.98451302,  3.0368729 ,  3.08923278,  TMath::Pi()};
 
 // leading and subleading jet pTs
-const int nPtLSLBins = 33; // number of bins
-const double minPtLSL = minpthist-10.0;  // minimum
+const int nPtLSLBins = 41; // number of bins
+const double minPtLSL = minpthist;  // minimum
 const double maxPtLSL = maxpthist; // maximum
-double PtLSLBins[nPtLSLBins+1] = {minPtLSL, 45.0, 50.0, 55.0, 60.0, 65.0, 70.0, 75.0, 80.0, 85.0, 90.0, 95.0, 100.0, 105.0, 110.0, 115.0, 120.0, 125.0, 130.0, 140.0, 160.0, 180.0, 200.0, 220.0, 240.0, 260.0, 280.0, 300.0, 350.0, 400.0, 450.0, 500.0, 600.0, maxPtLSL};
+double PtLSLBins[nPtLSLBins+1] = {minPtLSL, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 35.0, 40.0, 45.0, 50.0, 55.0, 60.0, 65.0, 70.0, 75.0, 80.0, 85.0, 90.0, 95.0, 100.0, 105.0, 110.0, 115.0, 120.0, 125.0, 130.0, 140.0, 160.0, 180.0, 200.0, 220.0, 240.0, 260.0, 280.0, 300.0, 350.0, 400.0, 450.0, 500.0, 600.0, maxPtLSL};
 
 // -------------------------------------------------------------------------- //
 // ============================= Unfolding stuff ============================ //
