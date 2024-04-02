@@ -871,7 +871,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 			double xjpt2unfreco_response = TransformToUnfoldingAxis_xjptave(xjrecoforunfold,sublrecojet_pt,xjmax);						
 			double xjpt2unfref_response = TransformToUnfoldingAxis_xjptave(xjrefforunfold,sublrefjet_pt,xjmax);						
-			double x_unf_meas_xjpt2_response[7]={xjpt2unfreco_response, xjpt2unfref_response, delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold, (double)multcentbin}; 
+			double x_unf_meas_xjpt2_response[9]={xjpt2unfreco_response, xjpt2unfref_response, delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold, (double)multcentbin, (double)leadrecojet_pt, (double)leadrefjet_pt}; 
 			fhUnfoldingResponse_xjpt2->Fill(x_unf_meas_xjpt2_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
 		
 		}
