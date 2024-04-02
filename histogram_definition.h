@@ -47,6 +47,21 @@ double PtLSLBins[nPtLSLBins+1] = {minPtLSL, 45.0, 50.0, 55.0, 60.0, 65.0, 70.0, 
 // ============================= Unfolding stuff ============================ //
 // -------------------------------------------------------------------------- //
 
+// Binning for the one-dimensional unfolding
+// histograms for unfolding
+// Axis : 0 -> Xj reco, 1 -> Xj gen, 2 -> delta phi reco, 3 -> delta phi gen, 4 -> mid-fwd-bkw ranges reco, 5 -> mid-fwd-bkw ranges gen,  6 -> multiplicity
+int	bins_unfxj[7] 	   =   { nXjAjBins   , nXjAjBins  , nDphiBins   , nDphiBins   , 11  , 11  , multbinsize-1};
+double xmin_unfxj[7]   =   { minxjhist   , minxjhist  , mindphihist , mindphihist , 0.0 , 0.0 , multiplicity_centrality_bins[0]};
+double xmax_unfxj[7]   =   { maxxjhist   , maxxjhist  , maxdphihist , maxdphihist , 11.0, 11.0, multiplicity_centrality_bins[multbinsize-1]};
+THnSparseD *fhUnfoldingResponse_xj = new THnSparseD("fhUnfoldingResponse_xj", "fhUnfoldingResponse_xj", 7, bins_unfxj, xmin_unfxj, xmax_unfxj);
+// Axis : 0 -> Xj Measured or Truth, 1 -> delta phi measured or truth, 2 ->  mid-fwd-bkw ranges, 3 -> multiplicity
+int	bins_unfxjMT[4] 	 =   { nXjAjBins  , nDphiBins   , 11  , multbinsize-1};
+double xmin_unfxjMT[4]   =   { minxjhist  , mindphihist	, 0.0 , multiplicity_centrality_bins[0]};
+double xmax_unfxjMT[4]   =   { maxxjhist  , maxdphihist , 11.0, multiplicity_centrality_bins[multbinsize-1]};
+THnSparseD *fhUnfoldingMeasu_xj = new THnSparseD("fhUnfoldingMeasu_xj", "fhUnfoldingMeasu_xj", 4, bins_unfxjMT, xmin_unfxjMT, xmax_unfxjMT);
+THnSparseD *fhUnfoldingTruthRef_xj = new THnSparseD("fhUnfoldingTruthRef_xj", "fhUnfoldingTruthRef_xj", 4, bins_unfxjMT, xmin_unfxjMT, xmax_unfxjMT);
+THnSparseD *fhUnfoldingTruthGen_xj = new THnSparseD("fhUnfoldingTruthGen_xj", "fhUnfoldingTruthGen_xj", 4, bins_unfxjMT, xmin_unfxjMT, xmax_unfxjMT);
+
 // Binning for the two-dimensional unfolding
 // --> xj vs pt average
 const int nUnfoldingBins_xjptave = nXjAjBins*nPtLSLBins;
@@ -61,7 +76,7 @@ double xmax_unfxjptave[7]   =   { maxUnfoldingBin_xjptave  , maxUnfoldingBin_xjp
 THnSparseD *fhUnfoldingResponse_xjptave = new THnSparseD("fhUnfoldingResponse_xjptave", "fhUnfoldingResponse_xjptave", 7, bins_unfxjptave, xmin_unfxjptave, xmax_unfxjptave);
 // Axis : 0 -> Measured or Truth, 1 -> delta phi measured or truth, 2 ->  mid-fwd-bkw ranges, 3 -> multiplicity
 int	bins_unfxjptaveMT[4] 	  =   { nUnfoldingBins_xjptave   , nDphiBins   , 11  , multbinsize-1};
-double xmin_unfxjptaveMT[4]   =   { minUnfoldingBin_xjptave  , mindphihist	       , 0.0 , multiplicity_centrality_bins[0]};
+double xmin_unfxjptaveMT[4]   =   { minUnfoldingBin_xjptave  , mindphihist , 0.0 , multiplicity_centrality_bins[0]};
 double xmax_unfxjptaveMT[4]   =   { maxUnfoldingBin_xjptave  , maxdphihist , 11.0, multiplicity_centrality_bins[multbinsize-1]};
 THnSparseD *fhUnfoldingMeasu_xjptave = new THnSparseD("fhUnfoldingMeasu_xjptave", "fhUnfoldingMeasu_xjptave", 4, bins_unfxjptaveMT, xmin_unfxjptaveMT, xmax_unfxjptaveMT);
 THnSparseD *fhUnfoldingTruthRef_xjptave = new THnSparseD("fhUnfoldingTruthRef_xjptave", "fhUnfoldingTruthRef_xjptave", 4, bins_unfxjptaveMT, xmin_unfxjptaveMT, xmax_unfxjptaveMT);
@@ -1793,6 +1808,31 @@ hist_gen_gen_2pcorrelation_mixing->Sumw2();
 
 
 // --> Unfolding histos
+
+// -> Xj 1D
+// Xj 
+fhUnfoldingResponse_xj->GetAxis(0)->Set(bins_unfxj[0],XjBins);
+fhUnfoldingResponse_xj->GetAxis(1)->Set(bins_unfxj[1],XjBins);
+fhUnfoldingMeasu_xj->GetAxis(0)->Set(bins_unfxjMT[0],XjBins);
+fhUnfoldingTruthRef_xj->GetAxis(0)->Set(bins_unfxjMT[0],XjBins);
+fhUnfoldingTruthGen_xj->GetAxis(0)->Set(bins_unfxjMT[0],XjBins);
+// DPhi binning
+fhUnfoldingResponse_xj->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
+fhUnfoldingResponse_xj->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
+fhUnfoldingMeasu_xj->GetAxis(1)->Set(bins_unfxjMT[1],DphiBins);
+fhUnfoldingTruthRef_xj->GetAxis(1)->Set(bins_unfxjMT[1],DphiBins);
+fhUnfoldingTruthGen_xj->GetAxis(1)->Set(bins_unfxjMT[1],DphiBins);
+// Multiplicity binning
+fhUnfoldingResponse_xj->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
+fhUnfoldingMeasu_xj->GetAxis(3)->Set(bins_unfxjMT[3],MultCentbins);
+fhUnfoldingTruthRef_xj->GetAxis(3)->Set(bins_unfxjMT[3],MultCentbins);
+fhUnfoldingTruthGen_xj->GetAxis(3)->Set(bins_unfxjMT[3],MultCentbins);
+// Sumw2
+fhUnfoldingResponse_xj->Sumw2();
+fhUnfoldingMeasu_xj->Sumw2();
+fhUnfoldingTruthRef_xj->Sumw2();
+fhUnfoldingTruthGen_xj->Sumw2();
+
 // -> Xj vs Pt average
 // Unfold binning
 fhUnfoldingResponse_xjptave->SetBinEdges(0, fullUnfoldingBinning_xjptave);
@@ -2343,6 +2383,11 @@ void w_ep_hist(bool isMC){
 
 
 void w_unf_hist(){ 
+
+	fhUnfoldingResponse_xj->Write();
+	fhUnfoldingMeasu_xj->Write();
+	fhUnfoldingTruthRef_xj->Write();
+	fhUnfoldingTruthGen_xj->Write();
 
 	fhUnfoldingResponse_xjptave->Write();
 	fhUnfoldingMeasu_xjptave->Write();
