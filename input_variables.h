@@ -41,6 +41,7 @@ const bool do_dijetstudies = true; // quantities for jet quenching searches
 const TString jet_collection = "akCs4PFJetAnalyzer"; // jet collection in forest
 bool dojettrigger = false; // apply jet trigger
 TString jet_trigger = "HLT_PAAK4PFJet80_Eta5p1_v3"; // jet trigger in forest 
+TString jet_idselec = "TightLepVeto"; // jet id selection: nominal is TightLepVeto, syst: Tight and Loose
 const float JetR = 0.4;
 const bool doUE_areabased = false;
 const float jet_pt_min_cut = 60.0; // jet min pT cut 

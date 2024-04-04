@@ -41,6 +41,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	TString ref_sample = "noref"; if(do_mixing && !do_rotation){ref_sample = Form("mix%iMult%iDVz%.1f%s",N_ev_mix,Mult_or_Cent_range,DVz_range,simev.Data());}else if(!do_mixing && do_rotation){ref_sample = Form("rot%ievs",N_of_rot);}else if(do_mixing && do_rotation){ref_sample = Form("mix%ievsMult%iDVz%.1f%s_rot%ievs",N_ev_mix,Mult_or_Cent_range,DVz_range,simev.Data(),N_of_rot);}
 	TString jet_axis; if(use_WTA){jet_axis = "WTA";}else{jet_axis = "ESC";}
 	if(doUE_areabased) jet_axis += "_RhoUE_";
+	jet_axis += Form("_jid_%s_",jet_idselec.Data());
 	jet_axis += Form("_tor%i_",trackmaxoverrawpt_method);
 	jet_axis += Form("3rdm%i_c%.1f_",thirdjet_removal_method,thirdjet_removal_cut);
 	jet_axis += Form("rem4thjet%i_",do_fourjet_removal);
