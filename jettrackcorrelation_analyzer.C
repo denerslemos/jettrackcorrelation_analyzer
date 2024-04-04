@@ -853,21 +853,21 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			}		
 		}
 		
-		if(is_MC && tworecojets && refpt[leadrecojet_index] >= 0 && refpt[sublrecojet_index] > 0 /*&& tworefjets*/ && do_dijetstudies){
+		if(is_MC && tworecojets && tworefjets && do_dijetstudies){
 			
 			double xjrecoforunfold = sublrecojet_pt/leadrecojet_pt;
 			double ptaveragerecoforunfold = 0.5*(leadrecojet_pt + sublrecojet_pt);
-			double xjrefforunfold = refpt[sublrecojet_index]/refpt[leadrecojet_index];
-			double ptaveragerefforunfold = 0.5*(refpt[leadrecojet_index] + refpt[sublrecojet_index]);		
+			double xjrefforunfold = sublrefjet_pt/leadrefjet_pt;
+			double ptaveragerefforunfold = 0.5*(leadrefjet_pt + sublrefjet_pt);		
 			double delta_phi_reco_forunfold = fabs(deltaphi(leadrecojet_phi,sublrecojet_phi));
-			double delta_phi_ref_forunfold = fabs(deltaphi(refphi[leadrecojet_index],refphi[sublrecojet_index]));
+			double delta_phi_ref_forunfold = fabs(deltaphi(leadrefjet_phi,sublrefjet_phi));
 
-			float dijetetareftypeforunfold = dijetetabin(refpt[leadrecojet_index], refpt[sublrecojet_index], jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut, jet_bkw_eta_min_cut, jet_bkw_eta_max_cut);
+			float dijetetareftypeforunfold = dijetetabin(leadrefjet_eta, sublrefjet_eta, jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut, jet_bkw_eta_min_cut, jet_bkw_eta_max_cut);
 			float dijetetarecotypeforunfold = dijetetabin(leadrecojet_eta, sublrecojet_eta, jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut, jet_bkw_eta_min_cut, jet_bkw_eta_max_cut);
 
-			double x_unf_meas_ptlead_response[7]={leadrecojet_pt, refpt[leadrecojet_index], delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold, (double)multcentbin}; 
+			double x_unf_meas_ptlead_response[7]={leadrecojet_pt, leadrefjet_pt, delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold, (double)multcentbin}; 
 			fhUnfoldingResponse_ptlead->Fill(x_unf_meas_ptlead_response,event_weight*ljet_weight*lrefjet_weight);
-			double x_unf_meas_ptsubl_response[7]={sublrecojet_pt, refpt[sublrecojet_index], delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold, (double)multcentbin}; 
+			double x_unf_meas_ptsubl_response[7]={sublrecojet_pt, sublrefjet_pt, delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold, (double)multcentbin}; 
 			fhUnfoldingResponse_ptsubl->Fill(x_unf_meas_ptsubl_response,event_weight*sljet_weight*slrefjet_weight);
 
 			double x_unf_meas_xj_response[7]={xjrecoforunfold, xjrefforunfold, delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold, (double)multcentbin}; 
@@ -879,13 +879,13 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			fhUnfoldingResponse_xjptave->Fill(x_unf_meas_xjptave_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
 
 			double pt1pt2unfreco_response = TransformToUnfoldingAxis_pt1pt2(leadrecojet_pt, sublrecojet_pt, jet_pt_max_cut);						
-			double pt1pt2unfref_response = TransformToUnfoldingAxis_pt1pt2(refpt[leadrecojet_index], refpt[sublrecojet_index], jet_pt_max_cut);						
+			double pt1pt2unfref_response = TransformToUnfoldingAxis_pt1pt2(leadrefjet_pt, sublrefjet_pt, jet_pt_max_cut);						
 			double x_unf_meas_pt1pt2_response[7]={pt1pt2unfreco_response, pt1pt2unfref_response, delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold,(double)multcentbin}; 
 			fhUnfoldingResponse_pt1pt2->Fill(x_unf_meas_pt1pt2_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
 
 			double xjpt2unfreco_response = TransformToUnfoldingAxis_xjptave(xjrecoforunfold,sublrecojet_pt,xjmax);						
-			double xjpt2unfref_response = TransformToUnfoldingAxis_xjptave(xjrefforunfold,refpt[sublrecojet_index],xjmax);						
-			double x_unf_meas_xjpt2_response[9]={xjpt2unfreco_response, xjpt2unfref_response, delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold, (double)multcentbin, (double)leadrecojet_pt, (double)refpt[leadrecojet_index]}; 
+			double xjpt2unfref_response = TransformToUnfoldingAxis_xjptave(xjrefforunfold,sublrefjet_pt,xjmax);						
+			double x_unf_meas_xjpt2_response[9]={xjpt2unfreco_response, xjpt2unfref_response, delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold, (double)multcentbin, (double)leadrecojet_pt, (double)leadrefjet_pt}; 
 			fhUnfoldingResponse_xjpt2->Fill(x_unf_meas_xjpt2_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
 		
 		}
