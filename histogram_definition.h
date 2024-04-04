@@ -48,12 +48,15 @@ double PtLSLBins[nPtLSLBins+1] = {minPtLSL, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 3
 // -------------------------------------------------------------------------- //
 
 // Binning for the one-dimensional unfolding
+
 // histograms for unfolding
+
 // Axis : 0 -> ptlead reco, 1 -> ptlead gen, 2 -> delta phi reco, 3 -> delta phi gen, 4 -> mid-fwd-bkw ranges reco, 5 -> mid-fwd-bkw ranges gen, 6 -> multiplicity
 int	bins_unfptlead[7] 	   =   { nPtLSLBins     , nPtLSLBins    , nDphiBins   , nDphiBins   , 11  , 11  , multbinsize-1};
 double xmin_unfptlead[7]   =   { minPtLSL       , minPtLSL  	, mindphihist , mindphihist , 0.0 , 0.0 , multiplicity_centrality_bins[0]};
 double xmax_unfptlead[7]   =   { maxPtLSL  		, maxPtLSL 		, maxdphihist , maxdphihist , 11.0, 11.0, multiplicity_centrality_bins[multbinsize-1]};
 THnSparseD *fhUnfoldingResponse_ptlead = new THnSparseD("fhUnfoldingResponse_ptlead", "fhUnfoldingResponse_ptlead", 7, bins_unfptlead, xmin_unfptlead, xmax_unfptlead);
+
 // Axis : 0 -> ptlead Measured or Truth, 1 -> delta phi measured or truth, 2 ->  mid-fwd-bkw ranges, 3 -> multiplicity
 int	bins_unfptleadMT[4] 	 =   { nPtLSLBins    , nDphiBins   , 11   , multbinsize-1};
 double xmin_unfptleadMT[4]   =   { minPtLSL  	 , mindphihist , 0.0  , multiplicity_centrality_bins[0]};
@@ -61,11 +64,13 @@ double xmax_unfptleadMT[4]   =   { maxPtLSL  	 , maxdphihist , 11.0 , multiplici
 THnSparseD *fhUnfoldingMeasu_ptlead = new THnSparseD("fhUnfoldingMeasu_ptlead", "fhUnfoldingMeasu_ptlead", 4, bins_unfptleadMT, xmin_unfptleadMT, xmax_unfptleadMT);
 THnSparseD *fhUnfoldingTruthRef_ptlead = new THnSparseD("fhUnfoldingTruthRef_ptlead", "fhUnfoldingTruthRef_ptlead", 4, bins_unfptleadMT, xmin_unfptleadMT, xmax_unfptleadMT);
 THnSparseD *fhUnfoldingTruthGen_ptlead = new THnSparseD("fhUnfoldingTruthGen_ptlead", "fhUnfoldingTruthGen_ptlead", 4, bins_unfptleadMT, xmin_unfptleadMT, xmax_unfptleadMT);
+
 // Axis : 0 -> ptsubl reco, 1 -> ptsubl gen, 2 -> delta phi reco, 3 -> delta phi gen, 4 -> mid-fwd-bkw ranges reco, 5 -> mid-fwd-bkw ranges gen, 6 -> multiplicity
 int	bins_unfptsubl[7] 	   =   { nPtLSLBins     , nPtLSLBins    , nDphiBins   , nDphiBins   , 11  , 11  , multbinsize-1};
 double xmin_unfptsubl[7]   =   { minPtLSL       , minPtLSL  	, mindphihist , mindphihist , 0.0 , 0.0 , multiplicity_centrality_bins[0]};
 double xmax_unfptsubl[7]   =   { maxPtLSL  		, maxPtLSL 		, maxdphihist , maxdphihist , 11.0, 11.0, multiplicity_centrality_bins[multbinsize-1]};
 THnSparseD *fhUnfoldingResponse_ptsubl = new THnSparseD("fhUnfoldingResponse_ptsubl", "fhUnfoldingResponse_ptsubl", 7, bins_unfptsubl, xmin_unfptsubl, xmax_unfptsubl);
+
 // Axis : 0 -> ptsubl Measured or Truth, 1 -> delta phi measured or truth, 2 ->  mid-fwd-bkw ranges, 3 -> multiplicity
 int	bins_unfptsublMT[4] 	 =   { nPtLSLBins    , nDphiBins   , 11   , multbinsize-1};
 double xmin_unfptsublMT[4]   =   { minPtLSL  	 , mindphihist , 0.0  , multiplicity_centrality_bins[0]};
@@ -73,25 +78,13 @@ double xmax_unfptsublMT[4]   =   { maxPtLSL  	 , maxdphihist , 11.0 , multiplici
 THnSparseD *fhUnfoldingMeasu_ptsubl = new THnSparseD("fhUnfoldingMeasu_ptsubl", "fhUnfoldingMeasu_ptsubl", 4, bins_unfptsublMT, xmin_unfptsublMT, xmax_unfptsublMT);
 THnSparseD *fhUnfoldingTruthRef_ptsubl = new THnSparseD("fhUnfoldingTruthRef_ptsubl", "fhUnfoldingTruthRef_ptsubl", 4, bins_unfptsublMT, xmin_unfptsublMT, xmax_unfptsublMT);
 THnSparseD *fhUnfoldingTruthGen_ptsubl = new THnSparseD("fhUnfoldingTruthGen_ptsubl", "fhUnfoldingTruthGen_ptsubl", 4, bins_unfptsublMT, xmin_unfptsublMT, xmax_unfptsublMT);
-/*
-// Axis : 0 -> eta dijet reco, 1 -> eta dijet gen, 2 -> delta phi reco, 3 -> delta phi gen, 4 -> multiplicity
-int	bins_unfetadj[5] 	  =   { Netadijethist     , Netadijethist    , nDphiBins   , nDphiBins   , multbinsize-1};
-double xmin_unfetadj[5]   =   { minetadijethist   , minetadijethist  , mindphihist , mindphihist , multiplicity_centrality_bins[0]};
-double xmax_unfetadj[5]   =   { maxetadijethist   , maxetadijethist  , maxdphihist , maxdphihist , multiplicity_centrality_bins[multbinsize-1]};
-THnSparseD *fhUnfoldingResponse_etadijet = new THnSparseD("fhUnfoldingResponse_etadijet", "fhUnfoldingResponse_etadijet", 5, bins_unfetadj, xmin_unfetadj, xmax_unfetadj);
-// Axis : 0 -> eta dijet Measured or Truth, 1 -> delta phi measured or truth, 2 -> multiplicity
-int	bins_unfetadjMT[3] 	    =   { Netadijethist    , nDphiBins   , multbinsize-1};
-double xmin_unfetadjMT[3]   =   { minetadijethist  , mindphihist , multiplicity_centrality_bins[0]};
-double xmax_unfetadjMT[3]   =   { maxetadijethist  , maxdphihist , multiplicity_centrality_bins[multbinsize-1]};
-THnSparseD *fhUnfoldingMeasu_etadijet = new THnSparseD("fhUnfoldingMeasu_etadijet", "fhUnfoldingMeasu_etadijet", 3, bins_unfetadjMT, xmin_unfetadjMT, xmax_unfetadjMT);
-THnSparseD *fhUnfoldingTruthRef_etadijet = new THnSparseD("fhUnfoldingTruthRef_etadijet", "fhUnfoldingTruthRef_etadijet", 3, bins_unfetadjMT, xmin_unfetadjMT, xmax_unfetadjMT);
-THnSparseD *fhUnfoldingTruthGen_etadijet = new THnSparseD("fhUnfoldingTruthGen_etadijet", "fhUnfoldingTruthGen_etadijet", 3, bins_unfetadjMT, xmin_unfetadjMT, xmax_unfetadjMT);
-*/
+
 // Axis : 0 -> Xj reco, 1 -> Xj gen, 2 -> delta phi reco, 3 -> delta phi gen, 4 -> mid-fwd-bkw ranges reco, 5 -> mid-fwd-bkw ranges gen,  6 -> multiplicity
 int	bins_unfxj[7] 	   =   { nXjAjBins   , nXjAjBins  , nDphiBins   , nDphiBins   , 11  , 11  , multbinsize-1};
 double xmin_unfxj[7]   =   { minxjhist   , minxjhist  , mindphihist , mindphihist , 0.0 , 0.0 , multiplicity_centrality_bins[0]};
 double xmax_unfxj[7]   =   { maxxjhist   , maxxjhist  , maxdphihist , maxdphihist , 11.0, 11.0, multiplicity_centrality_bins[multbinsize-1]};
 THnSparseD *fhUnfoldingResponse_xj = new THnSparseD("fhUnfoldingResponse_xj", "fhUnfoldingResponse_xj", 7, bins_unfxj, xmin_unfxj, xmax_unfxj);
+
 // Axis : 0 -> Xj Measured or Truth, 1 -> delta phi measured or truth, 2 ->  mid-fwd-bkw ranges, 3 -> multiplicity
 int	bins_unfxjMT[4] 	 =   { nXjAjBins  , nDphiBins   , 11  , multbinsize-1};
 double xmin_unfxjMT[4]   =   { minxjhist  , mindphihist	, 0.0 , multiplicity_centrality_bins[0]};

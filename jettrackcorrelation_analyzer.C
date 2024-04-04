@@ -226,9 +226,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		int recomult = get_simple_mult_reco(colliding_system, sNN_energy_GeV, year_of_datataking, trksize, trketa, trkpt, trkcharge); // reco multiplicity (only pt and eta cuts)
 		int genmult;
 		if(is_MC) genmult = get_simple_mult_gen(colliding_system, sNN_energy_GeV, year_of_datataking, (int) gen_trkpt->size(), gen_trketa, gen_trkpt, gen_trkchg); // gen multiplicity (only pt and eta cuts)
-		double mult_corr = get_Ntrkcorr(fileeff, use_centrality, mult, colliding_system, sNN_energy_GeV, year_of_datataking, trksize, trketa, trkpt, trkphi, trkcharge, highpur, trkpterr, trkdcaxy, trkdcaxyerr, trkdcaz, trkdcazerr, trkchi2, trkndof, trknlayer, trknhits, trkalgo, trkmva);
-		double mult_corr_tight = get_Ntrkcorr(fileefftight, use_centrality, mult, colliding_system, sNN_energy_GeV, year_of_datataking, trksize, trketa, trkpt, trkphi, trkcharge, highpur, trkpterr, trkdcaxy, trkdcaxyerr, trkdcaz, trkdcazerr, trkchi2, trkndof, trknlayer, trknhits, trkalgo, trkmva);
-		double mult_corr_loose = get_Ntrkcorr(fileeffloose, use_centrality, mult, colliding_system, sNN_energy_GeV, year_of_datataking, trksize, trketa, trkpt, trkphi, trkcharge, highpur, trkpterr, trkdcaxy, trkdcaxyerr, trkdcaz, trkdcazerr, trkchi2, trkndof, trknlayer, trknhits, trkalgo, trkmva);
+		double mult_corr = get_Ntrkcorr(fileeff, "nominal", use_centrality, mult, colliding_system, sNN_energy_GeV, year_of_datataking, trksize, trketa, trkpt, trkphi, trkcharge, highpur, trkpterr, trkdcaxy, trkdcaxyerr, trkdcaz, trkdcazerr, trkchi2, trkndof, trknlayer, trknhits, trkalgo, trkmva);
+		double mult_corr_tight = get_Ntrkcorr(fileefftight, "tight", use_centrality, mult, colliding_system, sNN_energy_GeV, year_of_datataking, trksize, trketa, trkpt, trkphi, trkcharge, highpur, trkpterr, trkdcaxy, trkdcaxyerr, trkdcaz, trkdcazerr, trkchi2, trkndof, trknlayer, trknhits, trkalgo, trkmva);
+		double mult_corr_loose = get_Ntrkcorr(fileeffloose, "loose", use_centrality, mult, colliding_system, sNN_energy_GeV, year_of_datataking, trksize, trketa, trkpt, trkphi, trkcharge, highpur, trkpterr, trkdcaxy, trkdcaxyerr, trkdcaz, trkdcazerr, trkchi2, trkndof, trknlayer, trknhits, trkalgo, trkmva);
 		multiplicity_nocut->Fill((double) mult);
 		multiplicity_corrected->Fill((double) mult_corr);
 		multiplicity_tight->Fill((double) mult_corr_tight);
@@ -853,7 +853,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			}		
 		}
 		
-		if(is_MC && tworecojets && tworefjets && do_dijetstudies){
+		if(is_MC && tworecojets && leadrefjet_pt > 0.0 && sublrecojet_pt > 0.0 && do_dijetstudies){
 			
 			double xjrecoforunfold = sublrecojet_pt/leadrecojet_pt;
 			double ptaveragerecoforunfold = 0.5*(leadrecojet_pt + sublrecojet_pt);

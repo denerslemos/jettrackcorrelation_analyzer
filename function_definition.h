@@ -3,6 +3,31 @@
 #include "histogram_definition.h" // define histograms
 #include "weights.h" // weights applied
 
+
+/*
+Jet ID selection for PF jets
+
+bool passJetIDcuts(TString jetidsys, int yearofdatataking, float jet_eta){
+	
+	bool jetidcuts = false;
+	
+	if(yearofdatataking == 2016){
+		if(fabs(jet_eta) <= 2.7){
+
+			if(fabs(jet_eta) <= 2.4){
+			
+			}
+			} else if(fabs(jet_eta) > 2.7 && fabs(jet_eta) <= 3.0){
+		
+		} else if(fabs(jet_eta) > 3.0){
+
+		}
+		
+	}	
+	return jetidcuts;
+}
+*/
+
 /*
 Find Ntrk offline -> updated for all systems (and easy to update for future systems)
 The Ntrk offline is a definition with specific cuts (we should not change it). The track systematics must be applied using the input_variables.h!
@@ -72,6 +97,7 @@ Find Ntrk offline -> updated for all systems (and easy to update for future syst
 The Ntrk offline is a definition with specific cuts (we should not change it). The track systematics must be applied using the input_variables.h!
 --> Arguments
 trkeff_file: efficiency file
+type: nominal, tight and loose
 use_centrality: centrality or multiplicity
 mult: multiplicity or centrality bun
 col_sys: colliding system
@@ -95,8 +121,13 @@ nhits: track number of hits with measurements
 algo: track MVA algorith step
 mva: track MVA algorith value [-1,1]
 */
-double get_Ntrkcorr(TFile *trkeff_file, bool use_centrality, int mult, TString col_sys, int col_energy, int yearofdatataking, int size, float *eta, float *pt, float *phi, int *charge, bool *hp, float *pterr, float *dcaxy, float *dcaxyerr,  float *dcaz, float *dcazerr, float* chi2, unsigned char* ndof, unsigned char* nlayer, unsigned char* nhits, int* algo, float* mva){
+double get_Ntrkcorr(TFile *trkeff_file, TString type, bool use_centrality, int mult, TString col_sys, int col_energy, int yearofdatataking, int size, float *eta, float *pt, float *phi, int *charge, bool *hp, float *pterr, float *dcaxy, float *dcaxyerr,  float *dcaz, float *dcazerr, float* chi2, unsigned char* ndof, unsigned char* nlayer, unsigned char* nhits, int* algo, float* mva){
 	double Ntrk_off = 0.0;
+	double dxyzcut = 3.0;
+	double ptrescut = 0.1;
+	if(type == "nominal"){dxyzcut = 3.0; ptrescut = 0.1;}
+	if(type == "tight"){dxyzcut = 2.0; ptrescut = 0.05;}
+	if(type == "loose"){dxyzcut = 5.0; ptrescut = 0.1;}
 	for(int ii=0; ii<size; ii++){ 
 		int NDF = (int) ndof[ii];
 		int NLayer = (int) nlayer[ii];
@@ -104,9 +135,9 @@ double get_Ntrkcorr(TFile *trkeff_file, bool use_centrality, int mult, TString c
 		if(fabs(eta[ii]) > 2.4) continue; 
 		if(fabs(charge[ii]) == 0)continue;
 		if(hp[ii] == false) continue;
-		if(fabs(pterr[ii]/pt[ii]) >= 0.1) continue;
-		if(fabs(dcaxy[ii]/dcaxyerr[ii]) >= 3.0) continue;
-		if(fabs(dcaz[ii]/dcazerr[ii]) >= 3.0) continue;
+		if(fabs(pterr[ii]/pt[ii]) >= ptrescut) continue;
+		if(fabs(dcaxy[ii]/dcaxyerr[ii]) >= dxyzcut) continue;
+		if(fabs(dcaz[ii]/dcazerr[ii]) >= dxyzcut) continue;
 		double calomatching = ((pfEcal[ii]+pfHcal[ii])/cosh(eta[ii]))/pt[ii];
 		
 		if(col_sys=="pPb" && col_energy==8160 && yearofdatataking==2016){if(pt[ii] <= 0.4) continue;}
