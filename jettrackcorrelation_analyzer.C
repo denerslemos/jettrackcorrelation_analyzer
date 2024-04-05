@@ -564,23 +564,34 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		bool isrecodijets = isdijet(leadrecojet_pt, leading_pT_min, sublrecojet_pt, subleading_pT_min, leadrecojet_phi, sublrecojet_phi, leading_subleading_deltaphi_min, xjmin, xjmax, Ajmin, Ajmax);
 		bool goodrecoevent = (leadrecojet_pt > 0.0 && sublrecojet_pt > 0.0 && !removethirdjet && !removefourjet);
 
+		double leadrecojet_eta_lab = leadrecojet_eta;  // before boost for eta dijet
+		double sublrecojet_eta_lab = sublrecojet_eta;  // before boost for eta dijet
+		leadrecojet_eta = leadrecojet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
+		sublrecojet_eta = sublrecojet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
+		if(colliding_system == "pPb" && is_pgoing && invert_pgoing){
+			leadrecojet_eta = -leadrecojet_eta; 
+			sublrecojet_eta = -sublrecojet_eta;
+			leadrecojet_eta_lab = -leadrecojet_eta_lab; 
+			sublrecojet_eta_lab = -sublrecojet_eta_lab;
+		}
+
+		double leadrefjet_eta_lab = leadrefjet_eta; // before boost for eta dijet
+		double sublrefjet_eta_lab = sublrefjet_eta; // before boost for eta dijet
+		leadrefjet_eta = leadrefjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
+		sublrefjet_eta = sublrefjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
+		if(colliding_system == "pPb" && is_pgoing && invert_pgoing){
+			leadrefjet_eta = -leadrefjet_eta; 
+			sublrefjet_eta = -sublrefjet_eta;
+			leadrefjet_eta_lab = -leadrefjet_eta_lab; 
+			sublrefjet_eta_lab = -sublrefjet_eta_lab;
+		}
+
 		// -> Start of dijet calculations
 		if(goodrecoevent){
 			Nevents->Fill(6);	
 
 			if(tworecojets){ 	//leading/subleading pT cuts
 				Nevents->Fill(7);
-
-				double leadrecojet_eta_lab = leadrecojet_eta;  // before boost for eta dijet
-				double sublrecojet_eta_lab = sublrecojet_eta;  // before boost for eta dijet
-				leadrecojet_eta = leadrecojet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-				sublrecojet_eta = sublrecojet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-				if(colliding_system == "pPb" && is_pgoing && invert_pgoing){
-					leadrecojet_eta = -leadrecojet_eta; 
-					sublrecojet_eta = -sublrecojet_eta;
-					leadrecojet_eta_lab = -leadrecojet_eta_lab; 
-					sublrecojet_eta_lab = -sublrecojet_eta_lab;
-				}
 
 				// Fill leading/subleading jet quenching quantities
 				double delta_phi_reco = fabs(deltaphi(leadrecojet_phi, sublrecojet_phi));
@@ -714,17 +725,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if(goodrefevent){
 			//leading/subleading pT cuts
 			if(tworefjets){
-
-				double leadrefjet_eta_lab = leadrefjet_eta; // before boost for eta dijet
-				double sublrefjet_eta_lab = sublrefjet_eta; // before boost for eta dijet
-				leadrefjet_eta = leadrefjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-				sublrefjet_eta = sublrefjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-				if(colliding_system == "pPb" && is_pgoing && invert_pgoing){
-					leadrefjet_eta = -leadrefjet_eta; 
-					sublrefjet_eta = -sublrefjet_eta;
-					leadrefjet_eta_lab = -leadrefjet_eta_lab; 
-					sublrefjet_eta_lab = -sublrefjet_eta_lab;
-				}
 
 				// Fill leading/subleading jet quenching quantities
 				double delta_phi_ref = fabs(deltaphi(leadrefjet_phi, sublrefjet_phi));
@@ -1025,21 +1025,22 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			bool isgendijets = isdijet(leadgenjet_pt, leading_pT_min, sublgenjet_pt, subleading_pT_min, leadgenjet_phi, sublgenjet_phi, leading_subleading_deltaphi_min, xjmin, xjmax, Ajmin, Ajmax);
 			bool goodgenevent = (leadgenjet_pt > 0.0 && sublgenjet_pt > 0.0 && !removethirdjet_gen && !removefourjet_gen);
 
+			double leadgenjet_eta_lab = leadgenjet_eta; // before boost for eta dijet
+			double sublgenjet_eta_lab = sublgenjet_eta; // before boost for eta dijet
+			leadgenjet_eta = leadgenjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
+			sublgenjet_eta = sublgenjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
+			if(colliding_system == "pPb" && is_pgoing && invert_pgoing){
+				leadgenjet_eta = -leadgenjet_eta; 
+				sublgenjet_eta = -sublgenjet_eta;
+				leadgenjet_eta_lab = -leadgenjet_eta_lab; 
+				sublgenjet_eta_lab = -sublgenjet_eta_lab;
+			}
+
+
 			//leading/subleading jets
 			if(goodgenevent){
 				//leading/subleading pT cuts
 				if(twogenjets){ 
-
-					double leadgenjet_eta_lab = leadgenjet_eta; // before boost for eta dijet
-					double sublgenjet_eta_lab = sublgenjet_eta; // before boost for eta dijet
-					leadgenjet_eta = leadgenjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-					sublgenjet_eta = sublgenjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
-					if(colliding_system == "pPb" && is_pgoing && invert_pgoing){
-						leadgenjet_eta = -leadgenjet_eta; 
-						sublgenjet_eta = -sublgenjet_eta;
-						leadgenjet_eta_lab = -leadgenjet_eta_lab; 
-						sublgenjet_eta_lab = -sublgenjet_eta_lab;
-					}
 
 					// Fill leading/subleading jet quenching quantities
 					double delta_phi_gen = fabs(deltaphi(leadgenjet_phi, sublgenjet_phi));
