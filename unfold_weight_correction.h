@@ -7,7 +7,7 @@ double getUnfCorrWeight(TFile *unffile, float leadpt, float subleadpt, int multi
   double factor = 1.0;
   double eff = 1.0;
   TH2 *eff_factor = nullptr; 
-  if(multiplicity > 10.0 && <= 60.0){
+  if(multiplicity > 10.0 && multiplicity <= 60.0){
   	  if(etaregion == 0.5){
 		  unffile->GetObject("reco_ratio2D_10-60_mid-mid", eff_factor);  // data / MC
   		  eff = eff_factor->GetBinContent( eff_factor->GetXaxis()->FindBin(leadpt),eff_factor->GetYaxis()->FindBin(subleadpt) );
@@ -36,7 +36,7 @@ double getUnfCorrWeight(TFile *unffile, float leadpt, float subleadpt, int multi
  		  unffile->GetObject("reco_ratio2D_10-60_bkw-bkw", eff_factor);  // data / MC
   		  eff = eff_factor->GetBinContent( eff_factor->GetXaxis()->FindBin(leadpt),eff_factor->GetYaxis()->FindBin(subleadpt) );
 	  }
-  } else if(multiplicity > 60.0 && <= 120.0){
+  } else if(multiplicity > 60.0 && multiplicity <= 120.0){
   	  if(etaregion == 0.5){
 		  unffile->GetObject("reco_ratio2D_60-120_mid-mid", eff_factor);  // data / MC
   		  eff = eff_factor->GetBinContent( eff_factor->GetXaxis()->FindBin(leadpt),eff_factor->GetYaxis()->FindBin(subleadpt) );
@@ -65,7 +65,7 @@ double getUnfCorrWeight(TFile *unffile, float leadpt, float subleadpt, int multi
  		  unffile->GetObject("reco_ratio2D_60-120_bkw-bkw", eff_factor);  // data / MC
   		  eff = eff_factor->GetBinContent( eff_factor->GetXaxis()->FindBin(leadpt),eff_factor->GetYaxis()->FindBin(subleadpt) );
 	  }
-  } else if(multiplicity > 120.0 && <= 185.0){
+  } else if(multiplicity > 120.0 && multiplicity <= 185.0){
   	  if(etaregion == 0.5){
 		  unffile->GetObject("reco_ratio2D_120-185_mid-mid", eff_factor);  // data / MC
   		  eff = eff_factor->GetBinContent( eff_factor->GetXaxis()->FindBin(leadpt),eff_factor->GetYaxis()->FindBin(subleadpt) );
@@ -94,7 +94,7 @@ double getUnfCorrWeight(TFile *unffile, float leadpt, float subleadpt, int multi
  		  unffile->GetObject("reco_ratio2D_120-185_bkw-bkw", eff_factor);  // data / MC
   		  eff = eff_factor->GetBinContent( eff_factor->GetXaxis()->FindBin(leadpt),eff_factor->GetYaxis()->FindBin(subleadpt) );
 	  }
-  } else if(multiplicity > 185.0 && <= 250.0){
+  } else if(multiplicity > 185.0 && multiplicity <= 250.0){
   	  if(etaregion == 0.5){
 		  unffile->GetObject("reco_ratio2D_185-250_mid-mid", eff_factor);  // data / MC
   		  eff = eff_factor->GetBinContent( eff_factor->GetXaxis()->FindBin(leadpt),eff_factor->GetYaxis()->FindBin(subleadpt) );
