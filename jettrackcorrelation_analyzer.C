@@ -2,6 +2,7 @@
 #include "vector_definition.h"  // define the vectors for mixing
 #include "read_tree.h" // read the TChains
 #include "random_mixing.h" // random mixing function
+#include "unfold_weight_correction.h" // unfold correction
 #include "uiclogo.h" // print UIC jets and start/stop time
 #include "JetCorrector.h" // reader for JEC
 #include "JetUncertainty.h" // reader for JEU
@@ -80,6 +81,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	TFile *fileeff = TFile::Open(Form("aux_files/%s_%i/trk_eff_table/%s",colliding_system.Data(),sNN_energy_GeV,trk_eff_file.Data()));
 	TFile *fileefftight = TFile::Open(Form("aux_files/%s_%i/trk_eff_table/Hijing_8TeV_MB_eff_v3_tight.root",colliding_system.Data(),sNN_energy_GeV));
 	TFile *fileeffloose = TFile::Open(Form("aux_files/%s_%i/trk_eff_table/Hijing_8TeV_MB_eff_v3_loose.root",colliding_system.Data(),sNN_energy_GeV));
+
+	// Weight correction for unfold
+	TFile *fileunfoldweight = TFile::Open(Form("aux_files/%s_%i/Unfolding/weighthistos.root",colliding_system.Data(),sNN_energy_GeV));
+
 	cout << endl;
 	
 	// Print the input in the screen/log 
@@ -605,6 +610,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					double x_reco[9]={Xj_reco,Aj_reco,delta_phi_reco,(double)multcentbin,(double)ptdijetbinreco,(double)extrabin,(double)leadrecojet_pt,(double)sublrecojet_pt, (double) dijetetarecotype}; 
 					hist_reco_lead_reco_subl_quench->Fill(x_reco, event_weight*ljet_weight*sljet_weight);
 					hist_reco_lead_reco_subl_quench_unweighted->Fill(x_reco);
+					double correctionweightreco = getUnfCorrWeight(fileunfoldweight, leadrecojet_pt, sublrecojet_pt, mult, dijetetarecotype);//do correction here
+					hist_reco_lead_reco_subl_quench_corr->Fill(x_reco, correctionweightreco*ljet_weight*sljet_weight);
+					
 					if(is_MC && refpt[leadrecojet_index] < 0)hist_fake_lead_reco_subl_quench->Fill(x_reco, event_weight*ljet_weight*sljet_weight);
 					if(is_MC && refpt[sublrecojet_index] < 0)hist_reco_lead_fake_subl_quench->Fill(x_reco, event_weight*ljet_weight*sljet_weight);
 					if(is_MC && refpt[leadrecojet_index] < 0 && refpt[sublrecojet_index] < 0)hist_fake_lead_fake_subl_quench->Fill(x_reco, event_weight*ljet_weight*sljet_weight);
@@ -875,10 +883,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			double x_unf_meas_xj_response[7]={xjrecoforunfold, xjrefforunfold, delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold, (double)multcentbin}; 
 			fhUnfoldingResponse_xj->Fill(x_unf_meas_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
 			
-			double correctionweight = 1.0;//do correction here
+			double correctionweight = getUnfCorrWeight(fileunfoldweight, leadrecojet_pt, sublrecojet_pt, mult, dijetetarecotypeforunfold);//do correction here
 			fhUnfoldingResponse_xj_corr->Fill(x_unf_meas_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight*correctionweight);
-			
-				
+			fhUnfoldingResponse_xj_corr_noevtweight->Fill(x_unf_meas_xj_response,correctionweight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
+					
 			double xjptaveunfreco_response = TransformToUnfoldingAxis_xjptave(xjrecoforunfold,ptaveragerecoforunfold,xjmax);						
 			double xjptaveunfref_response = TransformToUnfoldingAxis_xjptave(xjrefforunfold,ptaveragerefforunfold,xjmax);						
 			double x_unf_meas_xjptave_response[7]={xjptaveunfreco_response, xjptaveunfref_response, delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold, (double)multcentbin}; 
