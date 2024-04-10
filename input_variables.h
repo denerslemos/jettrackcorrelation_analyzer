@@ -113,9 +113,9 @@ const bool do_unfolding = false; // jet unfolding
 // if we want to make Xj or Aj selections [0,1] are full inclusive
 const bool do_Xj_or_Ajcut = false;
 const float xjmin = 0.0;//xj minimum
-const float xjmax = 1.0;//xj maximum
+const float xjmax = 2.0;//xj maximum
 const float Ajmin = 0.0;//Aj minimum
-const float Ajmax = 1.0;//Aj maximum
+const float Ajmax = 2.0;//Aj maximum
 
 //============= Extra dependency =========================
 // for pPb, we are using Pb side energy in HF

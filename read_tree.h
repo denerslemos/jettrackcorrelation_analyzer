@@ -52,6 +52,11 @@ float jtphi[9999]; // jet phi
 float rawpt[9999]; // jet pT without JEC
 float jtmass[9999]; // jet mass
 float trackMax[9999]; // track maximum pT in a jet
+/* // for jet ID -->
+int nref[9999];         // number of jets
+float trackMax[9999];   // track maximum pT in a jet
+*/ 
+
 // reco tracks
 int ntrk;                 // number of track
 float trkpt[9999];       // track pT
