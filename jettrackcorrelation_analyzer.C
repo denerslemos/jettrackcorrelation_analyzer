@@ -569,6 +569,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		bool isrecodijets = isdijet(leadrecojet_pt, leading_pT_min, sublrecojet_pt, subleading_pT_min, leadrecojet_phi, sublrecojet_phi, leading_subleading_deltaphi_min, xjmin, xjmax, Ajmin, Ajmax);
 		bool goodrecoevent = (leadrecojet_pt > 0.0 && sublrecojet_pt > 0.0 && !removethirdjet && !removefourjet);
 
+		// for reco jets
 		double leadrecojet_eta_lab = leadrecojet_eta;  // before boost for eta dijet
 		double sublrecojet_eta_lab = sublrecojet_eta;  // before boost for eta dijet
 		leadrecojet_eta = leadrecojet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
@@ -580,6 +581,17 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			sublrecojet_eta_lab = -sublrecojet_eta_lab;
 		}
 
+		// for ref matched jets
+		double leadrefmatchjet_eta = refeta[leadrecojet_index]; // before boost for eta dijet
+		double sublrefmatchjet_eta = refeta[sublrecojet_index]; // before boost for eta dijet
+		leadrefmatchjet_eta = leadrefmatchjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
+		sublrefmatchjet_eta = sublrefmatchjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
+		if(colliding_system == "pPb" && is_pgoing && invert_pgoing){
+			leadrefmatchjet_eta = -leadrefmatchjet_eta; 
+			sublrefmatchjet_eta = -sublrefmatchjet_eta;
+		}
+		
+		// for ref jets
 		double leadrefjet_eta_lab = leadrefjet_eta; // before boost for eta dijet
 		double sublrefjet_eta_lab = sublrefjet_eta; // before boost for eta dijet
 		leadrefjet_eta = leadrefjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
@@ -590,7 +602,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			leadrefjet_eta_lab = -leadrefjet_eta_lab; 
 			sublrefjet_eta_lab = -sublrefjet_eta_lab;
 		}
-
 		// -> Start of dijet calculations
 		if(goodrecoevent){
 			Nevents->Fill(6);	
@@ -619,13 +630,13 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					filletadijethistograms( (double) sqrts, leadrecojet_eta_lab, sublrecojet_eta_lab, leadrecojet_eta, sublrecojet_eta, leadrecojet_pt, leadrecojet_phi, leadrecojet_mass, sublrecojet_pt, sublrecojet_phi, sublrecojet_mass, (double)multcentbin, (double)extrabin, (double) event_weight*ljet_weight*sljet_weight, hist_etaDijet_reco, hist_etaDijet_CM_reco, hist_yDijet_CM_reco );
 					if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_withfake(is_MC, Xj_reco, delta_phi_reco, leadrecojet_phi, refpt[leadrecojet_index], (double) multcentbin, (double)extrabin, (double)ptdijetbinreco, (double) dijetetarecotype, event_weight*ljet_weight*sljet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_reco_leadEP_quench_plus, hist_reco_leadEP_quench_minus, hist_fake_leadEP_quench_plus, hist_fake_leadEP_quench_minus);
 					if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_withfake(is_MC, Xj_reco, delta_phi_reco, sublrecojet_phi, refpt[sublrecojet_index], (double) multcentbin, (double)extrabin, (double)ptdijetbinreco, (double) dijetetarecotype, event_weight*ljet_weight*sljet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_reco_sublEP_quench_plus, hist_reco_sublEP_quench_minus, hist_fake_sublEP_quench_plus, hist_fake_sublEP_quench_minus);
-
 					double x_unf_meas_ptleadreco[4]={leadrecojet_pt, delta_phi_reco, (double)dijetetarecotype, (double)multcentbin}; 
 					fhUnfoldingMeasu_ptlead->Fill(x_unf_meas_ptleadreco,event_weight*ljet_weight);
 					double x_unf_meas_ptsublreco[4]={sublrecojet_pt, delta_phi_reco, (double)dijetetarecotype, (double)multcentbin}; 
 					fhUnfoldingMeasu_ptsubl->Fill(x_unf_meas_ptsublreco,event_weight*sljet_weight);
 					double x_unf_meas_xjreco[4]={Xj_reco, delta_phi_reco, (double)dijetetarecotype, (double)multcentbin}; 
 					fhUnfoldingMeasu_xj->Fill(x_unf_meas_xjreco,event_weight*ljet_weight*sljet_weight);
+					/*
 					double xjptaveunfreco = TransformToUnfoldingAxis_xjptave(Xj_reco, ptdijetbinreco,xjmax);						
 					double x_unf_meas_xjptavereco[4]={xjptaveunfreco, delta_phi_reco, (double)dijetetarecotype,(double)multcentbin}; 
 					fhUnfoldingMeasu_xjptave->Fill(x_unf_meas_xjptavereco,event_weight*ljet_weight*sljet_weight);
@@ -635,6 +646,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					double xjpt2unfreco = TransformToUnfoldingAxis_xjptave(Xj_reco, sublrecojet_pt,xjmax);						
 					double x_unf_meas_xjpt2reco[5]={xjpt2unfreco, delta_phi_reco, (double)dijetetarecotype,(double)multcentbin, (double)leadrecojet_pt}; 
 					fhUnfoldingMeasu_xjpt2->Fill(x_unf_meas_xjpt2reco,event_weight*ljet_weight*sljet_weight);
+					*/
 
 				}
 
@@ -737,6 +749,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 				// Fill leading/subleading jet quenching quantities
 				double delta_phi_ref = fabs(deltaphi(leadrefjet_phi, sublrefjet_phi));
+				double delta_phi_refMatch = fabs(deltaphi(refphi[leadrecojet_index],refphi[sublrecojet_index]));
 				double Aj_ref = asymmetry(leadrefjet_pt,sublrefjet_pt);
 				double Xj_ref = xjvar(leadrefjet_pt,sublrefjet_pt);
 				float ptdijetref = 0.5*(leadrefjet_pt + sublrefjet_pt);
@@ -754,9 +767,15 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					fhUnfoldingTruthRef_ptlead->Fill(x_unf_meas_ptleadref,event_weight*lrefjet_weight);
 					double x_unf_meas_ptsublref[4]={sublrefjet_pt, delta_phi_ref, (double)dijetetareftype, (double)multcentbin}; 
 					fhUnfoldingTruthRef_ptsubl->Fill(x_unf_meas_ptsublref,event_weight*slrefjet_weight);
+
+					double x_unf_meas_ptleadrefMatch[4]={refpt[leadrecojet_index], delta_phi_refMatch, (double)dijetetareftype, (double)multcentbin}; 
+					fhUnfoldingTruthRefMatch_ptlead->Fill(x_unf_meas_ptleadrefMatch,event_weight*lrefjet_weight);
+					double x_unf_meas_ptsublrefMatch[4]={refpt[sublrecojet_index], delta_phi_refMatch, (double)dijetetareftype, (double)multcentbin}; 
+					fhUnfoldingTruthRefMatch_ptsubl->Fill(x_unf_meas_ptsublrefMatch,event_weight*slrefjet_weight);
+
 					double x_unf_meas_xjref[4]={Xj_ref, delta_phi_ref, (double)dijetetareftype, (double)multcentbin}; 
 					fhUnfoldingTruthRef_xj->Fill(x_unf_meas_xjref,event_weight*lrefjet_weight*slrefjet_weight);
-
+					/*
 					double xjptaveunfref = TransformToUnfoldingAxis_xjptave(Xj_ref, ptdijetbinref,xjmax);						
 					double x_unf_meas_xjptaveref[4]={xjptaveunfref, delta_phi_ref, (double)dijetetareftype, (double)multcentbin}; 
 					fhUnfoldingTruthRef_xjptave->Fill(x_unf_meas_xjptaveref,event_weight*lrefjet_weight*slrefjet_weight);
@@ -766,6 +785,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					double xjpt2unfref = TransformToUnfoldingAxis_xjptave(Xj_ref, sublrefjet_pt,xjmax);						
 					double x_unf_meas_xjpt2ref[5]={xjpt2unfref, delta_phi_ref, (double)dijetetareftype, (double)multcentbin, (double)leadrefjet_pt}; 
 					fhUnfoldingTruthRef_xjpt2->Fill(x_unf_meas_xjpt2ref,event_weight*lrefjet_weight*slrefjet_weight);
+					*/
 				}
 
 				if(isrefdijets){
@@ -863,22 +883,32 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			}		
 		}
 		
-		if(is_MC && tworecojets && leadrefjet_pt > 0.0 && sublrecojet_pt > 0.0 && do_dijetstudies){
+		if(is_MC && tworecojets && do_dijetstudies){
 			
 			double xjrecoforunfold = sublrecojet_pt/leadrecojet_pt;
 			double ptaveragerecoforunfold = 0.5*(leadrecojet_pt + sublrecojet_pt);
+			double delta_phi_reco_forunfold = fabs(deltaphi(leadrecojet_phi,sublrecojet_phi));
+			float dijetetarecotypeforunfold = dijetetabin(leadrecojet_eta, sublrecojet_eta, jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut, jet_bkw_eta_min_cut, jet_bkw_eta_max_cut);
+
 			double xjrefforunfold = sublrefjet_pt/leadrefjet_pt;
 			double ptaveragerefforunfold = 0.5*(leadrefjet_pt + sublrefjet_pt);		
-			double delta_phi_reco_forunfold = fabs(deltaphi(leadrecojet_phi,sublrecojet_phi));
 			double delta_phi_ref_forunfold = fabs(deltaphi(leadrefjet_phi,sublrefjet_phi));
-
 			float dijetetareftypeforunfold = dijetetabin(leadrefjet_eta, sublrefjet_eta, jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut, jet_bkw_eta_min_cut, jet_bkw_eta_max_cut);
-			float dijetetarecotypeforunfold = dijetetabin(leadrecojet_eta, sublrecojet_eta, jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut, jet_bkw_eta_min_cut, jet_bkw_eta_max_cut);
+			
+			double xjrefmatchforunfold = refpt[sublrecojet_index]/refpt[leadrecojet_index];
+			double ptaveragerefmatchforunfold = 0.5*(refpt[leadrecojet_index] + refpt[sublrecojet_index]);		
+			double delta_phi_refmatch_forunfold = fabs(deltaphi(refphi[leadrecojet_index],refphi[sublrecojet_index]));
+			float dijetetarefmatchtypeforunfold = dijetetabin(leadrefmatchjet_eta, sublrefmatchjet_eta, jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut, jet_bkw_eta_min_cut, jet_bkw_eta_max_cut);
 
 			double x_unf_meas_ptlead_response[7]={leadrecojet_pt, leadrefjet_pt, delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold, (double)multcentbin}; 
 			fhUnfoldingResponse_ptlead->Fill(x_unf_meas_ptlead_response,event_weight*ljet_weight*lrefjet_weight);
 			double x_unf_meas_ptsubl_response[7]={sublrecojet_pt, sublrefjet_pt, delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold, (double)multcentbin}; 
 			fhUnfoldingResponse_ptsubl->Fill(x_unf_meas_ptsubl_response,event_weight*sljet_weight*slrefjet_weight);
+
+			double x_unf_meas_ptleadMatch_response[7]={leadrecojet_pt, refpt[leadrecojet_index], delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold, (double)multcentbin}; 
+			fhUnfoldingResponse_ptleadMatch->Fill(x_unf_meas_ptleadMatch_response,event_weight*ljet_weight*lrefjet_weight);
+			double x_unf_meas_ptsublMatch_response[7]={sublrecojet_pt, refpt[sublrecojet_index], delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold, (double)multcentbin}; 
+			fhUnfoldingResponse_ptsublMatch->Fill(x_unf_meas_ptsublMatch_response,event_weight*sljet_weight*slrefjet_weight);
 
 			double x_unf_meas_xj_response[7]={xjrecoforunfold, xjrefforunfold, delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold, (double)multcentbin}; 
 			fhUnfoldingResponse_xj->Fill(x_unf_meas_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
@@ -886,7 +916,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			float correctionweight = getUnfCorrWeight(fileunfoldweight, leadrecojet_pt, sublrecojet_pt, mult, dijetetarecotypeforunfold);//do correction here
 			fhUnfoldingResponse_xj_corr->Fill(x_unf_meas_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight*correctionweight);
 			fhUnfoldingResponse_xj_corr_noevtweight->Fill(x_unf_meas_xj_response,correctionweight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
-					
+
+/*					
 			double xjptaveunfreco_response = TransformToUnfoldingAxis_xjptave(xjrecoforunfold,ptaveragerecoforunfold,xjmax);						
 			double xjptaveunfref_response = TransformToUnfoldingAxis_xjptave(xjrefforunfold,ptaveragerefforunfold,xjmax);						
 			double x_unf_meas_xjptave_response[7]={xjptaveunfreco_response, xjptaveunfref_response, delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold, (double)multcentbin}; 
@@ -901,7 +932,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			double xjpt2unfref_response = TransformToUnfoldingAxis_xjptave(xjrefforunfold,sublrefjet_pt,xjmax);						
 			double x_unf_meas_xjpt2_response[9]={xjpt2unfreco_response, xjpt2unfref_response, delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold, (double)multcentbin, (double)leadrecojet_pt, (double)leadrefjet_pt}; 
 			fhUnfoldingResponse_xjpt2->Fill(x_unf_meas_xjpt2_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
-		
+*/		
 		}
 		
 		
@@ -1068,14 +1099,13 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						filletadijethistograms( (double) sqrts, leadgenjet_eta_lab, sublgenjet_eta_lab, leadgenjet_eta, sublgenjet_eta, leadgenjet_pt, leadgenjet_phi, leadgenjet_mass, sublgenjet_pt, sublgenjet_phi, sublgenjet_mass, (double)multcentbin, (double)extrabin, (double) event_weight*gljet_weight*gsljet_weight, hist_etaDijet_gen, hist_etaDijet_CM_gen, hist_yDijet_CM_gen );
 						if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_nofake(Xj_gen, delta_phi_gen, leadgenjet_phi, (double) multcentbin, (double)extrabin, (double)ptdijetbingen, (double) dijetetagentype, event_weight*gljet_weight*gsljet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_gen_leadEP_quench_plus, hist_gen_leadEP_quench_minus);
 						if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_nofake(Xj_gen, delta_phi_gen, sublgenjet_phi, (double) multcentbin, (double)extrabin, (double)ptdijetbingen, (double) dijetetagentype, event_weight*gljet_weight*gsljet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_gen_sublEP_quench_plus, hist_gen_sublEP_quench_minus);
-
 						double x_unf_meas_ptleadgen[4]={leadgenjet_pt, delta_phi_gen, (double)dijetetagentype, (double)multcentbin}; 
 						fhUnfoldingTruthGen_ptlead->Fill(x_unf_meas_ptleadgen,event_weight*gljet_weight);
 						double x_unf_meas_ptsublgen[4]={sublgenjet_pt, delta_phi_gen, (double)dijetetagentype, (double)multcentbin}; 
 						fhUnfoldingTruthGen_ptsubl->Fill(x_unf_meas_ptsublgen,event_weight*gsljet_weight);
 						double x_unf_meas_xjgen[4]={Xj_gen, delta_phi_gen, (double)dijetetagentype, (double)multcentbin}; 
 						fhUnfoldingTruthGen_xj->Fill(x_unf_meas_xjgen,event_weight*gljet_weight*gsljet_weight);
-
+						/*
 						double xjptaveunfgen = TransformToUnfoldingAxis_xjptave(Xj_gen, ptdijetbingen,xjmax);						
 						double x_unf_meas_xjptavegen[4]={xjptaveunfgen,delta_phi_gen,(double)dijetetagentype,(double)multcentbin}; 
 						fhUnfoldingTruthGen_xjptave->Fill(x_unf_meas_xjptavegen,event_weight*gljet_weight*gsljet_weight);
@@ -1085,6 +1115,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double xjpt2unfgen = TransformToUnfoldingAxis_xjptave(Xj_gen, sublgenjet_pt,xjmax);						
 						double x_unf_meas_xjpt2gen[5]={xjpt2unfgen,delta_phi_gen,(double)dijetetagentype,(double)multcentbin,(double)leadgenjet_pt}; 
 						fhUnfoldingTruthGen_xjpt2->Fill(x_unf_meas_xjpt2gen,event_weight*gljet_weight*gsljet_weight);					
+						*/
 					}
 
 					// leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
