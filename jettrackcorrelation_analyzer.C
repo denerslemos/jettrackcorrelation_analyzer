@@ -639,13 +639,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double x_unf_meas_xjreco[4]={Xj_reco, delta_phi_reco, (double)dijetetarecotype, (double)multcentbin}; 
 						fhUnfoldingMeasu_xj->Fill(x_unf_meas_xjreco,event_weight*ljet_weight*sljet_weight);
 	
-						float newXj_12_sub = getxj12eta(leadrecojet_pt,sublrecojet_pt,leadrecojet_eta,sublrecojet_eta,"Sub");
-						float newXj_12_inv = getxj12eta(leadrecojet_pt,sublrecojet_pt,leadrecojet_eta,sublrecojet_eta,"Inv");
-						double x_unf_measSub_xjreco[4]={(double)newXj_12_sub, delta_phi_reco, (double)dijetetarecotype, (double)multcentbin}; 
-						fhUnfoldingMeasu_xjEtaSub->Fill(x_unf_measSub_xjreco,event_weight*ljet_weight*sljet_weight);
-						double x_unf_measInv_xjreco[4]={(double)newXj_12_inv, delta_phi_reco, (double)dijetetarecotype, (double)multcentbin}; 
-						fhUnfoldingMeasu_xjEtaInv->Fill(x_unf_measInv_xjreco,event_weight*ljet_weight*sljet_weight);
-
 						/*					
 						double xjptaveunfreco = TransformToUnfoldingAxis_xjptave(Xj_reco, ptdijetbinreco,xjmax);						
 						double x_unf_meas_xjptavereco[4]={xjptaveunfreco, delta_phi_reco, (double)dijetetarecotype,(double)multcentbin}; 
@@ -968,19 +961,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					fhUnfoldingTruthRefMatchSub_xj->Fill(x_unf_meas_xjrefmatchSub,event_weight*slrefjet_weight);
 
 				}
-				// eta dep		
-				float newXjrefmatch_12_sub = getxj12eta(refpt[leadrecojet_index],refpt[sublrecojet_index],leadrefmatchjet_eta,sublrefmatchjet_eta,"Sub");
-				float newXjrefmatch_12_inv = getxj12eta(refpt[leadrecojet_index],refpt[sublrecojet_index],leadrefmatchjet_eta,sublrefmatchjet_eta,"Inv");
-
-				double x_unf_measMatchEtaInv_xj_response[7]={xjrecoforunfold, newXjrefmatch_12_inv, delta_phi_reco_forunfold, delta_phi_refmatch_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetarefmatchtypeforunfold, (double)multcentbin}; 
-				fhUnfoldingResponse_xjMatchEtaInv->Fill(x_unf_measMatchEtaInv_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
-				double x_unf_meas_xjrefmatchEtaInv[4]={newXjrefmatch_12_inv, delta_phi_refmatch_forunfold, (double)dijetetarefmatchtypeforunfold, (double)multcentbin}; 
-				fhUnfoldingTruthRefMatchEtaInv_xj->Fill(x_unf_meas_xjrefmatchEtaInv,event_weight*slrefjet_weight);
-
-				double x_unf_measMatchEtaSub_xj_response[7]={xjrecoforunfold, newXjrefmatch_12_sub, delta_phi_reco_forunfold, delta_phi_refmatch_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetarefmatchtypeforunfold, (double)multcentbin}; 
-				fhUnfoldingResponse_xjMatchEtaSub->Fill(x_unf_measMatchEtaSub_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
-				double x_unf_meas_xjrefmatchEtaSub[4]={newXjrefmatch_12_sub, delta_phi_refmatch_forunfold, (double)dijetetarefmatchtypeforunfold, (double)multcentbin}; 
-				fhUnfoldingTruthRefMatchEtaSub_xj->Fill(x_unf_meas_xjrefmatchEtaSub,event_weight*slrefjet_weight);
 
 			}
 /*					

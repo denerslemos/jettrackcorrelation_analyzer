@@ -1004,26 +1004,3 @@ bool isdijet(float leadjet_pt, float lead_pT_min, float subljet_pt, float subl_p
 	}
 	return dijets;
 }
-
-float getxj12eta(float leadjet_pt, float subljet_pt, float leadjet_eta, float subljet_eta, TString typo){
-	
-	float jet1pt = subljet_pt;
-	float jet2pt = leadjet_pt;
-	float newXj_12 = jet1pt/jet2pt;
-	float newXj_12_var = newXj_12;
-	if(fabs(leadjet_eta) < fabs(subljet_eta)){
-		jet1pt = subljet_pt;
-		jet2pt = leadjet_pt;
-		newXj_12 = xjvar(jet2pt,jet1pt);
-		if(newXj_12 > 1.0 && typo == "Sub") newXj_12_var = 2.0 - newXj_12;
-		if(newXj_12 > 1.0 && typo == "Inv") newXj_12_var = 1.0 / newXj_12;
-	}else{
-		jet1pt = leadjet_pt;
-		jet2pt = subljet_pt;
-		newXj_12 = xjvar(jet2pt,jet1pt);
-		if(newXj_12 > 1.0 && typo == "Sub") newXj_12_var = 2.0 - newXj_12;
-		if(newXj_12 > 1.0 && typo == "Inv") newXj_12_var = 1.0 / newXj_12;
-	}
-	return newXj_12_var;
-
-}
