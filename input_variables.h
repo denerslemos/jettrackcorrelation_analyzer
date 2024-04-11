@@ -107,8 +107,7 @@ const float jet_bkw_eta_min_cut = -3.3; // jet fwd min eta cut
 const float jet_bkw_eta_max_cut = -2.1; // jet fwd  min eta cut 
 
 // Unfolding
-const bool do_unfolding = false; // jet unfolding
-
+const bool dataweightcorrection = false; // jet weighting of MC for unfolding --> true means use data weighted MC to matrix
 
 // if we want to make Xj or Aj selections [0,1] are full inclusive
 const bool do_Xj_or_Ajcut = false;

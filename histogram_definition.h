@@ -2436,7 +2436,7 @@ isMC: true for MC and false for Data
 */
 void w_dijet_hist(bool isMC){
 	hist_reco_lead_reco_subl_quench->Write();
-	hist_reco_lead_reco_subl_quench_corr->Write();
+	if(isMC) hist_reco_lead_reco_subl_quench_corr->Write();
 	hist_reco_lead_reco_subl_quench_unweighted->Write();
 	hist_reco_leadEP_quench_plus->Write();
 	hist_reco_leadEP_quench_minus->Write();
