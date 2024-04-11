@@ -883,12 +883,12 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if(is_MC && goodrecoevent && tworecojets && do_dijetstudies){
 			// define variables
 			// reco		
-			double xjrecoforunfold = sublrecojet_pt/leadrecojet_pt;
+			double xjrecoforunfold = xjvar(leadrecojet_pt,sublrecojet_pt);
 			double ptaveragerecoforunfold = 0.5*(leadrecojet_pt + sublrecojet_pt);
 			double delta_phi_reco_forunfold = fabs(deltaphi(leadrecojet_phi,sublrecojet_phi));
 			float dijetetarecotypeforunfold = dijetetabin(leadrecojet_eta, sublrecojet_eta, jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut, jet_bkw_eta_min_cut, jet_bkw_eta_max_cut);
 			// ref
-			double xjrefforunfold = sublrefjet_pt/leadrefjet_pt;
+			double xjrefforunfold = xjvar(leadrefjet_pt,sublrefjet_pt);
 			double ptaveragerefforunfold = 0.5*(leadrefjet_pt + sublrefjet_pt);		
 			double delta_phi_ref_forunfold = fabs(deltaphi(leadrefjet_phi,sublrefjet_phi));
 			float dijetetareftypeforunfold = dijetetabin(leadrefjet_eta, sublrefjet_eta, jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut, jet_bkw_eta_min_cut, jet_bkw_eta_max_cut);
@@ -929,7 +929,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				//Xj
 				// response
 				double x_unf_measMatch_xj_response[7]={xjrecoforunfold, xjrefmatchforunfold, delta_phi_reco_forunfold, delta_phi_refmatch_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetarefmatchtypeforunfold, (double)multcentbin}; 
-				fhUnfoldingResponse_xjMatch->Fill(x_unf_meas_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
+				fhUnfoldingResponse_xjMatch->Fill(x_unf_measMatch_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
 				double x_unf_meas_xjrefmatch[4]={xjrefmatchforunfold, delta_phi_refmatch_forunfold, (double)dijetetarefmatchtypeforunfold, (double)multcentbin}; 
 				fhUnfoldingTruthRefMatch_xj->Fill(x_unf_meas_xjrefmatch,event_weight*slrefjet_weight);
 				// inverted or subtracted
