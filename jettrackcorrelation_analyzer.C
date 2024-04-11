@@ -1068,6 +1068,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				float gjet_flavor = 0.0;
 				
 				int jet_index_gen = (int) j;
+				if(gjet_eta > jet_pt_max_cut) continue;
+
 				find_leading_subleading_third(gjet_pt,gjet_eta,gjet_phi,gjet_mass,gjet_flavor,jet_index_gen,leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,leadgenjet_mass,leadgenjet_flavor,leadgenjet_index,sublgenjet_pt,sublgenjet_eta,sublgenjet_phi,sublgenjet_mass,sublgenjet_flavor,sublgenjet_index,thirdgenjet_pt,thirdgenjet_eta,thirdgenjet_phi,thirdgenjet_mass,thirdgenjet_flavor,thirdgenjet_index, fourthgenjet_pt); // Find leading and subleading jets
 				gjet_eta = gjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 				if(colliding_system == "pPb" && is_pgoing && invert_pgoing){gjet_eta = -gjet_eta;}
