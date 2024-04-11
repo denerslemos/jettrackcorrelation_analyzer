@@ -85,7 +85,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 	// Weight correction for unfold
 	TFile *fileunfoldweight;
-	if(dataweightcorrection){fileunfoldweight = TFile::Open(Form("aux_files/%s_%i/Unfolding/weighthistos.root",colliding_system.Data(),sNN_energy_GeV));}else{fileunfoldweight = TFile::Open(Form("aux_files/%s_%i/Unfolding/weighthistos.root",colliding_system.Data(),sNN_energy_GeV));}
+	if(dataweightcorrection){fileunfoldweight = TFile::Open(Form("aux_files/%s_%i/Unfolding/weighthistosData.root",colliding_system.Data(),sNN_energy_GeV));}else{fileunfoldweight = TFile::Open(Form("aux_files/%s_%i/Unfolding/weighthistosMC.root",colliding_system.Data(),sNN_energy_GeV));}
 
 	cout << endl;
 	
