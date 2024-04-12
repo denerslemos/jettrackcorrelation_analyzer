@@ -914,7 +914,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			// matrix reco x ref for Xj due corrections			
 			float correctionweight = getUnfCorrWeight(fileunfoldweight, leadrecojet_pt, sublrecojet_pt, mult, dijetetarecotypeforunfold);//do correction here
 			if(!is_MC) correctionweight = 1.0;
-			if(is_MC && dataweightcorrection) correctionweight = correctionweight*event_weight;
 			fhUnfoldingResponse_xj_corr->Fill(x_unf_meas_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight*correctionweight);
 			fhUnfoldingResponse_xj_corr_noevtweight->Fill(x_unf_meas_xj_response,correctionweight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
 
