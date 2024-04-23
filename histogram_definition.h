@@ -63,45 +63,21 @@ THnSparseD *fhUnfoldingResponse_ptleadMatch = new THnSparseD("fhUnfoldingRespons
 THnSparseD *fhUnfoldingResponse_ptsubl = new THnSparseD("fhUnfoldingResponse_ptsubl", "fhUnfoldingResponse_ptsubl", 7, bins_unfptlead, xmin_unfptlead, xmax_unfptlead);
 THnSparseD *fhUnfoldingResponse_ptsublMatch = new THnSparseD("fhUnfoldingResponse_ptsublMatch", "fhUnfoldingResponse_ptsublMatch", 7, bins_unfptlead, xmin_unfptlead, xmax_unfptlead);
 
-// Axis : 0 -> ptlead Measured or Truth, 1 -> delta phi measured or truth, 2 ->  mid-fwd-bkw ranges, 3 -> multiplicity
-int	bins_unfptleadMT[4] 	 =   { nPtLSLBins    , nDphiBins   , 11   , multbinsize-1};
-double xmin_unfptleadMT[4]   =   { minPtLSL  	 , mindphihist , 0.0  , multiplicity_centrality_bins[0]};
-double xmax_unfptleadMT[4]   =   { maxPtLSL  	 , maxdphihist , 11.0 , multiplicity_centrality_bins[multbinsize-1]};
-THnSparseD *fhUnfoldingMeasu_ptlead = new THnSparseD("fhUnfoldingMeasu_ptlead", "fhUnfoldingMeasu_ptlead", 4, bins_unfptleadMT, xmin_unfptleadMT, xmax_unfptleadMT);
-THnSparseD *fhUnfoldingTruthRef_ptlead = new THnSparseD("fhUnfoldingTruthRef_ptlead", "fhUnfoldingTruthRef_ptlead", 4, bins_unfptleadMT, xmin_unfptleadMT, xmax_unfptleadMT);
-THnSparseD *fhUnfoldingTruthRefMatch_ptlead = new THnSparseD("fhUnfoldingTruthRefMatch_ptlead", "fhUnfoldingTruthRefMatch_ptlead", 4, bins_unfptleadMT, xmin_unfptleadMT, xmax_unfptleadMT);
-THnSparseD *fhUnfoldingTruthGen_ptlead = new THnSparseD("fhUnfoldingTruthGen_ptlead", "fhUnfoldingTruthGen_ptlead", 4, bins_unfptleadMT, xmin_unfptleadMT, xmax_unfptleadMT);
-THnSparseD *fhUnfoldingMeasu_ptsubl = new THnSparseD("fhUnfoldingMeasu_ptsubl", "fhUnfoldingMeasu_ptsubl", 4, bins_unfptleadMT, xmin_unfptleadMT, xmax_unfptleadMT);
-THnSparseD *fhUnfoldingTruthRef_ptsubl = new THnSparseD("fhUnfoldingTruthRef_ptsubl", "fhUnfoldingTruthRef_ptsubl", 4, bins_unfptleadMT, xmin_unfptleadMT, xmax_unfptleadMT);
-THnSparseD *fhUnfoldingTruthRefMatch_ptsubl = new THnSparseD("fhUnfoldingTruthRefMatch_ptsubl", "fhUnfoldingTruthRefMatch_ptsubl", 4, bins_unfptleadMT, xmin_unfptleadMT, xmax_unfptleadMT);
-THnSparseD *fhUnfoldingTruthGen_ptsubl = new THnSparseD("fhUnfoldingTruthGen_ptsubl", "fhUnfoldingTruthGen_ptsubl", 4, bins_unfptleadMT, xmin_unfptleadMT, xmax_unfptleadMT);
-
 // Axis : 0 -> Xj reco, 1 -> Xj gen, 2 -> delta phi reco, 3 -> delta phi gen, 4 -> mid-fwd-bkw ranges reco, 5 -> mid-fwd-bkw ranges gen,  6 -> multiplicity
 int	bins_unfxj[7] 	   =   { nXjAjBins   , nXjAjBins  , nDphiBins   , nDphiBins   , 11  , 11  , multbinsize-1};
 double xmin_unfxj[7]   =   { minxjhist   , minxjhist  , mindphihist , mindphihist , 0.0 , 0.0 , multiplicity_centrality_bins[0]};
 double xmax_unfxj[7]   =   { maxxjhist   , maxxjhist  , maxdphihist , maxdphihist , 11.0, 11.0, multiplicity_centrality_bins[multbinsize-1]};
-THnSparseD *fhUnfoldingResponse_xj = new THnSparseD("fhUnfoldingResponse_xj", "fhUnfoldingResponse_xj", 7, bins_unfxj, xmin_unfxj, xmax_unfxj);
-THnSparseD *fhUnfoldingResponse_xj_corr = new THnSparseD("fhUnfoldingResponse_xj_corr", "fhUnfoldingResponse_xj_corr", 7, bins_unfxj, xmin_unfxj, xmax_unfxj);
-THnSparseD *fhUnfoldingResponse_xj_corr_noevtweight = new THnSparseD("fhUnfoldingResponse_xj_corr_noevtweight", "fhUnfoldingResponse_xj_corr_noevtweight", 7, bins_unfxj, xmin_unfxj, xmax_unfxj);
-THnSparseD *fhUnfoldingResponse_xjMatch = new THnSparseD("fhUnfoldingResponse_xjMatch", "fhUnfoldingResponse_xjMatch", 7, bins_unfxj, xmin_unfxj, xmax_unfxj);
-THnSparseD *fhUnfoldingResponse_xjMatchSub = new THnSparseD("fhUnfoldingResponse_xjMatchSub", "fhUnfoldingResponse_xjMatchSub", 7, bins_unfxj, xmin_unfxj, xmax_unfxj);
+THnSparseD *fhUnfoldingResponse_xj = new THnSparseD("fhUnfoldingResponse_xj", "fhUnfoldingResponse_xj", 7, bins_unfxj, xmin_unfxj, xmax_unfxj); // xj reco vs xj ref
+THnSparseD *fhUnfoldingResponse_xjMatch = new THnSparseD("fhUnfoldingResponse_xjMatch", "fhUnfoldingResponse_xjMatch", 7, bins_unfxj, xmin_unfxj, xmax_unfxj); // xj reco vs xj ref from matched pTs
 THnSparseD *fhUnfoldingResponse_xjMatchInv = new THnSparseD("fhUnfoldingResponse_xjMatchInv", "fhUnfoldingResponse_xjMatchInv", 7, bins_unfxj, xmin_unfxj, xmax_unfxj);
-THnSparseD *fhUnfoldingResponse_xjMatchInv_corr = new THnSparseD("fhUnfoldingResponse_xjMatchInv_corr", "fhUnfoldingResponse_xjMatchInv_corr", 7, bins_unfxj, xmin_unfxj, xmax_unfxj);
-THnSparseD *fhUnfoldingResponse_xjMatchInv_corr_noevtweight = new THnSparseD("fhUnfoldingResponse_xjMatchInv_corr_noevtweight", "fhUnfoldingResponse_xjMatchInv_corr_noevtweight", 7, bins_unfxj, xmin_unfxj, xmax_unfxj);
 
-
-// Axis : 0 -> Xj Measured or Truth, 1 -> delta phi measured or truth, 2 ->  mid-fwd-bkw ranges, 3 -> multiplicity
-int	bins_unfxjMT[4] 	 =   { nXjAjBins  , nDphiBins   , 11  , multbinsize-1};
-double xmin_unfxjMT[4]   =   { minxjhist  , mindphihist	, 0.0 , multiplicity_centrality_bins[0]};
-double xmax_unfxjMT[4]   =   { maxxjhist  , maxdphihist , 11.0, multiplicity_centrality_bins[multbinsize-1]};
-THnSparseD *fhUnfoldingMeasu_xj = new THnSparseD("fhUnfoldingMeasu_xj", "fhUnfoldingMeasu_xj", 4, bins_unfxjMT, xmin_unfxjMT, xmax_unfxjMT);
-THnSparseD *fhUnfoldingTruthRef_xj = new THnSparseD("fhUnfoldingTruthRef_xj", "fhUnfoldingTruthRef_xj", 4, bins_unfxjMT, xmin_unfxjMT, xmax_unfxjMT);
-THnSparseD *fhUnfoldingTruthRefMatch_xj = new THnSparseD("fhUnfoldingTruthRefMatch_xj", "fhUnfoldingTruthRefMatch_xj", 4, bins_unfxjMT, xmin_unfxjMT, xmax_unfxjMT);
-THnSparseD *fhUnfoldingTruthRefMatchInv_xj = new THnSparseD("fhUnfoldingTruthRefMatchInv_xj", "fhUnfoldingTruthRefMatchInv_xj", 4, bins_unfxjMT, xmin_unfxjMT, xmax_unfxjMT);
-THnSparseD *fhUnfoldingTruthRefMatchSub_xj = new THnSparseD("fhUnfoldingTruthRefMatchSub_xj", "fhUnfoldingTruthRefMatchSub_xj", 4, bins_unfxjMT, xmin_unfxjMT, xmax_unfxjMT);
-THnSparseD *fhUnfoldingTruthGen_xj = new THnSparseD("fhUnfoldingTruthGen_xj", "fhUnfoldingTruthGen_xj", 4, bins_unfxjMT, xmin_unfxjMT, xmax_unfxjMT);
+THnSparseD *fhUnfoldingResponse_xj_mapcorrected = new THnSparseD("fhUnfoldingResponse_xj_mapcorrected", "fhUnfoldingResponse_xj_mapcorrected", 7, bins_unfxj, xmin_unfxj, xmax_unfxj); // 
+THnSparseD *fhUnfoldingResponse_xj_mapcorrected_noevtweight = new THnSparseD("fhUnfoldingResponse_xj_mapcorrected_noevtweight", "fhUnfoldingResponse_xj_mapcorrected_noevtweight", 7, bins_unfxj, xmin_unfxj, xmax_unfxj);
+THnSparseD *fhUnfoldingResponse_xjMatchInv_mapcorrected = new THnSparseD("fhUnfoldingResponse_xjMatchInv_mapcorrected", "fhUnfoldingResponse_xjMatchInv_mapcorrected", 7, bins_unfxj, xmin_unfxj, xmax_unfxj);
+THnSparseD *fhUnfoldingResponse_xjMatchInv_mapcorrected_noevtweight = new THnSparseD("fhUnfoldingResponse_xjMatchInv_mapcorrected_noevtweight", "fhUnfoldingResponse_xjMatchInv_mapcorrected_noevtweight", 7, bins_unfxj, xmin_unfxj, xmax_unfxj);
 
 /*
+
 // Binning for the two-dimensional unfolding
 // --> xj vs pt average
 const int nUnfoldingBins_xjptave = nXjAjBins*nPtLSLBins;
@@ -159,6 +135,7 @@ double xmax_unfxjpt2MT[5]   =   { maxUnfoldingBin_xjpt2  , maxdphihist , 11.0, m
 THnSparseD *fhUnfoldingMeasu_xjpt2 = new THnSparseD("fhUnfoldingMeasu_xjpt2", "fhUnfoldingMeasu_xjpt2", 5, bins_unfxjpt2MT, xmin_unfxjpt2MT, xmax_unfxjpt2MT);
 THnSparseD *fhUnfoldingTruthRef_xjpt2 = new THnSparseD("fhUnfoldingTruthRef_xjpt2", "fhUnfoldingTruthRef_xjpt2", 5, bins_unfxjpt2MT, xmin_unfxjpt2MT, xmax_unfxjpt2MT);
 THnSparseD *fhUnfoldingTruthGen_xjpt2 = new THnSparseD("fhUnfoldingTruthGen_xjpt2", "fhUnfoldingTruthGen_xjpt2", 5, bins_unfxjpt2MT, xmin_unfxjpt2MT, xmax_unfxjpt2MT);
+
 */
 
 // -------------------------------------------------------------------------- //
@@ -508,14 +485,24 @@ THnSparseD *hist_subleadjes_reco_fromB_weighted = new THnSparseD("hist_subleadje
 int	bins_quenc[9]   =      { nXjAjBins   , nXjAjBins	  , nDphiBins		, multbinsize-1		  	 					  ,	 nPtLSLBins  ,  extrabinsize-1 				, nPtLSLBins, nPtLSLBins, 11};
 double xmin_quenc[9]   =   { minxjhist 	 , minxjhist	  , mindphihist    	, multiplicity_centrality_bins[0]		   	  ,	 minPtLSL	 ,	extra_bins[0]				, minPtLSL	, minPtLSL  , 0.0};
 double xmax_quenc[9]   =   { maxxjhist   , maxxjhist	  , maxdphihist 	, multiplicity_centrality_bins[multbinsize-1] ,  maxPtLSL    ,  extra_bins[extrabinsize-1]  , maxPtLSL	, maxPtLSL  , 11.0};
+// RECO
 THnSparseD *hist_reco_lead_reco_subl_quench = new THnSparseD("hist_reco_lead_reco_subl_quench", "hist_reco_lead_reco_subl_quench", 9, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_reco_lead_reco_subl_quench_corr = new THnSparseD("hist_reco_lead_reco_subl_quench_corr", "hist_reco_lead_reco_subl_quench_corr", 9, bins_quenc, xmin_quenc, xmax_quenc);
 THnSparseD *hist_reco_lead_reco_subl_quench_unweighted = new THnSparseD("hist_reco_lead_reco_subl_quench_unweighted", "hist_reco_lead_reco_subl_quench_unweighted", 9, bins_quenc, xmin_quenc, xmax_quenc);
+THnSparseD *hist_reco_lead_reco_subl_quench_checkmapcorrection = new THnSparseD("hist_reco_lead_reco_subl_quench_checkmapcorrection", "hist_reco_lead_reco_subl_quench_checkmapcorrection", 9, bins_quenc, xmin_quenc, xmax_quenc);
+// FAKE contribution
 THnSparseD *hist_fake_lead_reco_subl_quench = new THnSparseD("hist_fake_lead_reco_subl_quench", "hist_fake_lead_reco_subl_quench", 9, bins_quenc, xmin_quenc, xmax_quenc);
 THnSparseD *hist_reco_lead_fake_subl_quench = new THnSparseD("hist_reco_lead_fake_subl_quench", "hist_reco_lead_fake_subl_quench", 9, bins_quenc, xmin_quenc, xmax_quenc);
 THnSparseD *hist_fake_lead_fake_subl_quench = new THnSparseD("hist_fake_lead_fake_subl_quench", "hist_fake_lead_fake_subl_quench", 9, bins_quenc, xmin_quenc, xmax_quenc);
+// REF
 THnSparseD *hist_ref_lead_ref_subl_quench = new THnSparseD("hist_ref_lead_ref_subl_quench", "hist_ref_lead_ref_subl_quench", 9, bins_quenc, xmin_quenc, xmax_quenc);
+THnSparseD *hist_ref_lead_ref_subl_quench_Match = new THnSparseD("hist_ref_lead_ref_subl_quenchMatch", "hist_ref_lead_ref_subl_quenchMatch", 9, bins_quenc, xmin_quenc, xmax_quenc);
+THnSparseD *hist_ref_lead_ref_subl_quench_MatchInv = new THnSparseD("hist_ref_lead_ref_subl_quenchMatchInv", "hist_ref_lead_ref_subl_quenchMatchInv", 9, bins_quenc, xmin_quenc, xmax_quenc);
+THnSparseD *hist_ref_lead_ref_subl_quench_unweighted = new THnSparseD("hist_ref_lead_ref_subl_quench_unweighted", "hist_ref_lead_ref_subl_quench_unweighted", 9, bins_quenc, xmin_quenc, xmax_quenc);
+THnSparseD *hist_ref_lead_ref_subl_quench_Match_unweighted = new THnSparseD("hist_ref_lead_ref_subl_quench_Match_unweighted", "hist_ref_lead_ref_subl_quench_Match_unweighted", 9, bins_quenc, xmin_quenc, xmax_quenc);
+THnSparseD *hist_ref_lead_ref_subl_quench_MatchInv_unweighted = new THnSparseD("hist_ref_lead_ref_subl_quench_MatchInv_unweighted", "hist_ref_lead_ref_subl_quench_MatchInv_unweighted", 9, bins_quenc, xmin_quenc, xmax_quenc);
+// GEN
 THnSparseD *hist_gen_lead_gen_subl_quench = new THnSparseD("hist_gen_lead_gen_subl_quench", "hist_gen_lead_gen_subl_quench", 9, bins_quenc, xmin_quenc, xmax_quenc);
+THnSparseD *hist_gen_lead_gen_subl_quench_unweighted = new THnSparseD("hist_gen_lead_gen_subl_quench_unweighted", "hist_gen_lead_gen_subl_quench_unweighted", 9, bins_quenc, xmin_quenc, xmax_quenc);
 
 // EP dependency
 // Axis : 0 -> Xj, 1 -> delta phi, 2 -> 2*|Psi2 - jetphi|, 3 -> 3*|Psi3 - jetphi|, 4 -> 4*|Psi4 - jetphi|, 5 -> multiplicity , 6 -> jet pT average, 7 -> extra dependency , 8 ->  mid-fwd-bkw combinations
@@ -1315,85 +1302,139 @@ hist_subleadjes_reco_fromB_weighted->Sumw2();
 // --> Xj search for quenching histos
 // Xj binning
 hist_reco_lead_reco_subl_quench->GetAxis(0)->Set(bins_quenc[0],XjBins);
-hist_reco_lead_reco_subl_quench_corr->GetAxis(0)->Set(bins_quenc[0],XjBins);
+hist_reco_lead_reco_subl_quench_checkmapcorrection->GetAxis(0)->Set(bins_quenc[0],XjBins);
 hist_reco_lead_reco_subl_quench_unweighted->GetAxis(0)->Set(bins_quenc[0],XjBins);
 hist_fake_lead_reco_subl_quench->GetAxis(0)->Set(bins_quenc[0],XjBins);
 hist_reco_lead_fake_subl_quench->GetAxis(0)->Set(bins_quenc[0],XjBins);
 hist_fake_lead_fake_subl_quench->GetAxis(0)->Set(bins_quenc[0],XjBins);
 hist_gen_lead_gen_subl_quench->GetAxis(0)->Set(bins_quenc[0],XjBins);
+hist_gen_lead_gen_subl_quench_unweighted->GetAxis(0)->Set(bins_quenc[0],XjBins);
 hist_ref_lead_ref_subl_quench->GetAxis(0)->Set(bins_quenc[0],XjBins);
+hist_ref_lead_ref_subl_quench_Match->GetAxis(0)->Set(bins_quenc[0],XjBins);
+hist_ref_lead_ref_subl_quench_MatchInv->GetAxis(0)->Set(bins_quenc[0],XjBins);
+hist_ref_lead_ref_subl_quench_unweighted->GetAxis(0)->Set(bins_quenc[0],XjBins);
+hist_ref_lead_ref_subl_quench_Match_unweighted->GetAxis(0)->Set(bins_quenc[0],XjBins);
+hist_ref_lead_ref_subl_quench_MatchInv_unweighted->GetAxis(0)->Set(bins_quenc[0],XjBins);
 // Aj binning
 hist_reco_lead_reco_subl_quench->GetAxis(1)->Set(bins_quenc[1],AjBins);
-hist_reco_lead_reco_subl_quench_corr->GetAxis(1)->Set(bins_quenc[1],AjBins);
+hist_reco_lead_reco_subl_quench_checkmapcorrection->GetAxis(1)->Set(bins_quenc[1],AjBins);
 hist_reco_lead_reco_subl_quench_unweighted->GetAxis(1)->Set(bins_quenc[1],AjBins);
 hist_fake_lead_reco_subl_quench->GetAxis(1)->Set(bins_quenc[1],AjBins);
 hist_reco_lead_fake_subl_quench->GetAxis(1)->Set(bins_quenc[1],AjBins);
 hist_fake_lead_fake_subl_quench->GetAxis(1)->Set(bins_quenc[1],AjBins);
 hist_gen_lead_gen_subl_quench->GetAxis(1)->Set(bins_quenc[1],AjBins);
+hist_gen_lead_gen_subl_quench_unweighted->GetAxis(1)->Set(bins_quenc[1],AjBins);
 hist_ref_lead_ref_subl_quench->GetAxis(1)->Set(bins_quenc[1],AjBins);
+hist_ref_lead_ref_subl_quench_Match->GetAxis(1)->Set(bins_quenc[1],AjBins);
+hist_ref_lead_ref_subl_quench_MatchInv->GetAxis(1)->Set(bins_quenc[1],AjBins);
+hist_ref_lead_ref_subl_quench_unweighted->GetAxis(1)->Set(bins_quenc[1],AjBins);
+hist_ref_lead_ref_subl_quench_Match_unweighted->GetAxis(1)->Set(bins_quenc[1],AjBins);
+hist_ref_lead_ref_subl_quench_MatchInv_unweighted->GetAxis(1)->Set(bins_quenc[1],AjBins);
 // DPhi binning
 hist_reco_lead_reco_subl_quench->GetAxis(2)->Set(bins_quenc[2],DphiBins);
-hist_reco_lead_reco_subl_quench_corr->GetAxis(2)->Set(bins_quenc[2],DphiBins);
+hist_reco_lead_reco_subl_quench_checkmapcorrection->GetAxis(2)->Set(bins_quenc[2],DphiBins);
 hist_reco_lead_reco_subl_quench_unweighted->GetAxis(2)->Set(bins_quenc[2],DphiBins);
 hist_fake_lead_reco_subl_quench->GetAxis(2)->Set(bins_quenc[2],DphiBins);
 hist_reco_lead_fake_subl_quench->GetAxis(2)->Set(bins_quenc[2],DphiBins);
 hist_fake_lead_fake_subl_quench->GetAxis(2)->Set(bins_quenc[2],DphiBins);
 hist_gen_lead_gen_subl_quench->GetAxis(2)->Set(bins_quenc[2],DphiBins);
+hist_gen_lead_gen_subl_quench_unweighted->GetAxis(2)->Set(bins_quenc[2],DphiBins);
 hist_ref_lead_ref_subl_quench->GetAxis(2)->Set(bins_quenc[2],DphiBins);
+hist_ref_lead_ref_subl_quench_Match->GetAxis(2)->Set(bins_quenc[2],DphiBins);
+hist_ref_lead_ref_subl_quench_MatchInv->GetAxis(2)->Set(bins_quenc[2],DphiBins);
+hist_ref_lead_ref_subl_quench_unweighted->GetAxis(2)->Set(bins_quenc[2],DphiBins);
+hist_ref_lead_ref_subl_quench_Match_unweighted->GetAxis(2)->Set(bins_quenc[2],DphiBins);
+hist_ref_lead_ref_subl_quench_MatchInv_unweighted->GetAxis(2)->Set(bins_quenc[2],DphiBins);
 // Multiplicity binning
 hist_reco_lead_reco_subl_quench->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
-hist_reco_lead_reco_subl_quench_corr->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
+hist_reco_lead_reco_subl_quench_checkmapcorrection->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
 hist_reco_lead_reco_subl_quench_unweighted->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
 hist_fake_lead_reco_subl_quench->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
 hist_reco_lead_fake_subl_quench->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
 hist_fake_lead_fake_subl_quench->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
 hist_gen_lead_gen_subl_quench->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
+hist_gen_lead_gen_subl_quench_unweighted->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
 hist_ref_lead_ref_subl_quench->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
+hist_ref_lead_ref_subl_quench_Match->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
+hist_ref_lead_ref_subl_quench_MatchInv->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
+hist_ref_lead_ref_subl_quench_unweighted->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
+hist_ref_lead_ref_subl_quench_Match_unweighted->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
+hist_ref_lead_ref_subl_quench_MatchInv_unweighted->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
 // Pt average binning
 hist_reco_lead_reco_subl_quench->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
-hist_reco_lead_reco_subl_quench_corr->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
+hist_reco_lead_reco_subl_quench_checkmapcorrection->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
 hist_reco_lead_reco_subl_quench_unweighted->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
 hist_fake_lead_reco_subl_quench->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
 hist_reco_lead_fake_subl_quench->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
 hist_fake_lead_fake_subl_quench->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
 hist_gen_lead_gen_subl_quench->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
+hist_gen_lead_gen_subl_quench_unweighted->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
 hist_ref_lead_ref_subl_quench->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
+hist_ref_lead_ref_subl_quench_Match->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
+hist_ref_lead_ref_subl_quench_MatchInv->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
+hist_ref_lead_ref_subl_quench_unweighted->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
+hist_ref_lead_ref_subl_quench_Match_unweighted->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
+hist_ref_lead_ref_subl_quench_MatchInv_unweighted->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
 // Extra binning
 hist_reco_lead_reco_subl_quench->GetAxis(5)->Set(bins_quenc[5],Extrabins);
-hist_reco_lead_reco_subl_quench_corr->GetAxis(5)->Set(bins_quenc[5],Extrabins);
+hist_reco_lead_reco_subl_quench_checkmapcorrection->GetAxis(5)->Set(bins_quenc[5],Extrabins);
 hist_reco_lead_reco_subl_quench_unweighted->GetAxis(5)->Set(bins_quenc[5],Extrabins);
 hist_fake_lead_reco_subl_quench->GetAxis(5)->Set(bins_quenc[5],Extrabins);
 hist_reco_lead_fake_subl_quench->GetAxis(5)->Set(bins_quenc[5],Extrabins);
 hist_fake_lead_fake_subl_quench->GetAxis(5)->Set(bins_quenc[5],Extrabins);
 hist_gen_lead_gen_subl_quench->GetAxis(5)->Set(bins_quenc[5],Extrabins);
+hist_gen_lead_gen_subl_quench_unweighted->GetAxis(5)->Set(bins_quenc[5],Extrabins);
 hist_ref_lead_ref_subl_quench->GetAxis(5)->Set(bins_quenc[5],Extrabins);
+hist_ref_lead_ref_subl_quench_Match->GetAxis(5)->Set(bins_quenc[5],Extrabins);
+hist_ref_lead_ref_subl_quench_MatchInv->GetAxis(5)->Set(bins_quenc[5],Extrabins);
+hist_ref_lead_ref_subl_quench_unweighted->GetAxis(5)->Set(bins_quenc[5],Extrabins);
+hist_ref_lead_ref_subl_quench_Match_unweighted->GetAxis(5)->Set(bins_quenc[5],Extrabins);
+hist_ref_lead_ref_subl_quench_MatchInv_unweighted->GetAxis(5)->Set(bins_quenc[5],Extrabins);
 // Leading jet pT binning
 hist_reco_lead_reco_subl_quench->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
-hist_reco_lead_reco_subl_quench_corr->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
+hist_reco_lead_reco_subl_quench_checkmapcorrection->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
 hist_reco_lead_reco_subl_quench_unweighted->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
 hist_fake_lead_reco_subl_quench->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
 hist_reco_lead_fake_subl_quench->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
 hist_fake_lead_fake_subl_quench->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
 hist_gen_lead_gen_subl_quench->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
+hist_gen_lead_gen_subl_quench_unweighted->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
 hist_ref_lead_ref_subl_quench->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
+hist_ref_lead_ref_subl_quench_Match->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
+hist_ref_lead_ref_subl_quench_MatchInv->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
+hist_ref_lead_ref_subl_quench_unweighted->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
+hist_ref_lead_ref_subl_quench_Match_unweighted->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
+hist_ref_lead_ref_subl_quench_MatchInv_unweighted->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
 // Sub Leading jet pT binning
 hist_reco_lead_reco_subl_quench->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
-hist_reco_lead_reco_subl_quench_corr->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
+hist_reco_lead_reco_subl_quench_checkmapcorrection->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
 hist_reco_lead_reco_subl_quench_unweighted->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
 hist_fake_lead_reco_subl_quench->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
 hist_reco_lead_fake_subl_quench->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
 hist_fake_lead_fake_subl_quench->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
 hist_gen_lead_gen_subl_quench->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
+hist_gen_lead_gen_subl_quench_unweighted->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
 hist_ref_lead_ref_subl_quench->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
+hist_ref_lead_ref_subl_quench_Match->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
+hist_ref_lead_ref_subl_quench_MatchInv->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
+hist_ref_lead_ref_subl_quench_unweighted->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
+hist_ref_lead_ref_subl_quench_Match_unweighted->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
+hist_ref_lead_ref_subl_quench_MatchInv_unweighted->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
 //Sumw2
 hist_reco_lead_reco_subl_quench->Sumw2();
-hist_reco_lead_reco_subl_quench_corr->Sumw2();
+hist_reco_lead_reco_subl_quench_checkmapcorrection->Sumw2();
 hist_reco_lead_reco_subl_quench_unweighted->Sumw2();
 hist_fake_lead_reco_subl_quench->Sumw2();
 hist_reco_lead_fake_subl_quench->Sumw2();
 hist_fake_lead_fake_subl_quench->Sumw2();
 hist_gen_lead_gen_subl_quench->Sumw2();
+hist_gen_lead_gen_subl_quench_unweighted->Sumw2();
 hist_ref_lead_ref_subl_quench->Sumw2();
+hist_ref_lead_ref_subl_quench_Match->Sumw2();
+hist_ref_lead_ref_subl_quench_MatchInv->Sumw2();
+hist_ref_lead_ref_subl_quench_unweighted->Sumw2();
+hist_ref_lead_ref_subl_quench_Match_unweighted->Sumw2();
+hist_ref_lead_ref_subl_quench_MatchInv_unweighted->Sumw2();
 
 // --> Leading and Subleading for EP studies histos
 // Xj binning
@@ -1486,10 +1527,10 @@ hist_reco_leadEP_quench_plus->Sumw2();
 hist_reco_leadEP_quench_minus->Sumw2();
 hist_reco_sublEP_quench_plus->Sumw2();
 hist_reco_sublEP_quench_minus->Sumw2();
-hist_ref_sublEP_quench_plus->Sumw2();
-hist_ref_sublEP_quench_minus->Sumw2();
 hist_ref_leadEP_quench_plus->Sumw2();
 hist_ref_leadEP_quench_minus->Sumw2();
+hist_ref_sublEP_quench_plus->Sumw2();
+hist_ref_sublEP_quench_minus->Sumw2();
 hist_gen_leadEP_quench_plus->Sumw2();
 hist_gen_leadEP_quench_minus->Sumw2();
 hist_gen_sublEP_quench_plus->Sumw2();
@@ -1877,33 +1918,21 @@ fhUnfoldingResponse_ptlead->GetAxis(0)->Set(bins_unfptlead[0],PtLSLBins);
 fhUnfoldingResponse_ptlead->GetAxis(1)->Set(bins_unfptlead[1],PtLSLBins);
 fhUnfoldingResponse_ptleadMatch->GetAxis(0)->Set(bins_unfptlead[0],PtLSLBins);
 fhUnfoldingResponse_ptleadMatch->GetAxis(1)->Set(bins_unfptlead[1],PtLSLBins);
-fhUnfoldingMeasu_ptlead->GetAxis(0)->Set(bins_unfptleadMT[0],PtLSLBins);
-fhUnfoldingTruthRef_ptlead->GetAxis(0)->Set(bins_unfptleadMT[0],PtLSLBins);
-fhUnfoldingTruthRefMatch_ptlead->GetAxis(0)->Set(bins_unfptleadMT[0],PtLSLBins);
-fhUnfoldingTruthGen_ptlead->GetAxis(0)->Set(bins_unfptleadMT[0],PtLSLBins);
+
 // DPhi binning
 fhUnfoldingResponse_ptlead->GetAxis(2)->Set(bins_unfptlead[2],DphiBins);
 fhUnfoldingResponse_ptlead->GetAxis(3)->Set(bins_unfptlead[3],DphiBins);
 fhUnfoldingResponse_ptleadMatch->GetAxis(2)->Set(bins_unfptlead[2],DphiBins);
 fhUnfoldingResponse_ptleadMatch->GetAxis(3)->Set(bins_unfptlead[3],DphiBins);
-fhUnfoldingMeasu_ptlead->GetAxis(1)->Set(bins_unfptleadMT[1],DphiBins);
-fhUnfoldingTruthRef_ptlead->GetAxis(1)->Set(bins_unfptleadMT[1],DphiBins);
-fhUnfoldingTruthRefMatch_ptlead->GetAxis(1)->Set(bins_unfptleadMT[1],DphiBins);
-fhUnfoldingTruthGen_ptlead->GetAxis(1)->Set(bins_unfptleadMT[1],DphiBins);
+
 // Multiplicity binning
 fhUnfoldingResponse_ptlead->GetAxis(6)->Set(bins_unfptlead[6],MultCentbins);
 fhUnfoldingResponse_ptleadMatch->GetAxis(6)->Set(bins_unfptlead[6],MultCentbins);
-fhUnfoldingMeasu_ptlead->GetAxis(3)->Set(bins_unfptleadMT[3],MultCentbins);
-fhUnfoldingTruthRef_ptlead->GetAxis(3)->Set(bins_unfptleadMT[3],MultCentbins);
-fhUnfoldingTruthRefMatch_ptlead->GetAxis(3)->Set(bins_unfptleadMT[3],MultCentbins);
-fhUnfoldingTruthGen_ptlead->GetAxis(3)->Set(bins_unfptleadMT[3],MultCentbins);
+
 // Sumw2
 fhUnfoldingResponse_ptlead->Sumw2();
 fhUnfoldingResponse_ptleadMatch->Sumw2();
-fhUnfoldingMeasu_ptlead->Sumw2();
-fhUnfoldingTruthRef_ptlead->Sumw2();
-fhUnfoldingTruthRefMatch_ptlead->Sumw2();
-fhUnfoldingTruthGen_ptlead->Sumw2();
+
 
 // -> Pt2 1D
 // ptsubl 
@@ -1911,121 +1940,76 @@ fhUnfoldingResponse_ptsubl->GetAxis(0)->Set(bins_unfptlead[0],PtLSLBins);
 fhUnfoldingResponse_ptsubl->GetAxis(1)->Set(bins_unfptlead[1],PtLSLBins);
 fhUnfoldingResponse_ptsublMatch->GetAxis(0)->Set(bins_unfptlead[0],PtLSLBins);
 fhUnfoldingResponse_ptsublMatch->GetAxis(1)->Set(bins_unfptlead[1],PtLSLBins);
-fhUnfoldingMeasu_ptsubl->GetAxis(0)->Set(bins_unfptleadMT[0],PtLSLBins);
-fhUnfoldingTruthRef_ptsubl->GetAxis(0)->Set(bins_unfptleadMT[0],PtLSLBins);
-fhUnfoldingTruthRefMatch_ptsubl->GetAxis(0)->Set(bins_unfptleadMT[0],PtLSLBins);
-fhUnfoldingTruthGen_ptsubl->GetAxis(0)->Set(bins_unfptleadMT[0],PtLSLBins);
+
 // DPhi binning
 fhUnfoldingResponse_ptsubl->GetAxis(2)->Set(bins_unfptlead[2],DphiBins);
 fhUnfoldingResponse_ptsubl->GetAxis(3)->Set(bins_unfptlead[3],DphiBins);
 fhUnfoldingResponse_ptsublMatch->GetAxis(2)->Set(bins_unfptlead[2],DphiBins);
 fhUnfoldingResponse_ptsublMatch->GetAxis(3)->Set(bins_unfptlead[3],DphiBins);
-fhUnfoldingMeasu_ptsubl->GetAxis(1)->Set(bins_unfptleadMT[1],DphiBins);
-fhUnfoldingTruthRef_ptsubl->GetAxis(1)->Set(bins_unfptleadMT[1],DphiBins);
-fhUnfoldingTruthRefMatch_ptsubl->GetAxis(1)->Set(bins_unfptleadMT[1],DphiBins);
-fhUnfoldingTruthGen_ptsubl->GetAxis(1)->Set(bins_unfptleadMT[1],DphiBins);
+
 // Multiplicity binning
 fhUnfoldingResponse_ptsubl->GetAxis(6)->Set(bins_unfptlead[6],MultCentbins);
 fhUnfoldingResponse_ptsublMatch->GetAxis(6)->Set(bins_unfptlead[6],MultCentbins);
-fhUnfoldingMeasu_ptsubl->GetAxis(3)->Set(bins_unfptleadMT[3],MultCentbins);
-fhUnfoldingTruthRef_ptsubl->GetAxis(3)->Set(bins_unfptleadMT[3],MultCentbins);
-fhUnfoldingTruthRefMatch_ptsubl->GetAxis(3)->Set(bins_unfptleadMT[3],MultCentbins);
-fhUnfoldingTruthGen_ptsubl->GetAxis(3)->Set(bins_unfptleadMT[3],MultCentbins);
+
 // Sumw2
 fhUnfoldingResponse_ptsubl->Sumw2();
 fhUnfoldingResponse_ptsublMatch->Sumw2();
-fhUnfoldingMeasu_ptsubl->Sumw2();
-fhUnfoldingTruthRef_ptsubl->Sumw2();
-fhUnfoldingTruthRefMatch_ptsubl->Sumw2();
-fhUnfoldingTruthGen_ptsubl->Sumw2();
 
 // -> Xj 1D
 // Xj 
 fhUnfoldingResponse_xj->GetAxis(0)->Set(bins_unfxj[0],XjBins);
-fhUnfoldingResponse_xj_corr->GetAxis(0)->Set(bins_unfxj[0],XjBins);
-fhUnfoldingResponse_xj_corr_noevtweight->GetAxis(0)->Set(bins_unfxj[0],XjBins);
+fhUnfoldingResponse_xj_mapcorrected->GetAxis(0)->Set(bins_unfxj[0],XjBins);
+fhUnfoldingResponse_xj_mapcorrected_noevtweight->GetAxis(0)->Set(bins_unfxj[0],XjBins);
 fhUnfoldingResponse_xjMatch->GetAxis(0)->Set(bins_unfxj[0],XjBins);
-fhUnfoldingResponse_xjMatchSub->GetAxis(0)->Set(bins_unfxj[0],XjBins);
 fhUnfoldingResponse_xjMatchInv->GetAxis(0)->Set(bins_unfxj[0],XjBins);
-fhUnfoldingResponse_xjMatchInv_corr->GetAxis(0)->Set(bins_unfxj[0],XjBins);
-fhUnfoldingResponse_xjMatchInv_corr_noevtweight->GetAxis(0)->Set(bins_unfxj[0],XjBins);
+fhUnfoldingResponse_xjMatchInv_mapcorrected->GetAxis(0)->Set(bins_unfxj[0],XjBins);
+fhUnfoldingResponse_xjMatchInv_mapcorrected_noevtweight->GetAxis(0)->Set(bins_unfxj[0],XjBins);
 
 fhUnfoldingResponse_xj->GetAxis(1)->Set(bins_unfxj[1],XjBins);
-fhUnfoldingResponse_xj_corr->GetAxis(1)->Set(bins_unfxj[1],XjBins);
-fhUnfoldingResponse_xj_corr_noevtweight->GetAxis(1)->Set(bins_unfxj[1],XjBins);
+fhUnfoldingResponse_xj_mapcorrected->GetAxis(1)->Set(bins_unfxj[1],XjBins);
+fhUnfoldingResponse_xj_mapcorrected_noevtweight->GetAxis(1)->Set(bins_unfxj[1],XjBins);
 fhUnfoldingResponse_xjMatch->GetAxis(1)->Set(bins_unfxj[1],XjBins);
-fhUnfoldingResponse_xjMatchSub->GetAxis(1)->Set(bins_unfxj[1],XjBins);
 fhUnfoldingResponse_xjMatchInv->GetAxis(1)->Set(bins_unfxj[1],XjBins);
-fhUnfoldingResponse_xjMatchInv_corr->GetAxis(1)->Set(bins_unfxj[1],XjBins);
-fhUnfoldingResponse_xjMatchInv_corr_noevtweight->GetAxis(1)->Set(bins_unfxj[1],XjBins);
-
-fhUnfoldingMeasu_xj->GetAxis(0)->Set(bins_unfxjMT[0],XjBins);
-fhUnfoldingTruthRef_xj->GetAxis(0)->Set(bins_unfxjMT[0],XjBins);
-fhUnfoldingTruthRefMatch_xj->GetAxis(0)->Set(bins_unfxjMT[0],XjBins);
-fhUnfoldingTruthRefMatchInv_xj->GetAxis(0)->Set(bins_unfxjMT[0],XjBins);
-fhUnfoldingTruthRefMatchSub_xj->GetAxis(0)->Set(bins_unfxjMT[0],XjBins);
-fhUnfoldingTruthGen_xj->GetAxis(0)->Set(bins_unfxjMT[0],XjBins);
+fhUnfoldingResponse_xjMatchInv_mapcorrected->GetAxis(1)->Set(bins_unfxj[1],XjBins);
+fhUnfoldingResponse_xjMatchInv_mapcorrected_noevtweight->GetAxis(1)->Set(bins_unfxj[1],XjBins);
 
 // DPhi binning
 fhUnfoldingResponse_xj->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
-fhUnfoldingResponse_xj_corr->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
-fhUnfoldingResponse_xj_corr_noevtweight->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
+fhUnfoldingResponse_xj_mapcorrected->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
+fhUnfoldingResponse_xj_mapcorrected_noevtweight->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
 fhUnfoldingResponse_xjMatch->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
-fhUnfoldingResponse_xjMatchSub->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
 fhUnfoldingResponse_xjMatchInv->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
-fhUnfoldingResponse_xjMatchInv_corr->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
-fhUnfoldingResponse_xjMatchInv_corr_noevtweight->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
+fhUnfoldingResponse_xjMatchInv_mapcorrected->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
+fhUnfoldingResponse_xjMatchInv_mapcorrected_noevtweight->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
 
 fhUnfoldingResponse_xj->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
-fhUnfoldingResponse_xj_corr->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
-fhUnfoldingResponse_xj_corr_noevtweight->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
+fhUnfoldingResponse_xj_mapcorrected->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
+fhUnfoldingResponse_xj_mapcorrected_noevtweight->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
 fhUnfoldingResponse_xjMatch->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
-fhUnfoldingResponse_xjMatchSub->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
 fhUnfoldingResponse_xjMatchInv->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
-fhUnfoldingResponse_xjMatchInv_corr->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
-fhUnfoldingResponse_xjMatchInv_corr_noevtweight->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
-
-fhUnfoldingMeasu_xj->GetAxis(1)->Set(bins_unfxjMT[1],DphiBins);
-fhUnfoldingTruthRef_xj->GetAxis(1)->Set(bins_unfxjMT[1],DphiBins);
-fhUnfoldingTruthRefMatch_xj->GetAxis(1)->Set(bins_unfxjMT[1],DphiBins);
-fhUnfoldingTruthRefMatchInv_xj->GetAxis(1)->Set(bins_unfxjMT[1],DphiBins);
-fhUnfoldingTruthRefMatchSub_xj->GetAxis(1)->Set(bins_unfxjMT[1],DphiBins);
-fhUnfoldingTruthGen_xj->GetAxis(1)->Set(bins_unfxjMT[1],DphiBins);
+fhUnfoldingResponse_xjMatchInv_mapcorrected->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
+fhUnfoldingResponse_xjMatchInv_mapcorrected_noevtweight->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
 
 // Multiplicity binning
 fhUnfoldingResponse_xj->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
-fhUnfoldingResponse_xj_corr->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
-fhUnfoldingResponse_xj_corr_noevtweight->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
+fhUnfoldingResponse_xj_mapcorrected->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
+fhUnfoldingResponse_xj_mapcorrected_noevtweight->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
 fhUnfoldingResponse_xjMatch->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
-fhUnfoldingResponse_xjMatchSub->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
 fhUnfoldingResponse_xjMatchInv->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
-fhUnfoldingResponse_xjMatchInv_corr->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
-fhUnfoldingResponse_xjMatchInv_corr_noevtweight->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
-
-fhUnfoldingMeasu_xj->GetAxis(3)->Set(bins_unfxjMT[3],MultCentbins);
-fhUnfoldingTruthRef_xj->GetAxis(3)->Set(bins_unfxjMT[3],MultCentbins);
-fhUnfoldingTruthRefMatch_xj->GetAxis(3)->Set(bins_unfxjMT[3],MultCentbins);
-fhUnfoldingTruthRefMatchInv_xj->GetAxis(3)->Set(bins_unfxjMT[3],MultCentbins);
-fhUnfoldingTruthRefMatchSub_xj->GetAxis(3)->Set(bins_unfxjMT[3],MultCentbins);
-fhUnfoldingTruthGen_xj->GetAxis(3)->Set(bins_unfxjMT[3],MultCentbins);
+fhUnfoldingResponse_xjMatchInv_mapcorrected->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
+fhUnfoldingResponse_xjMatchInv_mapcorrected_noevtweight->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
 
 // Sumw2
 fhUnfoldingResponse_xj->Sumw2();
-fhUnfoldingResponse_xj_corr->Sumw2();
-fhUnfoldingResponse_xj_corr_noevtweight->Sumw2();
+fhUnfoldingResponse_xj_mapcorrected->Sumw2();
+fhUnfoldingResponse_xj_mapcorrected_noevtweight->Sumw2();
 fhUnfoldingResponse_xjMatch->Sumw2();
-fhUnfoldingResponse_xjMatchSub->Sumw2();
 fhUnfoldingResponse_xjMatchInv->Sumw2();
-fhUnfoldingResponse_xjMatchInv_corr->Sumw2();
-fhUnfoldingResponse_xjMatchInv_corr_noevtweight->Sumw2();
-fhUnfoldingMeasu_xj->Sumw2();
-fhUnfoldingTruthRef_xj->Sumw2();
-fhUnfoldingTruthRefMatch_xj->Sumw2();
-fhUnfoldingTruthRefMatchInv_xj->Sumw2();
-fhUnfoldingTruthRefMatchSub_xj->Sumw2();
-fhUnfoldingTruthGen_xj->Sumw2();
+fhUnfoldingResponse_xjMatchInv_mapcorrected->Sumw2();
+fhUnfoldingResponse_xjMatchInv_mapcorrected_noevtweight->Sumw2();
 
 /*
+
 // -> Xj vs Pt average
 // Unfold binning
 fhUnfoldingResponse_xjptave->SetBinEdges(0, fullUnfoldingBinning_xjptave);
@@ -2450,11 +2434,13 @@ void w_gengen_hist(bool mixing, bool rotation, bool doinclusive, bool doleadsubl
 isMC: true for MC and false for Data
 */
 void w_dijet_hist(bool isMC){
-	hist_reco_lead_reco_subl_quench->Write();
-	if(isMC) hist_reco_lead_reco_subl_quench_corr->Write();
 	hist_reco_lead_reco_subl_quench_unweighted->Write();
+	hist_reco_lead_reco_subl_quench->Write();
+	if(isMC) hist_reco_lead_reco_subl_quench_checkmapcorrection->Write();
 	hist_reco_leadEP_quench_plus->Write();
 	hist_reco_leadEP_quench_minus->Write();
+	hist_reco_sublEP_quench_plus->Write();
+	hist_reco_sublEP_quench_minus->Write();
 	hist_etaDijet_reco->Write();
 	hist_etaDijet_CM_reco->Write();
 	hist_yDijet_CM_reco->Write();
@@ -2463,15 +2449,25 @@ void w_dijet_hist(bool isMC){
 		hist_reco_lead_fake_subl_quench->Write();
 		hist_fake_lead_fake_subl_quench->Write();
 		hist_gen_lead_gen_subl_quench->Write();
+		hist_gen_lead_gen_subl_quench_unweighted->Write();
 		hist_fake_leadEP_quench_plus->Write();
 		hist_fake_leadEP_quench_minus->Write();
 		hist_fake_sublEP_quench_plus->Write();
 		hist_fake_sublEP_quench_minus->Write();
 		hist_gen_leadEP_quench_plus->Write();
 		hist_gen_leadEP_quench_minus->Write();
+		hist_gen_sublEP_quench_plus->Write();
+		hist_gen_sublEP_quench_minus->Write();
+		hist_ref_lead_ref_subl_quench_unweighted->Write();
 		hist_ref_lead_ref_subl_quench->Write();
+		hist_ref_lead_ref_subl_quench_Match_unweighted->Write();
+		hist_ref_lead_ref_subl_quench_Match->Write();
+		hist_ref_lead_ref_subl_quench_MatchInv_unweighted->Write();
+		hist_ref_lead_ref_subl_quench_MatchInv->Write();
 		hist_ref_leadEP_quench_plus->Write();
 		hist_ref_leadEP_quench_minus->Write();
+		hist_ref_sublEP_quench_plus->Write();
+		hist_ref_sublEP_quench_minus->Write();
 		hist_etaDijet_ref->Write();
 		hist_etaDijet_CM_ref->Write();
 		hist_yDijet_CM_ref->Write();
@@ -2581,24 +2577,27 @@ void w_unf_hist(){
 
 	fhUnfoldingResponse_ptlead->Write();
 	fhUnfoldingResponse_ptleadMatch->Write();
-	fhUnfoldingMeasu_ptlead->Write();
-	fhUnfoldingTruthRef_ptlead->Write();
-	fhUnfoldingTruthRefMatch_ptlead->Write();
-	fhUnfoldingTruthGen_ptlead->Write();
 	fhUnfoldingResponse_ptsubl->Write();
 	fhUnfoldingResponse_ptsublMatch->Write();
+	fhUnfoldingResponse_xj->Write();
+	fhUnfoldingResponse_xj_mapcorrected->Write();
+	fhUnfoldingResponse_xj_mapcorrected_noevtweight->Write();
+	fhUnfoldingResponse_xjMatch->Write();
+	fhUnfoldingResponse_xjMatchInv->Write();
+	fhUnfoldingResponse_xjMatchInv_mapcorrected->Write();
+	fhUnfoldingResponse_xjMatchInv_mapcorrected_noevtweight->Write();
+
+/*
 	fhUnfoldingMeasu_ptsubl->Write();
 	fhUnfoldingTruthRef_ptsubl->Write();
 	fhUnfoldingTruthRefMatch_ptsubl->Write();
 	fhUnfoldingTruthGen_ptsubl->Write();
-	fhUnfoldingResponse_xj->Write();
-	fhUnfoldingResponse_xj_corr->Write();
-	fhUnfoldingResponse_xj_corr_noevtweight->Write();
-	fhUnfoldingResponse_xjMatch->Write();
-	fhUnfoldingResponse_xjMatchInv->Write();
-	fhUnfoldingResponse_xjMatchInv_corr->Write();
-	fhUnfoldingResponse_xjMatchInv_corr_noevtweight->Write();
-	fhUnfoldingResponse_xjMatchSub->Write();
+
+	fhUnfoldingMeasu_ptlead->Write();
+	fhUnfoldingTruthRef_ptlead->Write();
+	fhUnfoldingTruthRefMatch_ptlead->Write();
+	fhUnfoldingTruthGen_ptlead->Write();
+
 	fhUnfoldingMeasu_xj->Write();
 	fhUnfoldingTruthRef_xj->Write();
 	fhUnfoldingTruthRefMatch_xj->Write();
@@ -2606,7 +2605,7 @@ void w_unf_hist(){
 	fhUnfoldingTruthRefMatchSub_xj->Write();
 	fhUnfoldingTruthGen_xj->Write();
 
-/*
+
 	fhUnfoldingResponse_xjptave->Write();
 	fhUnfoldingMeasu_xjptave->Write();
 	fhUnfoldingTruthRef_xjptave->Write();
