@@ -68,8 +68,11 @@ int	bins_unfxj[7] 	   =   { nXjAjBins   , nXjAjBins  , nDphiBins   , nDphiBins  
 double xmin_unfxj[7]   =   { minxjhist   , minxjhist  , mindphihist , mindphihist , 0.0 , 0.0 , multiplicity_centrality_bins[0]};
 double xmax_unfxj[7]   =   { maxxjhist   , maxxjhist  , maxdphihist , maxdphihist , 11.0, 11.0, multiplicity_centrality_bins[multbinsize-1]};
 THnSparseD *fhUnfoldingResponse_xj = new THnSparseD("fhUnfoldingResponse_xj", "fhUnfoldingResponse_xj", 7, bins_unfxj, xmin_unfxj, xmax_unfxj); // xj reco vs xj ref
+THnSparseD *fhUnfoldingResponse_xj_noevtweight = new THnSparseD("fhUnfoldingResponse_xj_noevtweight", "fhUnfoldingResponse_xj_noevtweight", 7, bins_unfxj, xmin_unfxj, xmax_unfxj); // xj reco vs xj ref
 THnSparseD *fhUnfoldingResponse_xjMatch = new THnSparseD("fhUnfoldingResponse_xjMatch", "fhUnfoldingResponse_xjMatch", 7, bins_unfxj, xmin_unfxj, xmax_unfxj); // xj reco vs xj ref from matched pTs
+THnSparseD *fhUnfoldingResponse_xjMatch_noevtweight = new THnSparseD("fhUnfoldingResponse_xjMatch_noevtweight", "fhUnfoldingResponse_xjMatch_noevtweight", 7, bins_unfxj, xmin_unfxj, xmax_unfxj); // xj reco vs xj ref from matched pTs
 THnSparseD *fhUnfoldingResponse_xjMatchInv = new THnSparseD("fhUnfoldingResponse_xjMatchInv", "fhUnfoldingResponse_xjMatchInv", 7, bins_unfxj, xmin_unfxj, xmax_unfxj);
+THnSparseD *fhUnfoldingResponse_xjMatchInv_noevtweight = new THnSparseD("fhUnfoldingResponse_xjMatchInv_noevtweight", "fhUnfoldingResponse_xjMatchInv_noevtweight", 7, bins_unfxj, xmin_unfxj, xmax_unfxj);
 
 THnSparseD *fhUnfoldingResponse_xj_mapcorrected = new THnSparseD("fhUnfoldingResponse_xj_mapcorrected", "fhUnfoldingResponse_xj_mapcorrected", 7, bins_unfxj, xmin_unfxj, xmax_unfxj); // 
 THnSparseD *fhUnfoldingResponse_xj_mapcorrected_noevtweight = new THnSparseD("fhUnfoldingResponse_xj_mapcorrected_noevtweight", "fhUnfoldingResponse_xj_mapcorrected_noevtweight", 7, bins_unfxj, xmin_unfxj, xmax_unfxj);
@@ -188,6 +191,32 @@ TH1D *gen_mult_withonejet_weighted = new TH1D("gen_mult_withonejet_weighted", "g
 TH1D *gen_mult_withdijets_weighted = new TH1D("gen_mult_withdijets_weighted", "gen_mult_withdijets_weighted", 80, 0.0, 400.0);
 TH2D *multiplicity_etadep_weighted = new TH2D("multiplicity_etadep_weighted", "multiplicity_etadep_weighted", 80, 0.0, 400.0, 11, 0.0, 11.0);
 TH2D *multiplicity2D = new TH2D("multiplicity2D", "multiplicity2D", 500, 0.0, 500.0, 500, 0.0, 500.0);
+
+
+//Jet ids
+int	bins_jid_int[4]   =      { 100  , 60   , 400 ,  80};
+double xmin_jid_int[4]   =   { 0.0  , -6.0 , 0.0 ,  0.0};
+double xmax_jid_int[4]   =   { 100  ,  6.0 , 800 ,  400};
+THnSparseD *jet_NHF_hist_beforeid = new THnSparseD("jet_NHF_hist_beforeid", "jet_NHF_hist_beforeid", 4, bins_jid_int, xmin_jid_int, xmax_jid_int);
+THnSparseD *jet_NHF_hist_afterid = new THnSparseD("jet_NHF_hist_afterid", "jet_NHF_hist_afterid", 4, bins_jid_int, xmin_jid_int, xmax_jid_int);
+THnSparseD *jet_NEF_hist_beforeid = new THnSparseD("jet_NEF_hist_beforeid", "jet_NEF_hist_beforeid", 4, bins_jid_int, xmin_jid_int, xmax_jid_int);
+THnSparseD *jet_NEF_hist_afterid = new THnSparseD("jet_NEF_hist_afterid", "jet_NEF_hist_afterid", 4, bins_jid_int, xmin_jid_int, xmax_jid_int);
+THnSparseD *jet_CHF_hist_beforeid = new THnSparseD("jet_CHF_hist_beforeid", "jet_CHF_hist_beforeid", 4, bins_jid_int, xmin_jid_int, xmax_jid_int);
+THnSparseD *jet_CHF_hist_afterid = new THnSparseD("jet_CHF_hist_afterid", "jet_CHF_hist_afterid", 4, bins_jid_int, xmin_jid_int, xmax_jid_int);
+THnSparseD *jet_MUF_hist_beforeid = new THnSparseD("jet_MUF_hist_beforeid", "jet_MUF_hist_beforeid", 4, bins_jid_int, xmin_jid_int, xmax_jid_int);
+THnSparseD *jet_MUF_hist_afterid = new THnSparseD("jet_MUF_hist_afterid", "jet_MUF_hist_afterid", 4, bins_jid_int, xmin_jid_int, xmax_jid_int);
+THnSparseD *jet_CEF_hist_beforeid = new THnSparseD("jet_CEF_hist_beforeid", "jet_CEF_hist_beforeid", 4, bins_jid_int, xmin_jid_int, xmax_jid_int);
+THnSparseD *jet_CEF_hist_afterid = new THnSparseD("jet_CEF_hist_afterid", "jet_CEF_hist_afterid", 4, bins_jid_int, xmin_jid_int, xmax_jid_int);
+
+int	bins_jid_frac[4]   =      { 100  , 60   , 400 ,  80};
+double xmin_jid_frac[4]   =   { 0.0  , -6.0 , 0.0 ,  0.0};
+double xmax_jid_frac[4]   =   { 1.0  ,  6.0 , 800 ,  400};
+THnSparseD *jet_chargedmult_hist_beforeid = new THnSparseD("multiplicity_etadep_weighted", "multiplicity_etadep_weighted", 4, bins_jid_frac, xmin_jid_frac, xmax_jid_frac);
+THnSparseD *jet_neutralmult_hist_beforeid = new THnSparseD("multiplicity_etadep_weighted", "multiplicity_etadep_weighted", 4, bins_jid_frac, xmin_jid_frac, xmax_jid_frac);
+THnSparseD *jet_mult_hist_beforeid = new THnSparseD("multiplicity_etadep_weighted", "multiplicity_etadep_weighted", 4, bins_jid_frac, xmin_jid_frac, xmax_jid_frac);
+THnSparseD *jet_chargedmult_hist_afterid = new THnSparseD("jet_chargedmult_hist_afterid", "jet_chargedmult_hist_afterid", 4, bins_jid_frac, xmin_jid_frac, xmax_jid_frac);
+THnSparseD *jet_neutralmult_hist_afterid = new THnSparseD("jet_neutralmult_hist_afterid", "jet_neutralmult_hist_afterid", 4, bins_jid_frac, xmin_jid_frac, xmax_jid_frac);
+THnSparseD *jet_mult_hist_afterid = new THnSparseD("jet_mult_hist_afterid", "jet_mult_hist_afterid", 4, bins_jid_frac, xmin_jid_frac, xmax_jid_frac);
 
 // Hadron Forward (HF) Calorimeter information
 // Axis : 0 -> HF+, 1 -> HF-, 2 -> multbin
@@ -767,6 +796,23 @@ jetjet_Dphi_Deta_gen->Sumw2();
 jetjet_Dphi_Deta_reco_diff->Sumw2();
 jetjet_Dphi_Deta_ref_diff->Sumw2();
 jetjet_Dphi_Deta_gen_diff->Sumw2();
+
+jet_NHF_hist_beforeid->Sumw2();
+jet_NHF_hist_afterid->Sumw2();
+jet_NEF_hist_beforeid->Sumw2();
+jet_NEF_hist_afterid->Sumw2();
+jet_CHF_hist_beforeid->Sumw2();
+jet_CHF_hist_afterid->Sumw2();
+jet_MUF_hist_beforeid->Sumw2();
+jet_MUF_hist_afterid->Sumw2();
+jet_CEF_hist_beforeid->Sumw2();
+jet_CEF_hist_afterid->Sumw2();
+jet_chargedmult_hist_beforeid->Sumw2();
+jet_neutralmult_hist_beforeid->Sumw2();
+jet_mult_hist_beforeid->Sumw2();
+jet_chargedmult_hist_afterid->Sumw2();
+jet_neutralmult_hist_afterid->Sumw2();
+jet_mult_hist_afterid->Sumw2();
 
 // Multiplicity binning
 vzhist->GetAxis(1)->Set(bins_vz[1],MultCentbins);
@@ -1958,53 +2004,71 @@ fhUnfoldingResponse_ptsublMatch->Sumw2();
 // -> Xj 1D
 // Xj 
 fhUnfoldingResponse_xj->GetAxis(0)->Set(bins_unfxj[0],XjBins);
+fhUnfoldingResponse_xj_noevtweight->GetAxis(0)->Set(bins_unfxj[0],XjBins);
 fhUnfoldingResponse_xj_mapcorrected->GetAxis(0)->Set(bins_unfxj[0],XjBins);
 fhUnfoldingResponse_xj_mapcorrected_noevtweight->GetAxis(0)->Set(bins_unfxj[0],XjBins);
 fhUnfoldingResponse_xjMatch->GetAxis(0)->Set(bins_unfxj[0],XjBins);
+fhUnfoldingResponse_xjMatch_noevtweight->GetAxis(0)->Set(bins_unfxj[0],XjBins);
 fhUnfoldingResponse_xjMatchInv->GetAxis(0)->Set(bins_unfxj[0],XjBins);
+fhUnfoldingResponse_xjMatchInv_noevtweight->GetAxis(0)->Set(bins_unfxj[0],XjBins);
 fhUnfoldingResponse_xjMatchInv_mapcorrected->GetAxis(0)->Set(bins_unfxj[0],XjBins);
 fhUnfoldingResponse_xjMatchInv_mapcorrected_noevtweight->GetAxis(0)->Set(bins_unfxj[0],XjBins);
 
 fhUnfoldingResponse_xj->GetAxis(1)->Set(bins_unfxj[1],XjBins);
+fhUnfoldingResponse_xj_noevtweight->GetAxis(1)->Set(bins_unfxj[1],XjBins);
 fhUnfoldingResponse_xj_mapcorrected->GetAxis(1)->Set(bins_unfxj[1],XjBins);
 fhUnfoldingResponse_xj_mapcorrected_noevtweight->GetAxis(1)->Set(bins_unfxj[1],XjBins);
 fhUnfoldingResponse_xjMatch->GetAxis(1)->Set(bins_unfxj[1],XjBins);
+fhUnfoldingResponse_xjMatch_noevtweight->GetAxis(1)->Set(bins_unfxj[1],XjBins);
 fhUnfoldingResponse_xjMatchInv->GetAxis(1)->Set(bins_unfxj[1],XjBins);
+fhUnfoldingResponse_xjMatchInv_noevtweight->GetAxis(1)->Set(bins_unfxj[1],XjBins);
 fhUnfoldingResponse_xjMatchInv_mapcorrected->GetAxis(1)->Set(bins_unfxj[1],XjBins);
 fhUnfoldingResponse_xjMatchInv_mapcorrected_noevtweight->GetAxis(1)->Set(bins_unfxj[1],XjBins);
 
 // DPhi binning
 fhUnfoldingResponse_xj->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
+fhUnfoldingResponse_xj_noevtweight->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
 fhUnfoldingResponse_xj_mapcorrected->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
 fhUnfoldingResponse_xj_mapcorrected_noevtweight->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
 fhUnfoldingResponse_xjMatch->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
+fhUnfoldingResponse_xjMatch_noevtweight->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
 fhUnfoldingResponse_xjMatchInv->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
+fhUnfoldingResponse_xjMatchInv_noevtweight->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
 fhUnfoldingResponse_xjMatchInv_mapcorrected->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
 fhUnfoldingResponse_xjMatchInv_mapcorrected_noevtweight->GetAxis(2)->Set(bins_unfxj[2],DphiBins);
 
 fhUnfoldingResponse_xj->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
+fhUnfoldingResponse_xj_noevtweight->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
 fhUnfoldingResponse_xj_mapcorrected->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
 fhUnfoldingResponse_xj_mapcorrected_noevtweight->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
 fhUnfoldingResponse_xjMatch->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
+fhUnfoldingResponse_xjMatch_noevtweight->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
 fhUnfoldingResponse_xjMatchInv->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
+fhUnfoldingResponse_xjMatchInv_noevtweight->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
 fhUnfoldingResponse_xjMatchInv_mapcorrected->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
 fhUnfoldingResponse_xjMatchInv_mapcorrected_noevtweight->GetAxis(3)->Set(bins_unfxj[3],DphiBins);
 
 // Multiplicity binning
 fhUnfoldingResponse_xj->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
+fhUnfoldingResponse_xj_noevtweight->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
 fhUnfoldingResponse_xj_mapcorrected->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
 fhUnfoldingResponse_xj_mapcorrected_noevtweight->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
 fhUnfoldingResponse_xjMatch->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
+fhUnfoldingResponse_xjMatch_noevtweight->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
 fhUnfoldingResponse_xjMatchInv->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
+fhUnfoldingResponse_xjMatchInv_noevtweight->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
 fhUnfoldingResponse_xjMatchInv_mapcorrected->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
 fhUnfoldingResponse_xjMatchInv_mapcorrected_noevtweight->GetAxis(6)->Set(bins_unfxj[6],MultCentbins);
 
 // Sumw2
 fhUnfoldingResponse_xj->Sumw2();
+fhUnfoldingResponse_xj_noevtweight->Sumw2();
 fhUnfoldingResponse_xj_mapcorrected->Sumw2();
 fhUnfoldingResponse_xj_mapcorrected_noevtweight->Sumw2();
 fhUnfoldingResponse_xjMatch->Sumw2();
+fhUnfoldingResponse_xjMatch_noevtweight->Sumw2();
 fhUnfoldingResponse_xjMatchInv->Sumw2();
+fhUnfoldingResponse_xjMatchInv_noevtweight->Sumw2();
 fhUnfoldingResponse_xjMatchInv_mapcorrected->Sumw2();
 fhUnfoldingResponse_xjMatchInv_mapcorrected_noevtweight->Sumw2();
 
@@ -2572,6 +2636,27 @@ void w_ep_hist(bool isMC){
 	
 }
 
+void w_jetid_hist(){
+
+	jet_NHF_hist_beforeid->Write();
+	jet_NHF_hist_afterid->Write();
+	jet_NEF_hist_beforeid->Write();
+	jet_NEF_hist_afterid->Write();
+	jet_CHF_hist_beforeid->Write();
+	jet_CHF_hist_afterid->Write();
+	jet_MUF_hist_beforeid->Write();
+	jet_MUF_hist_afterid->Write();
+	jet_CEF_hist_beforeid->Write();
+	jet_CEF_hist_afterid->Write();
+	jet_chargedmult_hist_beforeid->Write();
+	jet_neutralmult_hist_beforeid->Write();
+	jet_mult_hist_beforeid->Write();
+	jet_chargedmult_hist_afterid->Write();
+	jet_neutralmult_hist_afterid->Write();
+	jet_mult_hist_afterid->Write();
+
+}
+
 
 void w_unf_hist(){ 
 
@@ -2579,11 +2664,15 @@ void w_unf_hist(){
 	fhUnfoldingResponse_ptleadMatch->Write();
 	fhUnfoldingResponse_ptsubl->Write();
 	fhUnfoldingResponse_ptsublMatch->Write();
+
 	fhUnfoldingResponse_xj->Write();
+	fhUnfoldingResponse_xj_noevtweight->Write();
 	fhUnfoldingResponse_xj_mapcorrected->Write();
 	fhUnfoldingResponse_xj_mapcorrected_noevtweight->Write();
 	fhUnfoldingResponse_xjMatch->Write();
+	fhUnfoldingResponse_xjMatch_noevtweight->Write();
 	fhUnfoldingResponse_xjMatchInv->Write();
+	fhUnfoldingResponse_xjMatchInv_noevtweight->Write();
 	fhUnfoldingResponse_xjMatchInv_mapcorrected->Write();
 	fhUnfoldingResponse_xjMatchInv_mapcorrected_noevtweight->Write();
 

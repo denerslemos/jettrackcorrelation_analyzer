@@ -67,7 +67,7 @@ Methods:
 1 --> use jet id cuts defined bellow
 2 --> use standard PbPb cuts (0.01 < TrkMax / RawpT < 0.98)
 */
-const int jetid_method = 0; 
+const int jetid_method = 1; 
 TString jet_idselec = "TightLepVeto"; // jet id selection: nominal is TightLepVeto, syst: Tight and Loose
 /*
 Methods:

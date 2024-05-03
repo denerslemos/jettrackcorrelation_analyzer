@@ -371,6 +371,17 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			float jet_eta = jteta[j];
 			float jet_phi = jtphi[j];
 			float jet_mass = jtmass[j];
+			
+			if(jetid_method == 1){
+	 			double x_NHFbc[4]={(double)jtPfNHF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_NHF_hist_beforeid->Fill(x_NHFbc,event_weight);
+	 			double x_NEFbc[4]={(double)jtPfNEF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_NEF_hist_beforeid->Fill(x_NEFbc,event_weight);
+	 			double x_CHFbc[4]={(double)jtPfCHF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_CHF_hist_beforeid->Fill(x_CHFbc,event_weight);
+	 			double x_MUFbc[4]={(double)jtPfMUF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_MUF_hist_beforeid->Fill(x_MUFbc,event_weight);
+	 			double x_CEFbc[4]={(double)jtPfCEF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_CEF_hist_beforeid->Fill(x_CEFbc,event_weight);
+	 			double x_CMbc[4]={(double)(jtPfCHM[j] + jtPfCEM[j] + jtPfMUM[j]), (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_chargedmult_hist_beforeid->Fill(x_CMbc,event_weight);
+	 			double x_NMbc[4]={(double)(jtPfNHM[j] + jtPfNEM[j]), (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_neutralmult_hist_beforeid->Fill(x_NMbc,event_weight);
+	 			double x_Mbc[4]={(double)(jtPfCHM[j] + jtPfCEM[j] + jtPfMUM[j] + jtPfNHM[j] + jtPfNEM[j]), (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_mult_hist_beforeid->Fill(x_Mbc,event_weight);
+			}
 
 			if(jetid_method == 1){ 
 				bool isjetid = passJetIDcuts(jet_idselec, year_of_datataking, jet_eta, jtPfNHF[j], jtPfNEF[j], jtPfCHF[j], jtPfMUF[j], jtPfCEF[j], jtPfCHM[j], jtPfCEM[j], jtPfNHM[j], jtPfNEM[j], jtPfMUM[j]);
@@ -378,6 +389,17 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			}
 			if(jetid_method == 2){ if(trackMax[j]/rawpt[j] < 0.01) continue; if(trackMax[j]/rawpt[j] > 0.98) continue; }
 			if(trackMax[j] < trackmaxpt) continue; // Can be use to remove jets from low pT tracks
+
+			if(jetid_method == 1){
+	 			double x_NHFac[4]={(double)jtPfNHF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_NHF_hist_afterid->Fill(x_NHFac,event_weight);
+	 			double x_NEFac[4]={(double)jtPfNEF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_NEF_hist_afterid->Fill(x_NEFac,event_weight);
+	 			double x_CHFac[4]={(double)jtPfCHF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_CHF_hist_afterid->Fill(x_CHFac,event_weight);
+	 			double x_MUFac[4]={(double)jtPfMUF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_MUF_hist_afterid->Fill(x_MUFac,event_weight);
+	 			double x_CEFac[4]={(double)jtPfCEF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_CEF_hist_afterid->Fill(x_CEFac,event_weight);
+	 			double x_CMac[4]={(double)(jtPfCHM[j] + jtPfCEM[j] + jtPfMUM[j]), (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_chargedmult_hist_afterid->Fill(x_CMac,event_weight);
+	 			double x_NMac[4]={(double)(jtPfNHM[j] + jtPfNEM[j]), (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_neutralmult_hist_afterid->Fill(x_NMac,event_weight);
+	 			double x_Mac[4]={(double)(jtPfCHM[j] + jtPfCEM[j] + jtPfMUM[j] + jtPfNHM[j] + jtPfNEM[j]), (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_mult_hist_afterid->Fill(x_Mac,event_weight);
+			}
 
 			// UE subtraction
  			double UE = GetUE(etamin, etamax, rho, jet_eta, JetR);
@@ -858,6 +880,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			// matrix reco x ref for Xj
 			double x_unf_meas_xj_response[7]={xjrecoforunfold, xjrefforunfold, delta_phi_reco_forunfold, delta_phi_ref_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetareftypeforunfold, (double)multcentbin}; 
 			fhUnfoldingResponse_xj->Fill(x_unf_meas_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
+			fhUnfoldingResponse_xj_noevtweight->Fill(x_unf_meas_xj_response,ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
 			// matrix reco x ref for Xj due corrections			
 			float correctionmapweight = getUnfCorrWeight(fileunfoldweight, leadrecojet_pt, sublrecojet_pt, mult, dijetetarecotypeforunfold);//do correction here
 			if(!is_MC) correctionmapweight = 1.0;
@@ -882,6 +905,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				// response
 				double x_unf_measMatch_xj_response[7]={xjrecoforunfold, xjrefmatchforunfold, delta_phi_reco_forunfold, delta_phi_refmatch_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetarefmatchtypeforunfold, (double)multcentbin}; 
 				fhUnfoldingResponse_xjMatch->Fill(x_unf_measMatch_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
+				fhUnfoldingResponse_xjMatch_noevtweight->Fill(x_unf_measMatch_xj_response,ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
+
 				// inverted or subtracted
 				if(xjrefmatchforunfold >= 1.0){
 				
@@ -893,6 +918,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 					double x_unf_measMatchInv_xj_response[7]={xjrecoforunfold, xjrefmatchforunfoldinv, delta_phi_reco_forunfold, delta_phi_refmatch_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetarefmatchtypeforunfold, (double)multcentbin}; 
 					fhUnfoldingResponse_xjMatchInv->Fill(x_unf_measMatchInv_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
+					fhUnfoldingResponse_xjMatchInv_noevtweight->Fill(x_unf_measMatchInv_xj_response,ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
 					fhUnfoldingResponse_xjMatchInv_mapcorrected->Fill(x_unf_measMatchInv_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight*correctionmapweight);
 					fhUnfoldingResponse_xjMatchInv_mapcorrected_noevtweight->Fill(x_unf_measMatchInv_xj_response,correctionmapweight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
 
@@ -905,6 +931,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 					double x_unf_measMatchInv_xj_response[7]={xjrecoforunfold, xjrefmatchforunfold, delta_phi_reco_forunfold, delta_phi_refmatch_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetarefmatchtypeforunfold, (double)multcentbin}; 
 					fhUnfoldingResponse_xjMatchInv->Fill(x_unf_measMatchInv_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
+					fhUnfoldingResponse_xjMatchInv_noevtweight->Fill(x_unf_measMatchInv_xj_response,ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
 					fhUnfoldingResponse_xjMatchInv_mapcorrected->Fill(x_unf_measMatchInv_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight*correctionmapweight);
 					fhUnfoldingResponse_xjMatchInv_mapcorrected_noevtweight->Fill(x_unf_measMatchInv_xj_response,correctionmapweight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
 
@@ -1264,7 +1291,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	cout << endl;
 
 	// Make an output file
-	string file_output = Form("%s_%s_%s_%iGeV_%s_%s_%s_Jptmin_%.1f_Jptmax_%.1f_Jetamin_%.1f_Jetamax_%.1f_%s%s%s_%s_%s_%s_%i",ouputfilename.Data(),colliding_system.Data(),data_or_mc.Data(),sNN_energy_GeV,jet_type.Data(),jet_collection.Data(),jet_trigger.Data(),jet_pt_min_cut,jet_pt_max_cut,jet_eta_min_cut,jet_eta_max_cut,jet_axis.Data(),smear.Data(),XjAj.Data(),ref_sample.Data(),particles.Data(),isflow.Data(),date->GetDate()); // output file
+	string file_output = Form("%s_%s_%s_%iGeV_%s_%s_%s_Jptmin_%.1f_Jptmax_%.1f_Jetamin_%.1f_Jetamax_%.1f_%s%s%s%s%s_%s_%i",ouputfilename.Data(),colliding_system.Data(),data_or_mc.Data(),sNN_energy_GeV,jet_type.Data(),jet_collection.Data(),jet_trigger.Data(),jet_pt_min_cut,jet_pt_max_cut,jet_eta_min_cut,jet_eta_max_cut,jet_axis.Data(),smear.Data(),XjAj.Data(),ref_sample.Data(),particles.Data(),isflow.Data(),date->GetDate()); // output file
 	std::replace(file_output.begin(), file_output.end(), '.', 'p'); // replace . to p
 	std::replace(file_output.begin(), file_output.end(), '-', 'N'); // replace - to N for negative
 
@@ -1309,9 +1336,16 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		MyFile->mkdir("eventplane_histograms"); 
 		MyFile->cd("eventplane_histograms");  
 		w_ep_hist(is_MC);
+		
 		MyFile->mkdir("TwoPC_histograms"); 
 		MyFile->cd("TwoPC_histograms");  
 		w_2pc_hist(is_MC, do_mixing);
+	}
+
+	if(jetid_method == 1){
+		MyFile->mkdir("JetIDVar"); 
+		MyFile->cd("JetIDVar"); 	
+		w_jetid_hist();
 	}
 
 	if(is_MC && do_dijetstudies){
