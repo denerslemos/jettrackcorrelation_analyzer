@@ -41,11 +41,10 @@ const bool do_dijetstudies = true; // quantities for jet quenching searches
 const TString jet_collection = "akCs4PFJetAnalyzer"; // jet collection in forest
 bool dojettrigger = false; // apply jet trigger
 TString jet_trigger = "HLT_PAAK4PFJet80_Eta5p1_v3"; // jet trigger in forest 
-TString jet_idselec = "TightLepVeto"; // jet id selection: nominal is TightLepVeto, syst: Tight and Loose
 const float JetR = 0.4;
 const bool doUE_areabased = false;
 const float jet_pt_min_cut = 60.0; // jet min pT cut 
-const float jet_pt_max_cut = 800.0; // jet max pT cut 
+const float jet_pt_max_cut = 8160.0; // jet max pT cut 
 const float jet_eta_min_cut = -1.0; // jet min eta cut 
 const float jet_eta_max_cut = 1.0; // jet max eta cut 
 const TString JEC_file = "Autumn16_HI_pPb_Pbgoing_Embedded_MC_L2Relative_AK4PF.txt"; //JEC file
@@ -64,11 +63,12 @@ const float dijetetamax = 3.0; // maximum dijet eta
 const float trackmaxpt = 0.0; // maximum track pT inside of a jet
 /*
 Methods:
-0 --> remove only trackmax/rawpt == 0
-1 --> remove entire event if matches
-2 --> use standardcut
+0 --> do not remove nothing
+1 --> use jet id cuts defined bellow
+2 --> use standard PbPb cuts (0.01 < TrkMax / RawpT < 0.98)
 */
-const int trackmaxoverrawpt_method = 2; 
+const int jetid_method = 0; 
+TString jet_idselec = "TightLepVeto"; // jet id selection: nominal is TightLepVeto, syst: Tight and Loose
 /*
 Methods:
 0 --> do no apply 3rd jet removal; 

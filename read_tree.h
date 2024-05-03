@@ -42,6 +42,7 @@ float EP_Qy4_minus; // Qy of EP 4 no flattening for HF -
 float EP_Mult4_plus; // Multiplicity of EP 4 no flattening for HF +
 float EP_Mult4_minus; // Multiplicity of EP 4 no flattening for HF -
 
+
 // trigger quantities
 int jet_trigger_bit; // jet HLT path trigger used for analysis (jet_trigger variable in input_variables.h)
 
@@ -52,10 +53,18 @@ float jtphi[9999]; // jet phi
 float rawpt[9999]; // jet pT without JEC
 float jtmass[9999]; // jet mass
 float trackMax[9999]; // track maximum pT in a jet
-/* // for jet ID -->
-int nref[9999];         // number of jets
-float trackMax[9999];   // track maximum pT in a jet
-*/ 
+// for jet ID 
+float jtPfNHF[9999];  // Neutron hadron fraction in the jet 
+float jtPfNEF[9999];  // Neutron EM fraction in the jet 
+float jtPfCHF[9999];  // Charged hadron fraction in the jet 
+float jtPfMUF[9999];  // Charged mu fraction in the jet 
+float jtPfCEF[9999];  // Charged EM fraction in the jet
+int jtPfCHM[9999]; 	  // Charged hadron multiplicity in the jet
+int jtPfCEM[9999]; 	  // Charged EM multiplicity in the jet 
+int jtPfNHM[9999]; 	  // Neutron hadron multiplicity in the jet
+int jtPfNEM[9999]; 	  // Neutron EM multiplicity in the jet
+int jtPfMUM[9999]; 	  // Muon multiplicity in the jet
+
 
 // reco tracks
 int ntrk;                 // number of track
@@ -130,7 +139,7 @@ year_of_datataking: year of data taking
 event_filterstr: string of event filters
 event_filters: integer (0 or 1) from event filters
 */
-void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TString colliding_system, int colliding_energy, int year_of_datataking, std::vector<TString> event_filterstr){
+void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TString colliding_system, int colliding_energy, int year_of_datataking, std::vector<TString> event_filterstr, int jetidmethod){
 
     tree->SetBranchStatus("*", 0); // disable all branches - this is important while reading big files
 
@@ -254,24 +263,44 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
     tree->SetBranchStatus("rawpt", 1);
     tree->SetBranchStatus("jtm", 1);
     tree->SetBranchStatus("trackMax", 1);
-    if(use_WTA){
-        tree->SetBranchStatus("WTAeta", 1);
-        tree->SetBranchStatus("WTAphi", 1);
-    }else{
-        tree->SetBranchStatus("jteta", 1);
-        tree->SetBranchStatus("jtphi", 1);
-    }
-
     tree->SetBranchAddress("nref", &nref);
     tree->SetBranchAddress("rawpt", &rawpt);
     tree->SetBranchAddress("jtm", &jtmass);
     tree->SetBranchAddress("trackMax", &trackMax);
     if(use_WTA){
+        tree->SetBranchStatus("WTAeta", 1);
+        tree->SetBranchStatus("WTAphi", 1);
         tree->SetBranchAddress("WTAeta", &jteta);
         tree->SetBranchAddress("WTAphi", &jtphi);
     }else{
+        tree->SetBranchStatus("jteta", 1);
+        tree->SetBranchStatus("jtphi", 1);
         tree->SetBranchAddress("jteta", &jteta);
         tree->SetBranchAddress("jtphi", &jtphi);
+    }
+
+    if(jetidmethod == 1){
+        tree->SetBranchStatus("jtPfNHF", 1);
+      	tree->SetBranchAddress("jtPfNHF", &jtPfNHF);    
+      	tree->SetBranchStatus("jtPfNEF", 1);
+ 	    tree->SetBranchAddress("jtPfNEF", &jtPfNEF);
+      	tree->SetBranchStatus("jtPfCHF", 1);
+      	tree->SetBranchAddress("jtPfCHF", &jtPfCHF);
+      	tree->SetBranchStatus("jtPfMUF", 1);
+      	tree->SetBranchAddress("jtPfMUF", &jtPfMUF);
+      	tree->SetBranchStatus("jtPfCEF", 1);
+      	tree->SetBranchAddress("jtPfCEF", &jtPfCEF);
+      	tree->SetBranchStatus("jtPfCHM", 1);
+      	tree->SetBranchAddress("jtPfCHM", &jtPfCHM);
+      	tree->SetBranchStatus("jtPfCEM", 1);
+      	tree->SetBranchAddress("jtPfCEM", &jtPfCEM);
+        tree->SetBranchStatus("jtPfNHM", 1);
+      	tree->SetBranchAddress("jtPfNHM", &jtPfNHM);
+       	tree->SetBranchStatus("jtPfNEM", 1);
+      	tree->SetBranchAddress("jtPfNEM", &jtPfNEM);
+	   	tree->SetBranchStatus("jtPfMUM", 1);
+  	    tree->SetBranchAddress("jtPfMUM", &jtPfMUM);
+    
     }
 
     // gen jet quantities

@@ -42,8 +42,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	TString ref_sample = "noref"; if(do_mixing && !do_rotation){ref_sample = Form("mix%iMult%iDVz%.1f%s",N_ev_mix,Mult_or_Cent_range,DVz_range,simev.Data());}else if(!do_mixing && do_rotation){ref_sample = Form("rot%ievs",N_of_rot);}else if(do_mixing && do_rotation){ref_sample = Form("mix%ievsMult%iDVz%.1f%s_rot%ievs",N_ev_mix,Mult_or_Cent_range,DVz_range,simev.Data(),N_of_rot);}
 	TString jet_axis; if(use_WTA){jet_axis = "WTA";}else{jet_axis = "ESC";}
 	if(doUE_areabased) jet_axis += "_RhoUE_";
-	jet_axis += Form("_jid_%s_",jet_idselec.Data());
-	jet_axis += Form("_tor%i_",trackmaxoverrawpt_method);
+	jet_axis += Form("_jid_%s",jet_idselec.Data());
+	jet_axis += Form("_meth%i_",jetid_method);
 	jet_axis += Form("3rdm%i_c%.1f_",thirdjet_removal_method,thirdjet_removal_cut);
 	jet_axis += Form("rem4thjet%i_",do_fourjet_removal);
 	if(dataweightcorrection){jet_axis += "DTw_";}else{jet_axis += "MCw_";}
@@ -143,7 +143,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	if(colliding_system=="pPb" && year_of_datataking==2016){hlt_tree->AddFriend(ep_tree);}
 
     // Read the desired branchs in the trees
-	read_tree(hlt_tree, is_MC, use_WTA, jet_trigger.Data(), colliding_system.Data(), sNN_energy_GeV, year_of_datataking, event_filter_str); // access the tree informations
+	read_tree(hlt_tree, is_MC, use_WTA, jet_trigger.Data(), colliding_system.Data(), sNN_energy_GeV, year_of_datataking, event_filter_str, jetid_method); // access the tree informations
 	if(!dojettrigger) jet_trigger="nojettrig"; // just for output name
 	
     // Use sumw2() to make sure about histogram uncertainties in ROOT
@@ -352,11 +352,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				
 		bool isjetincluded = false;
 		int njets = 0;
-		bool jetwithlowpttrk = false;
-		bool jetfromonetrk = false;
-		bool alljetfromalltrk = false;
-		std::vector<int> jetwithlowpttrk_index; 
-		std::vector<int> jetfromonetrk_index; 
 	
 		int jetsize = (int)nref; // number of jets in an event
 
@@ -369,18 +364,20 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			if(trackMax[j]/rawpt[j] >= 0) jettrackmaxptinjethisto->Fill(x_trkmaxjet,event_weight);
 			if(trackMax[j]/rawpt[j] >  0) jettrackmaxptinjethisto_no0->Fill(x_trkmaxjet,event_weight);
 			if(is_MC && refpt[j] > 0) jettrackmaxptinjethisto_ref->Fill(x_trkmaxjet,event_weight);
-			if(trackMax[j]/rawpt[j] == 0.0) continue; 
-			if(trackmaxoverrawpt_method == 2){
-            	if(trackMax[j]/rawpt[j] < 0.01) continue;
-            	if(trackMax[j]/rawpt[j] > 0.98) continue;
-            }
-			if(trackMax[j] < trackmaxpt) continue; // Can be use to remove jets from low pT tracks
-			
+
+
 			// Define jet kinematics
 			float jet_rawpt = rawpt[j];
 			float jet_eta = jteta[j];
 			float jet_phi = jtphi[j];
 			float jet_mass = jtmass[j];
+
+			if(jetid_method == 1){ 
+				bool isjetid = passJetIDcuts(jet_idselec, year_of_datataking, jet_eta, jtPfNHF[j], jtPfNEF[j], jtPfCHF[j], jtPfMUF[j], jtPfCEF[j], jtPfCHM[j], jtPfCEM[j], jtPfNHM[j], jtPfNEM[j], jtPfMUM[j]);
+				if(!isjetid) continue;
+			}
+			if(jetid_method == 2){ if(trackMax[j]/rawpt[j] < 0.01) continue; if(trackMax[j]/rawpt[j] > 0.98) continue; }
+			if(trackMax[j] < trackmaxpt) continue; // Can be use to remove jets from low pT tracks
 
 			// UE subtraction
  			double UE = GetUE(etamin, etamax, rho, jet_eta, JetR);
@@ -450,13 +447,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			double x_reco_jet_corr[5]={jet_pt_corr,jet_eta,jet_phi,(double) multcentbin,(double) extrabin}; 
 			hist_reco_jet_corr->Fill(x_reco_jet_corr);
 			hist_reco_jet_corr_weighted->Fill(x_reco_jet_corr,event_weight*jet_weight);
-
-			if(jet_pt_corr > subleading_pT_min){
-				if(trackMax[j]/rawpt[j] < 0.01){ jetwithlowpttrk = true; jetwithlowpttrk_index.push_back(j);} //continue; } // Cut for jets with only very low pT particles
-                if(trackMax[j]/rawpt[j] > 0.98){ jetfromonetrk = true; jetfromonetrk_index.push_back(j); } //continue; }// Cut for jets where all the pT is taken by one track
-                alljetfromalltrk = true;
-			}
-			
+		
 			TVector3 AllJets;
 			AllJets.SetPtEtaPhi(jet_pt_corr, jet_eta, jet_phi);
 			alljets_reco.push_back(AllJets);
@@ -516,18 +507,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 		}
 		// -> End loop over jets
-
-		// check the events and remove it if requested
-		bool remove_undesiredevents = false;
-		for (int jj = 0; jj < jetfromonetrk_index.size(); jj++){ 
-			if( jetfromonetrk_index[jj] == leadrecojet_index ) {remove_undesiredevents = true; break;}
-			if( jetfromonetrk_index[jj] == sublrecojet_index ) {remove_undesiredevents = true; break;}
-		}
-		for (int jjj = 0; jjj < jetwithlowpttrk_index.size(); jjj++){ 
-			if( jetwithlowpttrk_index[jjj] == leadrecojet_index ) {remove_undesiredevents = true; break;}
-			if( jetwithlowpttrk_index[jjj] == sublrecojet_index ) {remove_undesiredevents = true; break;}
-		}
-		if(remove_undesiredevents && trackmaxoverrawpt_method == 1) continue;
 
 		// Save quantities for events with inclusive jets		
 		if(isjetincluded){
@@ -731,21 +710,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double x2D_hiHFEta4Sum_dijet[2]={hfplusEta4+hfminusEta4,(double) mult}; hfhistEta4Sum_dijet_weighted->Fill(x2D_hiHFEta4Sum_dijet,event_weight);
 					}
 
-					// for cross-check in the trackmax/rawpt
-					if(jetwithlowpttrk) Nev_jetwithlowpttrk->Fill((double) mult);
-					if(jetfromonetrk) Nev_jetfromonetrk->Fill((double) mult);
-					if(jetwithlowpttrk && jetfromonetrk) Nev_jetsfrombothlowpttrkandonetrk->Fill((double) mult);
-					if(alljetfromalltrk) Nev_alljetfromalltrk->Fill((double) mult);
-
-					for (int jj = 0; jj < jetfromonetrk_index.size(); jj++){ 
-						if( jetfromonetrk_index[jj] == leadrecojet_index ) {Nev_jetfromonetrk_lead->Fill((double) mult); break;}
-						if( jetfromonetrk_index[jj] == sublrecojet_index ) {Nev_jetfromonetrk_sublead->Fill((double) mult); break;}
-					}
-					for (int jjj = 0; jjj < jetwithlowpttrk_index.size(); jjj++){ 
-						if( jetwithlowpttrk_index[jjj] == leadrecojet_index ) {Nev_jetwithlowpttrk_lead->Fill((double) mult); break;}
-						if( jetwithlowpttrk_index[jjj] == sublrecojet_index ) {Nev_jetwithlowpttrk_sublead->Fill((double) mult); break;}
-					}
-			
 					if(is_MC && leadrecojet_index < 999 && sublrecojet_index < 999 && refpt[leadrecojet_index] > 0.0 && refpt[sublrecojet_index] > 0.0){
 
 						// add CM etas here!

@@ -4,29 +4,45 @@
 #include "weights.h" // weights applied
 
 
-/*
-Jet ID selection for PF jets
 
-bool passJetIDcuts(TString jetidsys, int yearofdatataking, float jet_eta){
+//Jet ID selection for PF jets
+
+bool passJetIDcuts(TString jetidsys, int yearofdatataking, float jet_eta, float jet_NHF, float jet_NEF, float jet_CHF, float jet_MUF, float jet_CEF, int jet_CHM, int jet_CEM, int jet_NHM, int jet_NEM, int jet_MUM){
+
+	bool jetidcuts = true;
 	
-	bool jetidcuts = false;
+	int ChargedMult = jet_CHM + jet_CEM + jet_MUM;
+	int NeutralMult = jet_NHM + jet_NEM;
+	int Nconst = ChargedMult + NeutralMult;
+	
+	float chemfraccut, nfraccut;
+	if(jetidsys == "TightLepVeto"){ chemfraccut = 0.9; } else { chemfraccut = 0.99; }
+	if(jetidsys == "TightLepVeto" || jetidsys == "Tight"){ nfraccut = 0.9; } else { nfraccut = 0.99; }
 	
 	if(yearofdatataking == 2016){
 		if(fabs(jet_eta) <= 2.7){
-
+			if(jet_NHF >= nfraccut) jetidcuts = false;
+			if(jet_NEF >= nfraccut) jetidcuts = false;
+			if(Nconst <= 1) jetidcuts = false;
+			if(jetidsys == "TightLepVeto") { if(jet_MUF >= 0.8) jetidcuts = false; }
 			if(fabs(jet_eta) <= 2.4){
-			
+				if(jet_CHF <= 0.0) jetidcuts = false;
+				if(ChargedMult <= 0) jetidcuts = false;
+				if(jet_CEF >= chemfraccut) jetidcuts = false;
 			}
-			} else if(fabs(jet_eta) > 2.7 && fabs(jet_eta) <= 3.0){
-		
+		} else if(fabs(jet_eta) > 2.7 && fabs(jet_eta) <= 3.0){
+			if(jet_NEF <= 0.01) jetidcuts = false;
+			if(jet_NHF >= 0.98) jetidcuts = false;
+			if(NeutralMult <= 2) jetidcuts = false;		
 		} else if(fabs(jet_eta) > 3.0){
-
+			if(jet_NEF >= 0.90) jetidcuts = false;
+			if(NeutralMult <= 10) jetidcuts = false;
 		}
 		
 	}	
 	return jetidcuts;
 }
-*/
+
 
 /*
 Find Ntrk offline -> updated for all systems (and easy to update for future systems)
