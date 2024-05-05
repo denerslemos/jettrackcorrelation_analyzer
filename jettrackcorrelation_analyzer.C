@@ -1110,9 +1110,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			if(do_dijetstudies){
 			
 				bool missinfo = false;
-				if( (leadrecojet_pt > (leading_pT_min - 20.0)) && (sublrecojet_pt > (subleading_pT_min - 20.0)) && twogenjets) missinfo = true;
+				if( (leadrecojet_pt > (leading_pT_min - 20.0) && leadrecojet_pt <= leading_pT_min) && (sublrecojet_pt > (subleading_pT_min - 20.0) && sublrecojet_pt <= subleading_pT_min) && twogenjets) missinfo = true;
 			
-				if(goodrecoevent && tworecojets){
+				if(goodrecoevent && (missinfo || tworecojets)){
 					// define variables
 					// reco		
 					double xjrecoforunfold = xjvar(leadrecojet_pt,sublrecojet_pt);
@@ -1121,13 +1121,13 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					float dijetetarecotypeforunfold = dijetetabin(leadrecojet_eta, sublrecojet_eta, jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut, jet_bkw_eta_min_cut, jet_bkw_eta_max_cut);
 					// ref
 					double xjrefforunfold = xjvar(leadrefjet_pt,sublrefjet_pt);
-					if(missinfo) xjrefforunfold = xjvar(leadgenjet_pt,sublgenjet_pt);
+					if(missinfo && !tworecojets) xjrefforunfold = xjvar(leadgenjet_pt,sublgenjet_pt);
 					double ptaveragerefforunfold = 0.5*(leadrefjet_pt + sublrefjet_pt);		
 					double delta_phi_ref_forunfold = fabs(deltaphi(leadrefjet_phi,sublrefjet_phi));
 					float dijetetareftypeforunfold = dijetetabin(leadrefjet_eta, sublrefjet_eta, jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut, jet_bkw_eta_min_cut, jet_bkw_eta_max_cut);
 					// ref matched with reco			
 					double xjrefmatchforunfold = xjvar(refpt[leadrecojet_index],refpt[sublrecojet_index]);
-					if(missinfo) xjrefmatchforunfold = xjvar(leadgenjet_pt,sublgenjet_pt);
+					if(missinfo && !tworecojets) xjrefmatchforunfold = xjvar(leadgenjet_pt,sublgenjet_pt);
 					double ptaveragerefmatchforunfold = 0.5*(refpt[leadrecojet_index] + refpt[sublrecojet_index]);		
 					double delta_phi_refmatch_forunfold = fabs(deltaphi(refphi[leadrecojet_index],refphi[sublrecojet_index]));
 					float dijetetarefmatchtypeforunfold = dijetetabin(leadrefmatchjet_eta, sublrefmatchjet_eta, jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut, jet_bkw_eta_min_cut, jet_bkw_eta_max_cut);
@@ -1143,7 +1143,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					// matrix reco x ref for Xj due corrections			
 					float correctionmapweight = getUnfCorrWeight(fileunfoldweight, leadrecojet_pt, sublrecojet_pt, mult, dijetetarecotypeforunfold); //do correction here
 					if(!is_MC) correctionmapweight = 1.0;
-					if(missinfo) correctionmapweight = getUnfCorrWeight(fileunfoldweight, (leadrecojet_pt-20.0), (sublrecojet_pt-20.0), mult, dijetetarecotypeforunfold); //do correction here
+					if(missinfo && !tworecojets) correctionmapweight = getUnfCorrWeight(fileunfoldweight, (leadrecojet_pt-20.0), (sublrecojet_pt-20.0), mult, dijetetarecotypeforunfold); //do correction here
 					
 					fhUnfoldingResponse_xj_mapcorrected->Fill(x_unf_meas_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight*correctionmapweight);
 					fhUnfoldingResponse_xj_mapcorrected_noevtweight->Fill(x_unf_meas_xj_response,correctionmapweight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
