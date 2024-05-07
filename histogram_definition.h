@@ -196,7 +196,7 @@ TH2D *multiplicity2D = new TH2D("multiplicity2D", "multiplicity2D", 500, 0.0, 50
 //Jet ids
 int	bins_jid_int[4]   =      { 100  , 60   , 400 ,  80};
 double xmin_jid_int[4]   =   { 0.0  , -6.0 , 0.0 ,  0.0};
-double xmax_jid_int[4]   =   { 100  ,  6.0 , 800 ,  400};
+double xmax_jid_int[4]   =   { 1.0  ,  6.0 , 800 ,  400};
 THnSparseD *jet_NHF_hist_beforeid = new THnSparseD("jet_NHF_hist_beforeid", "jet_NHF_hist_beforeid", 4, bins_jid_int, xmin_jid_int, xmax_jid_int);
 THnSparseD *jet_NHF_hist_afterid = new THnSparseD("jet_NHF_hist_afterid", "jet_NHF_hist_afterid", 4, bins_jid_int, xmin_jid_int, xmax_jid_int);
 THnSparseD *jet_NEF_hist_beforeid = new THnSparseD("jet_NEF_hist_beforeid", "jet_NEF_hist_beforeid", 4, bins_jid_int, xmin_jid_int, xmax_jid_int);
@@ -210,10 +210,10 @@ THnSparseD *jet_CEF_hist_afterid = new THnSparseD("jet_CEF_hist_afterid", "jet_C
 
 int	bins_jid_frac[4]   =      { 100  , 60   , 400 ,  80};
 double xmin_jid_frac[4]   =   { 0.0  , -6.0 , 0.0 ,  0.0};
-double xmax_jid_frac[4]   =   { 1.0  ,  6.0 , 800 ,  400};
-THnSparseD *jet_chargedmult_hist_beforeid = new THnSparseD("multiplicity_etadep_weighted", "multiplicity_etadep_weighted", 4, bins_jid_frac, xmin_jid_frac, xmax_jid_frac);
-THnSparseD *jet_neutralmult_hist_beforeid = new THnSparseD("multiplicity_etadep_weighted", "multiplicity_etadep_weighted", 4, bins_jid_frac, xmin_jid_frac, xmax_jid_frac);
-THnSparseD *jet_mult_hist_beforeid = new THnSparseD("multiplicity_etadep_weighted", "multiplicity_etadep_weighted", 4, bins_jid_frac, xmin_jid_frac, xmax_jid_frac);
+double xmax_jid_frac[4]   =   { 100.0  ,  6.0 , 800 ,  400};
+THnSparseD *jet_chargedmult_hist_beforeid = new THnSparseD("jet_chargedmult_hist_beforeid", "jet_chargedmult_hist_beforeid", 4, bins_jid_frac, xmin_jid_frac, xmax_jid_frac);
+THnSparseD *jet_neutralmult_hist_beforeid = new THnSparseD("jet_neutralmult_hist_beforeid", "jet_neutralmult_hist_beforeid", 4, bins_jid_frac, xmin_jid_frac, xmax_jid_frac);
+THnSparseD *jet_mult_hist_beforeid = new THnSparseD("jet_mult_hist_beforeid", "jet_mult_hist_beforeid", 4, bins_jid_frac, xmin_jid_frac, xmax_jid_frac);
 THnSparseD *jet_chargedmult_hist_afterid = new THnSparseD("jet_chargedmult_hist_afterid", "jet_chargedmult_hist_afterid", 4, bins_jid_frac, xmin_jid_frac, xmax_jid_frac);
 THnSparseD *jet_neutralmult_hist_afterid = new THnSparseD("jet_neutralmult_hist_afterid", "jet_neutralmult_hist_afterid", 4, bins_jid_frac, xmin_jid_frac, xmax_jid_frac);
 THnSparseD *jet_mult_hist_afterid = new THnSparseD("jet_mult_hist_afterid", "jet_mult_hist_afterid", 4, bins_jid_frac, xmin_jid_frac, xmax_jid_frac);
