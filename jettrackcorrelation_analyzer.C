@@ -581,7 +581,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
         double slrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublrefjet_pt, sublrefjet_eta);  // Jet weight (specially for MC)
 
 		bool removejetid = true;
-		if(jetidremovalindex.size() > 0) { 
+		if( ( jetid_method == 2 ||  jetid_method == 4 ) && jetidremovalindex.size() > 0) { 
 			bool leadjetid = comparevectorandindexforjetid(jetidremovalindex, leadrecojet_index);
 			bool subljetid = comparevectorandindexforjetid(jetidremovalindex, sublrecojet_index);
 			if(!leadjetid || !subljetid) removejetid = false;
@@ -1370,7 +1370,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		w_2pc_hist(is_MC, do_mixing);
 	}
 
-	if(jetid_method == 1){
+	if(jetid_method == 1 || jetid_method == 2){
 		MyFile->mkdir("JetIDVar"); 
 		MyFile->cd("JetIDVar"); 	
 		w_jetid_hist();
