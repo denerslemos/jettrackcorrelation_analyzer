@@ -355,6 +355,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	
 		int jetsize = (int)nref; // number of jets in an event
 
+		std::vector<int> jetidremovalindex;
+
 		// -> Start loop over jets
 		for (int j = 0; j < jetsize; j++){
 			
@@ -365,14 +367,13 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			if(trackMax[j]/rawpt[j] >  0) jettrackmaxptinjethisto_no0->Fill(x_trkmaxjet,event_weight);
 			if(is_MC && refpt[j] > 0) jettrackmaxptinjethisto_ref->Fill(x_trkmaxjet,event_weight);
 
-
 			// Define jet kinematics
 			float jet_rawpt = rawpt[j];
 			float jet_eta = jteta[j];
 			float jet_phi = jtphi[j];
 			float jet_mass = jtmass[j];
 			
-			if(jetid_method == 1){
+			if(jetid_method == 1 || jetid_method == 2 ){
 	 			double x_NHFbc[4]={(double)jtPfNHF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_NHF_hist_beforeid->Fill(x_NHFbc,event_weight);
 	 			double x_NEFbc[4]={(double)jtPfNEF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_NEF_hist_beforeid->Fill(x_NEFbc,event_weight);
 	 			double x_CHFbc[4]={(double)jtPfCHF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_CHF_hist_beforeid->Fill(x_CHFbc,event_weight);
@@ -383,14 +384,25 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	 			double x_Mbc[4]={(double)(jtPfCHM[j] + jtPfCEM[j] + jtPfMUM[j] + jtPfNHM[j] + jtPfNEM[j]), (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_mult_hist_beforeid->Fill(x_Mbc,event_weight);
 			}
 
-			if(jetid_method == 1){ 
+			if( jetid_method == 1 || jetid_method == 2 ){ 
 				bool isjetid = passJetIDcuts(jet_idselec, year_of_datataking, jet_eta, jtPfNHF[j], jtPfNEF[j], jtPfCHF[j], jtPfMUF[j], jtPfCEF[j], jtPfCHM[j], jtPfCEM[j], jtPfNHM[j], jtPfNEM[j], jtPfMUM[j]);
-				if(!isjetid) continue;
+				if(!isjetid) { 
+					jetidremovalindex.push_back(j); 
+					if( jetid_method == 1 ) continue; 
+				}
 			}
-			if(jetid_method == 2){ if(trackMax[j]/rawpt[j] < 0.01) continue; if(trackMax[j]/rawpt[j] > 0.98) continue; }
+			if( jetid_method == 3 || jetid_method == 4 ){ 
+				bool isjetid = true;
+				if(trackMax[j]/rawpt[j] < 0.01) isjetid = false; 
+				if(trackMax[j]/rawpt[j] > 0.98) isjetid = false; 
+				if(!isjetid) { 
+					jetidremovalindex.push_back(j); 
+					if( jetid_method == 3 ) continue; 
+				}				
+			}
 			if(trackMax[j] < trackmaxpt) continue; // Can be use to remove jets from low pT tracks
 
-			if(jetid_method == 1){
+			if(jetid_method == 1 || jetid_method == 2 ){
 	 			double x_NHFac[4]={(double)jtPfNHF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_NHF_hist_afterid->Fill(x_NHFac,event_weight);
 	 			double x_NEFac[4]={(double)jtPfNEF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_NEF_hist_afterid->Fill(x_NEFac,event_weight);
 	 			double x_CHFac[4]={(double)jtPfCHF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_CHF_hist_afterid->Fill(x_CHFac,event_weight);
@@ -568,10 +580,17 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
         double lrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadrefjet_pt, leadrefjet_eta);  // Jet weight (specially for MC)
         double slrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublrefjet_pt, sublrefjet_eta);  // Jet weight (specially for MC)
 
+		bool removejetid = true;
+		if(jetidremovalindex.size() > 0) { 
+			bool leadjetid = comparevectorandindexforjetid(jetidremovalindex, leadrecojet_index);
+			bool subljetid = comparevectorandindexforjetid(jetidremovalindex, sublrecojet_index);
+			if(!leadjetid || !subljetid) removejetid = false;
+		}
+
 		// reco dijets
 		bool tworecojets = twojetfounded(leadrecojet_pt, leading_pT_min, sublrecojet_pt, subleading_pT_min);
 		bool isrecodijets = isdijet(leadrecojet_pt, leading_pT_min, sublrecojet_pt, subleading_pT_min, leadrecojet_phi, sublrecojet_phi, leading_subleading_deltaphi_min, xjmin, xjmax, Ajmin, Ajmax);
-		bool goodrecoevent = (leadrecojet_pt > 0.0 && sublrecojet_pt > 0.0 && !removethirdjet && !removefourjet);
+		bool goodrecoevent = (leadrecojet_pt > 0.0 && sublrecojet_pt > 0.0 && !removethirdjet && !removefourjet && removejetid);
 
 		// for reco jets
 		double leadrecojet_eta_lab = leadrecojet_eta;  // before boost for eta dijet
@@ -776,7 +795,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 		bool tworefjets = twojetfounded(leadrefjet_pt, leading_pT_min, sublrefjet_pt, subleading_pT_min);
 		bool isrefdijets = isdijet(leadrefjet_pt, leading_pT_min, sublrefjet_pt, subleading_pT_min, leadrefjet_phi, sublrefjet_phi, leading_subleading_deltaphi_min, xjmin, xjmax, Ajmin, Ajmax);
-		bool goodrefevent = (is_MC && leadrefjet_pt > 0.0 && sublrefjet_pt > 0.0 && !removethirdjet_ref && !removefourjet_ref);
+		bool goodrefevent = (is_MC && leadrefjet_pt > 0.0 && sublrefjet_pt > 0.0 && !removethirdjet_ref && !removefourjet_ref && removejetid);
 
 		if(goodrefevent){
 			//leading/subleading pT cuts
@@ -1110,9 +1129,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			if(do_dijetstudies){
 			
 				bool missinfo = false;
-				if( (leadrecojet_pt > (leading_pT_min - 20.0) && leadrecojet_pt <= leading_pT_min) && (sublrecojet_pt > (subleading_pT_min - 20.0) && sublrecojet_pt <= subleading_pT_min) && twogenjets) missinfo = true;
+				//if( (leadrecojet_pt > (leading_pT_min - 20.0) && leadrecojet_pt <= leading_pT_min) && (sublrecojet_pt > (subleading_pT_min - 20.0) && sublrecojet_pt <= subleading_pT_min) && twogenjets) missinfo = true;
 			
-				if(goodrecoevent && (missinfo || tworecojets)){
+				if(goodrecoevent && (missinfo || tworecojets) && removejetid){
 					// define variables
 					// reco		
 					double xjrecoforunfold = xjvar(leadrecojet_pt,sublrecojet_pt);

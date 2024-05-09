@@ -44,6 +44,10 @@ bool passJetIDcuts(TString jetidsys, int yearofdatataking, float jet_eta, float 
 }
 
 
+bool comparevectorandindexforjetid(const std::vector<int>& vec, int number) {
+    return std::find(vec.begin(), vec.end(), number) == vec.end();
+}
+
 /*
 Find Ntrk offline -> updated for all systems (and easy to update for future systems)
 The Ntrk offline is a definition with specific cuts (we should not change it). The track systematics must be applied using the input_variables.h!
