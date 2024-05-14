@@ -44,7 +44,7 @@ bool passJetIDcuts(TString jetidsys, int yearofdatataking, float jet_eta, float 
 }
 
 
-bool comparevectorandindexforjetid(const std::vector<int>& vec, int number) {
+bool comparevectorandindexforjetid(const std::vector<int> vec, int number) {
     return std::find(vec.begin(), vec.end(), number) == vec.end();
 }
 

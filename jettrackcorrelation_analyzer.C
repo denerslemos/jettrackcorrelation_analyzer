@@ -372,7 +372,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			float jet_eta = jteta[j];
 			float jet_phi = jtphi[j];
 			float jet_mass = jtmass[j];
-			
+			/*
 			if(jetid_method == 1 || jetid_method == 2 ){
 	 			double x_NHFbc[4]={(double)jtPfNHF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_NHF_hist_beforeid->Fill(x_NHFbc,event_weight);
 	 			double x_NEFbc[4]={(double)jtPfNEF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_NEF_hist_beforeid->Fill(x_NEFbc,event_weight);
@@ -383,7 +383,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	 			double x_NMbc[4]={(double)(jtPfNHM[j] + jtPfNEM[j]), (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_neutralmult_hist_beforeid->Fill(x_NMbc,event_weight);
 	 			double x_Mbc[4]={(double)(jtPfCHM[j] + jtPfCEM[j] + jtPfMUM[j] + jtPfNHM[j] + jtPfNEM[j]), (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_mult_hist_beforeid->Fill(x_Mbc,event_weight);
 			}
-
+			*/
 			if( jetid_method == 1 || jetid_method == 2 ){ 
 				bool isjetid = passJetIDcuts(jet_idselec, year_of_datataking, jet_eta, jtPfNHF[j], jtPfNEF[j], jtPfCHF[j], jtPfMUF[j], jtPfCEF[j], jtPfCHM[j], jtPfCEM[j], jtPfNHM[j], jtPfNEM[j], jtPfMUM[j]);
 				if(!isjetid) { 
@@ -401,7 +401,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				}				
 			}
 			if(trackMax[j] < trackmaxpt) continue; // Can be use to remove jets from low pT tracks
-
+			/*
 			if(jetid_method == 1 || jetid_method == 2 ){
 	 			double x_NHFac[4]={(double)jtPfNHF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_NHF_hist_afterid->Fill(x_NHFac,event_weight);
 	 			double x_NEFac[4]={(double)jtPfNEF[j], (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_NEF_hist_afterid->Fill(x_NEFac,event_weight);
@@ -412,7 +412,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	 			double x_NMac[4]={(double)(jtPfNHM[j] + jtPfNEM[j]), (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_neutralmult_hist_afterid->Fill(x_NMac,event_weight);
 	 			double x_Mac[4]={(double)(jtPfCHM[j] + jtPfCEM[j] + jtPfMUM[j] + jtPfNHM[j] + jtPfNEM[j]), (double) jet_eta, (double) jet_rawpt,(double) multcentbin}; jet_mult_hist_afterid->Fill(x_Mac,event_weight);
 			}
-
+			*/
 			// UE subtraction
  			double UE = GetUE(etamin, etamax, rho, jet_eta, JetR);
  			double AverageRho = UE / (JetR * JetR * TMath::Pi());
@@ -584,7 +584,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if( ( jetid_method == 2 ||  jetid_method == 4 ) && jetidremovalindex.size() > 0) { 
 			bool leadjetid = comparevectorandindexforjetid(jetidremovalindex, leadrecojet_index);
 			bool subljetid = comparevectorandindexforjetid(jetidremovalindex, sublrecojet_index);
-			if(!leadjetid || !subljetid) removejetid = false;
+			if(!leadjetid) removejetid = false;
+			if(!subljetid) removejetid = false;
 		}
 
 		// reco dijets
@@ -1369,13 +1370,13 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		MyFile->cd("TwoPC_histograms");  
 		w_2pc_hist(is_MC, do_mixing);
 	}
-
+	/*
 	if(jetid_method == 1 || jetid_method == 2){
 		MyFile->mkdir("JetIDVar"); 
 		MyFile->cd("JetIDVar"); 	
 		w_jetid_hist();
 	}
-
+	*/
 	if(is_MC && do_dijetstudies){
 	
 		MyFile->mkdir("Unfolding"); 

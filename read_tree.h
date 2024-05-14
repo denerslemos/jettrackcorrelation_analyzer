@@ -279,7 +279,7 @@ void read_tree(TChain *tree, bool is_MC, bool use_WTA, TString jet_trigger, TStr
         tree->SetBranchAddress("jtphi", &jtphi);
     }
 
-    if(jetidmethod == 1){
+	if(jetidmethod == 1 || jetidmethod == 2){
         tree->SetBranchStatus("jtPfNHF", 1);
       	tree->SetBranchAddress("jtPfNHF", &jtPfNHF);    
       	tree->SetBranchStatus("jtPfNEF", 1);
