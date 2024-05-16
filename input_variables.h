@@ -59,13 +59,14 @@ const bool use_WTA = false; // use WTA or E-Scheme axis
 const float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation only
 const float leading_pT_min = 100.0; //used for jet leading and subleading correlation and jet quenching analysis
 const float subleading_pT_min = 50.0; //used for jet leading and subleading correlation and jet quenching analysis
-const float dijetetamax = 3.0; // maximum dijet eta
 const float trackmaxpt = 0.0; // maximum track pT inside of a jet
 /*
 Methods:
 0 --> do not remove nothing
-1 --> use jet id cuts defined bellow
-2 --> use standard PbPb cuts (0.01 < TrkMax / RawpT < 0.98)
+1 --> use jet id cuts from pp
+2 --> use jet id cuts from pp, but remove entire event
+3 --> use standard PbPb cuts (0.01 < TrkMax / RawpT < 0.98)
+4 --> use standard PbPb cuts (0.01 < TrkMax / RawpT < 0.98), but remove entire event
 */
 const int jetid_method = 2; 
 TString jet_idselec = "TightLepVeto"; // jet id selection: nominal is TightLepVeto, syst: Tight and Loose
@@ -104,7 +105,7 @@ const TString fwdbkw_jettrk_option = "mid_mid"; // midrapidity + midrapidity
 const float jet_fwd_eta_min_cut = 1.2; // jet fwd min eta cut 
 const float jet_fwd_eta_max_cut = 2.4; // jet fwd  min eta cut 
 const float jet_bkw_eta_min_cut = -3.3; // jet fwd min eta cut 
-const float jet_bkw_eta_max_cut = -2.1; // jet fwd  min eta cut 
+const float jet_bkw_eta_max_cut = -1.2; // jet fwd  min eta cut 
 
 // Unfolding
 const bool dataweightcorrection = false; // jet weighting of MC for unfolding --> true means use data weighted MC to matrix

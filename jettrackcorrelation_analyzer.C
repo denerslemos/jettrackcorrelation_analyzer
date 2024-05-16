@@ -1008,7 +1008,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			double gsljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublgenjet_pt, sublgenjet_eta); // Jet weight (specially for MC)
 			bool twogenjets = twojetfounded(leadgenjet_pt, leading_pT_min, sublgenjet_pt, subleading_pT_min);
 			bool isgendijets = isdijet(leadgenjet_pt, leading_pT_min, sublgenjet_pt, subleading_pT_min, leadgenjet_phi, sublgenjet_phi, leading_subleading_deltaphi_min, xjmin, xjmax, Ajmin, Ajmax);
-			bool goodgenevent = (leadgenjet_pt > 0.0 && sublgenjet_pt > 0.0 && !removethirdjet_gen && !removefourjet_gen);
+			bool goodgenevent = (leadgenjet_pt > 0.0 && sublgenjet_pt > 0.0 && !removethirdjet_gen && !removefourjet_gen && removejetid);
 
 			double leadgenjet_eta_lab = leadgenjet_eta; // before boost for eta dijet
 			double sublgenjet_eta_lab = sublgenjet_eta; // before boost for eta dijet
