@@ -1007,9 +1007,9 @@ void fillxjEPhistograms_nofake(double Xj, double delta_phi, float jet_phi, doubl
 
 }
 
-bool twojetfounded(float leadjet_pt, float lead_pT_min, float subljet_pt, float subl_pT_min){
+bool twojetfounded(float leadjet_pt, float lead_pT_min, float jetptmax, float subljet_pt, float subl_pT_min){
 	bool twojets = false;
-	if(leadjet_pt > lead_pT_min && subljet_pt > subl_pT_min) twojets = true; 
+	if(leadjet_pt > lead_pT_min && leadjet_pt < jetptmax && subljet_pt > subl_pT_min && subljet_pt < leadjet_pt) twojets = true; 
 	return twojets;
 }
 

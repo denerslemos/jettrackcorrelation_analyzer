@@ -464,7 +464,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			}
 			float jet_flavor = (float) refpartonfromB;
 			int jet_index = (int) j;
-			if(jet_pt_corr > jet_pt_max_cut) continue;
 
 			//leading and subleading
 			find_leading_subleading_third(jet_pt_corr,jet_eta,jet_phi,jet_mass,jet_flavor,jet_index,leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,leadrecojet_mass,leadrecojet_flavor,leadrecojet_index,sublrecojet_pt,sublrecojet_eta,sublrecojet_phi,sublrecojet_mass,sublrecojet_flavor,sublrecojet_index,thirdrecojet_pt,thirdrecojet_eta,thirdrecojet_phi,thirdrecojet_mass,thirdrecojet_flavor,thirdrecojet_index,fourthrecojet_pt); // Find leading and subleading jets
@@ -589,7 +588,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		}
 
 		// reco dijets
-		bool tworecojets = twojetfounded(leadrecojet_pt, leading_pT_min, sublrecojet_pt, subleading_pT_min);
+		bool tworecojets = twojetfounded(leadrecojet_pt, leading_pT_min, jet_pt_max_cut, sublrecojet_pt, subleading_pT_min);
 		bool isrecodijets = isdijet(leadrecojet_pt, leading_pT_min, sublrecojet_pt, subleading_pT_min, leadrecojet_phi, sublrecojet_phi, leading_subleading_deltaphi_min, xjmin, xjmax, Ajmin, Ajmax);
 		bool goodrecoevent = (leadrecojet_pt > 0.0 && sublrecojet_pt > 0.0 && !removethirdjet && !removefourjet && removejetid);
 
@@ -794,7 +793,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if(do_fourjet_removal == 4 && fourthrefjet_pt > 0.0){ if( fabs(fourthrefjet_pt-thirdrefjet_pt) > 25.0 ) removefourjet_ref = true; } 
 		if(do_fourjet_removal == 5 && fourthrefjet_pt > 0.0){ if( fabs(fourthrefjet_pt-thirdrefjet_pt) > subleading_pT_min ) removefourjet_ref = true; } 
 
-		bool tworefjets = twojetfounded(leadrefjet_pt, leading_pT_min, sublrefjet_pt, subleading_pT_min);
+		bool tworefjets = twojetfounded(leadrefjet_pt, leading_pT_min, jet_pt_max_cut, sublrefjet_pt, subleading_pT_min);
 		bool isrefdijets = isdijet(leadrefjet_pt, leading_pT_min, sublrefjet_pt, subleading_pT_min, leadrefjet_phi, sublrefjet_phi, leading_subleading_deltaphi_min, xjmin, xjmax, Ajmin, Ajmax);
 		bool goodrefevent = (is_MC && leadrefjet_pt > 0.0 && sublrefjet_pt > 0.0 && !removethirdjet_ref && !removefourjet_ref && removejetid);
 
@@ -955,7 +954,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				float gjet_flavor = 0.0;
 				
 				int jet_index_gen = (int) j;
-				if(gjet_eta > jet_pt_max_cut) continue;
 
 				find_leading_subleading_third(gjet_pt,gjet_eta,gjet_phi,gjet_mass,gjet_flavor,jet_index_gen,leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,leadgenjet_mass,leadgenjet_flavor,leadgenjet_index,sublgenjet_pt,sublgenjet_eta,sublgenjet_phi,sublgenjet_mass,sublgenjet_flavor,sublgenjet_index,thirdgenjet_pt,thirdgenjet_eta,thirdgenjet_phi,thirdgenjet_mass,thirdgenjet_flavor,thirdgenjet_index, fourthgenjet_pt); // Find leading and subleading jets
 				gjet_eta = gjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
@@ -1006,7 +1004,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			// weights and dijets
 			double gljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadgenjet_pt, leadgenjet_eta); // Jet weight (specially for MC)
 			double gsljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublgenjet_pt, sublgenjet_eta); // Jet weight (specially for MC)
-			bool twogenjets = twojetfounded(leadgenjet_pt, leading_pT_min, sublgenjet_pt, subleading_pT_min);
+			bool twogenjets = twojetfounded(leadgenjet_pt, leading_pT_min, jet_pt_max_cut, sublgenjet_pt, subleading_pT_min);
 			bool isgendijets = isdijet(leadgenjet_pt, leading_pT_min, sublgenjet_pt, subleading_pT_min, leadgenjet_phi, sublgenjet_phi, leading_subleading_deltaphi_min, xjmin, xjmax, Ajmin, Ajmax);
 			bool goodgenevent = (leadgenjet_pt > 0.0 && sublgenjet_pt > 0.0 && !removethirdjet_gen && !removefourjet_gen && removejetid);
 

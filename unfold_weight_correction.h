@@ -4,8 +4,8 @@
 // pT and eta are the transverse momentum and pseudorapidity of the track (considering a 2D histogram where X is eta axis and Y pT axis)
 double getUnfCorrWeight(TFile *unffile, float leadpt, float subleadpt, int multiplicity, float etaregion){
 
-  if(leadpt > 1999.) leadpt = 1999.;
-  if(subleadpt > 1999.) subleadpt = 1999.;
+  if(leadpt > 799.) leadpt = 799.;
+  if(subleadpt > 799.) subleadpt = 799.;
 
   double factor = 1.0;
   double eff = 1.0;
