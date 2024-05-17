@@ -589,7 +589,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 		// reco dijets
 		bool tworecojets = twojetfounded(leadrecojet_pt, leading_pT_min, jet_pt_max_cut, sublrecojet_pt, subleading_pT_min);
-		bool isrecodijets = isdijet(leadrecojet_pt, leading_pT_min, sublrecojet_pt, subleading_pT_min, leadrecojet_phi, sublrecojet_phi, leading_subleading_deltaphi_min, xjmin, xjmax, Ajmin, Ajmax);
+		bool isrecodijets = isdijet(leadrecojet_pt, leading_pT_min, jet_pt_max_cut, sublrecojet_pt, subleading_pT_min, leadrecojet_phi, sublrecojet_phi, leading_subleading_deltaphi_min, xjmin, xjmax, Ajmin, Ajmax);
 		bool goodrecoevent = (leadrecojet_pt > 0.0 && sublrecojet_pt > 0.0 && !removethirdjet && !removefourjet && removejetid);
 
 		// for reco jets
@@ -794,7 +794,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if(do_fourjet_removal == 5 && fourthrefjet_pt > 0.0){ if( fabs(fourthrefjet_pt-thirdrefjet_pt) > subleading_pT_min ) removefourjet_ref = true; } 
 
 		bool tworefjets = twojetfounded(leadrefjet_pt, leading_pT_min, jet_pt_max_cut, sublrefjet_pt, subleading_pT_min);
-		bool isrefdijets = isdijet(leadrefjet_pt, leading_pT_min, sublrefjet_pt, subleading_pT_min, leadrefjet_phi, sublrefjet_phi, leading_subleading_deltaphi_min, xjmin, xjmax, Ajmin, Ajmax);
+		bool isrefdijets = isdijet(leadrefjet_pt, leading_pT_min, jet_pt_max_cut, sublrefjet_pt, subleading_pT_min, leadrefjet_phi, sublrefjet_phi, leading_subleading_deltaphi_min, xjmin, xjmax, Ajmin, Ajmax);
 		bool goodrefevent = (is_MC && leadrefjet_pt > 0.0 && sublrefjet_pt > 0.0 && !removethirdjet_ref && !removefourjet_ref && removejetid);
 
 		if(goodrefevent){
@@ -1005,7 +1005,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			double gljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, leadgenjet_pt, leadgenjet_eta); // Jet weight (specially for MC)
 			double gsljet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, sublgenjet_pt, sublgenjet_eta); // Jet weight (specially for MC)
 			bool twogenjets = twojetfounded(leadgenjet_pt, leading_pT_min, jet_pt_max_cut, sublgenjet_pt, subleading_pT_min);
-			bool isgendijets = isdijet(leadgenjet_pt, leading_pT_min, sublgenjet_pt, subleading_pT_min, leadgenjet_phi, sublgenjet_phi, leading_subleading_deltaphi_min, xjmin, xjmax, Ajmin, Ajmax);
+			bool isgendijets = isdijet(leadgenjet_pt, leading_pT_min, jet_pt_max_cut, sublgenjet_pt, subleading_pT_min, leadgenjet_phi, sublgenjet_phi, leading_subleading_deltaphi_min, xjmin, xjmax, Ajmin, Ajmax);
 			bool goodgenevent = (leadgenjet_pt > 0.0 && sublgenjet_pt > 0.0 && !removethirdjet_gen && !removefourjet_gen && removejetid);
 
 			double leadgenjet_eta_lab = leadgenjet_eta; // before boost for eta dijet

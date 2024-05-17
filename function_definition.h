@@ -1013,9 +1013,9 @@ bool twojetfounded(float leadjet_pt, float lead_pT_min, float jetptmax, float su
 	return twojets;
 }
 
-bool isdijet(float leadjet_pt, float lead_pT_min, float subljet_pt, float subl_pT_min, float leadjet_phi, float subljet_phi, float lead_subl_deltaphi_min, float xjmin, float xjmax, float Ajmin, float Ajmax){
+bool isdijet(float leadjet_pt, float lead_pT_min, float jetptmax, float subljet_pt, float subl_pT_min, float leadjet_phi, float subljet_phi, float lead_subl_deltaphi_min, float xjmin, float xjmax, float Ajmin, float Ajmax){
 	bool dijets = false;
-	bool twojet = twojetfounded(leadjet_pt, lead_pT_min, subljet_pt, subl_pT_min);
+	bool twojet = twojetfounded(leadjet_pt, lead_pT_min, jetptmax, subljet_pt, subl_pT_min);
 	float delta_phi = deltaphi(leadjet_phi, subljet_phi);
 	float Aj = asymmetry(leadjet_pt,subljet_pt);
 	float Xj = xjvar(leadjet_pt,subljet_pt);
