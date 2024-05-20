@@ -1036,6 +1036,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double x_gen[9]={Xj_gen,Aj_gen,delta_phi_gen,(double)multcentbin,(double)ptdijetbingen,(double)extrabin,(double)leadgenjet_pt,(double)sublgenjet_pt, (double) dijetetagentype}; 
 						hist_gen_lead_gen_subl_quench_unweighted->Fill(x_gen);
 						hist_gen_lead_gen_subl_quench->Fill(x_gen,event_weight*gljet_weight*gsljet_weight);
+						float correctionmapweightgen = getUnfCorrWeight(fileunfoldweight, leadgenjet_pt, sublgenjet_pt, mult, dijetetagentype);//do correction here
+						if(!is_MC) correctionmapweightgen = 1.0;
+						hist_gen_lead_gen_subl_quench_checkmapcorrection->Fill(x_gen, correctionmapweightgen*gljet_weight*gsljet_weight);
 						filletadijethistograms( (double) sqrts, leadgenjet_eta_lab, sublgenjet_eta_lab, leadgenjet_eta, sublgenjet_eta, leadgenjet_pt, leadgenjet_phi, leadgenjet_mass, sublgenjet_pt, sublgenjet_phi, sublgenjet_mass, (double)multcentbin, (double)extrabin, (double) event_weight*gljet_weight*gsljet_weight, hist_etaDijet_gen, hist_etaDijet_CM_gen, hist_yDijet_CM_gen );
 						if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_nofake(Xj_gen, delta_phi_gen, leadgenjet_phi, (double) multcentbin, (double)extrabin, (double)ptdijetbingen, (double) dijetetagentype, event_weight*gljet_weight*gsljet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_gen_leadEP_quench_plus, hist_gen_leadEP_quench_minus);
 						if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_nofake(Xj_gen, delta_phi_gen, sublgenjet_phi, (double) multcentbin, (double)extrabin, (double)ptdijetbingen, (double) dijetetagentype, event_weight*gljet_weight*gsljet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_gen_sublEP_quench_plus, hist_gen_sublEP_quench_minus);
