@@ -137,6 +137,8 @@ double getUnfCorrWeight(TFile *unffile, float leadpt, float subleadpt, int multi
 	  }
   }
 
+  eff = 1./eff;
+
   if(eff > 1.0e-20) { factor = eff; } else {factor = 1.0;}
 
   return factor;
