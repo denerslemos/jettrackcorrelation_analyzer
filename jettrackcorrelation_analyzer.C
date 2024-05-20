@@ -46,7 +46,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	jet_axis += Form("_meth%i_",jetid_method);
 	jet_axis += Form("3rdm%i_c%.1f_",thirdjet_removal_method,thirdjet_removal_cut);
 	jet_axis += Form("rem4thjet%i_",do_fourjet_removal);
-	if(dataweightcorrection){jet_axis += "DTw_";}else{jet_axis += "MCw_";}
+	if(!is_MC){jet_axis += "DTw_";}else{jet_axis += "MCw_";}
 	TString smear;
 	if(do_jeu_down && !do_jeu_up){smear += "_jeudown_";}else if(!do_jeu_down && do_jeu_up){smear += "_jeuup_";}
 	if(do_jer_down && !do_jer_up){smear += "_jerdown_";}else if(!do_jer_down && do_jer_up){smear += "_jerup_";}
@@ -85,7 +85,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 	// Weight correction for unfold
 	TFile *fileunfoldweight;
-	if(dataweightcorrection){fileunfoldweight = TFile::Open(Form("aux_files/%s_%i/Unfolding/weighthistosData.root",colliding_system.Data(),sNN_energy_GeV));}else{fileunfoldweight = TFile::Open(Form("aux_files/%s_%i/Unfolding/weighthistosMC.root",colliding_system.Data(),sNN_energy_GeV));}
+	if(!is_MC){fileunfoldweight = TFile::Open(Form("aux_files/%s_%i/Unfolding/weighthistosData.root",colliding_system.Data(),sNN_energy_GeV));}else{fileunfoldweight = TFile::Open(Form("aux_files/%s_%i/Unfolding/weighthistosMC.root",colliding_system.Data(),sNN_energy_GeV));}
 
 	cout << endl;
 	
