@@ -137,6 +137,8 @@ double getUnfCorrWeight(TFile *unffile, float leadpt, float subleadpt, int multi
 	  }
   }
 
+  factor = eff;
+  
   return factor;
 
 }
