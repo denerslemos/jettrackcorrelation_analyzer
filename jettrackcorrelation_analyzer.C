@@ -163,13 +163,15 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	double nev = (double)nevents;
 	for(int i = 0; i < nevents; i++){
 		
-		bool splitremoval = false;
-		if( (i % 2 != 0) && (splitMCsample == 1) ) { splitremoval = true; } else if ( (i % 2 == 0) && (splitMCsample == 2) ) { splitremoval = true; }
-		if(is_MC && splitremoval) continue;
 
 		hlt_tree->GetEntry(i);
 		if(i != 0 && (i % 10000) == 0){double alpha = (double)i; cout << " Running -> percentage: " << std::setprecision(3) << ((alpha / nev) * 100) << "%" << endl;} // % processed
 		if(do_quicktest) if(i != 0 && i % 20000 == 0 ) break; // just for quick tests
+
+		bool splitremoval = false;
+		if( (i % 2 != 0) && (splitMCsample == 1) ) { splitremoval = true; } else if ( (i % 2 == 0) && (splitMCsample == 2) ) { splitremoval = true; }
+		if(is_MC && splitremoval) continue;
+
 		Nevents->Fill(0); // filled after each event cut
 
 		// Booleans to remove events which does not pass the Aj or Xj selection
