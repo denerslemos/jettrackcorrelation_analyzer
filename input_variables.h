@@ -82,6 +82,22 @@ const int thirdjet_removal_method = 0;
 const float thirdjet_removal_cut = 0.0; // this cut will be applied depending on the method above 
 
 /*
+pt1 vs p22 reco weight for unfolding
+--> false for MC correction
+--> true for data corrections 
+*/
+const bool dodataweightpt1pt2 = false;
+
+/*
+split MC sample for MC studies of unfolding
+0 --> no splitting
+1 --> only get odd events
+2 --> only get even events
+*/
+const int splitMCsample = 0;
+
+
+/*
 Methods:
 0 --> do no apply 4rd jet removal; 
 1 --> if 3 + 4 > 2 discard the event;

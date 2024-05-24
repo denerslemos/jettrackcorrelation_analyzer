@@ -499,9 +499,9 @@ THnSparseD *hist_subl_jet_from_gen_reco_mix = new THnSparseD("hist_subl_jet_from
 THnSparseD *hist_subl_jet_from_gen_gen_mix = new THnSparseD("hist_subl_jet_from_gen_gen_mix", "hist_subl_jet_from_gen_gen_mix", 5, bins_jet, xmin_jet, xmax_jet);
 
 // Jet Energy Scale (JES) and Jet Energy Resolution (JER)
-int	bins_jes[6]   =      { 200  ,  80    ,  60  ,  8, multbinsize-1          					 , extrabinsize-1};
+int	bins_jes[6]   =      { 200  ,  80    ,  60  ,  10, multbinsize-1          					 , extrabinsize-1};
 double xmin_jes[6]   =   { 0.0  ,  0     , -6.0 ,  0, multiplicity_centrality_bins[0]             , extra_bins[0]};
-double xmax_jes[6]   =   { 5.0  ,  800.0 ,  6.0 ,  8, multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
+double xmax_jes[6]   =   { 5.0  ,  800.0 ,  6.0 ,  10, multiplicity_centrality_bins[multbinsize-1] , extra_bins[extrabinsize-1]};
 THnSparseD *hist_jes_reco_weighted = new THnSparseD("hist_jes_reco_weighted", "hist_jes_reco_weighted", 6, bins_jes, xmin_jes, xmax_jes);
 THnSparseD *hist_jes_reco_fromB_weighted = new THnSparseD("hist_jes_reco_fromB_weighted", "hist_jes_reco_fromB_weighted", 6, bins_jes, xmin_jes, xmax_jes);
 THnSparseD *hist_leadjes_reco_weighted = new THnSparseD("hist_leadjes_reco_weighted", "hist_leadjes_reco_weighted", 6, bins_jes, xmin_jes, xmax_jes);

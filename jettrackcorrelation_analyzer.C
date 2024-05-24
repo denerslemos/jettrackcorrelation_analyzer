@@ -46,7 +46,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	jet_axis += Form("_meth%i_",jetid_method);
 	jet_axis += Form("3rdm%i_c%.1f_",thirdjet_removal_method,thirdjet_removal_cut);
 	jet_axis += Form("rem4thjet%i_",do_fourjet_removal);
-	if(!is_MC){jet_axis += "DTw_";}else{jet_axis += "MCw_";}
+	jet_axis += Form("splt%i_",splitMCsample);
+	if(dodataweightpt1pt2){jet_axis += "DTw_";}else{jet_axis += "MCw_";}
 	TString smear;
 	if(do_jeu_down && !do_jeu_up){smear += "_jeudown_";}else if(!do_jeu_down && do_jeu_up){smear += "_jeuup_";}
 	if(do_jer_down && !do_jer_up){smear += "_jerdown_";}else if(!do_jer_down && do_jer_up){smear += "_jerup_";}
@@ -85,7 +86,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 	// Weight correction for unfold
 	TFile *fileunfoldweight;
-	if(!is_MC){fileunfoldweight = TFile::Open(Form("aux_files/%s_%i/Unfolding/weighthistosData.root",colliding_system.Data(),sNN_energy_GeV));}else{fileunfoldweight = TFile::Open(Form("aux_files/%s_%i/Unfolding/weighthistosMC.root",colliding_system.Data(),sNN_energy_GeV));}
+	if(dodataweightpt1pt2){fileunfoldweight = TFile::Open(Form("aux_files/%s_%i/Unfolding/weighthistosData.root",colliding_system.Data(),sNN_energy_GeV));}else{fileunfoldweight = TFile::Open(Form("aux_files/%s_%i/Unfolding/weighthistosMC.root",colliding_system.Data(),sNN_energy_GeV));}
 
 	cout << endl;
 	
@@ -161,6 +162,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	// Start loop over events
 	double nev = (double)nevents;
 	for(int i = 0; i < nevents; i++){
+		
+		bool splitremoval = false;
+		if( (i % 2 != 0) && (splitMCsample == 1) ) { splitremoval = true; } else if ( (i % 2 == 0) && (splitMCsample == 2) ) { splitremoval = true; }
+		if(is_MC && splitremoval) continue;
 
 		hlt_tree->GetEntry(i);
 		if(i != 0 && (i % 10000) == 0){double alpha = (double)i; cout << " Running -> percentage: " << std::setprecision(3) << ((alpha / nev) * 100) << "%" << endl;} // % processed
@@ -361,7 +366,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		for (int j = 0; j < jetsize; j++){
 			
 			// control selections and plots
-			if(fabs(jteta[j]) > 5.1) continue;
+			//if(fabs(jteta[j]) > 5.1) continue;
 			double x_trkmaxjet[3]={trackMax[j]/rawpt[j], rawpt[j], (double) multcentbin}; 
 			if(trackMax[j]/rawpt[j] >= 0) jettrackmaxptinjethisto->Fill(x_trkmaxjet,event_weight);
 			if(trackMax[j]/rawpt[j] >  0) jettrackmaxptinjethisto_no0->Fill(x_trkmaxjet,event_weight);
@@ -751,7 +756,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double x2D_hiHFEta4Sum_dijet[2]={hfplusEta4+hfminusEta4,(double) mult}; hfhistEta4Sum_dijet_weighted->Fill(x2D_hiHFEta4Sum_dijet,event_weight);
 					}
 
-					if(is_MC && leadrecojet_index < 999 && sublrecojet_index < 999 && refpt[leadrecojet_index] > 0.0 && refpt[sublrecojet_index] > 0.0){
+					if(is_MC && refpt[leadrecojet_index] > 0.0 && refpt[sublrecojet_index] > 0.0){
 
 						// add CM etas here!
 						double ref_eta_lead = (double)leadrefmatchjet_eta;  
@@ -1131,9 +1136,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			if(do_dijetstudies){
 			
 				bool missinfo = false;
-				//if( (leadrecojet_pt > (leading_pT_min - 20.0) && leadrecojet_pt <= leading_pT_min) && (sublrecojet_pt > (subleading_pT_min - 20.0) && sublrecojet_pt <= subleading_pT_min) && twogenjets) missinfo = true;
 			
-				if(goodrecoevent && (missinfo || tworecojets) && removejetid){
+				if(goodrecoevent && tworecojets && removejetid){
 					// define variables
 					// reco		
 					double xjrecoforunfold = xjvar(leadrecojet_pt,sublrecojet_pt);
@@ -1142,13 +1146,11 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					float dijetetarecotypeforunfold = dijetetabin(leadrecojet_eta, sublrecojet_eta, jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut, jet_bkw_eta_min_cut, jet_bkw_eta_max_cut);
 					// ref
 					double xjrefforunfold = xjvar(leadrefjet_pt,sublrefjet_pt);
-					if(missinfo && !tworecojets) xjrefforunfold = xjvar(leadgenjet_pt,sublgenjet_pt);
 					double ptaveragerefforunfold = 0.5*(leadrefjet_pt + sublrefjet_pt);		
 					double delta_phi_ref_forunfold = fabs(deltaphi(leadrefjet_phi,sublrefjet_phi));
 					float dijetetareftypeforunfold = dijetetabin(leadrefjet_eta, sublrefjet_eta, jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut, jet_bkw_eta_min_cut, jet_bkw_eta_max_cut);
 					// ref matched with reco			
 					double xjrefmatchforunfold = xjvar(refpt[leadrecojet_index],refpt[sublrecojet_index]);
-					if(missinfo && !tworecojets) xjrefmatchforunfold = xjvar(leadgenjet_pt,sublgenjet_pt);
 					double ptaveragerefmatchforunfold = 0.5*(refpt[leadrecojet_index] + refpt[sublrecojet_index]);		
 					double delta_phi_refmatch_forunfold = fabs(deltaphi(refphi[leadrecojet_index],refphi[sublrecojet_index]));
 					float dijetetarefmatchtypeforunfold = dijetetabin(leadrefmatchjet_eta, sublrefmatchjet_eta, jet_eta_min_cut, jet_eta_max_cut, jet_fwd_eta_min_cut, jet_fwd_eta_max_cut, jet_bkw_eta_min_cut, jet_bkw_eta_max_cut);
@@ -1164,7 +1166,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					// matrix reco x ref for Xj due corrections			
 					float correctionmapweight = getUnfCorrWeight(fileunfoldweight, leadrecojet_pt, sublrecojet_pt, mult, dijetetarecotypeforunfold); //do correction here
 					if(!is_MC) correctionmapweight = 1.0;
-					if(missinfo && !tworecojets) correctionmapweight = getUnfCorrWeight(fileunfoldweight, (leadrecojet_pt-20.0), (sublrecojet_pt-20.0), mult, dijetetarecotypeforunfold); //do correction here
 					
 					fhUnfoldingResponse_xj_mapcorrected->Fill(x_unf_meas_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight*correctionmapweight);
 					fhUnfoldingResponse_xj_mapcorrected_noevtweight->Fill(x_unf_meas_xj_response,correctionmapweight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
