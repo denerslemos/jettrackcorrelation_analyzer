@@ -47,6 +47,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	jet_axis += Form("3rdm%i_c%.1f_",thirdjet_removal_method,thirdjet_removal_cut);
 	jet_axis += Form("rem4thjet%i_",do_fourjet_removal);
 	jet_axis += Form("splt%i_",splitMCsample);
+	if(doJESCorrection) jet_axis += "JESCorr_";
+
 	if(dodataweightpt1pt2){jet_axis += "DTw_";}else{jet_axis += "MCw_";}
 	TString smear;
 	if(do_jeu_down && !do_jeu_up){smear += "_jeudown_";}else if(!do_jeu_down && do_jeu_up){smear += "_jeuup_";}
@@ -73,9 +75,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	if(!do_jer_up && !do_jer_down) filejersys->GetObject("JERnominal", resolution_histo);
 	if(do_jer_up && !do_jer_down) filejersys->GetObject("JERup", resolution_histo);
 	if(!do_jer_up && do_jer_down) filejersys->GetObject("JERdown", resolution_histo);
-	TF1* JetSmear = new TF1("JetSmear","sqrt([0]*[0] + [1]*[1]/x + [2]*[2]/(x*x))",30,800);
+	TF1* JetSmear = new TF1("JetSmear","sqrt([0]*[0] + [1]*[1]/x + [2]*[2]/(x*x))", 30.0, 800.0);
 	JetSmear->SetParameters(4.25985e-02, 9.51054e-01, 0.0); // fitted from JER
-	TF1* JetScaleCorrection = new TF1("JetScaleCorrection","[3] + ([0]-[3]) / ( 1.0 + pow( x/[2],[1] ) )",30,800);
+	TF1* JetScaleCorrection = new TF1("JetScaleCorrection","[3] + ([0]-[3]) / ( 1.0 + pow( x/[2],[1] ) )", 30.0, 800.0);
 	if(jet_collection == "ak4PFJetAnalyzer" && doUE_areabased) JetScaleCorrection->SetParameters(3.19771e+00, 9.45364e-01, 9.71077e-01, 1.00049e+00);
 	if(jet_collection == "akCs4PFJetAnalyzer" && !doUE_areabased) JetScaleCorrection->SetParameters(2.27008e+00, 9.18625e-01, 1.43067e+00, 1.00002e+00);
 
@@ -437,8 +439,17 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			if(doUE_areabased) jet_pt_corr = (jet_rawpt - UE)*JEC.GetCorrection();
 			
 			float JEScorrection = 1.0;
-			if(jet_collection.EqualTo("ak4PFJetAnalyzer") && doUE_areabased) JEScorrection = JetScaleCorrection->Eval(jet_pt_corr);
-			if(jet_collection.EqualTo("akCs4PFJetAnalyzer") && !doUE_areabased) JEScorrection = JetScaleCorrection->Eval(jet_pt_corr);
+			if(jet_collection.EqualTo("ak4PFJetAnalyzer") && doUE_areabased && doJESCorrection){
+				JEScorrection = JetScaleCorrection->Eval(jet_pt_corr);
+				if(jet_pt_corr <= 30.0) JEScorrection = JetScaleCorrection->Eval(31.0);
+				if(jet_pt_corr >= 800.0) JEScorrection = JetScaleCorrection->Eval(799.0);
+			}
+			if(jet_collection.EqualTo("akCs4PFJetAnalyzer") && !doUE_areabased && doJESCorrection){
+				JEScorrection = JetScaleCorrection->Eval(jet_pt_corr);
+				if(jet_pt_corr <= 30.0) JEScorrection = JetScaleCorrection->Eval(31.0);
+				if(jet_pt_corr >= 800.0) JEScorrection = JetScaleCorrection->Eval(799.0);
+			}
+
 			jet_pt_corr = jet_pt_corr * JEScorrection;
 
 			if(is_MC && (!do_jer_up || !do_jer_down)) {
@@ -446,6 +457,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				double resolution_factor = resolution_histo->GetBinContent( resolution_histo->GetXaxis()->FindBin(jet_eta) );
 				double extraResolution = TMath::Sqrt(TMath::Max(resolution_factor*resolution_factor-1.0,0.0)); // found jet resolution
 				double sigma_smear = extraResolution*JetSmear->Eval(jet_pt_corr); // some % worst --> from JetMET
+				if(jet_pt_corr <= 30.0) sigma_smear = extraResolution*JetSmear->Eval(31.0);
+				if(jet_pt_corr >= 800.0) sigma_smear = extraResolution*JetSmear->Eval(799.0);
 				double mu_smar = 1.0;
 				double smear = gRandom->Gaus(mu_smar,sigma_smear);
 //				while( smear < 0 ){ smear = gRandom->Gaus(mu_smar,sigma_smear); }
@@ -653,7 +666,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					hist_reco_lead_reco_subl_quench_unweighted->Fill(x_reco);
 					float correctionmapweightreco = getUnfCorrWeight(fileunfoldweight, leadrecojet_pt, sublrecojet_pt, mult, dijetetarecotype);//do correction here
 					if(!is_MC) correctionmapweightreco = 1.0;
-					hist_reco_lead_reco_subl_quench_checkmapcorrection->Fill(x_reco, correctionmapweightreco*ljet_weight*sljet_weight);
+					hist_reco_lead_reco_subl_quench_checkmapcorrection->Fill(x_reco, event_weight*ljet_weight*sljet_weight*correctionmapweightreco);
 					if(is_MC && refpt[leadrecojet_index] < 0)hist_fake_lead_reco_subl_quench->Fill(x_reco, event_weight*ljet_weight*sljet_weight);
 					if(is_MC && refpt[sublrecojet_index] < 0)hist_reco_lead_fake_subl_quench->Fill(x_reco, event_weight*ljet_weight*sljet_weight);
 					if(is_MC && refpt[leadrecojet_index] < 0 && refpt[sublrecojet_index] < 0)hist_fake_lead_fake_subl_quench->Fill(x_reco, event_weight*ljet_weight*sljet_weight);
@@ -1045,7 +1058,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						hist_gen_lead_gen_subl_quench->Fill(x_gen,event_weight*gljet_weight*gsljet_weight);
 						float correctionmapweightgen = getUnfCorrWeight(fileunfoldweight, leadgenjet_pt, sublgenjet_pt, mult, dijetetagentype);//do correction here
 						if(!is_MC) correctionmapweightgen = 1.0;
-						hist_gen_lead_gen_subl_quench_checkmapcorrection->Fill(x_gen, correctionmapweightgen*gljet_weight*gsljet_weight);
+						hist_gen_lead_gen_subl_quench_checkmapcorrection->Fill(x_gen, event_weight*gljet_weight*gsljet_weight*correctionmapweightgen);
 						filletadijethistograms( (double) sqrts, leadgenjet_eta_lab, sublgenjet_eta_lab, leadgenjet_eta, sublgenjet_eta, leadgenjet_pt, leadgenjet_phi, leadgenjet_mass, sublgenjet_pt, sublgenjet_phi, sublgenjet_mass, (double)multcentbin, (double)extrabin, (double) event_weight*gljet_weight*gsljet_weight, hist_etaDijet_gen, hist_etaDijet_CM_gen, hist_yDijet_CM_gen );
 						if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_nofake(Xj_gen, delta_phi_gen, leadgenjet_phi, (double) multcentbin, (double)extrabin, (double)ptdijetbingen, (double) dijetetagentype, event_weight*gljet_weight*gsljet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_gen_leadEP_quench_plus, hist_gen_leadEP_quench_minus);
 						if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_nofake(Xj_gen, delta_phi_gen, sublgenjet_phi, (double) multcentbin, (double)extrabin, (double)ptdijetbingen, (double) dijetetagentype, event_weight*gljet_weight*gsljet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_gen_sublEP_quench_plus, hist_gen_sublEP_quench_minus);
