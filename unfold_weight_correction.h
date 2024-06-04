@@ -136,7 +136,7 @@ double getUnfCorrWeight(TFile *unffile, float leadpt, float subleadpt, int multi
           eff = eff_factor->GetBinContent( eff_factor->GetXaxis()->FindBin(leadpt),eff_factor->GetYaxis()->FindBin(subleadpt) );	  
 	  }
   }
-
+  if(eff <= fabs(std::numeric_limits<float>::min())) eff = 1.0;
   factor = eff;
   
   return factor;
