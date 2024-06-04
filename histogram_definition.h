@@ -529,11 +529,13 @@ THnSparseD *hist_reco_lead_fake_subl_quench = new THnSparseD("hist_reco_lead_fak
 THnSparseD *hist_fake_lead_fake_subl_quench = new THnSparseD("hist_fake_lead_fake_subl_quench", "hist_fake_lead_fake_subl_quench", 9, bins_quenc, xmin_quenc, xmax_quenc);
 // REF
 THnSparseD *hist_ref_lead_ref_subl_quench = new THnSparseD("hist_ref_lead_ref_subl_quench", "hist_ref_lead_ref_subl_quench", 9, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_ref_lead_ref_subl_quench_Match = new THnSparseD("hist_ref_lead_ref_subl_quenchMatch", "hist_ref_lead_ref_subl_quenchMatch", 9, bins_quenc, xmin_quenc, xmax_quenc);
-THnSparseD *hist_ref_lead_ref_subl_quench_MatchInv = new THnSparseD("hist_ref_lead_ref_subl_quenchMatchInv", "hist_ref_lead_ref_subl_quenchMatchInv", 9, bins_quenc, xmin_quenc, xmax_quenc);
 THnSparseD *hist_ref_lead_ref_subl_quench_unweighted = new THnSparseD("hist_ref_lead_ref_subl_quench_unweighted", "hist_ref_lead_ref_subl_quench_unweighted", 9, bins_quenc, xmin_quenc, xmax_quenc);
+THnSparseD *hist_ref_lead_ref_subl_quench_Match = new THnSparseD("hist_ref_lead_ref_subl_quenchMatch", "hist_ref_lead_ref_subl_quenchMatch", 9, bins_quenc, xmin_quenc, xmax_quenc);
 THnSparseD *hist_ref_lead_ref_subl_quench_Match_unweighted = new THnSparseD("hist_ref_lead_ref_subl_quench_Match_unweighted", "hist_ref_lead_ref_subl_quench_Match_unweighted", 9, bins_quenc, xmin_quenc, xmax_quenc);
+THnSparseD *hist_ref_lead_ref_subl_quench_MatchInv = new THnSparseD("hist_ref_lead_ref_subl_quenchMatchInv", "hist_ref_lead_ref_subl_quenchMatchInv", 9, bins_quenc, xmin_quenc, xmax_quenc);
 THnSparseD *hist_ref_lead_ref_subl_quench_MatchInv_unweighted = new THnSparseD("hist_ref_lead_ref_subl_quench_MatchInv_unweighted", "hist_ref_lead_ref_subl_quench_MatchInv_unweighted", 9, bins_quenc, xmin_quenc, xmax_quenc);
+THnSparseD *hist_ref_lead_ref_subl_quench_MatchInv_checkmapcorrection = new THnSparseD("hist_ref_lead_ref_subl_quench_MatchInv_checkmapcorrection", "hist_ref_lead_ref_subl_quench_MatchInv_checkmapcorrection", 9, bins_quenc, xmin_quenc, xmax_quenc);
+
 // GEN
 THnSparseD *hist_gen_lead_gen_subl_quench = new THnSparseD("hist_gen_lead_gen_subl_quench", "hist_gen_lead_gen_subl_quench", 9, bins_quenc, xmin_quenc, xmax_quenc);
 THnSparseD *hist_gen_lead_gen_subl_quench_unweighted = new THnSparseD("hist_gen_lead_gen_subl_quench_unweighted", "hist_gen_lead_gen_subl_quench_unweighted", 9, bins_quenc, xmin_quenc, xmax_quenc);
@@ -1369,6 +1371,7 @@ hist_ref_lead_ref_subl_quench_MatchInv->GetAxis(0)->Set(bins_quenc[0],XjBins);
 hist_ref_lead_ref_subl_quench_unweighted->GetAxis(0)->Set(bins_quenc[0],XjBins);
 hist_ref_lead_ref_subl_quench_Match_unweighted->GetAxis(0)->Set(bins_quenc[0],XjBins);
 hist_ref_lead_ref_subl_quench_MatchInv_unweighted->GetAxis(0)->Set(bins_quenc[0],XjBins);
+hist_ref_lead_ref_subl_quench_MatchInv_checkmapcorrection->GetAxis(0)->Set(bins_quenc[0],XjBins);
 // Aj binning
 hist_reco_lead_reco_subl_quench->GetAxis(1)->Set(bins_quenc[1],AjBins);
 hist_reco_lead_reco_subl_quench_checkmapcorrection->GetAxis(1)->Set(bins_quenc[1],AjBins);
@@ -1385,6 +1388,7 @@ hist_ref_lead_ref_subl_quench_MatchInv->GetAxis(1)->Set(bins_quenc[1],AjBins);
 hist_ref_lead_ref_subl_quench_unweighted->GetAxis(1)->Set(bins_quenc[1],AjBins);
 hist_ref_lead_ref_subl_quench_Match_unweighted->GetAxis(1)->Set(bins_quenc[1],AjBins);
 hist_ref_lead_ref_subl_quench_MatchInv_unweighted->GetAxis(1)->Set(bins_quenc[1],AjBins);
+hist_ref_lead_ref_subl_quench_MatchInv_checkmapcorrection->GetAxis(1)->Set(bins_quenc[1],AjBins);
 // DPhi binning
 hist_reco_lead_reco_subl_quench->GetAxis(2)->Set(bins_quenc[2],DphiBins);
 hist_reco_lead_reco_subl_quench_checkmapcorrection->GetAxis(2)->Set(bins_quenc[2],DphiBins);
@@ -1401,6 +1405,7 @@ hist_ref_lead_ref_subl_quench_MatchInv->GetAxis(2)->Set(bins_quenc[2],DphiBins);
 hist_ref_lead_ref_subl_quench_unweighted->GetAxis(2)->Set(bins_quenc[2],DphiBins);
 hist_ref_lead_ref_subl_quench_Match_unweighted->GetAxis(2)->Set(bins_quenc[2],DphiBins);
 hist_ref_lead_ref_subl_quench_MatchInv_unweighted->GetAxis(2)->Set(bins_quenc[2],DphiBins);
+hist_ref_lead_ref_subl_quench_MatchInv_checkmapcorrection->GetAxis(2)->Set(bins_quenc[2],DphiBins);
 // Multiplicity binning
 hist_reco_lead_reco_subl_quench->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
 hist_reco_lead_reco_subl_quench_checkmapcorrection->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
@@ -1417,6 +1422,7 @@ hist_ref_lead_ref_subl_quench_MatchInv->GetAxis(3)->Set(bins_quenc[3],MultCentbi
 hist_ref_lead_ref_subl_quench_unweighted->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
 hist_ref_lead_ref_subl_quench_Match_unweighted->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
 hist_ref_lead_ref_subl_quench_MatchInv_unweighted->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
+hist_ref_lead_ref_subl_quench_MatchInv_checkmapcorrection->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
 // Pt average binning
 hist_reco_lead_reco_subl_quench->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
 hist_reco_lead_reco_subl_quench_checkmapcorrection->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
@@ -1433,6 +1439,7 @@ hist_ref_lead_ref_subl_quench_MatchInv->GetAxis(4)->Set(bins_quenc[4],PtLSLBins)
 hist_ref_lead_ref_subl_quench_unweighted->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
 hist_ref_lead_ref_subl_quench_Match_unweighted->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
 hist_ref_lead_ref_subl_quench_MatchInv_unweighted->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
+hist_ref_lead_ref_subl_quench_MatchInv_checkmapcorrection->GetAxis(4)->Set(bins_quenc[4],PtLSLBins);
 // Extra binning
 hist_reco_lead_reco_subl_quench->GetAxis(5)->Set(bins_quenc[5],Extrabins);
 hist_reco_lead_reco_subl_quench_checkmapcorrection->GetAxis(5)->Set(bins_quenc[5],Extrabins);
@@ -1449,6 +1456,7 @@ hist_ref_lead_ref_subl_quench_MatchInv->GetAxis(5)->Set(bins_quenc[5],Extrabins)
 hist_ref_lead_ref_subl_quench_unweighted->GetAxis(5)->Set(bins_quenc[5],Extrabins);
 hist_ref_lead_ref_subl_quench_Match_unweighted->GetAxis(5)->Set(bins_quenc[5],Extrabins);
 hist_ref_lead_ref_subl_quench_MatchInv_unweighted->GetAxis(5)->Set(bins_quenc[5],Extrabins);
+hist_ref_lead_ref_subl_quench_MatchInv_checkmapcorrection->GetAxis(5)->Set(bins_quenc[5],Extrabins);
 // Leading jet pT binning
 hist_reco_lead_reco_subl_quench->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
 hist_reco_lead_reco_subl_quench_checkmapcorrection->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
@@ -1465,6 +1473,7 @@ hist_ref_lead_ref_subl_quench_MatchInv->GetAxis(6)->Set(bins_quenc[6],PtLSLBins)
 hist_ref_lead_ref_subl_quench_unweighted->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
 hist_ref_lead_ref_subl_quench_Match_unweighted->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
 hist_ref_lead_ref_subl_quench_MatchInv_unweighted->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
+hist_ref_lead_ref_subl_quench_MatchInv_checkmapcorrection->GetAxis(6)->Set(bins_quenc[6],PtLSLBins);
 // Sub Leading jet pT binning
 hist_reco_lead_reco_subl_quench->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
 hist_reco_lead_reco_subl_quench_checkmapcorrection->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
@@ -1481,6 +1490,7 @@ hist_ref_lead_ref_subl_quench_MatchInv->GetAxis(7)->Set(bins_quenc[7],PtLSLBins)
 hist_ref_lead_ref_subl_quench_unweighted->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
 hist_ref_lead_ref_subl_quench_Match_unweighted->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
 hist_ref_lead_ref_subl_quench_MatchInv_unweighted->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
+hist_ref_lead_ref_subl_quench_MatchInv_checkmapcorrection->GetAxis(7)->Set(bins_quenc[7],PtLSLBins);
 //Sumw2
 hist_reco_lead_reco_subl_quench->Sumw2();
 hist_reco_lead_reco_subl_quench_checkmapcorrection->Sumw2();
@@ -1497,6 +1507,7 @@ hist_ref_lead_ref_subl_quench_MatchInv->Sumw2();
 hist_ref_lead_ref_subl_quench_unweighted->Sumw2();
 hist_ref_lead_ref_subl_quench_Match_unweighted->Sumw2();
 hist_ref_lead_ref_subl_quench_MatchInv_unweighted->Sumw2();
+hist_ref_lead_ref_subl_quench_MatchInv_checkmapcorrection->Sumw2();
 
 // --> Leading and Subleading for EP studies histos
 // Xj binning
@@ -2545,6 +2556,7 @@ void w_dijet_hist(bool isMC){
 		hist_ref_lead_ref_subl_quench_Match->Write();
 		hist_ref_lead_ref_subl_quench_MatchInv_unweighted->Write();
 		hist_ref_lead_ref_subl_quench_MatchInv->Write();
+		hist_ref_lead_ref_subl_quench_MatchInv_checkmapcorrection->Write();
 		hist_ref_leadEP_quench_plus->Write();
 		hist_ref_leadEP_quench_minus->Write();
 		hist_ref_sublEP_quench_plus->Write();

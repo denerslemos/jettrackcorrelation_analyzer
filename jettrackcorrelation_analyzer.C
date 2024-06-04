@@ -664,9 +664,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					double x_reco[9]={Xj_reco,Aj_reco,delta_phi_reco,(double)multcentbin,(double)ptdijetbinreco,(double)extrabin,(double)leadrecojet_pt,(double)sublrecojet_pt, (double) dijetetarecotype}; 
 					hist_reco_lead_reco_subl_quench->Fill(x_reco, event_weight*ljet_weight*sljet_weight);
 					hist_reco_lead_reco_subl_quench_unweighted->Fill(x_reco);
-					float correctionmapweightreco = getUnfCorrWeight(fileunfoldweight, leadrecojet_pt, sublrecojet_pt, mult, dijetetarecotype);//do correction here
+					double correctionmapweightreco = getUnfCorrWeight(fileunfoldweight, leadrecojet_pt, sublrecojet_pt, mult, dijetetarecotype);//do correction here
 					if(!is_MC) correctionmapweightreco = 1.0;
-					hist_reco_lead_reco_subl_quench_checkmapcorrection->Fill(x_reco, event_weight*ljet_weight*sljet_weight*correctionmapweightreco);
+					hist_reco_lead_reco_subl_quench_checkmapcorrection->Fill(x_reco, ljet_weight*sljet_weight*correctionmapweightreco);
 					if(is_MC && refpt[leadrecojet_index] < 0)hist_fake_lead_reco_subl_quench->Fill(x_reco, event_weight*ljet_weight*sljet_weight);
 					if(is_MC && refpt[sublrecojet_index] < 0)hist_reco_lead_fake_subl_quench->Fill(x_reco, event_weight*ljet_weight*sljet_weight);
 					if(is_MC && refpt[leadrecojet_index] < 0 && refpt[sublrecojet_index] < 0)hist_fake_lead_fake_subl_quench->Fill(x_reco, event_weight*ljet_weight*sljet_weight);
@@ -1056,9 +1056,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						double x_gen[9]={Xj_gen,Aj_gen,delta_phi_gen,(double)multcentbin,(double)ptdijetbingen,(double)extrabin,(double)leadgenjet_pt,(double)sublgenjet_pt, (double) dijetetagentype}; 
 						hist_gen_lead_gen_subl_quench_unweighted->Fill(x_gen);
 						hist_gen_lead_gen_subl_quench->Fill(x_gen,event_weight*gljet_weight*gsljet_weight);
-						float correctionmapweightgen = getUnfCorrWeight(fileunfoldweight, leadgenjet_pt, sublgenjet_pt, mult, dijetetagentype);//do correction here
+						double correctionmapweightgen = getUnfCorrWeight(fileunfoldweight, leadgenjet_pt, sublgenjet_pt, mult, dijetetagentype);//do correction here
 						if(!is_MC) correctionmapweightgen = 1.0;
-						hist_gen_lead_gen_subl_quench_checkmapcorrection->Fill(x_gen, event_weight*gljet_weight*gsljet_weight*correctionmapweightgen);
+						hist_gen_lead_gen_subl_quench_checkmapcorrection->Fill(x_gen, gljet_weight*gsljet_weight*correctionmapweightgen);
 						filletadijethistograms( (double) sqrts, leadgenjet_eta_lab, sublgenjet_eta_lab, leadgenjet_eta, sublgenjet_eta, leadgenjet_pt, leadgenjet_phi, leadgenjet_mass, sublgenjet_pt, sublgenjet_phi, sublgenjet_mass, (double)multcentbin, (double)extrabin, (double) event_weight*gljet_weight*gsljet_weight, hist_etaDijet_gen, hist_etaDijet_CM_gen, hist_yDijet_CM_gen );
 						if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_nofake(Xj_gen, delta_phi_gen, leadgenjet_phi, (double) multcentbin, (double)extrabin, (double)ptdijetbingen, (double) dijetetagentype, event_weight*gljet_weight*gsljet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_gen_leadEP_quench_plus, hist_gen_leadEP_quench_minus);
 						if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_nofake(Xj_gen, delta_phi_gen, sublgenjet_phi, (double) multcentbin, (double)extrabin, (double)ptdijetbingen, (double) dijetetagentype, event_weight*gljet_weight*gsljet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_gen_sublEP_quench_plus, hist_gen_sublEP_quench_minus);
@@ -1179,9 +1179,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					fhUnfoldingResponse_xj->Fill(x_unf_meas_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
 					fhUnfoldingResponse_xj_noevtweight->Fill(x_unf_meas_xj_response,ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
 					// matrix reco x ref for Xj due corrections			
-					float correctionmapweight = getUnfCorrWeight(fileunfoldweight, leadrecojet_pt, sublrecojet_pt, mult, dijetetarecotypeforunfold); //do correction here
+					double correctionmapweight = getUnfCorrWeight(fileunfoldweight, leadrecojet_pt, sublrecojet_pt, mult, dijetetarecotypeforunfold); //do correction here
 					if(!is_MC) correctionmapweight = 1.0;
-					
 					fhUnfoldingResponse_xj_mapcorrected->Fill(x_unf_meas_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight*correctionmapweight);
 					fhUnfoldingResponse_xj_mapcorrected_noevtweight->Fill(x_unf_meas_xj_response,correctionmapweight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
 
@@ -1213,6 +1212,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double x_refMatchInv[9]={xjrefmatchforunfoldinv, xjrefmatchforunfoldinv, delta_phi_refmatch_forunfold, (double)multcentbin, (double) 0.5*(refpt[leadrecojet_index] + refpt[sublrecojet_index]), (double)extrabin, (double)refpt[sublrecojet_index], (double)refpt[leadrecojet_index], (double)dijetetarefmatchtypeforunfold};
 							hist_ref_lead_ref_subl_quench_MatchInv_unweighted->Fill(x_refMatchInv);
 							hist_ref_lead_ref_subl_quench_MatchInv->Fill(x_refMatchInv,event_weight*lrefjet_weight*slrefjet_weight);
+							double correctionmapweightref = getUnfCorrWeight(fileunfoldweight, refpt[sublrecojet_index], refpt[leadrecojet_index], mult, dijetetarefmatchtypeforunfold);//do correction here
+							if(!is_MC) correctionmapweightref = 1.0;
+							hist_ref_lead_ref_subl_quench_MatchInv_checkmapcorrection->Fill(x_refMatchInv, ljet_weight*sljet_weight*correctionmapweightref);							
 
 							double x_unf_measMatchInv_xj_response[7]={xjrecoforunfold, xjrefmatchforunfoldinv, delta_phi_reco_forunfold, delta_phi_refmatch_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetarefmatchtypeforunfold, (double)multcentbin}; 
 							fhUnfoldingResponse_xjMatchInv->Fill(x_unf_measMatchInv_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
@@ -1225,6 +1227,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 							double x_refMatchInv[9]={xjrefmatchforunfold, xjrefmatchforunfold, delta_phi_refmatch_forunfold, (double)multcentbin, (double) 0.5*(refpt[leadrecojet_index] + refpt[sublrecojet_index]), (double)extrabin, (double)refpt[leadrecojet_index], (double)refpt[sublrecojet_index], (double)dijetetarefmatchtypeforunfold};
 							hist_ref_lead_ref_subl_quench_MatchInv_unweighted->Fill(x_refMatchInv);
 							hist_ref_lead_ref_subl_quench_MatchInv->Fill(x_refMatchInv,event_weight*lrefjet_weight*slrefjet_weight);
+							double correctionmapweightref = getUnfCorrWeight(fileunfoldweight, refpt[leadrecojet_index], refpt[sublrecojet_index], mult, dijetetarefmatchtypeforunfold); //do correction here
+							if(!is_MC) correctionmapweightref = 1.0;
+							hist_ref_lead_ref_subl_quench_MatchInv_checkmapcorrection->Fill(x_refMatchInv, ljet_weight*sljet_weight*correctionmapweightref);							
 
 							double x_unf_measMatchInv_xj_response[7]={xjrecoforunfold, xjrefmatchforunfold, delta_phi_reco_forunfold, delta_phi_refmatch_forunfold, (double) dijetetarecotypeforunfold, (double)dijetetarefmatchtypeforunfold, (double)multcentbin}; 
 							fhUnfoldingResponse_xjMatchInv->Fill(x_unf_measMatchInv_xj_response,event_weight*ljet_weight*lrefjet_weight*sljet_weight*slrefjet_weight);
