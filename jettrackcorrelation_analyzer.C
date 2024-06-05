@@ -370,7 +370,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		for (int j = 0; j < jetsize; j++){
 			
 			// control selections and plots
-			//if(fabs(jteta[j]) > 5.1) continue;
+			if(fabs(jteta[j]) > 5.1) continue; // minimum cuts for JEC 
+			if(fabs(rawpt[j]) < 4.0) continue; // minimum cuts for JEC 
+
 			double x_trkmaxjet[3]={trackMax[j]/rawpt[j], rawpt[j], (double) multcentbin}; 
 			if(trackMax[j]/rawpt[j] >= 0) jettrackmaxptinjethisto->Fill(x_trkmaxjet,event_weight);
 			if(trackMax[j]/rawpt[j] >  0) jettrackmaxptinjethisto_no0->Fill(x_trkmaxjet,event_weight);
@@ -528,10 +530,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				float ref_phi = refphi[j];
 				float ref_mass = refmass[j];
 
-    	        if(jet_rawpt < 0.0) continue;
- 	            if(jet_pt_corr < 0.0) continue;
+    	        if(ref_pt < 0.0) continue; // do not make sense to add -999 
  	            //if(fabs(ref_eta) > 5.1) continue;
-    	        if(ref_pt < 0.0) continue;
 
 				int jet_index_ref = (int) j;
 
