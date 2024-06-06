@@ -371,7 +371,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			
 			// control selections and plots
 			if(fabs(jteta[j]) > 5.1) continue; // minimum cuts for JEC 
-			if(fabs(rawpt[j]) < 4.0) continue; // minimum cuts for JEC 
+			if(rawpt[j] < 5.0) continue; // minimum cuts for JEC 
 
 			double x_trkmaxjet[3]={trackMax[j]/rawpt[j], rawpt[j], (double) multcentbin}; 
 			if(trackMax[j]/rawpt[j] >= 0) jettrackmaxptinjethisto->Fill(x_trkmaxjet,event_weight);
