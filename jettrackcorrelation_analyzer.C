@@ -77,9 +77,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	if(!do_jer_up && do_jer_down) filejersys->GetObject("JERdown", resolution_histo);
 	TF1* JetSmear = new TF1("JetSmear","sqrt([0]*[0] + [1]*[1]/x + [2]*[2]/(x*x))", 30.0, 800.0);
 	JetSmear->SetParameters(4.25985e-02, 9.51054e-01, 0.0); // fitted from JER
-	TF1* JetScaleCorrection = new TF1("JetScaleCorrection","[3] + ([0]-[3]) / ( 1.0 + pow( x/[2],[1] ) )", 30.0, 800.0);
-	if(jet_collection == "ak4PFJetAnalyzer" && doUE_areabased) JetScaleCorrection->SetParameters(3.19771e+00, 9.45364e-01, 9.71077e-01, 1.00049e+00);
-	if(jet_collection == "akCs4PFJetAnalyzer" && !doUE_areabased) JetScaleCorrection->SetParameters(2.27008e+00, 9.18625e-01, 1.43067e+00, 1.00002e+00);
+	TF1* JetScaleCorrection = new TF1("JetScaleCorrection","sqrt([0] + [1]/x)", 30.0, 800.0);
+	if(jet_collection == "ak4PFJetAnalyzer" && doUE_areabased) JetScaleCorrection->SetParameters(1.00269e+00, 4.82019e+00);
+	if(jet_collection == "akCs4PFJetAnalyzer" && !doUE_areabased) JetScaleCorrection->SetParameters(1.00269e+00, 4.82019e+00);
 
 	// Track or particle efficiency file
 	TFile *fileeff = TFile::Open(Form("aux_files/%s_%i/trk_eff_table/%s",colliding_system.Data(),sNN_energy_GeV,trk_eff_file.Data()));
