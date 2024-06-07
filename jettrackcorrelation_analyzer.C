@@ -76,7 +76,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	if(do_jer_up && !do_jer_down) filejersys->GetObject("JERup", resolution_histo);
 	if(!do_jer_up && do_jer_down) filejersys->GetObject("JERdown", resolution_histo);
 	TF1* JetSmear = new TF1("JetSmear","sqrt([0]*[0] + [1]*[1]/x + [2]*[2]/(x*x))", 30.0, 800.0);
-	JetSmear->SetParameters(4.25985e-02, 9.51054e-01, 0.0); // fitted from JER
+	JetSmear->SetParameters(-4.18584e-02, 9.84347e-01, 0.0); // fitted from JER
 	TF1* JetScaleCorrection = new TF1("JetScaleCorrection","sqrt([0] + [1]/x)", 30.0, 800.0);
 	if(jet_collection == "ak4PFJetAnalyzer" && doUE_areabased) JetScaleCorrection->SetParameters(1.00274e+00, 5.35120e+00);
 	if(jet_collection == "akCs4PFJetAnalyzer" && !doUE_areabased) JetScaleCorrection->SetParameters(1.00269e+00, 4.82019e+00);
