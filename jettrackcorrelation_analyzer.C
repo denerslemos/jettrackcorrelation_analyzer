@@ -458,13 +458,14 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			
 				double resolution_factor = resolution_histo->GetBinContent( resolution_histo->GetXaxis()->FindBin(jet_eta) );
 				double extraResolution = TMath::Sqrt(TMath::Max(resolution_factor*resolution_factor-1.0,0.0)); // found jet resolution
-				double sigma_smear = extraResolution*JetSmear->Eval(jet_pt_corr); // some % worst --> from JetMET
-				if(jet_pt_corr <= 30.0) sigma_smear = extraResolution*JetSmear->Eval(31.0);
-				if(jet_pt_corr >= 800.0) sigma_smear = extraResolution*JetSmear->Eval(799.0);
+				double sigma_smear = extraResolution*JetSmear->Eval(refpt[j]); // some % worst --> from JetMET
+				if(refpt[j] <= 30.0) sigma_smear = extraResolution*JetSmear->Eval(31.0);
+				if(refpt[j] >= 800.0) sigma_smear = extraResolution*JetSmear->Eval(799.0);
 				double mu_smar = 1.0;
 				double smear = gRandom->Gaus(mu_smar,sigma_smear);
 //				while( smear < 0 ){ smear = gRandom->Gaus(mu_smar,sigma_smear); }
 				if(  smear < 0 ) cout << "Negative smear" << endl;
+				if(refpt[j] < 0.0) smear = 1.0;
 				jet_pt_corr = jet_pt_corr*smear;	
 					
 			}
