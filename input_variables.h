@@ -17,7 +17,7 @@ const bool use_centrality = false; // only true for: "XeXe" and "PbPb" (but also
 const float vz_cut_min = -15.0; //vz acceptance
 const float vz_cut_max = 15.0; //vz acceptance
 
-const std::vector<double> multiplicity_centrality_bins{10.0, 60.0, 80.0, 100.0, 120.0, 185.0, 210.0, 250.0, 400.0}; //multiplicity range
+const std::vector<double> multiplicity_centrality_bins{10.0, 60.0, 80.0, 100.0, 120.0, 185.0, 230.0, 250.0, 400.0}; //multiplicity range
 //event filters
 //std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose"}; // event filters to be applied (pp ref - 2017)
 const std::vector<TString> event_filter_str{"pBeamScrapingFilter", "pPAprimaryVertexFilter", "HBHENoiseFilterResultRun2Loose", "phfCoincFilter", "pVertexFilterCutdz1p0"}; // event filters to be applied (pPb - 2016)
@@ -54,8 +54,8 @@ const TString JER_sys_file = "sys_resolution_Summer16_25nsV1_MC_SF_AK4PF.root"; 
 const bool doJESCorrection = true;
 const bool do_jeu_up = false; // for JES systematics
 const bool do_jeu_down = false; // for JES systematics
-const bool do_jer_up = true; // for JER systematics
-const bool do_jer_down = true; // for JER systematics
+const bool do_jer_up = false; // for JER systematics
+const bool do_jer_down = false; // for JER systematics
 const bool use_WTA = false; // use WTA or E-Scheme axis 
 const float leading_subleading_deltaphi_min = (5./6.)*TMath::Pi(); //used for jet leading and subleading correlation only
 const float leading_pT_min = 100.0; //used for jet leading and subleading correlation and jet quenching analysis
