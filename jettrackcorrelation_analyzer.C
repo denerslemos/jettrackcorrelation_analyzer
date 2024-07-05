@@ -1190,6 +1190,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 					// ref matched quantities (matrix + histos)
 					if(refpt[leadrecojet_index] > 0.0 && refpt[sublrecojet_index] > 0.0){
+					
+						lrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[leadrecojet_index], refeta[leadrecojet_index]);
+						slrefjet_weight = get_jetpT_weight(is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[sublrecojet_index], refeta[sublrecojet_index]);;
+					
 						// main observable histogram
 						double x_refMatch[9]={xjrefmatchforunfold,xjrefmatchforunfold,delta_phi_refmatch_forunfold,(double)multcentbin,(double) 0.5*(refpt[leadrecojet_index] + refpt[sublrecojet_index]),(double)extrabin,(double)refpt[leadrecojet_index],(double)refpt[sublrecojet_index], (double)dijetetarefmatchtypeforunfold};
 						hist_ref_lead_ref_subl_quench_Match_unweighted->Fill(x_refMatch);
