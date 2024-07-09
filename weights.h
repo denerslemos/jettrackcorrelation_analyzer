@@ -146,28 +146,12 @@ year: data-taking year
 energy: colliding energy
 jetpt: jet pT weight
 */
-float get_jetpT_weight(bool isMC, string system, int year, int energy, float jetpt, float jeteta){
+float get_jetpT_weight(TF1* JetPtWeightFunction, bool isMC, string system, int year, int energy, float jetpt, float jeteta){
 
 	float jetptweight = 1.0;
-
-	// JetPtWeightFunction is derived from MC vs data jet pT spectra for pp at 5.02 TeV
-	if(isMC && system == "pp" && energy == 5020 && year == 2017){
-		TF1 *JetPtWeightFunction = new TF1("JetPtWeightFunction", "pol3", 0.0, 500.0); //Derived from all jets above 120 GeV and JECv6
-	    JetPtWeightFunction->SetParameters(0.79572,0.0021861,-6.35407e-06,6.66435e-09);
-		jetptweight = JetPtWeightFunction->Eval(jetpt);
-	}
-	
-    if(isMC && system == "pPb" && energy == 8160 && year == 2016){ // pPb data
-    
-    	if(jetpt < 40.0) jetpt = 40.0;
-    	if(jetpt > 500.0) jetpt = 500.0;
-    
-    	TF1 *JetPtWeightFunction = new TF1("JetPtWeightFunction", "pol4", 40.0, 500.0); 
-	    JetPtWeightFunction->SetParameters(0.436979,0.0143212,-7.16733e-05,1.61415e-07,-1.29947e-10);
-		jetptweight = JetPtWeightFunction->Eval(jetpt);
-    
-    }
-
+   	if(jetpt < 40.0) jetpt = 40.0;
+   	if(jetpt > 500.0) jetpt = 500.0;
+	jetptweight = JetPtWeightFunction->Eval(jetpt);
 
 	return jetptweight;
 
