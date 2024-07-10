@@ -23,6 +23,7 @@ pthatmax: pthat max cut for MC only
 void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int MCSim, float pthatmin, float pthatmax){
 
 	TApplication *a = new TApplication("a", 0, 0); // avoid issues with corrupted files
+	//TF1::DefaultAddToGlobalList(false); // avoid saving functions in the grandom
 
 	clock_t sec_start, sec_end, sec_start_mix, sec_end_mix; // For timing 
 	sec_start = clock(); // start timing measurement
@@ -78,14 +79,14 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 	if(do_jer_up && !do_jer_down) filejersys->GetObject("JERup", resolution_histo);
 	if(!do_jer_up && do_jer_down) filejersys->GetObject("JERdown", resolution_histo);
 	// JER smear
-	TF1* JetSmear = new TF1("JetSmear","sqrt([0]*[0] + [1]*[1]/x + [2]*[2]/(x*x))", 30.0, 800.0);
+	TF1* JetSmear = new TF1("JetSmear","sqrt([0]*[0] + [1]*[1]/x + [2]*[2]/(x*x))", 30.0, 800.0, TF1::EAddToList::kNo);
 	JetSmear->SetParameters(-4.18584e-02, 9.84347e-01, 0.0); // fitted from JER
 	// JER scale correction (AK4PF vs others)
-	TF1* JetScaleCorrection = new TF1("JetScaleCorrection","sqrt([0] + [1]/x)", 30.0, 800.0);
+	TF1* JetScaleCorrection = new TF1("JetScaleCorrection","sqrt([0] + [1]/x)", 30.0, 800.0, TF1::EAddToList::kNo);
 	if(jet_collection == "ak4PFJetAnalyzer" && doUE_areabased) JetScaleCorrection->SetParameters(1.00274e+00, 5.35120e+00);
 	if(jet_collection == "akCs4PFJetAnalyzer" && !doUE_areabased) JetScaleCorrection->SetParameters(1.00269e+00, 4.82019e+00);
 	// Jet Pt data vs MC
-   	TF1 *JetPtWeightFunction = new TF1("JetPtWeightFunction", "pol4", 40.0, 500.0); 
+   	TF1* JetPtWeightFunction = new TF1("JetPtWeightFunction", "pol4", 40.0, 500.0, TF1::EAddToList::kNo); 
     JetPtWeightFunction->SetParameters(0.436979,0.0143212,-7.16733e-05,1.61415e-07,-1.29947e-10);
 
 	// Track or particle efficiency file
@@ -696,6 +697,16 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					}
 				*/
 
+				}
+
+				multiplicity_withalldijets_weighted->Fill(mult,event_weight);
+				std::vector<TVector3> dijetVectorReco = alljets_reco;
+				for(int idj = 0; idj < dijetVectorReco.size(); idj++){			
+					TVector3 dijetVector = dijetVectorReco[idj];					
+					double dijet_weight = get_jetpT_weight(JetPtWeightFunction, is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, dijetVector.Pt(), dijetVector.Eta()); // Jet weight (specially for MC)
+					double x_reco_dijet_corr[5]={dijetVector.Pt(),dijetVector.Eta(),dijetVector.Phi(),(double) multcentbin,(double) extrabin}; 
+					hist_reco_jet_corr->Fill(x_reco_dijet_corr,event_weight);
+					hist_reco_jet_corr_weighted->Fill(x_reco_dijet_corr,event_weight*dijet_weight);
 				}
 
 				if(isrecodijets){ // leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations

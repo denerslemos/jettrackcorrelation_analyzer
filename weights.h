@@ -30,21 +30,21 @@ float get_event_weight(float nevents, bool isMC, bool use_centrality, string sys
 	
 	if(isMC && !use_centrality && system == "pp" && energy == 5020 && year == 2017){
 
-		TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol6", -15.0, 15.0);
+		TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol6", -15.0, 15.0, TF1::EAddToList::kNo);
 		VzWeightFunction->SetParameters(0.973805, 0.00339418, 0.000757544, -1.37331e-06, -2.82953e-07, -3.06778e-10, 3.48615e-09);
 		vzweight = VzWeightFunction->Eval(vz);
 
-		TF1 *MultCentWeightFunction = new TF1("MultCentWeightFunction", "pol0", 0.0, 500.0);
+		TF1 *MultCentWeightFunction = new TF1("MultCentWeightFunction", "pol0", 0.0, 500.0, TF1::EAddToList::kNo);
 		MultCentWeightFunction->SetParameter(0,1.0);
 		multweight = MultCentWeightFunction->Eval(mult);
 
-		TF1 *MultTriggerWeightFunction = new TF1("MultTriggerWeightFunction", "pol0", 0.0, 500.0); // fitted from turn on curves
+		TF1 *MultTriggerWeightFunction = new TF1("MultTriggerWeightFunction", "pol0", 0.0, 500.0, TF1::EAddToList::kNo); // fitted from turn on curves
 		MultTriggerWeightFunction->SetParameter(0,1.0);
 		float multtrigweight = 1.0;
 		multtrigweight = MultTriggerWeightFunction->Eval(mult);
 		multefficiency = 1./multtrigweight;
 
-		TF1 *JetTriggerWeightFunction = new TF1("JetTriggerWeightFunction", "pol0", 0.0, 500.0); // fitted from turn on curves
+		TF1 *JetTriggerWeightFunction = new TF1("JetTriggerWeightFunction", "pol0", 0.0, 500.0, TF1::EAddToList::kNo); // fitted from turn on curves
 		JetTriggerWeightFunction->SetParameter(0,1.0);
 		float jettrigweight = 1.0;
 		jettrigweight = JetTriggerWeightFunction->Eval(leadjetpt);
@@ -70,20 +70,20 @@ float get_event_weight(float nevents, bool isMC, bool use_centrality, string sys
 		evtweight = (float) evtweight/nevents;
 		
 		// Vz weighting
-        TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1);
+        TF1 *VzWeightFunction = new TF1("VzWeightFunction", "pol8", -15.1, 15.1, TF1::EAddToList::kNo);
         VzWeightFunction->SetParameters(0.856516,-0.0159813,0.00436628,-0.00012862,2.61129e-05,-4.16965e-07,1.73711e-08,-3.11953e-09,6.24993e-10);
         vzweight = VzWeightFunction->Eval(vz);
         vzweight = 1./vzweight;
-		
+		/*
 		// multiplicity weight
 		// PYTHIA+EPOS
         if(is_embedded && is_multdep){
            if(mult < 205){
-              TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8", 10, 210);
+              TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8", 10, 210, TF1::EAddToList::kNo);
               EtWeightFunction->SetParameters(-0.0958084,-0.00115779,0.00233641,-8.42997e-05,1.42306e-06,-1.27251e-08,6.20308e-11,-1.56457e-13,1.60319e-16);
               multweight = EtWeightFunction->Eval(mult);
            }else if(mult >= 205 && mult <= 280){
-              TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol1",200,280);
+              TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol1",200,280, TF1::EAddToList::kNo);
               EtWeightFunction->SetParameters(4.24931,-0.0149767);
               multweight = EtWeightFunction->Eval(mult);
            }else{multweight = 1.0;}
@@ -91,16 +91,16 @@ float get_event_weight(float nevents, bool isMC, bool use_centrality, string sys
         // PYTHIA only
         if(!is_embedded && is_multdep){
            if(mult < 105){
-              TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8", 10,110);
+              TF1 *EtWeightFunction = new TF1("EtWeightFunction", "pol8", 10,110, TF1::EAddToList::kNo);
               EtWeightFunction->SetParameters(-3.15516,0.608522,-0.0334141,0.00112313,-2.46795e-05,3.40076e-07,-2.79767e-09,1.25403e-11,-2.35808e-14);
               multweight = EtWeightFunction->Eval(mult);
            }else if(mult >= 105.0 && mult <= 250.0){
-              TF1 *EtWeightFunction = new TF1("EtWeightFunction", "expo",100,250);
+              TF1 *EtWeightFunction = new TF1("EtWeightFunction", "expo",100,250, TF1::EAddToList::kNo);
               EtWeightFunction->SetParameters(9.97281,-0.13071);
               multweight = EtWeightFunction->Eval(mult);
            }else{multweight = 1.0;}
         }
-		/*
+		
 		// EPb weight
 		// PYTHIA+EPOS
 		if(is_embedded && !is_multdep){
@@ -151,7 +151,7 @@ float get_jetpT_weight(TF1* JetPtWeightFunction, bool isMC, string system, int y
 	float jetptweight = 1.0;
    	if(jetpt < 40.0) jetpt = 40.0;
    	if(jetpt > 500.0) jetpt = 500.0;
-	jetptweight = JetPtWeightFunction->Eval(jetpt);
+	//jetptweight = JetPtWeightFunction->Eval(jetpt);
 
 	return jetptweight;
 
