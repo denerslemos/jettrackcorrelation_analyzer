@@ -705,8 +705,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					TVector3 dijetVector = dijetVectorReco[idj];					
 					double dijet_weight = get_jetpT_weight(JetPtWeightFunction, is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, dijetVector.Pt(), dijetVector.Eta()); // Jet weight (specially for MC)
 					double x_reco_dijet_corr[5]={dijetVector.Pt(),dijetVector.Eta(),dijetVector.Phi(),(double) multcentbin,(double) extrabin}; 
-					hist_reco_jet_corr->Fill(x_reco_dijet_corr,event_weight);
-					hist_reco_jet_corr_weighted->Fill(x_reco_dijet_corr,event_weight*dijet_weight);
+					hist_reco_alldijet_corr->Fill(x_reco_dijet_corr);
+					hist_reco_alldijet_corr_weighted->Fill(x_reco_dijet_corr,event_weight*dijet_weight);
 				}
 
 				if(isrecodijets){ // leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
