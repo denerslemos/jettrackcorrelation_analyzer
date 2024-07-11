@@ -658,6 +658,18 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		if(goodrecoevent){
 			Nevents->Fill(6);	
 
+			std::vector<TVector3> dijetVectorReco = alljets_reco;
+			for(int idj = 0; idj < dijetVectorReco.size(); idj++){			
+				TVector3 dijetVector = dijetVectorReco[idj];					
+				double dijet_weight = get_jetpT_weight(JetPtWeightFunction, is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, dijetVector.Pt(), dijetVector.Eta()); // Jet weight (specially for MC)
+				double x_reco_dijet_corr[5]={dijetVector.Pt(),dijetVector.Eta(),dijetVector.Phi(),(double) multcentbin,(double) extrabin}; 
+				hist_reco_alldijet_corr->Fill(x_reco_dijet_corr);
+				if(leadrecojet_pt > leading_pT_min) hist_reco_alldijet_corr_lead_weighted->Fill(x_reco_dijet_corr,event_weight*dijet_weight);
+				if(sublrecojet_pt > subleading_pT_min) hist_reco_alldijet_corr_subl_weighted->Fill(x_reco_dijet_corr,event_weight*dijet_weight);
+				if(tworecojets) hist_reco_alldijet_corr_weighted->Fill(x_reco_dijet_corr,event_weight*dijet_weight);
+			}
+
+
 			if(tworecojets){ 	//leading/subleading pT cuts
 				Nevents->Fill(7);
 
@@ -696,18 +708,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 						fhUnfoldingMeasu_xjpt2->Fill(x_unf_meas_xjpt2reco,event_weight*ljet_weight*sljet_weight);
 					}
 				*/
-
 				}
 
 				multiplicity_withalldijets_weighted->Fill(mult,event_weight);
-				std::vector<TVector3> dijetVectorReco = alljets_reco;
-				for(int idj = 0; idj < dijetVectorReco.size(); idj++){			
-					TVector3 dijetVector = dijetVectorReco[idj];					
-					double dijet_weight = get_jetpT_weight(JetPtWeightFunction, is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, dijetVector.Pt(), dijetVector.Eta()); // Jet weight (specially for MC)
-					double x_reco_dijet_corr[5]={dijetVector.Pt(),dijetVector.Eta(),dijetVector.Phi(),(double) multcentbin,(double) extrabin}; 
-					hist_reco_alldijet_corr->Fill(x_reco_dijet_corr);
-					hist_reco_alldijet_corr_weighted->Fill(x_reco_dijet_corr,event_weight*dijet_weight);
-				}
 
 				if(isrecodijets){ // leading/subleading Delta Phi cuts for (leading/subleading)jet+track correlations
 					Nevents->Fill(8);

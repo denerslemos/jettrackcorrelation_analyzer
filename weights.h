@@ -151,7 +151,7 @@ float get_jetpT_weight(TF1* JetPtWeightFunction, bool isMC, string system, int y
 	float jetptweight = 1.0;
    	if(jetpt < 40.0) jetpt = 40.0;
    	if(jetpt > 500.0) jetpt = 500.0;
-	//jetptweight = JetPtWeightFunction->Eval(jetpt);
+	//if(isMC) jetptweight = JetPtWeightFunction->Eval(jetpt);
 
 	return jetptweight;
 
