@@ -547,7 +547,7 @@ THnSparseD *hist_gen_lead_gen_subl_quench_unweighted = new THnSparseD("hist_gen_
 THnSparseD *hist_gen_lead_gen_subl_quench_checkmapcorrection = new THnSparseD("hist_gen_lead_gen_subl_quench_checkmapcorrection", "hist_gen_lead_gen_subl_quench_checkmapcorrection", 9, bins_quenc, xmin_quenc, xmax_quenc);
 
 // Balance studies
-int	bins_bal[8]   =      { 80    , 20	          , nDphiBins		, multbinsize-1		  	 			 			,	 200     ,  extrabinsize-1 				, 60    , 60};
+int	bins_bal[8]   =      { 80    , 20	          , nDphiBins		, multbinsize-1		  	 			 			,	 200     ,  extrabinsize-1 				, 120    , 120};
 double xmin_bal[8]   =   { -2.0  , 0.0	  		  , mindphihist    	, multiplicity_centrality_bins[0]		 		,	 0.0	 ,	extra_bins[0]				, -6.0	, -6.0};
 double xmax_bal[8]   =   { 2.0   , 1.0	 		  , maxdphihist 	, multiplicity_centrality_bins[multbinsize-1] 	,  2000.0  	 ,  extra_bins[extrabinsize-1]  , 6.0	, 6.0};
 THnSparseD *hist_balance_quench = new THnSparseD("hist_balance_quench", "hist_balance_quench", 8, bins_bal, xmin_bal, xmax_bal);
