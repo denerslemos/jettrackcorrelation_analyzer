@@ -1024,3 +1024,47 @@ bool isdijet(float leadjet_pt, float lead_pT_min, float jetptmax, float subljet_
 	}
 	return dijets;
 }
+
+void fillbalance(float leadjet_pt, float leadjet_eta, float leadjet_phi, float subljet_pt, float subljet_eta, float subljet_phi, float thirdjet_pt, double mult, double extra, double weight, THnSparse* histo_balance){
+
+	double randomnumber = gRandom->Uniform(0.0,1.0);
+
+	double ptprobe = (double)subljet_pt;
+	double etaprobe = (double)subljet_eta;
+	double phiprobe = (double)subljet_phi;
+
+	double ptref = (double)leadjet_pt;
+	double etaref = (double)leadjet_eta;
+	double phiref = (double)leadjet_phi;
+	
+	bool leadprobe = fabs(leadjet_eta) >= 1.3;
+	bool leadref = fabs(leadjet_eta) < 1.3;
+	bool sublprobe = fabs(leadjet_eta) >= 1.3;
+	bool sublref = fabs(leadjet_eta) < 1.3;
+	bool notuseinbalance = leadprobe && sublprobe;
+	
+	if ( sublref && leadprobe ) {
+	
+		ptprobe = (double)leadjet_pt; etaprobe = (double)leadjet_eta; phiprobe = (double)leadjet_phi;
+		ptref = (double)subljet_pt; etaref = (double)subljet_eta; phiref = (double)subljet_phi;
+		
+	} else if ( sublref && leadref ) {
+	
+		if(randomnumber > 0.5){
+			ptprobe = (double)leadjet_pt; etaprobe = (double)leadjet_eta; phiprobe = (double)leadjet_phi;
+			ptref = (double)subljet_pt; etaref = (double)subljet_eta; phiref = (double)subljet_phi;
+		}else{}
+	
+	} else if ( sublprobe && leadref) { }// do nothing -> already assumed before
+
+	
+	double ptaverage = (ptprobe + ptref)/2.0;
+	double delta_phi = fabs(deltaphi(phiprobe, phiref));
+	double Balance = (ptprobe - ptref)/ptaverage;
+	double alpha = thirdjet_pt / ptaverage;
+	double x_balance[8]={Balance, alpha, delta_phi,(double)mult,(double)ptaverage,(double)extra, etaref, etaprobe}; 
+	
+	if(ptaverage > 40.0 && !notuseinbalance) histo_balance->Fill(x_balance, weight);
+	
+
+}

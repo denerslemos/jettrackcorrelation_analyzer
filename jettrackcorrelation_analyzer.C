@@ -668,6 +668,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				if(tworecojets) hist_reco_alldijet_corr_weighted->Fill(x_reco_dijet_corr,event_weight*dijet_weight);
 			}
 
+			fillbalance(leadrecojet_pt, leadrecojet_eta_lab, leadrecojet_phi, sublrecojet_pt, sublrecojet_eta_lab, sublrecojet_phi, thirdrecojet_pt, (double)multcentbin, (double)extrabin, event_weight*ljet_weight*sljet_weight, hist_balance_quench);
 
 			if(tworecojets){ 	//leading/subleading pT cuts
 				Nevents->Fill(7);

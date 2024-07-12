@@ -546,6 +546,11 @@ THnSparseD *hist_gen_lead_gen_subl_quench = new THnSparseD("hist_gen_lead_gen_su
 THnSparseD *hist_gen_lead_gen_subl_quench_unweighted = new THnSparseD("hist_gen_lead_gen_subl_quench_unweighted", "hist_gen_lead_gen_subl_quench_unweighted", 9, bins_quenc, xmin_quenc, xmax_quenc);
 THnSparseD *hist_gen_lead_gen_subl_quench_checkmapcorrection = new THnSparseD("hist_gen_lead_gen_subl_quench_checkmapcorrection", "hist_gen_lead_gen_subl_quench_checkmapcorrection", 9, bins_quenc, xmin_quenc, xmax_quenc);
 
+// Balance studies
+int	bins_bal[8]   =      { 80    , 20	          , nDphiBins		, multbinsize-1		  	 			 			,	 200     ,  extrabinsize-1 				, 60    , 60};
+double xmin_bal[8]   =   { -2.0  , 0.0	  		  , mindphihist    	, multiplicity_centrality_bins[0]		 		,	 0.0	 ,	extra_bins[0]				, -6.0	, -6.0};
+double xmax_bal[8]   =   { 2.0   , 1.0	 		  , maxdphihist 	, multiplicity_centrality_bins[multbinsize-1] 	,  2000.0  	 ,  extra_bins[extrabinsize-1]  , 6.0	, 6.0};
+THnSparseD *hist_balance_quench = new THnSparseD("hist_balance_quench", "hist_balance_quench", 8, bins_bal, xmin_bal, xmax_bal);
 
 // EP dependency
 // Axis : 0 -> Xj, 1 -> delta phi, 2 -> 2*|Psi2 - jetphi|, 3 -> 3*|Psi3 - jetphi|, 4 -> 4*|Psi4 - jetphi|, 5 -> multiplicity , 6 -> jet pT average, 7 -> extra dependency , 8 ->  mid-fwd-bkw combinations
@@ -1368,6 +1373,12 @@ hist_leadjes_reco_weighted->Sumw2();
 hist_leadjes_reco_fromB_weighted->Sumw2();
 hist_subleadjes_reco_weighted->Sumw2();
 hist_subleadjes_reco_fromB_weighted->Sumw2();
+
+// --> Balance studies
+hist_balance_quench->GetAxis(2)->Set(bins_quenc[2],DphiBins);
+hist_balance_quench->GetAxis(3)->Set(bins_quenc[3],MultCentbins);
+hist_balance_quench->GetAxis(5)->Set(bins_quenc[5],Extrabins);
+hist_balance_quench->Sumw2();
 
 // --> Xj search for quenching histos
 // Xj binning
@@ -2336,6 +2347,8 @@ void w_QA_hist(bool isMC){
 	
 	jetjet_Dphi_Deta_reco->Write();	if(isMC) { jetjet_Dphi_Deta_ref->Write(); jetjet_Dphi_Deta_gen->Write();}
 	jetjet_Dphi_Deta_reco_diff->Write();	if(isMC) { jetjet_Dphi_Deta_ref_diff->Write(); jetjet_Dphi_Deta_gen_diff->Write();}
+	
+	hist_balance_quench->Write();
 	
 }
 
