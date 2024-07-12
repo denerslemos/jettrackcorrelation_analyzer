@@ -1057,6 +1057,8 @@ void fillbalance(float leadjet_pt, float leadjet_eta, float leadjet_phi, float s
 	
 	} else if ( sublprobe && leadref) { }// do nothing -> already assumed before
 
+	if(thirdjet_pt < 0.0) thirdjet_pt = 0.0;
+
 	
 	double ptaverage = (ptprobe + ptref)/2.0;
 	double delta_phi = fabs(deltaphi(phiprobe, phiref));
