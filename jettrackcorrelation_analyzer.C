@@ -505,10 +505,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			double jet_weight = get_jetpT_weight(JetPtWeightFunction, is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, jet_pt_corr, jet_eta); // Jet weight (specially for MC)
 
 			// Fill reco jet QA histograms
-			double x_reco_jet[5]={jet_rawpt,jet_eta,jet_phi,(double) multcentbin,(double) extrabin}; 
+			double x_reco_jet[5]={jet_rawpt,jteta[j],jet_phi,(double) multcentbin,(double) extrabin}; 
 			hist_reco_jet->Fill(x_reco_jet);
 			hist_reco_jet_weighted->Fill(x_reco_jet,event_weight*jet_weight);
-			double x_reco_jet_corr[5]={jet_pt_corr,jet_eta,jet_phi,(double) multcentbin,(double) extrabin}; 
+			double x_reco_jet_corr[5]={jet_pt_corr,jteta[j],jet_phi,(double) multcentbin,(double) extrabin}; 
 			hist_reco_jet_corr->Fill(x_reco_jet_corr);
 			hist_reco_jet_corr_weighted->Fill(x_reco_jet_corr,event_weight*jet_weight);
 		
@@ -742,10 +742,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					}
 						
 					// Fill leading and subleading jet QA histograms
-					double x_lead[5]={leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,(double) multcentbin,(double)extrabin}; 
+					double x_lead[5]={leadrecojet_pt,leadrecojet_eta_lab,leadrecojet_phi,(double) multcentbin,(double)extrabin}; 
 					hist_reco_leadjet->Fill(x_lead);
 					hist_reco_leadjet_weighted->Fill(x_lead,event_weight*ljet_weight);
-					double x_sublead[5]={sublrecojet_pt,sublrecojet_eta,sublrecojet_phi,(double) multcentbin,(double)extrabin}; 
+					double x_sublead[5]={sublrecojet_pt,sublrecojet_eta_lab,sublrecojet_phi,(double) multcentbin,(double)extrabin}; 
 					hist_reco_subljet->Fill(x_sublead);
 					hist_reco_subljet_weighted->Fill(x_sublead,event_weight*sljet_weight);
 					double x_3rdlead[5]={thirdrecojet_pt,thirdrecojet_eta,thirdrecojet_phi,(double) multcentbin,(double)extrabin}; 
