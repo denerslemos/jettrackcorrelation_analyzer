@@ -11,19 +11,15 @@ bool checkBounds(double pt, double eta){
 
 // inputs are 2D histograms: reff2D for efficiency, rfak2D for fakes, rsec2D for secondary (decays), rmul2D for multiple reconstruction
 // pT and eta are the transverse momentum and pseudorapidity of the track (considering a 2D histogram where X is eta axis and Y pT axis)
-double getTrkCorrWeight(TFile *trkeff_file, bool use_centrality, string system, int year, int energy, int mult, double pT, double eta, double phi){
+double getTrkCorrWeight(TH2 *eff_factor, bool use_centrality, string system, int year, int energy, int mult, double pT, double eta, double phi){
 
   if( !checkBounds(pT, eta) ) return 0;
   double factor = 1.0;
 
   // add it for each system here
-
-  if(system == "pPb" && year == 2016 && energy == 8160){
-    TH2 *eff_factor = nullptr; 
-    trkeff_file->GetObject("rTotalEff3D_0", eff_factor);  // eff / (1 - fake rate)
-    double eff = eff_factor->GetBinContent( eff_factor->GetXaxis()->FindBin(eta),eff_factor->GetYaxis()->FindBin(pT) );
-    factor = (1. / eff); //only efficiency
-  }
+  double eff = eff_factor->GetBinContent( eff_factor->GetXaxis()->FindBin(eta), eff_factor->GetYaxis()->FindBin(pT) );
+  if(eff > 0.9999 || eff < 0.0001) eff = 1.0;
+  factor = (1.0 / eff); //only efficiency
 
   return factor;
 

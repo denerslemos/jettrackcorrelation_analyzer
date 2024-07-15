@@ -146,13 +146,18 @@ year: data-taking year
 energy: colliding energy
 jetpt: jet pT weight
 */
-float get_jetpT_weight(TF1* JetPtWeightFunction, bool isMC, string system, int year, int energy, float jetpt, float jeteta){
+float get_jetpT_weight(TF1* JetPtWeightFunction, TH2* PtEtaHisto, int weighttype, bool isMC, string system, int year, int energy, float jetpt, float jeteta){
 
 	float jetptweight = 1.0;
-   	if(jetpt < 40.0) jetpt = 40.0;
-   	if(jetpt > 500.0) jetpt = 500.0;
-	//if(isMC) jetptweight = JetPtWeightFunction->Eval(jetpt);
-
+	if(isMC && weighttype == 1){
+   		if(jetpt < 40.0) jetpt = 40.0;
+   		if(jetpt > 500.0) jetpt = 500.0;
+		jetptweight = JetPtWeightFunction->Eval(jetpt);
+	} else if(isMC && weighttype == 2){
+   		double weight = PtEtaHisto->GetBinContent( PtEtaHisto->GetXaxis()->FindBin(jeteta), PtEtaHisto->GetYaxis()->FindBin(jetpt) );
+		if(weight != 0) jetptweight = weight;
+	}
+	
 	return jetptweight;
 
 }

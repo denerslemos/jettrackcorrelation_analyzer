@@ -97,6 +97,13 @@ split MC sample for MC studies of unfolding
 */
 const int splitMCsample = 0;
 
+/*
+weight MC to match data
+0 --> do not weight 
+1 --> weight via pt fit
+2 --> weight via eta x pt matrix
+*/
+const int mcweight = 0;
 
 /*
 Methods:

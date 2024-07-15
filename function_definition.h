@@ -141,7 +141,7 @@ nhits: track number of hits with measurements
 algo: track MVA algorith step
 mva: track MVA algorith value [-1,1]
 */
-double get_Ntrkcorr(TFile *trkeff_file, TString type, bool use_centrality, int mult, TString col_sys, int col_energy, int yearofdatataking, int size, float *eta, float *pt, float *phi, int *charge, bool *hp, float *pterr, float *dcaxy, float *dcaxyerr,  float *dcaz, float *dcazerr, float* chi2, unsigned char* ndof, unsigned char* nlayer, unsigned char* nhits, int* algo, float* mva){
+double get_Ntrkcorr(TH2 *trkeff_file, TString type, bool use_centrality, int mult, TString col_sys, int col_energy, int yearofdatataking, int size, float *eta, float *pt, float *phi, int *charge, bool *hp, float *pterr, float *dcaxy, float *dcaxyerr,  float *dcaz, float *dcazerr, float* chi2, unsigned char* ndof, unsigned char* nlayer, unsigned char* nhits, int* algo, float* mva){
 	double Ntrk_off = 0.0;
 	double dxyzcut = 3.0;
 	double ptrescut = 0.1;
