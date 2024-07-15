@@ -510,11 +510,11 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 			//leading and subleading
 			find_leading_subleading_third(jet_pt_corr,jet_eta,jet_phi,jet_mass,jet_flavor,jet_index,leadrecojet_pt,leadrecojet_eta,leadrecojet_phi,leadrecojet_mass,leadrecojet_flavor,leadrecojet_index,sublrecojet_pt,sublrecojet_eta,sublrecojet_phi,sublrecojet_mass,sublrecojet_flavor,sublrecojet_index,thirdrecojet_pt,thirdrecojet_eta,thirdrecojet_phi,thirdrecojet_mass,thirdrecojet_flavor,thirdrecojet_index,fourthrecojet_pt); // Find leading and subleading jets
+			double jet_weight = get_jetpT_weight(JetPtWeightFunction, weightjetptetaweight, mcweight, is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, jet_pt_corr, jet_eta); // Jet weight (specially for MC)
 
 			jet_eta = jet_eta + boost; // In pPb case, for the center-of-mass correction if needed
 			if(colliding_system == "pPb" && is_pgoing && invert_pgoing)jet_eta = -jet_eta;
 
-			double jet_weight = get_jetpT_weight(JetPtWeightFunction, weightjetptetaweight, mcweight, is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, jet_pt_corr, jet_eta); // Jet weight (specially for MC)
 
 			// Fill reco jet QA histograms
 			double x_reco_jet[5]={jet_rawpt,jteta[j],jet_phi,(double) multcentbin,(double) extrabin}; 
@@ -525,7 +525,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			hist_reco_jet_corr_weighted->Fill(x_reco_jet_corr,event_weight*jet_weight);
 		
 			TVector3 AllJets;
-			AllJets.SetPtEtaPhi(jet_pt_corr, jet_eta, jet_phi);
+			AllJets.SetPtEtaPhi(jet_pt_corr, jteta[j], jet_phi);
 			alljets_reco.push_back(AllJets);
 
 			if((jet_pt_corr > jet_pt_min_cut && jet_pt_corr < jet_pt_max_cut) && (jet_eta > jet_eta_min_cut && jet_eta < jet_eta_max_cut)){ // Jet pT and eta cut		
@@ -557,12 +557,12 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				int jet_index_ref = (int) j;
 
 				find_leading_subleading_third(ref_pt,ref_eta,ref_phi,ref_mass,jet_flavor,jet_index_ref,leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,leadrefjet_mass,leadrefjet_flavor,leadrefjet_index,sublrefjet_pt,sublrefjet_eta,sublrefjet_phi,sublrefjet_mass,sublrefjet_flavor,sublrefjet_index,thirdrefjet_pt,thirdrefjet_eta,thirdrefjet_phi,thirdrefjet_mass,thirdrefjet_flavor,thirdrefjet_index,fourthrefjet_pt); // Find leading and subleading ref jets
+				double refjet_weight = get_jetpT_weight(JetPtWeightFunction, weightjetptetaweight, mcweight, is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, ref_pt, ref_eta); // Jet weight (specially for MC)
 				
 				float ref_eta_lab = ref_eta;
 				ref_eta = ref_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 				if(colliding_system == "pPb" && is_pgoing && invert_pgoing)ref_eta = -ref_eta;
 
-				double refjet_weight = get_jetpT_weight(JetPtWeightFunction, weightjetptetaweight, mcweight, is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, ref_pt, ref_eta); // Jet weight (specially for MC)
 
 				double x_ref_QA[5]={ref_pt, ref_eta, ref_phi, (double)multcentbin, (double) extrabin}; 
 				hist_ref_jet_weighted->Fill(x_ref_QA,event_weight*refjet_weight);
@@ -1011,10 +1011,11 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				int jet_index_gen = (int) j;
 
 				find_leading_subleading_third(gjet_pt,gjet_eta,gjet_phi,gjet_mass,gjet_flavor,jet_index_gen,leadgenjet_pt,leadgenjet_eta,leadgenjet_phi,leadgenjet_mass,leadgenjet_flavor,leadgenjet_index,sublgenjet_pt,sublgenjet_eta,sublgenjet_phi,sublgenjet_mass,sublgenjet_flavor,sublgenjet_index,thirdgenjet_pt,thirdgenjet_eta,thirdgenjet_phi,thirdgenjet_mass,thirdgenjet_flavor,thirdgenjet_index, fourthgenjet_pt); // Find leading and subleading jets
+				double gjet_weight = get_jetpT_weight(JetPtWeightFunction, weightjetptetaweight, mcweight, is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, gjet_pt, gjet_eta); // Jet weight (specially for MC)
+
 				gjet_eta = gjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 				if(colliding_system == "pPb" && is_pgoing && invert_pgoing){gjet_eta = -gjet_eta;}
 
-				double gjet_weight = get_jetpT_weight(JetPtWeightFunction, weightjetptetaweight, mcweight, is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, gjet_pt, gjet_eta); // Jet weight (specially for MC)
 
 				// Fill gen jet QA histograms
 				double x_gen_jet[5]={gjet_pt,gjet_eta,gjet_phi,(double) multcentbin, (double) extrabin}; 
