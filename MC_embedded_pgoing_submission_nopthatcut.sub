@@ -1,9 +1,9 @@
 universe   = vanilla
 getenv     = True
 executable = sub.sh
-+JobFlavour           = "workday"
++JobFlavour           = "longlunch"
 requirements = ((OpSysAndVer =?= "AlmaLinux9") && (CERNEnvironment =?= "qa"))
-RequestCpus = 8
+RequestCpus = 4
 
 log        = cond/pthat15_emb_pgoing_nocut.log
 output     = cond/pthat15_emb_pgoing_nocut.out
