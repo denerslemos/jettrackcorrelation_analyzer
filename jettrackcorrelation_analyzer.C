@@ -390,7 +390,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		for (int j = 0; j < jetsize; j++){
 			
 			// control selections and plots
-			if(fabs(jteta[j]) > 5.1) continue; // minimum cuts for JEC 
+			if(fabs(jteta[j]) > 5.2) continue; // minimum cuts for JEC 
 			if(rawpt[j] < 5.0) continue; // minimum cuts for JEC 
 
 			double x_trkmaxjet[3]={trackMax[j]/rawpt[j], rawpt[j], (double) multcentbin}; 
@@ -552,8 +552,6 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 				float ref_mass = refmass[j];
 
     	        if(ref_pt < 0.0) continue; // do not make sense to add -999 
- 	            //if(fabs(ref_eta) > 5.1) continue;
-
 				int jet_index_ref = (int) j;
 
 				find_leading_subleading_third(ref_pt,ref_eta,ref_phi,ref_mass,jet_flavor,jet_index_ref,leadrefjet_pt,leadrefjet_eta,leadrefjet_phi,leadrefjet_mass,leadrefjet_flavor,leadrefjet_index,sublrefjet_pt,sublrefjet_eta,sublrefjet_phi,sublrefjet_mass,sublrefjet_flavor,sublrefjet_index,thirdrefjet_pt,thirdrefjet_eta,thirdrefjet_phi,thirdrefjet_mass,thirdrefjet_flavor,thirdrefjet_index,fourthrefjet_pt); // Find leading and subleading ref jets
