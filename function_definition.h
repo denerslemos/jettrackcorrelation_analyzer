@@ -1039,8 +1039,8 @@ void fillbalance(float leadjet_pt, float leadjet_eta, float leadjet_phi, float s
 	
 	bool leadprobe = fabs(leadjet_eta) >= 1.3;
 	bool leadref = fabs(leadjet_eta) < 1.3;
-	bool sublprobe = fabs(leadjet_eta) >= 1.3;
-	bool sublref = fabs(leadjet_eta) < 1.3;
+	bool sublprobe = fabs(subljet_eta) >= 1.3;
+	bool sublref = fabs(subljet_eta) < 1.3;
 	bool notuseinbalance = leadprobe && sublprobe;
 	
 	if ( sublref && leadprobe ) {
@@ -1055,10 +1055,9 @@ void fillbalance(float leadjet_pt, float leadjet_eta, float leadjet_phi, float s
 			ptref = (double)subljet_pt; etaref = (double)subljet_eta; phiref = (double)subljet_phi;
 		}else{}
 	
-	} else if ( sublprobe && leadref) { }// do nothing -> already assumed before
+	} else if ( sublprobe && leadref ) { }// do nothing -> already assumed before
 
 	if(thirdjet_pt < 0.0) thirdjet_pt = 0.0;
-
 	
 	double ptaverage = (ptprobe + ptref)/2.0;
 	double delta_phi = fabs(deltaphi(phiprobe, phiref));
@@ -1066,7 +1065,7 @@ void fillbalance(float leadjet_pt, float leadjet_eta, float leadjet_phi, float s
 	double alpha = thirdjet_pt / ptaverage;
 	double x_balance[8]={Balance, alpha, delta_phi,(double)mult,(double)ptaverage,(double)extra, etaref, etaprobe}; 
 	
-	if(ptaverage > 40.0 && !notuseinbalance) histo_balance->Fill(x_balance, weight);
+	if(ptaverage > 30.0 && !notuseinbalance) histo_balance->Fill(x_balance, weight);
 	
 
 }
