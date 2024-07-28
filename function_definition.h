@@ -1027,6 +1027,7 @@ bool isdijet(float leadjet_pt, float lead_pT_min, float jetptmax, float subljet_
 
 void fillbalance(float leadjet_pt, float leadjet_eta, float leadjet_phi, float subljet_pt, float subljet_eta, float subljet_phi, float thirdjet_pt, double mult, double extra, double weight, THnSparse* histo_balance){
 
+	gRandom->SetSeed(0);
 	double randomnumber = gRandom->Uniform(0.0,1.0);
 
 	double ptprobe = (double)subljet_pt;
@@ -1065,7 +1066,7 @@ void fillbalance(float leadjet_pt, float leadjet_eta, float leadjet_phi, float s
 	double alpha = thirdjet_pt / ptaverage;
 	double x_balance[8]={Balance, alpha, delta_phi,(double)mult,(double)ptaverage,(double)extra, etaref, etaprobe}; 
 	
-	if(ptaverage > 30.0 && !notuseinbalance) histo_balance->Fill(x_balance, weight);
+	if(subljet_pt > 30.0 && !notuseinbalance) histo_balance->Fill(x_balance, weight);
 	
 
 }
