@@ -424,8 +424,10 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 			}
 			if( jetid_method == 3 || jetid_method == 4 ){ 
 				bool isjetid = true;
-				if(trackMax[j]/rawpt[j] < 0.01) isjetid = false; 
-				if(trackMax[j]/rawpt[j] > 0.98) isjetid = false; 
+				if ( fabs(jet_eta) < 2.4 ) {
+					if(trackMax[j]/rawpt[j] < 0.01) isjetid = false; 
+					if(trackMax[j]/rawpt[j] > 0.98) isjetid = false;
+				} 
 				if(!isjetid) { 
 					jetidremovalindex.push_back(j); 
 					if( jetid_method == 3 ) continue; 
@@ -702,6 +704,8 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					if(is_MC && refpt[sublrecojet_index] < 0)hist_reco_lead_fake_subl_quench->Fill(x_reco, event_weight*ljet_weight*sljet_weight);
 					if(is_MC && refpt[leadrecojet_index] < 0 && refpt[sublrecojet_index] < 0)hist_fake_lead_fake_subl_quench->Fill(x_reco, event_weight*ljet_weight*sljet_weight);
 					filletadijethistograms( (double) sqrts, leadrecojet_eta_lab, sublrecojet_eta_lab, leadrecojet_eta, sublrecojet_eta, leadrecojet_pt, leadrecojet_phi, leadrecojet_mass, sublrecojet_pt, sublrecojet_phi, sublrecojet_mass, (double)multcentbin, (double)extrabin, (double) event_weight*ljet_weight*sljet_weight, hist_etaDijet_reco, hist_etaDijet_CM_reco, hist_yDijet_CM_reco );
+					filletadijethistograms( (double) sqrts, refeta[leadrecojet_index], refeta[sublrecojet_index], leadrefmatchjet_eta, sublrefmatchjet_eta, refpt[leadrecojet_index], refphi[leadrecojet_index], refmass[leadrecojet_index], refpt[sublrecojet_index], refphi[sublrecojet_index], refmass[sublrecojet_index], (double)multcentbin, (double)extrabin, (double) event_weight, hist_etaDijet_ref_match, hist_etaDijet_CM_ref_match, hist_yDijet_CM_ref_match );
+
 					if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_withfake(is_MC, Xj_reco, delta_phi_reco, leadrecojet_phi, refpt[leadrecojet_index], (double) multcentbin, (double)extrabin, (double)ptdijetbinreco, (double) dijetetarecotype, event_weight*ljet_weight*sljet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_reco_leadEP_quench_plus, hist_reco_leadEP_quench_minus, hist_fake_leadEP_quench_plus, hist_fake_leadEP_quench_minus);
 					if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_withfake(is_MC, Xj_reco, delta_phi_reco, sublrecojet_phi, refpt[sublrecojet_index], (double) multcentbin, (double)extrabin, (double)ptdijetbinreco, (double) dijetetarecotype, event_weight*ljet_weight*sljet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_reco_sublEP_quench_plus, hist_reco_sublEP_quench_minus, hist_fake_sublEP_quench_plus, hist_fake_sublEP_quench_minus);
 				/*					
@@ -997,7 +1001,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 			for(int j = 0; j < gen_jetsize; j++){
 
-				if(fabs(gen_jteta[j]) > 5.1) continue;
+				if(fabs(gen_jteta[j]) > 5.2) continue;
+				if(gen_jtpt[j] < 5.0) continue;
+
 				// Define jet kinematics
 				float gjet_pt = gen_jtpt[j];
 				float gjet_eta = gen_jteta[j];

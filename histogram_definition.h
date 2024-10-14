@@ -588,6 +588,9 @@ THnSparseD *hist_etaDijet_CM_gen = new THnSparseD("hist_etaDijet_CM_gen", "hist_
 THnSparseD *hist_yDijet_CM_reco = new THnSparseD("hist_yDijet_CM_reco", "hist_yDijet_CM_reco", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
 THnSparseD *hist_yDijet_CM_ref = new THnSparseD("hist_yDijet_CM_ref", "hist_yDijet_CM_ref", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
 THnSparseD *hist_yDijet_CM_gen = new THnSparseD("hist_yDijet_CM_gen", "hist_yDijet_CM_gen", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
+THnSparseD *hist_etaDijet_ref_match = new THnSparseD("hist_etaDijet_ref_match", "hist_etaDijet_ref_match", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
+THnSparseD *hist_etaDijet_CM_ref_match = new THnSparseD("hist_etaDijet_CM_ref_match", "hist_etaDijet_CM_ref_match", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
+THnSparseD *hist_yDijet_CM_ref_match = new THnSparseD("hist_yDijet_CM_ref_match", "hist_yDijet_CM_ref_match", 10, bins_etaDijet, xmin_etaDijet, xmax_etaDijet);
 
 // Axis : 0 -> in-jet multiplicity, 1 -> multiplicity, 2 -> extra dimension
 int	bins_injettrk[3]   	  =   { 50 , multbinsize-1			  						  ,  extrabinsize-1};
@@ -1650,6 +1653,9 @@ hist_etaDijet_CM_gen->GetAxis(2)->Set(bins_etaDijet[2],XjBins);
 hist_yDijet_CM_reco->GetAxis(2)->Set(bins_etaDijet[2],XjBins);
 hist_yDijet_CM_ref->GetAxis(2)->Set(bins_etaDijet[2],XjBins);
 hist_yDijet_CM_gen->GetAxis(2)->Set(bins_etaDijet[2],XjBins);
+hist_etaDijet_ref_match->GetAxis(2)->Set(bins_etaDijet[2],XjBins);
+hist_etaDijet_CM_ref_match->GetAxis(2)->Set(bins_etaDijet[2],XjBins);
+hist_yDijet_CM_ref_match->GetAxis(2)->Set(bins_etaDijet[2],XjBins);
 // Aj binning
 hist_etaDijet_reco->GetAxis(3)->Set(bins_etaDijet[3],AjBins);
 hist_etaDijet_CM_reco->GetAxis(3)->Set(bins_etaDijet[3],AjBins);
@@ -1660,6 +1666,9 @@ hist_etaDijet_CM_gen->GetAxis(3)->Set(bins_etaDijet[3],AjBins);
 hist_yDijet_CM_reco->GetAxis(3)->Set(bins_etaDijet[3],AjBins);
 hist_yDijet_CM_ref->GetAxis(3)->Set(bins_etaDijet[3],AjBins);
 hist_yDijet_CM_gen->GetAxis(3)->Set(bins_etaDijet[3],AjBins);
+hist_etaDijet_ref_match->GetAxis(3)->Set(bins_etaDijet[3],AjBins);
+hist_etaDijet_CM_ref_match->GetAxis(3)->Set(bins_etaDijet[3],AjBins);
+hist_yDijet_CM_ref_match->GetAxis(3)->Set(bins_etaDijet[3],AjBins);
 // DPhi binning
 hist_etaDijet_reco->GetAxis(4)->Set(bins_etaDijet[4],DphiBins);
 hist_etaDijet_CM_reco->GetAxis(4)->Set(bins_etaDijet[4],DphiBins);
@@ -1670,6 +1679,9 @@ hist_etaDijet_CM_gen->GetAxis(4)->Set(bins_etaDijet[4],DphiBins);
 hist_yDijet_CM_reco->GetAxis(4)->Set(bins_etaDijet[4],DphiBins);
 hist_yDijet_CM_ref->GetAxis(4)->Set(bins_etaDijet[4],DphiBins);
 hist_yDijet_CM_gen->GetAxis(4)->Set(bins_etaDijet[4],DphiBins);
+hist_etaDijet_ref_match->GetAxis(4)->Set(bins_etaDijet[4],DphiBins);
+hist_etaDijet_CM_ref_match->GetAxis(4)->Set(bins_etaDijet[4],DphiBins);
+hist_yDijet_CM_ref_match->GetAxis(4)->Set(bins_etaDijet[4],DphiBins);
 // XPb binning
 hist_etaDijet_reco->GetAxis(5)->Set(bins_etaDijet[5],XBins);
 hist_etaDijet_CM_reco->GetAxis(5)->Set(bins_etaDijet[5],XBins);
@@ -1680,6 +1692,9 @@ hist_etaDijet_CM_gen->GetAxis(5)->Set(bins_etaDijet[5],XBins);
 hist_yDijet_CM_reco->GetAxis(5)->Set(bins_etaDijet[5],XBins);
 hist_yDijet_CM_ref->GetAxis(5)->Set(bins_etaDijet[5],XBins);
 hist_yDijet_CM_gen->GetAxis(5)->Set(bins_etaDijet[5],XBins);
+hist_etaDijet_ref_match->GetAxis(5)->Set(bins_etaDijet[5],XBins);
+hist_etaDijet_CM_ref_match->GetAxis(5)->Set(bins_etaDijet[5],XBins);
+hist_yDijet_CM_ref_match->GetAxis(5)->Set(bins_etaDijet[5],XBins);
 // Xp binning
 hist_etaDijet_reco->GetAxis(6)->Set(bins_etaDijet[6],XBins);
 hist_etaDijet_CM_reco->GetAxis(6)->Set(bins_etaDijet[6],XBins);
@@ -1690,6 +1705,9 @@ hist_etaDijet_CM_gen->GetAxis(6)->Set(bins_etaDijet[6],XBins);
 hist_yDijet_CM_reco->GetAxis(6)->Set(bins_etaDijet[6],XBins);
 hist_yDijet_CM_ref->GetAxis(6)->Set(bins_etaDijet[6],XBins);
 hist_yDijet_CM_gen->GetAxis(6)->Set(bins_etaDijet[6],XBins);
+hist_etaDijet_ref_match->GetAxis(6)->Set(bins_etaDijet[6],XBins);
+hist_etaDijet_CM_ref_match->GetAxis(6)->Set(bins_etaDijet[6],XBins);
+hist_yDijet_CM_ref_match->GetAxis(6)->Set(bins_etaDijet[6],XBins);
 // Multiplicity binning
 hist_etaDijet_reco->GetAxis(7)->Set(bins_etaDijet[7],MultCentbins);
 hist_etaDijet_CM_reco->GetAxis(7)->Set(bins_etaDijet[7],MultCentbins);
@@ -1700,6 +1718,9 @@ hist_etaDijet_CM_gen->GetAxis(7)->Set(bins_etaDijet[7],MultCentbins);
 hist_yDijet_CM_reco->GetAxis(7)->Set(bins_etaDijet[7],MultCentbins);
 hist_yDijet_CM_ref->GetAxis(7)->Set(bins_etaDijet[7],MultCentbins);
 hist_yDijet_CM_gen->GetAxis(7)->Set(bins_etaDijet[7],MultCentbins);
+hist_etaDijet_ref_match->GetAxis(7)->Set(bins_etaDijet[7],MultCentbins);
+hist_etaDijet_CM_ref_match->GetAxis(7)->Set(bins_etaDijet[7],MultCentbins);
+hist_yDijet_CM_ref_match->GetAxis(7)->Set(bins_etaDijet[7],MultCentbins);
 // Pt average binning
 hist_etaDijet_reco->GetAxis(8)->Set(bins_etaDijet[8],PtLSLBins);
 hist_etaDijet_CM_reco->GetAxis(8)->Set(bins_etaDijet[8],PtLSLBins);
@@ -1710,6 +1731,9 @@ hist_etaDijet_CM_gen->GetAxis(8)->Set(bins_etaDijet[8],PtLSLBins);
 hist_yDijet_CM_reco->GetAxis(8)->Set(bins_etaDijet[8],PtLSLBins);
 hist_yDijet_CM_ref->GetAxis(8)->Set(bins_etaDijet[8],PtLSLBins);
 hist_yDijet_CM_gen->GetAxis(8)->Set(bins_etaDijet[8],PtLSLBins);
+hist_etaDijet_ref_match->GetAxis(8)->Set(bins_etaDijet[8],PtLSLBins);
+hist_etaDijet_CM_ref_match->GetAxis(8)->Set(bins_etaDijet[8],PtLSLBins);
+hist_yDijet_CM_ref_match->GetAxis(8)->Set(bins_etaDijet[8],PtLSLBins);
 // Extra binning
 hist_etaDijet_reco->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
 hist_etaDijet_CM_reco->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
@@ -1720,6 +1744,9 @@ hist_etaDijet_CM_gen->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
 hist_yDijet_CM_reco->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
 hist_yDijet_CM_ref->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
 hist_yDijet_CM_gen->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
+hist_etaDijet_ref_match->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
+hist_etaDijet_CM_ref_match->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
+hist_yDijet_CM_ref_match->GetAxis(9)->Set(bins_etaDijet[9],Extrabins);
 // Sumw2
 hist_etaDijet_reco->Sumw2();
 hist_etaDijet_CM_reco->Sumw2();
@@ -1730,6 +1757,9 @@ hist_etaDijet_CM_gen->Sumw2();
 hist_yDijet_CM_reco->Sumw2();
 hist_yDijet_CM_ref->Sumw2();
 hist_yDijet_CM_gen->Sumw2();
+hist_etaDijet_ref_match->Sumw2();
+hist_etaDijet_CM_ref_match->Sumw2();
+hist_yDijet_CM_ref_match->Sumw2();
 
 // --> In jet histos
 // Multiplicity binning
@@ -2599,6 +2629,9 @@ void w_dijet_hist(bool isMC){
 		hist_etaDijet_gen->Write();
 		hist_etaDijet_CM_gen->Write();
 		hist_yDijet_CM_gen->Write();
+		hist_etaDijet_ref_match->Write();
+		hist_etaDijet_CM_ref_match->Write();
+		hist_yDijet_CM_ref_match->Write();
 	}
 }
 
