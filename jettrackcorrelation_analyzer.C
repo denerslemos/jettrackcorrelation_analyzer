@@ -647,11 +647,15 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 		// for ref matched jets
 		double leadrefmatchjet_eta = refeta[leadrecojet_index]; // before boost for eta dijet
 		double sublrefmatchjet_eta = refeta[sublrecojet_index]; // before boost for eta dijet
+		double leadrefmatchjet_eta_lab = refeta[leadrecojet_index]; // before boost for eta dijet
+		double sublrefmatchjet_eta_lab = refeta[sublrecojet_index]; // before boost for eta dijet
 		leadrefmatchjet_eta = leadrefmatchjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 		sublrefmatchjet_eta = sublrefmatchjet_eta + boost;  // In pPb case, for the center-of-mass correction if needed
 		if(colliding_system == "pPb" && is_pgoing && invert_pgoing){
 			leadrefmatchjet_eta = -leadrefmatchjet_eta; 
 			sublrefmatchjet_eta = -sublrefmatchjet_eta;
+			leadrefmatchjet_eta_lab = -leadrefmatchjet_eta_lab;
+			sublrefmatchjet_eta_lab = -sublrefmatchjet_eta_lab;
 		}
 		
 		// for ref jets
@@ -704,7 +708,7 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 					if(is_MC && refpt[sublrecojet_index] < 0)hist_reco_lead_fake_subl_quench->Fill(x_reco, event_weight*ljet_weight*sljet_weight);
 					if(is_MC && refpt[leadrecojet_index] < 0 && refpt[sublrecojet_index] < 0)hist_fake_lead_fake_subl_quench->Fill(x_reco, event_weight*ljet_weight*sljet_weight);
 					filletadijethistograms( (double) sqrts, leadrecojet_eta_lab, sublrecojet_eta_lab, leadrecojet_eta, sublrecojet_eta, leadrecojet_pt, leadrecojet_phi, leadrecojet_mass, sublrecojet_pt, sublrecojet_phi, sublrecojet_mass, (double)multcentbin, (double)extrabin, (double) event_weight*ljet_weight*sljet_weight, hist_etaDijet_reco, hist_etaDijet_CM_reco, hist_yDijet_CM_reco );
-					filletadijethistograms( (double) sqrts, refeta[leadrecojet_index], refeta[sublrecojet_index], leadrefmatchjet_eta, sublrefmatchjet_eta, refpt[leadrecojet_index], refphi[leadrecojet_index], refmass[leadrecojet_index], refpt[sublrecojet_index], refphi[sublrecojet_index], refmass[sublrecojet_index], (double)multcentbin, (double)extrabin, (double) event_weight, hist_etaDijet_ref_match, hist_etaDijet_CM_ref_match, hist_yDijet_CM_ref_match );
+					filletadijethistograms( (double) sqrts, leadrefmatchjet_eta_lab, sublrefmatchjet_eta_lab, leadrefmatchjet_eta, sublrefmatchjet_eta, leadrecojet_phi, refphi[leadrecojet_index], sublrecojet_phi, refpt[sublrecojet_index], refphi[sublrecojet_index], refmass[sublrecojet_index], (double)multcentbin, (double)extrabin, (double) event_weight, hist_etaDijet_ref_match, hist_etaDijet_CM_ref_match, hist_yDijet_CM_ref_match );
 
 					if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_withfake(is_MC, Xj_reco, delta_phi_reco, leadrecojet_phi, refpt[leadrecojet_index], (double) multcentbin, (double)extrabin, (double)ptdijetbinreco, (double) dijetetarecotype, event_weight*ljet_weight*sljet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_reco_leadEP_quench_plus, hist_reco_leadEP_quench_minus, hist_fake_leadEP_quench_plus, hist_fake_leadEP_quench_minus);
 					if(colliding_system=="pPb" && year_of_datataking==2016) fillxjEPhistograms_withfake(is_MC, Xj_reco, delta_phi_reco, sublrecojet_phi, refpt[sublrecojet_index], (double) multcentbin, (double)extrabin, (double)ptdijetbinreco, (double) dijetetarecotype, event_weight*ljet_weight*sljet_weight, EP_Psi2_plus_flat, EP_Psi2_minus_flat, EP_Psi3_plus_flat, EP_Psi3_minus_flat, EP_Psi4_plus_flat, EP_Psi4_minus_flat, hist_reco_sublEP_quench_plus, hist_reco_sublEP_quench_minus, hist_fake_sublEP_quench_plus, hist_fake_sublEP_quench_minus);
@@ -1227,9 +1231,9 @@ void jettrackcorrelation_analyzer(TString input_file, TString ouputfilename, int
 
 					// ref matched quantities (matrix + histos)
 					if(refpt[leadrecojet_index] > 0.0 && refpt[sublrecojet_index] > 0.0){
-					
-						lrefjet_weight = get_jetpT_weight(JetPtWeightFunction, weightjetptetaweight, mcweight, is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[leadrecojet_index], refeta[leadrecojet_index]);
-						slrefjet_weight = get_jetpT_weight(JetPtWeightFunction, weightjetptetaweight, mcweight, is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[sublrecojet_index], refeta[sublrecojet_index]);;
+
+						lrefjet_weight = get_jetpT_weight(JetPtWeightFunction, weightjetptetaweight, mcweight, is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[leadrecojet_index], leadrefmatchjet_eta_lab);
+						slrefjet_weight = get_jetpT_weight(JetPtWeightFunction, weightjetptetaweight, mcweight, is_MC, colliding_system.Data(), year_of_datataking, sNN_energy_GeV, refpt[sublrecojet_index], sublrefmatchjet_eta_lab);
 					
 						// main observable histogram
 						double x_refMatch[9]={xjrefmatchforunfold,xjrefmatchforunfold,delta_phi_refmatch_forunfold,(double)multcentbin,(double) 0.5*(refpt[leadrecojet_index] + refpt[sublrecojet_index]),(double)extrabin,(double)refpt[leadrecojet_index],(double)refpt[sublrecojet_index], (double)dijetetarefmatchtypeforunfold};
