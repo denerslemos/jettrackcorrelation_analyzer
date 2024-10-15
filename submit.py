@@ -35,7 +35,7 @@ if sideFiles == "pgoing":
 	os.system("python3 HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/pgoing/MB_PD6_pgoing -o "+str(outputfolder)+"/"+str(inPut)+"/"+str(sideFiles)+"/MBPD6 -f workday -c 1 -n 100 -s outMBPD6")
 	os.system("python3 HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/pgoing/MB_PD7_pgoing -o "+str(outputfolder)+"/"+str(inPut)+"/"+str(sideFiles)+"/MBPD7 -f workday -c 1 -n 100 -s outMBPD7")
 	os.system("python3 HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/pgoing/MB_PD8_pgoing -o "+str(outputfolder)+"/"+str(inPut)+"/"+str(sideFiles)+"/MBPD8 -f workday -c 1 -n 100 -s outMBPD8")
-	os.system("condor_submit MC_embedded_pgoing_submission_nopthatcut.sub")
+	os.system("condor_submit MC_embedded_Pbgoing_submission_nopthatcut.sub")
 
 if sideFiles == "Pbgoing":
 	os.system("python3 HTCondor_submit_data.py -i files_input/pPb_8160/DATA_HM250/Pbgoing/HM250_Pbgoing -o "+str(outputfolder)+"/"+str(inPut)+"/"+str(sideFiles)+"/HM250 -f workday -c 1 -n 100 -s outHM250")
@@ -65,4 +65,4 @@ if sideFiles == "Pbgoing":
 	os.system("python3 HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/Pbgoing/MB_PD18_Pbgoing -o "+str(outputfolder)+"/"+str(inPut)+"/"+str(sideFiles)+"/MBPD18 -f workday -c 1 -n 100 -s outMBPD18")
 	os.system("python3 HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/Pbgoing/MB_PD19_Pbgoing -o "+str(outputfolder)+"/"+str(inPut)+"/"+str(sideFiles)+"/MBPD19 -f workday -c 1 -n 100 -s outMBPD19")
 	os.system("python3 HTCondor_submit_data.py -i files_input/pPb_8160/DATA_MB/Pbgoing/MB_PD20_Pbgoing -o "+str(outputfolder)+"/"+str(inPut)+"/"+str(sideFiles)+"/MBPD20 -f workday -c 1 -n 100 -s outMBPD20")
-	os.system("condor_submit MC_embedded_Pbgoing_submission_nopthatcut.sub")
+	os.system("condor_submit MC_embedded_pgoing_submission_nopthatcut.sub")
